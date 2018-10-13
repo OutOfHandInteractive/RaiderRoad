@@ -4,7 +4,6 @@ using UnityEngine;
 
 public abstract class Chassis : Part {
 
-	protected int numWheels;
 	public GameObject cabNode;
 
 	public float baseHealth;
