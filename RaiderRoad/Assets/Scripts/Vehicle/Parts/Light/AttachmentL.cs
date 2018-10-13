@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class AttachmentL : MonoBehaviour {
 
+	public float healthModifier;
+	public float ramDamageModifier;
+
 	// Use this for initialization
 	void Start () {
 		

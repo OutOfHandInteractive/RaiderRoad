@@ -7,7 +7,10 @@ public class ChassisL : Chassis {
 	public List<GameObject> wheelNodes;
 
 	public ChassisL() {
-		numWheels = 4;
+	}
+
+	void Start() {
+		numWheels = wheelNodes.Capacity;	
 	}
 
 	// ---------- Getters and Setters ----------

@@ -18,6 +18,11 @@ public class VehicleAI : MonoBehaviour {
     private State currentState;
     private GameObject enemy;
 
+	//Statistics
+	private float maxHealth;
+	private float ramDamage;
+	private float speed;
+
 	// Use this for initialization
 	void Start () {
 
@@ -79,4 +84,17 @@ public class VehicleAI : MonoBehaviour {
             Destroy(this.gameObject);
 
     }
+
+	// ---------- Getters and Setters ----------
+	public void setMaxHealth(float _maxHealth) {
+		maxHealth = _maxHealth;
+	}
+
+	public void setRamDamage(float _ramDamage) {
+		ramDamage = _ramDamage;
+	}
+
+	public void setSpeed(float _speed) {
+		speed = _speed;
+	}
 }
