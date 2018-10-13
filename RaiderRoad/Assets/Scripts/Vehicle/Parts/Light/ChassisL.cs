@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FrameL : Frame {
+public class ChassisL : Chassis {
 
 	public List<GameObject> wheelNodes;
 
-	public FrameL() {
-		numWheels = 2;
+	public ChassisL() {
+		numWheels = 4;
 	}
 
 	// ---------- Getters and Setters ----------

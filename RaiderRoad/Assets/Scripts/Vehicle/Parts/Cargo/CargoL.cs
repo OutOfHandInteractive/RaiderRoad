@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class CargoL : MonoBehaviour {
 
+	public GameObject miscNode01, miscNode02;
+
 	// Use this for initialization
 	void Start () {
 		

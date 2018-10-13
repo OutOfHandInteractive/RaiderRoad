@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class VehicleFactoryL : VehicleFactory_I {
 
-	private GameObject vehicle, frame, cab, cargo, wheel, attachment;
+	private GameObject vehicle, chassis, cab, cargo, wheel, front_attachment;
 	private static System.Random rand;
 
 	public VehicleFactoryL() {
@@ -14,31 +14,31 @@ public class VehicleFactoryL : VehicleFactory_I {
 	public override void AssembleVehicle() {
 		vehicle = Instantiate(VehicleBase, new Vector3(0, 0 ,0), Quaternion.identity);
 
-		// set up frame
-		frame = Instantiate(selectFrame());
-		frame.transform.SetParent(vehicle.transform);
-		frame.transform.position = Vector3.zero;
+		// set up chassis
+		chassis = Instantiate(selectFrame());
+		chassis.transform.SetParent(vehicle.transform);
+		chassis.transform.position = Vector3.zero;
 
-		// attach cab to frame
+		// attach cab to chassis
 		cab = Instantiate(selectCab());
-		cab.transform.SetParent(frame.GetComponent<FrameL>().cabNode.transform);
+		cab.transform.SetParent(chassis.GetComponent<ChassisL>().cabNode.transform);
 		cab.transform.position = cab.transform.parent.transform.position;
 
-		// attach cargo to frame
+		// attach cargo to cab
 		cargo = Instantiate(selectCargo());
-		cargo.transform.SetParent(frame.GetComponent<FrameL>().cargoNode.transform);
+		cargo.transform.SetParent(cab.GetComponent<CabL>().cargoNode.transform);
 		cargo.transform.position = cargo.transform.parent.transform.position;
 
-		// attach attachment to frame
-		attachment = Instantiate(selectAttachment());
-		attachment.transform.SetParent(frame.GetComponent<FrameL>().attachmentNode.transform);
-		attachment.transform.position = attachment.transform.parent.transform.position;
+		// attach attachment to cab
+		front_attachment = Instantiate(selectAttachment());
+		front_attachment.transform.SetParent(cab.GetComponent<CabL>().front_attachmentNode.transform);
+		front_attachment.transform.position = front_attachment.transform.parent.transform.position;
 
 		// attach wheel to frame
 		GameObject wheelToUse = selectWheel();
-		for (int i=0; i<frame.GetComponent<FrameL>().getNumWheels(); i++) {
+		for (int i=0; i<chassis.GetComponent<ChassisL>().getNumWheels(); i++) {
 			wheel = Instantiate(wheelToUse);
-			wheel.transform.SetParent(frame.GetComponent<FrameL>().wheelNodes[i].transform);
+			wheel.transform.SetParent(chassis.GetComponent<ChassisL>().wheelNodes[i].transform);
 			wheel.transform.position = wheel.transform.parent.transform.position;
 		}
 	}

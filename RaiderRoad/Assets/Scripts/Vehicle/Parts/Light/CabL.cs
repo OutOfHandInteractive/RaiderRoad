@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class CabL : MonoBehaviour {
 
+	public GameObject cargoNode, front_attachmentNode;
+
 	// Use this for initialization
 	void Start () {
 		
