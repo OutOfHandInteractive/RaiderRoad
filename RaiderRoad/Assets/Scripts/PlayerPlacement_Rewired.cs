@@ -33,7 +33,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
     void OnTriggerStay(Collider other)
     {
         //Debug.Log(other.name);
-        if ((other.gameObject.name == "BuildNode" || other.name == "xNode") && player.GetButtonDown("Build"))
+        if ((other.gameObject.name == "BuildNode" || other.name == "xNode") && player.GetButtonDown("Build Wall"))
         {
             if (other.name != "xNode")
             {
