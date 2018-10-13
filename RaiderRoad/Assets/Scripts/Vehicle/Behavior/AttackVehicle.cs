@@ -9,17 +9,25 @@ public class AttackVehicle : MonoBehaviour{
     private List<Transform> attackPoints;
     private NavMeshAgent cEnemy;
     private GameObject cObject;
-    private GameObject floorsRV;
+    private GameObject WallsRV;
 
     //Initialize agent and attack points
-    public void StartAttack(NavMeshAgent agent, GameObject enemy)
+    public void StartAttack(NavMeshAgent agent, GameObject enemy, string side)
     {
         cEnemy = agent;
         cObject = enemy;
         attackPoints = new List<Transform>();
-        floorsRV = GameObject.Find("FloorRV");
+        if(side.Equals("left"))
+        {
+            WallsRV = GameObject.Find("NodesLeft");
+        }
+        else
+        {
+            WallsRV = GameObject.Find("NodesRight");
+        }
+
         //Get all building points
-        foreach (Transform child in floorsRV.transform)
+        foreach (Transform child in WallsRV.transform)
         {
             attackPoints.Add(child);
         }
