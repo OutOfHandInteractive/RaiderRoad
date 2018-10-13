@@ -9,12 +9,11 @@ public class ChassisL : Chassis {
 	public ChassisL() {
 	}
 
-	void Start() {
-		numWheels = wheelNodes.Capacity;	
+	void Start() {	
 	}
 
 	// ---------- Getters and Setters ----------
 	public int getNumWheels() {
-		return numWheels;
+		return wheelNodes.Count;
 	}
 }
