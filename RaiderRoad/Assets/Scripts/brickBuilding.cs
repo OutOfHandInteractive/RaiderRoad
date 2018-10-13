@@ -45,10 +45,10 @@ public class brickBuilding : MonoBehaviour
         if (player.GetButtonDown("Build") && other.gameObject.tag == "floor")
         {
             float h = other.gameObject.GetComponent<floor>().height;
-            if (h < 5)
+            if (h < 3)
             {
-                Instantiate(wall, new Vector3(other.transform.position.x, (0.8f * (h)), other.transform.position.z), Quaternion.identity);
-                other.gameObject.GetComponent<floor>().height += 2f;
+                Instantiate(wall, new Vector3(other.transform.position.x, (0.3f * (h)), other.transform.position.z), Quaternion.identity);
+                other.gameObject.GetComponent<floor>().height += 1.65f;
             }
             else
             {
