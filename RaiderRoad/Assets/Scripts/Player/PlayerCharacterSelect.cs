@@ -71,12 +71,12 @@ public class PlayerCharacterSelect : MonoBehaviour {
     {
         if (moveLeft)
         {
-            gameObject.transform.parent = characterSelect.GetComponent<CharacterSelect>().MoveLeft(gameObject.transform.parent);
+            gameObject.transform.SetParent(characterSelect.GetComponent<CharacterSelect>().MoveLeft(gameObject.transform.parent));
             moveLeft = false;
         }
         else if (moveRight)
         {
-            gameObject.transform.parent = characterSelect.GetComponent<CharacterSelect>().MoveRight(gameObject.transform.parent);
+            gameObject.transform.SetParent(characterSelect.GetComponent<CharacterSelect>().MoveRight(gameObject.transform.parent));
             moveRight = false;
         }
     }
