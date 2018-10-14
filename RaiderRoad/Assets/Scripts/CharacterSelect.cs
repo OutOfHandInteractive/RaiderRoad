@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CharacterSelect : MonoBehaviour {
+    //This file is changed
+
     //--------------------
     // Public Variables
     //--------------------

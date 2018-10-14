@@ -4,6 +4,8 @@ using UnityEngine;
 using Rewired;
 
 public class PlayerController_Rewired : MonoBehaviour {
+    //This file is changed
+
     //--------------------
     // Public Variables
     //--------------------
