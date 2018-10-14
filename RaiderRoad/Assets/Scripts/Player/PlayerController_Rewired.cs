@@ -11,6 +11,8 @@ public class PlayerController_Rewired : MonoBehaviour {
 
     public float moveSpeed = 10f;
 
+    public GameObject view;
+
     //--------------------
     // Private Variables
     //--------------------
@@ -23,13 +25,17 @@ public class PlayerController_Rewired : MonoBehaviour {
     [System.NonSerialized]
     private bool initialized;
 
-    void Initialize() {
+    void Initialize()
+    {
         // Get the Rewired Player object for this player.
         player = ReInput.players.GetPlayer(playerId);
+        view.GetComponent<PlayerPlacement_Rewired>().SetId(playerId);
+
         initialized = true;
     }
 
-    void Update() {
+    void Update()
+    {
         if (!ReInput.isReady) return; // Exit if Rewired isn't ready. This would only happen during a script recompile in the editor.
         if (!initialized) Initialize(); // Reinitialize after a recompile in the editor
 
@@ -37,20 +43,30 @@ public class PlayerController_Rewired : MonoBehaviour {
         ProcessInput();
     }
 
-    private void GetInput() {
+    private void GetInput()
+    {
         moveVector.x = player.GetAxis("Move Horizontal") * Time.deltaTime * moveSpeed;
         moveVector.y = player.GetAxis("Move Vertical") * Time.deltaTime * moveSpeed;
 
         rotateVector = Vector3.right * player.GetAxis("Rotate Horizontal") + Vector3.forward * player.GetAxis("Rotate Vertical");
     }
 
-    private void ProcessInput() {
-        if (moveVector.x != 0.0f || moveVector.y != 0.0f) {
+    private void ProcessInput()
+    {
+        if (moveVector.x != 0.0f || moveVector.y != 0.0f)
+        {
             transform.Translate(moveVector.x, 0, moveVector.y, Space.World);
         }
 
-        if (rotateVector.sqrMagnitude > 0.0f) {
+        if (rotateVector.sqrMagnitude > 0.0f)
+        {
             transform.rotation = Quaternion.LookRotation(rotateVector, Vector3.up);
         }
+    }
+
+    public void SetId(int id)
+    {
+        playerId = id;
+        initialized = false;
     }
 }

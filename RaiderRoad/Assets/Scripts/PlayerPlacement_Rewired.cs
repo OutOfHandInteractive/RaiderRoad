@@ -9,23 +9,26 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
     //--------------------
     public int playerId = 0;
     public GameObject wall;
-	public GameObject RV;
 
     //--------------------
     // Private Variables
     //--------------------
     private Player player;
+    private GameObject rv;
 
     [System.NonSerialized]
     private bool initialized;
 
-    void Initialize() {
+    void Initialize()
+    {
         // Get the Rewired Player object for this player.
         player = ReInput.players.GetPlayer(playerId);
+        rv = GameObject.FindGameObjectWithTag("RV");
         initialized = true;
     }
 
-    void Update () {
+    void Update()
+    {
         if (!ReInput.isReady) return; // Exit if Rewired isn't ready. This would only happen during a script recompile in the editor.
         if (!initialized) Initialize(); // Reinitialize after a recompile in the editor
     }
@@ -38,14 +41,20 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
             if (other.name != "xNode")
             {
                 GameObject walltemp = Instantiate(wall, new Vector3(other.transform.position.x, other.transform.position.y, other.transform.position.z), Quaternion.identity);
-				walltemp.transform.parent = RV.transform;
+				walltemp.transform.parent = rv.transform;
             }
             else
             {
                 GameObject walltemp = Instantiate(wall, new Vector3(other.transform.position.x, other.transform.position.y, other.transform.position.z), Quaternion.Euler(new Vector3(0, 90, 0)));
-				walltemp.transform.parent = RV.transform;
+				walltemp.transform.parent = rv.transform;
             }
 			other.gameObject.SetActive (false);
         }
+    }
+
+    public void SetId(int id)
+    {
+        playerId = id;
+        initialized = false;
     }
 }

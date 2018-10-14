@@ -4,36 +4,45 @@ using UnityEngine;
 
 public class playerChange : MonoBehaviour {
 
-	public GameObject[] players;
+	public GameObject rv;
+    private GameObject player;
+    private GameObject view;
 	public GameObject steeringwheel;
+    public float cooldown = 3.0f;
+    private float count = 0.0f;
 
 	void OnTriggerEnter(Collider other)
 	{
-		if (other.CompareTag ("Player")) 
+		if (other.CompareTag ("Player") && count <= 0.0f) 
 		{
-			players [0].GetComponent<carscript2> ().enabled = true;
-			players [0].GetComponent<SimpleCarScript> ().enabled = true;
-			players [1].GetComponent<PlayerController_Rewired> ().enabled = false;
-			players [2].GetComponent<PlayerPlacement_Rewired> ().enabled = false;
-			players [2].GetComponent<BoxCollider> ().enabled = false;
+            gameObject.GetComponent<BoxCollider>().enabled = false;
+            player = other.gameObject;
+            player.transform.position = transform.position;
+            view = player.transform.Find("View").gameObject;
+            rv.GetComponent<carscript2> ().enabled = true;
+			rv.GetComponent<SimpleCarScript> ().enabled = true;
+			other.GetComponent<PlayerController_Rewired> ().enabled = false;
+            view.GetComponent<PlayerPlacement_Rewired> ().enabled = false;
+			view.GetComponent<BoxCollider> ().enabled = false;
 		}
 	}
-		
-//	void Update () 
-//	{
-//		if (Input.GetKeyDown ("space")) 
-//		{
-//
-//			//steeringwheel.SetActive (false);
-//		}
-//	}
 
-	public void exitSteering ()
+    void Update()
+    {
+        if (count > 0.0f)
+        {
+            count -= Time.deltaTime;
+        }
+    }
+
+    public void exitSteering ()
 	{
-		players [0].GetComponent<carscript2> ().enabled = false;
-		players [0].GetComponent<SimpleCarScript> ().enabled = false;
-		players [1].GetComponent<PlayerController_Rewired> ().enabled = true;
-		players [2].GetComponent<PlayerPlacement_Rewired> ().enabled = true;
-		players [2].GetComponent<BoxCollider> ().enabled = true;
+        count = cooldown;
+        gameObject.GetComponent<BoxCollider>().enabled = true;
+        rv.GetComponent<carscript2> ().enabled = false;
+		rv.GetComponent<SimpleCarScript> ().enabled = false;
+		player.GetComponent<PlayerController_Rewired> ().enabled = true;
+		view.GetComponent<PlayerPlacement_Rewired> ().enabled = true;
+		view.GetComponent<BoxCollider> ().enabled = true;
 	}
 }
