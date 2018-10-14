@@ -11,6 +11,7 @@ public class brickBuilding : MonoBehaviour
     public int playerId = 0;
     public GameObject wall;
     public Material selected, unselected;
+    public int holdingNumber;
 
     //--------------------
     // Private Variables
@@ -45,10 +46,11 @@ public class brickBuilding : MonoBehaviour
         if (player.GetButtonDown("Build") && other.gameObject.tag == "floor")
         {
             float h = other.gameObject.GetComponent<floor>().height;
-            if (h < 3)
+            if (h < 3 && holdingNumber > 0)
             {
                 Instantiate(wall, new Vector3(other.transform.position.x, (0.3f * (h)), other.transform.position.z), Quaternion.identity);
                 other.gameObject.GetComponent<floor>().height += 1.65f;
+                holdingNumber -= 1;
             }
             else
             {
@@ -56,6 +58,11 @@ public class brickBuilding : MonoBehaviour
             }
             
             
+        }
+
+        if ((other.gameObject.name == "Scraps") && player.GetButtonDown("Build"))
+        {
+            holdingNumber += 2;
         }
     }
 
