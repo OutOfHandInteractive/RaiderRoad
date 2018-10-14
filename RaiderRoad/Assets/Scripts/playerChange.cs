@@ -2,9 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+<<<<<<< HEAD
 public class playerChange : MonoBehaviour {
 
 	public GameObject[] players;
+=======
+public class playerChange : MonoBehaviour {
+    //This file is changed
+
+    public GameObject rv;
+    private GameObject player;
+    private GameObject view;
+>>>>>>> refs/remotes/origin/feature/PlayerController
 	public GameObject steeringwheel;
 
 	void OnTriggerEnter(Collider other)
