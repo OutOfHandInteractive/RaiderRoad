@@ -76,4 +76,10 @@ public class carscript2 : MonoBehaviour {
 		return player.GetAxis ("Move Horizontal");
 	}
 
-}
+    public void SetId(int id)
+    {
+        playerId = id;
+        initialized = false;
+    }
+
+}         
