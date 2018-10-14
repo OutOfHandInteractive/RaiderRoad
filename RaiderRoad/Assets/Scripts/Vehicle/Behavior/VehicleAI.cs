@@ -18,6 +18,13 @@ public class VehicleAI : MonoBehaviour {
     private State currentState;
     private GameObject enemy;
 
+    private string side;
+
+	//Statistics
+	private float maxHealth;
+	private float ramDamage;
+	private float speed;
+
 	// Use this for initialization
 	void Start () {
 
@@ -30,8 +37,18 @@ public class VehicleAI : MonoBehaviour {
         leave = new LeaveVehicle();
         transform.position = GameObject.Find("Spawn").transform.position;
 
+        int action = Random.Range(0, 100);
+        if (action < 50)
+        {
+            side = "left";
+        }
+        else
+        {
+            side = "right";
+        }
+
         //Start wander state
-        wander.StartWander(agent, enemy);
+        wander.StartWander(agent, enemy, side);
     }
 
     // Update is called once per frame
@@ -45,10 +62,10 @@ public class VehicleAI : MonoBehaviour {
                 break;
             case State.Chase:
                 chase.StartChase(agent, enemy);
-                chase.Chase();
+                chase.Chase(side);
                 break;
             case State.Attack:
-                attack.StartAttack(agent, enemy);
+                attack.StartAttack(agent, enemy, side);
                 attack.Attack();
                 break;
             case State.Leave:
@@ -79,4 +96,17 @@ public class VehicleAI : MonoBehaviour {
             Destroy(this.gameObject);
 
     }
+
+	// ---------- Getters and Setters ----------
+	public void setMaxHealth(float _maxHealth) {
+		maxHealth = _maxHealth;
+	}
+
+	public void setRamDamage(float _ramDamage) {
+		ramDamage = _ramDamage;
+	}
+
+	public void setSpeed(float _speed) {
+		speed = _speed;
+	}
 }

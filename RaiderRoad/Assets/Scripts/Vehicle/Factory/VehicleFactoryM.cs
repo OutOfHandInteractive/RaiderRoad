@@ -22,8 +22,8 @@ public class VehicleFactoryM : VehicleFactory_I {
 	}
 
 	private GameObject selectFrame() {
-		int selectedIndex = rand.Next(0, Frame.Count);
-		return Frame[selectedIndex];
+		int selectedIndex = rand.Next(0, Chassis.Count);
+		return Chassis[selectedIndex];
 	}
 
 	private GameObject selectCab() {

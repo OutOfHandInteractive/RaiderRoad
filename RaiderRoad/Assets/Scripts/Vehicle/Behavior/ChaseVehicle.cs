@@ -16,14 +16,13 @@ public class ChaseVehicle : MonoBehaviour {
         cObject = enemy;
     }
 
-    public void Chase()
+    public void Chase(string side)
     {
         //Stop completely when next to spot
         cEnemy.autoBraking = true;
 
         //Randomly choose to load left or right side
-        int action = Random.Range(0, 100);
-        if (action < 50)
+        if (side.Equals("left"))
         {
             player = GameObject.FindGameObjectWithTag("EnemyL").transform;
         }

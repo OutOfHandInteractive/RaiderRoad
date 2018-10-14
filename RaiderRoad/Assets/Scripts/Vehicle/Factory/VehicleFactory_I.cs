@@ -6,7 +6,7 @@ public abstract class VehicleFactory_I : MonoBehaviour {
 
 	public GameObject VehicleBase;
 
-	public List<GameObject> Frame;
+	public List<GameObject> Chassis;
 	public List<GameObject> Cab;
 	public List<GameObject> Cargo;
 	public List<GameObject> Attachment;
