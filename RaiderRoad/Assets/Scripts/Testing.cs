@@ -5,9 +5,10 @@ using UnityEngine;
 public class Testing : MonoBehaviour {
 
     public GameObject wall;
+    public float height = 1f;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
 		
 	}
 	

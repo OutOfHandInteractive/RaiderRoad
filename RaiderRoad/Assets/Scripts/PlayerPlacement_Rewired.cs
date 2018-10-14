@@ -33,19 +33,42 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
     void OnTriggerStay(Collider other)
     {
         //Debug.Log(other.name);
-        if ((other.gameObject.name == "BuildNode" || other.name == "xNode") && player.GetButtonDown("Build Wall"))
+        if ((other.gameObject.name == "BuildNode" || other.name == "xNode") && player.GetButtonDown("Build"))
         {
             if (other.name != "xNode")
             {
-                GameObject walltemp = Instantiate(wall, new Vector3(other.transform.position.x, other.transform.position.y, other.transform.position.z), Quaternion.identity);
-				walltemp.transform.parent = RV.transform;
+                float h = other.gameObject.GetComponent<Testing>().height;
+                if (!(h > 3))
+                {
+                    GameObject walltemp = Instantiate(wall, new Vector3(other.transform.position.x, (0.3f * (h)), other.transform.position.z), Quaternion.identity);
+                    walltemp.transform.parent = RV.transform;
+                    other.gameObject.GetComponent<Testing>().height += 1f;
+                }
+                else
+                {
+                    Debug.Log("Max Height");
+                }
+
+               // GameObject walltemp = Instantiate(wall, new Vector3(other.transform.position.x, other.transform.position.y, other.transform.position.z), Quaternion.identity);
+				//walltemp.transform.parent = RV.transform;
             }
             else
             {
-                GameObject walltemp = Instantiate(wall, new Vector3(other.transform.position.x, other.transform.position.y, other.transform.position.z), Quaternion.Euler(new Vector3(0, 90, 0)));
-				walltemp.transform.parent = RV.transform;
+                float h = other.gameObject.GetComponent<Testing>().height;
+                if (!(h > 3))
+                {
+                    GameObject walltemp = Instantiate(wall, new Vector3(other.transform.position.x, (0.3f * (h)), other.transform.position.z), Quaternion.Euler(new Vector3(0, 90, 0)));
+                    walltemp.transform.parent = RV.transform;
+                    other.gameObject.GetComponent<Testing>().height += 1f;
+                }
+                else
+                {
+                    Debug.Log("Max Height");
+                }
+                //GameObject walltemp = Instantiate(wall, new Vector3(other.transform.position.x, other.transform.position.y, other.transform.position.z), Quaternion.Euler(new Vector3(0, 90, 0)));
+				//walltemp.transform.parent = RV.transform;
             }
-			other.gameObject.SetActive (false);
+			//other.gameObject.SetActive (false);
         }
     }
 }
