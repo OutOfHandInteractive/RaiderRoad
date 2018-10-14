@@ -2508,6 +2508,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wall: {fileID: 1628752301740418, guid: 32b47ea380dcc284da80320a62e518b3, type: 2}
+  height: 1
 --- !u!114 &114270463374633056
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2520,6 +2521,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wall: {fileID: 1628752301740418, guid: 32b47ea380dcc284da80320a62e518b3, type: 2}
+  height: 1
 --- !u!114 &114274886435512336
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2544,7 +2546,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerId: 1
   wall: {fileID: 1628752301740418, guid: 32b47ea380dcc284da80320a62e518b3, type: 2}
-  RV: {fileID: 1461779216082184}
 --- !u!114 &114319159252285574
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2570,6 +2571,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerId: 0
   moveSpeed: 10
+  view: {fileID: 0}
 --- !u!114 &114379748257979294
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2606,6 +2608,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wall: {fileID: 1628752301740418, guid: 32b47ea380dcc284da80320a62e518b3, type: 2}
+  height: 1
 --- !u!114 &114541753920789928
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2618,6 +2621,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wall: {fileID: 1628752301740418, guid: 32b47ea380dcc284da80320a62e518b3, type: 2}
+  height: 1
 --- !u!114 &114543850991769132
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2629,11 +2633,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56b1a1adcc568b2429f809f050cbb431, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  players:
-  - {fileID: 1461779216082184}
-  - {fileID: 1510061047669950}
-  - {fileID: 1679140800222836}
+  rv: {fileID: 0}
   steeringwheel: {fileID: 1508566232888928}
+  cooldown: 3
 --- !u!114 &114546151114821692
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2671,6 +2673,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wall: {fileID: 1628752301740418, guid: 32b47ea380dcc284da80320a62e518b3, type: 2}
+  height: 1
 --- !u!114 &114688337804525986
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2710,7 +2713,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerId: 0
   wall: {fileID: 1628752301740418, guid: 32b47ea380dcc284da80320a62e518b3, type: 2}
-  RV: {fileID: 1461779216082184}
 --- !u!114 &114711027654849918
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2723,6 +2725,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wall: {fileID: 1628752301740418, guid: 32b47ea380dcc284da80320a62e518b3, type: 2}
+  height: 1
 --- !u!114 &114734090671433984
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2747,6 +2750,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wall: {fileID: 1628752301740418, guid: 32b47ea380dcc284da80320a62e518b3, type: 2}
+  height: 1
 --- !u!114 &114762436338317684
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2760,6 +2764,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerId: 1
   moveSpeed: 10
+  view: {fileID: 0}
 --- !u!114 &114992406302069098
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2772,6 +2777,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wall: {fileID: 1628752301740418, guid: 32b47ea380dcc284da80320a62e518b3, type: 2}
+  height: 1
 --- !u!135 &135023226999241316
 SphereCollider:
   m_ObjectHideFlags: 1
