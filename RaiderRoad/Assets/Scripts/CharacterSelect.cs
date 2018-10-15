@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CharacterSelect : MonoBehaviour {
-    //This file is changed
-
     //--------------------
     // Public Variables
     //--------------------
@@ -88,7 +86,7 @@ public class CharacterSelect : MonoBehaviour {
     {
         if (player1Panel.childCount > 0)
         {
-            Transform player = Instantiate(player1, rv.Find("Player1 Spawn").position, player1.rotation, rv);
+            Transform player = Instantiate(player1, rv.Find("player1Spawn").position, player1.rotation, rv);
             Transform controller = player1Panel.GetChild(0);
             int id = controller.gameObject.GetComponent<PlayerCharacterSelect>().GetId();
             player.gameObject.GetComponent<PlayerController_Rewired>().SetId(id);
@@ -100,7 +98,7 @@ public class CharacterSelect : MonoBehaviour {
     {
         if (player2Panel.childCount > 0)
         {
-            Transform player = Instantiate(player2, rv.Find("Player2 Spawn").position, player2.rotation, rv);
+            Transform player = Instantiate(player2, rv.Find("player2Spawn").position, player2.rotation, rv);
             Transform controller = player2Panel.GetChild(0);
             int id = controller.gameObject.GetComponent<PlayerCharacterSelect>().GetId();
             player.gameObject.GetComponent<PlayerController_Rewired>().SetId(id);
@@ -112,7 +110,7 @@ public class CharacterSelect : MonoBehaviour {
     {
         if (player3Panel.childCount > 0)
         {
-            Transform player = Instantiate(player3, rv.Find("Player3 Spawn").position, player3.rotation, rv);
+            Transform player = Instantiate(player3, rv.Find("player3Spawn").position, player3.rotation, rv);
             Transform controller = player3Panel.GetChild(0);
             int id = controller.gameObject.GetComponent<PlayerCharacterSelect>().GetId();
             player.gameObject.GetComponent<PlayerController_Rewired>().SetId(id);
@@ -124,7 +122,7 @@ public class CharacterSelect : MonoBehaviour {
     {
         if (player4Panel.childCount > 0)
         {
-            Transform player = Instantiate(player4, rv.Find("Player4 Spawn").position, player4.rotation, rv);
+            Transform player = Instantiate(player4, rv.Find("player4Spawn").position, player4.rotation, rv);
             Transform controller = player4Panel.GetChild(0);
             int id = controller.gameObject.GetComponent<PlayerCharacterSelect>().GetId();
             player.gameObject.GetComponent<PlayerController_Rewired>().SetId(id);
