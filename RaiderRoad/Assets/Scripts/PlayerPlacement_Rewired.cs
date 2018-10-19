@@ -40,17 +40,8 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         //Debug.Log(other.name);
         if ((other.gameObject.name == "BuildNode" || other.name == "xNode") && player.GetButtonDown("Build Wall"))
         {
-            if (other.name != "xNode")
-            {
-                GameObject walltemp = Instantiate(wall, new Vector3(other.transform.position.x, other.transform.position.y, other.transform.position.z), Quaternion.identity);
-				walltemp.transform.parent = rv.transform;
-            }
-            else
-            {
-                GameObject walltemp = Instantiate(wall, new Vector3(other.transform.position.x, other.transform.position.y, other.transform.position.z), Quaternion.Euler(new Vector3(0, 90, 0)));
-				walltemp.transform.parent = rv.transform;
-            }
-			other.gameObject.SetActive (false);
+            other.GetComponent<BuildNode>().Build();
+			//other.gameObject.SetActive (false);
         }
     }
 

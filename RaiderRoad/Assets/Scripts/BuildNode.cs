@@ -17,6 +17,17 @@ public class BuildNode : MonoBehaviour {
 		
 	}
 
+    public void Build()
+    {
+        if (this.isHorizontal)
+        {
+            Instantiate(wall, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
+        }
+        else
+        {
+            Instantiate(wall, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.Euler(new Vector3(0, 90, 0)));
+        }
+    }
 
     //TODO: To be removed later when testing is complete
     void OnMouseDown(){
