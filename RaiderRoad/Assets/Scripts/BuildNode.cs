@@ -2,23 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Tile : MonoBehaviour {
+public class BuildNode : MonoBehaviour {
+
+    //--------------------
+    //  Public Variables
+    //--------------------
 
     public GameObject wall;
-    public float height = 1f;
+    //public float height = 1f;
     public bool isHorizontal;
-    public float health;
-
-    // Use this for initialization
-    void Start () {
-		
-	}
 	
 	// Update is called once per frame
 	void Update () {
 		
 	}
 
+
+    //TODO: To be removed later when testing is complete
     void OnMouseDown(){
         // this object was clicked - do something
         if(this.isHorizontal)
