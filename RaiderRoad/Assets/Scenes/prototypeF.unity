@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -873,6 +873,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wall: {fileID: 1475573904591342, guid: 819954f284979f44dbb66a870bc79c23, type: 2}
   height: 1
+  isHorizontal: 0
+  health: 0
 --- !u!135 &159460334
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1138,6 +1140,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wall: {fileID: 1475573904591342, guid: 819954f284979f44dbb66a870bc79c23, type: 2}
   height: 1
+  isHorizontal: 0
+  health: 0
 --- !u!135 &192684003
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1338,6 +1342,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wall: {fileID: 1475573904591342, guid: 819954f284979f44dbb66a870bc79c23, type: 2}
   height: 1
+  isHorizontal: 0
+  health: 0
 --- !u!135 &213651902
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1453,6 +1459,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wall: {fileID: 1475573904591342, guid: 819954f284979f44dbb66a870bc79c23, type: 2}
   height: 1
+  isHorizontal: 0
+  health: 0
 --- !u!135 &229583028
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1666,6 +1674,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wall: {fileID: 1475573904591342, guid: 819954f284979f44dbb66a870bc79c23, type: 2}
   height: 1
+  isHorizontal: 0
+  health: 0
 --- !u!135 &293732888
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1964,6 +1974,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wall: {fileID: 1475573904591342, guid: 819954f284979f44dbb66a870bc79c23, type: 2}
   height: 1
+  isHorizontal: 0
+  health: 0
 --- !u!135 &470436559
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -2079,6 +2091,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wall: {fileID: 1475573904591342, guid: 819954f284979f44dbb66a870bc79c23, type: 2}
   height: 1
+  isHorizontal: 0
+  health: 0
 --- !u!135 &488157315
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -2351,6 +2365,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wall: {fileID: 1475573904591342, guid: 819954f284979f44dbb66a870bc79c23, type: 2}
   height: 1
+  isHorizontal: 0
+  health: 0
 --- !u!135 &572412077
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -2564,6 +2580,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wall: {fileID: 1475573904591342, guid: 819954f284979f44dbb66a870bc79c23, type: 2}
   height: 1
+  isHorizontal: 0
+  health: 0
 --- !u!135 &715832050
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -3104,6 +3122,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wall: {fileID: 1475573904591342, guid: 819954f284979f44dbb66a870bc79c23, type: 2}
   height: 1
+  isHorizontal: 0
+  health: 0
 --- !u!135 &822230540
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -3376,6 +3396,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wall: {fileID: 1475573904591342, guid: 819954f284979f44dbb66a870bc79c23, type: 2}
   height: 1
+  isHorizontal: 0
+  health: 0
 --- !u!135 &863770856
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -3443,26 +3465,6 @@ Transform:
   m_Father: {fileID: 1474901334}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &883160807 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1475573904591342, guid: 819954f284979f44dbb66a870bc79c23,
-    type: 2}
-  m_PrefabInternal: {fileID: 1442610513}
---- !u!54 &883160812
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 883160807}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 126
-  m_CollisionDetection: 0
 --- !u!1 &888627571
 GameObject:
   m_ObjectHideFlags: 0
@@ -3524,6 +3526,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wall: {fileID: 1475573904591342, guid: 819954f284979f44dbb66a870bc79c23, type: 2}
   height: 1
+  isHorizontal: 0
+  health: 0
 --- !u!135 &888627575
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -3626,6 +3630,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wall: {fileID: 1475573904591342, guid: 819954f284979f44dbb66a870bc79c23, type: 2}
   height: 1
+  isHorizontal: 0
+  health: 0
 --- !u!135 &899106235
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -3826,6 +3832,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wall: {fileID: 1475573904591342, guid: 819954f284979f44dbb66a870bc79c23, type: 2}
   height: 1
+  isHorizontal: 0
+  health: 0
 --- !u!135 &964482119
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -4026,6 +4034,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wall: {fileID: 1475573904591342, guid: 819954f284979f44dbb66a870bc79c23, type: 2}
   height: 1
+  isHorizontal: 0
+  health: 0
 --- !u!135 &1031875785
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -4114,7 +4124,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4424244535833832, guid: e82ba6ab24bed17478d023634a8e7e0a, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 0.4
+      value: -4.93
       objectReference: {fileID: 0}
     - target: {fileID: 4424244535833832, guid: e82ba6ab24bed17478d023634a8e7e0a, type: 2}
       propertyPath: m_LocalRotation.x
@@ -5054,6 +5064,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wall: {fileID: 1475573904591342, guid: 819954f284979f44dbb66a870bc79c23, type: 2}
   height: 1
+  isHorizontal: 0
+  health: 0
 --- !u!135 &1401611483
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -5474,6 +5486,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wall: {fileID: 1475573904591342, guid: 819954f284979f44dbb66a870bc79c23, type: 2}
   height: 1
+  isHorizontal: 0
+  health: 0
 --- !u!54 &1498288320
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -5925,6 +5939,48 @@ Transform:
   m_Father: {fileID: 71288102}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!1001 &1645084785
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4444241764131600, guid: 68e65662634328844bf9703af5c0c728, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4444241764131600, guid: 68e65662634328844bf9703af5c0c728, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4444241764131600, guid: 68e65662634328844bf9703af5c0c728, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4444241764131600, guid: 68e65662634328844bf9703af5c0c728, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4444241764131600, guid: 68e65662634328844bf9703af5c0c728, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 4444241764131600, guid: 68e65662634328844bf9703af5c0c728, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4444241764131600, guid: 68e65662634328844bf9703af5c0c728, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 4444241764131600, guid: 68e65662634328844bf9703af5c0c728, type: 2}
+      propertyPath: m_RootOrder
+      value: 10
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 68e65662634328844bf9703af5c0c728, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1 &1645872376
 GameObject:
   m_ObjectHideFlags: 0
@@ -5986,6 +6042,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wall: {fileID: 1475573904591342, guid: 819954f284979f44dbb66a870bc79c23, type: 2}
   height: 1
+  isHorizontal: 0
+  health: 0
 --- !u!135 &1645872380
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -6088,6 +6146,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wall: {fileID: 1475573904591342, guid: 819954f284979f44dbb66a870bc79c23, type: 2}
   height: 1
+  isHorizontal: 0
+  health: 0
 --- !u!135 &1708966572
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -6216,6 +6276,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wall: {fileID: 1475573904591342, guid: 819954f284979f44dbb66a870bc79c23, type: 2}
   height: 1
+  isHorizontal: 0
+  health: 0
 --- !u!135 &1765924891
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -6318,6 +6380,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wall: {fileID: 1475573904591342, guid: 819954f284979f44dbb66a870bc79c23, type: 2}
   height: 1
+  isHorizontal: 0
+  health: 0
 --- !u!135 &1775808232
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -6731,6 +6795,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wall: {fileID: 1475573904591342, guid: 819954f284979f44dbb66a870bc79c23, type: 2}
   height: 1
+  isHorizontal: 0
+  health: 0
 --- !u!135 &1835601205
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -6895,7 +6961,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1967425963}
   m_LocalRotation: {x: 0.5, y: 0.5, z: 0.5, w: 0.5}
-  m_LocalPosition: {x: 0, y: 0.204, z: 0.72}
+  m_LocalPosition: {x: 0, y: 0.204, z: 0.38}
   m_LocalScale: {x: 0.55243814, y: 0.55243814, z: 0.55243814}
   m_Children: []
   m_Father: {fileID: 1820595590}
@@ -7041,6 +7107,48 @@ Transform:
   m_Father: {fileID: 71288102}
   m_RootOrder: 29
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!1001 &1996433009
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4433391262674502, guid: c4b78f547f7592d42867fc5a56f7cc72, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -4.238
+      objectReference: {fileID: 0}
+    - target: {fileID: 4433391262674502, guid: c4b78f547f7592d42867fc5a56f7cc72, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0.711
+      objectReference: {fileID: 0}
+    - target: {fileID: 4433391262674502, guid: c4b78f547f7592d42867fc5a56f7cc72, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 2.656
+      objectReference: {fileID: 0}
+    - target: {fileID: 4433391262674502, guid: c4b78f547f7592d42867fc5a56f7cc72, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4433391262674502, guid: c4b78f547f7592d42867fc5a56f7cc72, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4433391262674502, guid: c4b78f547f7592d42867fc5a56f7cc72, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4433391262674502, guid: c4b78f547f7592d42867fc5a56f7cc72, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4433391262674502, guid: c4b78f547f7592d42867fc5a56f7cc72, type: 2}
+      propertyPath: m_RootOrder
+      value: 11
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: c4b78f547f7592d42867fc5a56f7cc72, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1 &2053803226
 GameObject:
   m_ObjectHideFlags: 0
@@ -7089,6 +7197,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wall: {fileID: 1475573904591342, guid: 819954f284979f44dbb66a870bc79c23, type: 2}
   height: 1
+  isHorizontal: 0
+  health: 0
 --- !u!135 &2053803229
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -7459,6 +7569,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wall: {fileID: 1475573904591342, guid: 819954f284979f44dbb66a870bc79c23, type: 2}
   height: 1
+  isHorizontal: 0
+  health: 0
 --- !u!135 &2099215964
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -7659,6 +7771,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wall: {fileID: 1475573904591342, guid: 819954f284979f44dbb66a870bc79c23, type: 2}
   height: 1
+  isHorizontal: 0
+  health: 0
 --- !u!135 &2131204676
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -7787,6 +7901,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wall: {fileID: 1475573904591342, guid: 819954f284979f44dbb66a870bc79c23, type: 2}
   height: 1
+  isHorizontal: 0
+  health: 0
 --- !u!135 &2140340519
 SphereCollider:
   m_ObjectHideFlags: 0
