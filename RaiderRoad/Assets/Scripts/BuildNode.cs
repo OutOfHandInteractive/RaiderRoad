@@ -20,7 +20,6 @@ public class BuildNode : MonoBehaviour {
 
     private GameObject holo;
 
-    //TODO: make it so you cant build on an already occupied space
     public void Build(GameObject wallToPlace)
     {
         if (this.isHorizontal)
@@ -36,7 +35,7 @@ public class BuildNode : MonoBehaviour {
         
     }
 
-    public void Show(GameObject wallToShow){
+    public void Show(GameObject wallToShow){ //hologram function, not efficient/working properly
 
         holo = wallToShow;
 

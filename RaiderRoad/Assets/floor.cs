@@ -3,12 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class floor : MonoBehaviour {
+    //Michael
 
-    public float height = 1f;
+    //--------------------
+    //  Public Variables
+    //--------------------
+    public bool occupied = false;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
+	public void BuildTrap(GameObject trapToPlace)
+    {
+        Instantiate(trapToPlace, new Vector3(transform.position.x, transform.position.y + 0.1f, transform.position.z), Quaternion.identity);
+        occupied = true;
+    }
 }

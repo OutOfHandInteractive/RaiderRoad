@@ -14,13 +14,16 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
     public GameObject wall;
     public int wallInventory;
     public Text inventoryText;
+    public GameObject heldItem = null; //probably make private later on
 
     //--------------------
     // Private Variables
     //--------------------
     private Player player;
     private GameObject rv;
-    private ArrayList nodes = new ArrayList();
+    private ArrayList nodes = new ArrayList();      //probably better way to do this, REVISIT!
+    private ArrayList trapNodes = new ArrayList();
+    private bool hasItem = false;
 
     [System.NonSerialized]
     private bool initialized;
@@ -31,7 +34,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         player = ReInput.players.GetPlayer(playerId);
         rv = GameObject.FindGameObjectWithTag("RV");
         initialized = true;
-        changeInventory();
+        changeInventory(); //set inventory text to players inventory count
     }
 
     void Update()
@@ -39,23 +42,41 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         if (!ReInput.isReady) return; // Exit if Rewired isn't ready. This would only happen during a script recompile in the editor.
         if (!initialized) Initialize(); // Reinitialize after a recompile in the editor
 
-        //Debug.Log(nodes.Count);
-
-        if (wallInventory > 0 && player.GetButtonDown("Place Object") && nodes.Count > 0)
+        if(heldItem != null)
         {
-            GameObject toBuild = (GameObject) nodes[0];
-            if (!toBuild.GetComponent<BuildNode>().occupied)
+            //floatItem(); appearing in front and not parenting to player
+            if (player.GetButtonDown("Place Object") && trapNodes.Count > 0)
             {
-                toBuild.GetComponent<BuildNode>().Build(wall);
-                wallInventory--;
-                changeInventory();
-                //other.gameObject.SetActive (false);
-            }
-            else
-            {
-                Debug.Log("Occupied >:(");
+                GameObject floorBuild = (GameObject)trapNodes[0];
+                if (!floorBuild.GetComponentInParent<floor>().occupied)
+                {
+                    floorBuild.GetComponentInParent<floor>().BuildTrap(heldItem);
+                    heldItem = null;
+                    hasItem = false;
+                }
+                else
+                {
+                    Debug.Log("Occupied >:(");
+                }
             }
         }
+        else
+        {
+            if (wallInventory > 0 && player.GetButtonDown("Place Object") && nodes.Count > 0)
+            {
+                GameObject toBuild = (GameObject) nodes[0];
+                if (!toBuild.GetComponent<BuildNode>().occupied)
+                {
+                    toBuild.GetComponent<BuildNode>().Build(wall);
+                    wallInventory--;
+                    changeInventory();
+                    //other.gameObject.SetActive (false);
+                }else{
+                    Debug.Log("Occupied >:(");
+                }
+            }
+        }
+        
     }
 
     void OnTriggerEnter(Collider other)
@@ -70,6 +91,11 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
             //GameObject toRemove = (GameObject)nodes[0];
             //toRemove.GetComponent<BuildNode>().Show(wall);
         }
+        if (other.name == "Trap")
+        {
+            Debug.Log("Trap node added");
+            trapNodes.Add(other.gameObject);
+        }
     }
 
     private void OnTriggerExit(Collider other)
@@ -78,11 +104,23 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         //GameObject toRemove = (GameObject)nodes[0];
         //other.GetComponent<BuildNode>().RemoveShow();
         nodes.Remove(other.gameObject);
+        trapNodes.Remove(other.gameObject);
     }
 
-    public void changeInventory()
+    public void changeInventory() //change inventory in text only after building wall, saves overhead
     {
         inventoryText.text = "Walls: " + wallInventory.ToString();
+    }
+
+    public void floatItem() //makes held item float and spin above player
+    {
+        if (!hasItem)
+        {
+            Instantiate(heldItem.GetComponent<Trap>().drop, //fix later for prettier
+                new Vector3(transform.position.x, transform.position.y + 0.1f, transform.position.z), Quaternion.identity);
+            hasItem = true;
+        }
+
     }
 
     public void SetId(int id)
