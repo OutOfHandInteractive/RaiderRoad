@@ -17,16 +17,34 @@ public class BuildNode : MonoBehaviour {
 		
 	}
 
-    public void Build()
+    //TODO: make it so you cant build on an already occupied space
+    public void Build(GameObject wallToPlace)
     {
         if (this.isHorizontal)
         {
-            Instantiate(wall, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
+            Instantiate(wallToPlace, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
         }
         else
         {
-            Instantiate(wall, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.Euler(new Vector3(0, 90, 0)));
+            Instantiate(wallToPlace, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.Euler(new Vector3(0, 90, 0)));
         }
+    }
+
+    public void Show(GameObject wallToShow){
+
+        Color color = wallToShow.GetComponent<MeshRenderer>().sharedMaterial.color;
+        color.a = 0.5f;
+        wallToShow.GetComponent<MeshRenderer>().sharedMaterial.color = color;
+
+        if (this.isHorizontal)
+        {
+            Instantiate(wallToShow, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
+        }
+        else
+        {
+            Instantiate(wallToShow, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.Euler(new Vector3(0, 90, 0)));
+        }
+
     }
 
     //TODO: To be removed later when testing is complete

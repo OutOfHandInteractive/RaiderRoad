@@ -19,11 +19,11 @@ public class Wall : MonoBehaviour {
 	void Update () {
 		if(hits <= 0 || health <= 0)
         {
-            spawn();
+            spawnDrop();
         }
 	}
 
-    void spawn()
+    void spawnDrop()
     {
         Instantiate(drop, new Vector3(transform.position.x, transform.position.y - .5f, transform.position.z), Quaternion.identity);
         Destroy(this.gameObject);
