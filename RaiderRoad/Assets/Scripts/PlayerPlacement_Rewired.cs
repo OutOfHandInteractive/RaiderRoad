@@ -44,7 +44,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
 
         if(heldItem != null)
         {
-            //floatItem(); appearing in front and not parenting to player
+            floatItem(); //not following player
             if (player.GetButtonDown("Place Object") && trapNodes.Count > 0)
             {
                 GameObject floorBuild = (GameObject)trapNodes[0];
@@ -117,7 +117,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         if (!hasItem)
         {
             Instantiate(heldItem.GetComponent<Trap>().drop, //fix later for prettier
-                new Vector3(transform.position.x, transform.position.y + 0.1f, transform.position.z), Quaternion.identity);
+                new Vector3(transform.parent.position.x, transform.parent.position.y + 0.65f, transform.parent.position.z), Quaternion.identity, transform.parent);
             hasItem = true;
         }
 
