@@ -3,19 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class BuildNode : MonoBehaviour {
+    //Michael
 
     //--------------------
     //  Public Variables
     //--------------------
 
     public GameObject wall;
-    //public float height = 1f;
+    public bool occupied = false;
     public bool isHorizontal;
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    //public float height = 1f;
+
+    //--------------------
+    //  Private Variables
+    //--------------------
+
+    private GameObject holo;
 
     //TODO: make it so you cant build on an already occupied space
     public void Build(GameObject wallToPlace)
@@ -23,28 +26,34 @@ public class BuildNode : MonoBehaviour {
         if (this.isHorizontal)
         {
             Instantiate(wallToPlace, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
+            occupied = true;
         }
         else
         {
             Instantiate(wallToPlace, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.Euler(new Vector3(0, 90, 0)));
+            occupied = true;
         }
+        
     }
 
     public void Show(GameObject wallToShow){
 
-        Color color = wallToShow.GetComponent<MeshRenderer>().sharedMaterial.color;
-        color.a = 0.5f;
-        wallToShow.GetComponent<MeshRenderer>().sharedMaterial.color = color;
+        holo = wallToShow;
 
         if (this.isHorizontal)
         {
-            Instantiate(wallToShow, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
+            Instantiate(holo, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
         }
         else
         {
-            Instantiate(wallToShow, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.Euler(new Vector3(0, 90, 0)));
+            Instantiate(holo, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.Euler(new Vector3(0, 90, 0)));
         }
 
+    }
+
+    public void RemoveShow()
+    {
+        Destroy(holo);
     }
 
     //TODO: To be removed later when testing is complete

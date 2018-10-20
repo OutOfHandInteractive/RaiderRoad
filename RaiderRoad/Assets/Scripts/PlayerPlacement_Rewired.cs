@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using Rewired;
 
 public class PlayerPlacement_Rewired : MonoBehaviour {
-    //This file is changed
+    //Michael
 
     //--------------------
     // Public Variables
@@ -38,27 +38,45 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
     {
         if (!ReInput.isReady) return; // Exit if Rewired isn't ready. This would only happen during a script recompile in the editor.
         if (!initialized) Initialize(); // Reinitialize after a recompile in the editor
-    }
 
-    void OnTriggerStay(Collider other)
-    {
-        
-        //Debug.Log(other.name);
-        if ((other.gameObject.name == "BuildNode" || other.name == "xNode") && player.GetButtonDown("Build Wall"))
+        //Debug.Log(nodes.Count);
+
+        if (wallInventory > 0 && player.GetButtonDown("Build Wall") && nodes.Count > 0)
         {
-            nodes.Add(other.gameObject);
-            if(wallInventory > 0)
+            GameObject toBuild = (GameObject) nodes[0];
+            if (!toBuild.GetComponent<BuildNode>().occupied)
             {
-                other.GetComponent<BuildNode>().Build(wall);
+                toBuild.GetComponent<BuildNode>().Build(wall);
                 wallInventory--;
                 changeInventory();
                 //other.gameObject.SetActive (false);
             }
+            else
+            {
+                Debug.Log("Occupied >:(");
+            }
+        }
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        
+        //Debug.Log(other.name);
+        if ((other.gameObject.name == "BuildNode" || other.name == "xNode"))
+        {
+            //Debug.Log("Added");
+            nodes.Add(other.gameObject);
+            //other.GetComponent<BuildNode>().Show(wall);
+            //GameObject toRemove = (GameObject)nodes[0];
+            //toRemove.GetComponent<BuildNode>().Show(wall);
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
+        //Debug.Log("Removed");
+        //GameObject toRemove = (GameObject)nodes[0];
+        //other.GetComponent<BuildNode>().RemoveShow();
         nodes.Remove(other.gameObject);
     }
 
