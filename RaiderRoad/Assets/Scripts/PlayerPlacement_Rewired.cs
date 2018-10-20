@@ -41,7 +41,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
 
         //Debug.Log(nodes.Count);
 
-        if (wallInventory > 0 && player.GetButtonDown("Build Wall") && nodes.Count > 0)
+        if (wallInventory > 0 && player.GetButtonDown("Place Object") && nodes.Count > 0)
         {
             GameObject toBuild = (GameObject) nodes[0];
             if (!toBuild.GetComponent<BuildNode>().occupied)
