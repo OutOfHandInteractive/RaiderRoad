@@ -37,17 +37,16 @@ public class BuildNode : MonoBehaviour {
 
     public void Show(GameObject wallToShow){ //hologram function, not efficient/working properly
 
-        holo = wallToShow;
-
         if (this.isHorizontal)
         {
-            Instantiate(holo, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
+            holo = Instantiate(wallToShow, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
         }
         else
         {
-            Instantiate(holo, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.Euler(new Vector3(0, 90, 0)));
+            holo = Instantiate(wallToShow, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.Euler(new Vector3(0, 90, 0)));
         }
 
+        holo.GetComponent<Wall>().isHolo = true;
     }
 
     public void RemoveShow()

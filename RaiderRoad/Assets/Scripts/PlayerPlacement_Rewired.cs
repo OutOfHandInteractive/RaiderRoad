@@ -80,6 +80,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         {
             if (player.GetButtonDown("Build Mode"))
             {
+                if (buildMode) attackRange = new ArrayList(); //When switching out of build mode, attack will get stuck in InvalidOperationException: List has changed. This helps
                 buildMode = !buildMode;
             }
             if (buildMode)
@@ -143,7 +144,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         {
             //Debug.Log("Added");
             nodes.Add(other.gameObject);
-            //other.GetComponent<BuildNode>().Show(wall); //
+            if(buildMode && heldItem == null) other.GetComponent<BuildNode>().Show(wall); //if player is in build mode, activate show wall in the build node script
             //GameObject toRemove = (GameObject)nodes[0];
             //toRemove.GetComponent<BuildNode>().Show(wall);
         }
@@ -182,7 +183,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
     {
         //Debug.Log("Removed");
         //GameObject toRemove = (GameObject)nodes[0];
-        //other.GetComponent<BuildNode>().RemoveShow();
+        if(other.gameObject.name == "BuildNode" || other.name == "xNode") other.GetComponent<BuildNode>().RemoveShow(); //if object leaving is a build node, make sure it isn't showing holo of object
         nodes.Remove(other.gameObject);
         trapNodes.Remove(other.gameObject);
         attackRange.Remove(other.gameObject);
