@@ -41,6 +41,7 @@ public class Wall : MonoBehaviour {
 
     void MakeHolo() // a function for making wall material holographic
     {
+        gameObject.GetComponent<BoxCollider>().enabled = false;
         Color tempColor = myMat.color;
         tempColor.a = 0.4f;
         myMat.color = tempColor;
