@@ -25,7 +25,13 @@ public class Wall : MonoBehaviour {
 
     void spawnDrop()
     {
-        Instantiate(drop, new Vector3(transform.position.x, transform.position.y - .5f, transform.position.z), Quaternion.identity);
+        GameObject item = Instantiate(drop, new Vector3(transform.position.x, transform.position.y - .5f, transform.position.z), Quaternion.identity);
+        item.name = "Wall Drop";
         Destroy(this.gameObject);
+    }
+
+    public void Damage(float damage)
+    {
+        health -= damage;
     }
 }

@@ -28,7 +28,13 @@ public class Trap : MonoBehaviour
 
     void spawnDrop()
     {
-        Instantiate(drop, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
+        GameObject item = Instantiate(drop, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
+        item.name = "Trap Drop";
         Destroy(this.gameObject);
+    }
+
+    public void Damage(float damage)
+    {
+        health -= damage;
     }
 }
