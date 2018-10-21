@@ -10,12 +10,12 @@ public class WanderVehicle : MonoBehaviour {
     private int wanderPoints = 0;
     private NavMeshAgent cEnemy;
     private GameObject cObject;
+    private int action = Random.Range(0, 100);
     public void StartWander(NavMeshAgent agent, GameObject enemy, string side)
     {
         //Set it to the VehicleAI
         cEnemy = agent;
         cObject = enemy;
-
         patrols = new List<Transform>();
 
         //Choose to patrol left or right, random chance
@@ -46,14 +46,13 @@ public class WanderVehicle : MonoBehaviour {
         wanderPoints = Random.Range(0, patrols.Count);
 
         //Chance to attack or chase the RV
-        int action = Random.Range(0, 100);
         if (action < 50)
         {
             cObject.GetComponent<VehicleAI>().Invoke("EnterChase", 10f);
         }
         else
         {
-            cObject.GetComponent<VehicleAI>().Invoke("EnterAttack", 10f);
+            cObject.GetComponent<VehicleAI>().Invoke("EnterAttack", 5f);
         }
     }
 }
