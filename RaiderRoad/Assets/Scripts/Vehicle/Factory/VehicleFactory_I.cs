@@ -10,13 +10,13 @@ public abstract class VehicleFactory_I : MonoBehaviour {
 	private float vehicleRamDamage = 0f;
 	private float vehicleSpeed = 0f;
 
-	public List<GameObject> Chassis;
 	public List<GameObject> Cab;
 	public List<GameObject> Cargo;
 	public List<GameObject> Attachment;
 	public List<GameObject> Wheel;
 	public List<GameObject> Enemy;
 
+	protected abstract GameObject selectChassis();
 	public abstract void AttachEnemy(GameObject cab);
 	public abstract void AttachWheels(GameObject chassis);
 
@@ -81,11 +81,6 @@ public abstract class VehicleFactory_I : MonoBehaviour {
 	}
 
 	#region Component Selectors
-	protected GameObject selectChassis() {
-		int selectedIndex = rand.Next(0, Chassis.Count);
-		return Chassis[selectedIndex];
-	}
-
 	protected GameObject selectCab() {
 		int selectedIndex = rand.Next(0, Cab.Count);
 		return Cab[selectedIndex];

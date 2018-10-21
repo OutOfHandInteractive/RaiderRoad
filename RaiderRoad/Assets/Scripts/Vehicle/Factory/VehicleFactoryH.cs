@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class VehicleFactoryH : VehicleFactory_I {
 
+	public List<GameObject> Chassis;
+
+	protected override GameObject selectChassis() {
+		int selectedIndex = rand.Next(0, Chassis.Count);
+		return Chassis[selectedIndex];
+	}
+
 	//attach enemy to cab
 	public override void AttachEnemy(GameObject cab) {
 		GameObject enemy = Instantiate(selectEnemy());
