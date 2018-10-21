@@ -20,6 +20,8 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
     public GameObject trap;
     public float damage = 25.0f;
 
+    public Material TempAttMat; //for temporary attack for prototype
+
     //--------------------
     // Private Variables
     //--------------------
@@ -31,6 +33,8 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
     private bool hasItem = false;
     private GameObject floatingItem;
 
+    private Color currentAttColor; //for temporary attack for prototype
+
     [System.NonSerialized]
     private bool initialized;
 
@@ -41,6 +45,8 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         rv = GameObject.FindGameObjectWithTag("RV");
         initialized = true;
         changeInventory(); //set inventory text to players inventory count
+
+        currentAttColor = TempAttMat.color; //get current color so we can play with alpha
     }
 
     void Update()
@@ -112,10 +118,21 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
                         item.GetComponent<Trap>().Damage(damage);
                     }
                 }
+
+                currentAttColor.a = 0.5f; //setting attack model's mat to 1/2 visible
+
             }
             
         }
         
+        if (currentAttColor.a > 0) {
+            currentAttColor.a -= 1f * Time.deltaTime; //transitioning color from visibile to invisible
+            TempAttMat.color = currentAttColor;
+        } else if (currentAttColor.a < 0) { // getting alpha to exactly 0, and after that won't check further
+            currentAttColor.a = 0;
+            TempAttMat.color = currentAttColor;
+        }
+
     }
 
     void OnTriggerEnter(Collider other)
@@ -126,7 +143,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         {
             //Debug.Log("Added");
             nodes.Add(other.gameObject);
-            //other.GetComponent<BuildNode>().Show(wall);
+            //other.GetComponent<BuildNode>().Show(wall); //
             //GameObject toRemove = (GameObject)nodes[0];
             //toRemove.GetComponent<BuildNode>().Show(wall);
         }
