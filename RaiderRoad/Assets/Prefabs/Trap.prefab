@@ -9,51 +9,46 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1475573904591342}
+  m_RootGameObject: {fileID: 1142158633605222}
   m_IsPrefabAsset: 1
---- !u!1 &1475573904591342
+--- !u!1 &1142158633605222
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4200829581961510}
-  - component: {fileID: 33607118672721130}
-  - component: {fileID: 23376789738387072}
-  - component: {fileID: 65329055042730254}
-  - component: {fileID: 54702312993137154}
-  - component: {fileID: 114523659975092274}
+  - component: {fileID: 4110534503132428}
+  - component: {fileID: 33591050933849344}
+  - component: {fileID: 23272689770826334}
+  - component: {fileID: 65327326249811342}
+  - component: {fileID: 114540919963369030}
   m_Layer: 0
-  m_Name: WallTypeF
-<<<<<<< HEAD
-  m_TagString: wall
-=======
-  m_TagString: Wall
->>>>>>> BuildingProtoRefine
+  m_Name: Trap
+  m_TagString: Trap
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4200829581961510
+--- !u!4 &4110534503132428
 Transform:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1475573904591342}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.08, y: 0.75, z: 2.65}
-  m_LocalScale: {x: 1, y: 1, z: 0.1}
+  m_GameObject: {fileID: 1142158633605222}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: -7, y: 0.8, z: -2}
+  m_LocalScale: {x: 0.7, y: 0.2, z: 0.7}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!23 &23376789738387072
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!23 &23272689770826334
 MeshRenderer:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1475573904591342}
+  m_GameObject: {fileID: 1142158633605222}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -63,7 +58,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: d599bb0e20bc29b4d9126ac468740044, type: 2}
+  - {fileID: 2100000, guid: c39e0fa9713bfac4083ee13002d50acc, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -83,52 +78,36 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!33 &33607118672721130
+--- !u!33 &33591050933849344
 MeshFilter:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1475573904591342}
+  m_GameObject: {fileID: 1142158633605222}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!54 &54702312993137154
-Rigidbody:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1475573904591342}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 126
-  m_CollisionDetection: 0
---- !u!65 &65329055042730254
+--- !u!65 &65327326249811342
 BoxCollider:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1475573904591342}
+  m_GameObject: {fileID: 1142158633605222}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &114523659975092274
+--- !u!114 &114540919963369030
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1475573904591342}
+  m_GameObject: {fileID: 1142158633605222}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7241cb8bd5bfcc54fa7f7a9cb8cf0e25, type: 3}
+  m_Script: {fileID: 11500000, guid: d72780b41c507d147ace5dfffa4c157a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  drop: {fileID: 1412282026529114, guid: c4b78f547f7592d42867fc5a56f7cc72, type: 2}
+  drop: {fileID: 1918633486051878, guid: 740fa457042f4034baa6f037e58c1363, type: 2}
   hits: 3
   health: 100
-  isHolo: 0
