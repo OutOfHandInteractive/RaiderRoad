@@ -76,8 +76,8 @@ public abstract class VehicleFactory_I : MonoBehaviour {
 		front_attachment.transform.position = front_attachment.transform.parent.transform.position;
 		AttachmentL attachmentScript = front_attachment.GetComponent<AttachmentL>();
 
-		v.setMaxHealth(v.getMaxHealth() + attachmentScript.healthModifier);
-		v.setRamDamage(v.getRamDamage() + attachmentScript.ramDamageModifier);
+		//v.setMaxHealth(v.getMaxHealth() + attachmentScript.healthModifier);
+		//v.setRamDamage(v.getRamDamage() + attachmentScript.ramDamageModifier);
 	}
 
 	#region Component Selectors
