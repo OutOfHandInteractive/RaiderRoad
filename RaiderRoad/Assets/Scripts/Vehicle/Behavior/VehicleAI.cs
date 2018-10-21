@@ -98,12 +98,24 @@ public class VehicleAI : MonoBehaviour {
     }
 
 	// ---------- Getters and Setters ----------
+	public float getMaxHealth() {
+		return maxHealth;
+	}
+
 	public void setMaxHealth(float _maxHealth) {
 		maxHealth = _maxHealth;
 	}
 
+	public float getRamDamage() {
+		return ramDamage;
+	}
+
 	public void setRamDamage(float _ramDamage) {
 		ramDamage = _ramDamage;
+	}
+
+	public float getSpeed() {
+		return speed;
 	}
 
 	public void setSpeed(float _speed) {
