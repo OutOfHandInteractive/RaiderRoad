@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 public class VehicleAI : MonoBehaviour {
     //States
-    private enum State { Wander, Chase, Attack, Leave };
+    public enum State { Wander, Chase, Attack, Leave };
 
     //State Classes
     private WanderVehicle wander;
@@ -15,7 +15,7 @@ public class VehicleAI : MonoBehaviour {
 
     //Current object and navmesh
     protected NavMeshAgent agent;
-    private State currentState;
+    public State currentState;
     private GameObject enemy;
 
     private string side;
@@ -29,7 +29,7 @@ public class VehicleAI : MonoBehaviour {
 	void Start () {
 
         //Initialize all the classes
-        enemy = this.gameObject;
+        enemy = gameObject;
         agent = GetComponent<NavMeshAgent>();
         wander = new WanderVehicle();
         chase = new ChaseVehicle();
@@ -109,4 +109,13 @@ public class VehicleAI : MonoBehaviour {
 	public void setSpeed(float _speed) {
 		speed = _speed;
 	}
+
+    public string getSide()
+    {
+        return side;
+    }
+    public State getState()
+    {
+        return currentState;
+    }
 }

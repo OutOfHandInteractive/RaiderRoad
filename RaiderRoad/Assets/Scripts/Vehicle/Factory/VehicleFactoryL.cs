@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class VehicleFactoryL : VehicleFactory_I {
 
-	private GameObject vehicle, chassis, cab, cargo, wheel, front_attachment;
+	private GameObject vehicle, chassis, cab, cargo, wheel, front_attachment, enemy;
 	private static System.Random rand;
 
 	private float vehicleHealth = 0f;
@@ -42,11 +42,16 @@ public class VehicleFactoryL : VehicleFactory_I {
 		front_attachment.transform.SetParent(cab.GetComponent<CabL>().front_attachmentNode.transform);
 		front_attachment.transform.position = front_attachment.transform.parent.transform.position;
 		AttachmentL attachmentScript = front_attachment.GetComponent<AttachmentL>();
-		vehicleHealth += attachmentScript.healthModifier;
-		vehicleRamDamage += attachmentScript.ramDamageModifier;
+		//vehicleHealth += attachmentScript.healthModifier;
+		//vehicleRamDamage += attachmentScript.ramDamageModifier;
 
-		// attach wheel to frame
-		GameObject wheelToUse = selectWheel();
+        //attach enemy to cab
+        enemy = Instantiate(selectEnemy());
+        enemy.transform.SetParent(cab.GetComponent<CabL>().cargoNode.transform);
+        enemy.transform.position = enemy.transform.parent.transform.position;
+
+        // attach wheel to frame
+        GameObject wheelToUse = selectWheel();
 		for (int i=0; i<chassis.GetComponent<ChassisL>().getNumWheels(); i++) {
 			wheel = Instantiate(wheelToUse);
 			wheel.transform.SetParent(chassis.GetComponent<ChassisL>().wheelNodes[i].transform);
@@ -56,7 +61,7 @@ public class VehicleFactoryL : VehicleFactory_I {
 			}	
 		}
 
-		VehicleAI vAI = vehicle.GetComponent<VehicleAI>();
+        VehicleAI vAI = vehicle.GetComponent<VehicleAI>();
 		vAI.setMaxHealth(vehicleHealth);
 		vAI.setRamDamage(vehicleRamDamage);
 		vAI.setSpeed(vehicleSpeed);
@@ -86,4 +91,9 @@ public class VehicleFactoryL : VehicleFactory_I {
 		int selectedIndex = rand.Next(0, Attachment.Count);
 		return Attachment[selectedIndex];
 	}
+
+    private GameObject selectEnemy(){
+        int selectedIndex = rand.Next(0, Enemy.Count);
+        return Enemy[selectedIndex];
+    }
 }

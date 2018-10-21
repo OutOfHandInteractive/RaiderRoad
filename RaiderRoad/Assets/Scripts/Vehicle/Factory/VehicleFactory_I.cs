@@ -11,6 +11,7 @@ public abstract class VehicleFactory_I : MonoBehaviour {
 	public List<GameObject> Cargo;
 	public List<GameObject> Attachment;
 	public List<GameObject> Wheel;
+    public List<GameObject> Enemy;
 
 	public abstract void AssembleVehicle();
 }
