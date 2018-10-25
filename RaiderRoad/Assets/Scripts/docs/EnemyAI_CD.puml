@@ -12,7 +12,7 @@ abstract class Enemy {
 }
 EnemyRadio <- Enemy
 Enemy -> EnemyAI
-Unity3D.MonoBehavior <|-- Enemy
+UnityEngine.MonoBehavior <|-- Enemy
 
 abstract class Vehicle{
 
@@ -38,9 +38,11 @@ abstract class EnemyAI{
 	{abstract} +void update()
 	{abstract} +void end()
 }
-Unity3D.MonoBehavior <|-- EnemyAI
+UnityEngine.MonoBehavior <|-- EnemyAI
 abstract class EnemyAIState{
 	+void update()
+	+void start()
+	{abstract} +void start(Intent)
 	{abstract} +Intent updateState()
 }
 EnemyAI <|-- EnemyAIState
