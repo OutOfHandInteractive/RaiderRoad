@@ -34,6 +34,6 @@ public class ChaseVehicle : MonoBehaviour {
         cEnemy.SetDestination(player.transform.position);
 
         //Leave after 10 seconds
-        cObject.GetComponent<VehicleAI>().Invoke("EnterLeave", 10f);
+        cObject.GetComponent<VehicleAI>().Invoke("EnterLeave", 20f);
     }
 }

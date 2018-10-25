@@ -33,7 +33,7 @@ public class brickBuilding : MonoBehaviour
         if (!ReInput.isReady) return; // Exit if Rewired isn't ready. This would only happen during a script recompile in the editor.
         if (!initialized) Initialize(); // Reinitialize after a recompile in the editor
     }
-
+    /*
     void OnTriggerStay(Collider other)
     {
         if(other.gameObject.tag == "floor")
@@ -65,7 +65,7 @@ public class brickBuilding : MonoBehaviour
             holdingNumber += 2;
         }
     }
-
+    */
     private void OnTriggerExit(Collider other)
     {
         if (other.gameObject.tag == "floor")

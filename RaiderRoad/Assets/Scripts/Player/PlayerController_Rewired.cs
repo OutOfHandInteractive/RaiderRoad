@@ -48,7 +48,11 @@ public class PlayerController_Rewired : MonoBehaviour {
         moveVector.x = player.GetAxis("Move Horizontal") * Time.deltaTime * moveSpeed;
         moveVector.y = player.GetAxis("Move Vertical") * Time.deltaTime * moveSpeed;
 
-        rotateVector = Vector3.right * player.GetAxis("Rotate Horizontal") + Vector3.forward * player.GetAxis("Rotate Vertical");
+        //Twin Stick Rotation
+        //rotateVector = Vector3.right * player.GetAxis("Rotate Horizontal") + Vector3.forward * player.GetAxis("Rotate Vertical");
+
+        //Single Stick Rotation
+        rotateVector = Vector3.right * player.GetAxis("Move Horizontal") + Vector3.forward * player.GetAxis("Move Vertical");
     }
 
     private void ProcessInput()
