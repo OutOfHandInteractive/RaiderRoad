@@ -8,15 +8,15 @@ Prefab:
     m_TransformParent: {fileID: 0}
     m_Modifications: []
     m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 0}
+  m_SourcePrefab: {fileID: 0}
   m_RootGameObject: {fileID: 1909269129037482}
-  m_IsPrefabParent: 1
+  m_IsPrefabAsset: 1
 --- !u!1 &1156560492577136
 GameObject:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
+  serializedVersion: 6
   m_Component:
   - component: {fileID: 4650193722093502}
   - component: {fileID: 114865764093907828}
@@ -30,9 +30,9 @@ GameObject:
 --- !u!1 &1261615514491682
 GameObject:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
+  serializedVersion: 6
   m_Component:
   - component: {fileID: 4132660103916444}
   - component: {fileID: 114327575816733572}
@@ -46,9 +46,9 @@ GameObject:
 --- !u!1 &1503653986877628
 GameObject:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
+  serializedVersion: 6
   m_Component:
   - component: {fileID: 4494958872885522}
   - component: {fileID: 114786088035140054}
@@ -62,9 +62,9 @@ GameObject:
 --- !u!1 &1909269129037482
 GameObject:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
+  serializedVersion: 6
   m_Component:
   - component: {fileID: 4134613758057094}
   - component: {fileID: 114997243933615760}
@@ -78,7 +78,7 @@ GameObject:
 --- !u!4 &4132660103916444
 Transform:
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1261615514491682}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -91,7 +91,7 @@ Transform:
 --- !u!4 &4134613758057094
 Transform:
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1909269129037482}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -107,7 +107,7 @@ Transform:
 --- !u!4 &4494958872885522
 Transform:
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1503653986877628}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -120,7 +120,7 @@ Transform:
 --- !u!4 &4650193722093502
 Transform:
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1156560492577136}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -133,7 +133,7 @@ Transform:
 --- !u!114 &114327575816733572
 MonoBehaviour:
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1261615514491682}
   m_Enabled: 1
@@ -143,8 +143,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   VehicleBase: {fileID: 1385481512942962, guid: 80738d124ee2fa2429b9205ae197bd54,
     type: 2}
-  Chassis:
-  - {fileID: 1959654170762378, guid: 0d972d80235c02849b6d89bc4f3cda58, type: 2}
   Cab:
   - {fileID: 1128151241659348, guid: 7dc0bae953ca4d54688d0c31d6f2f061, type: 2}
   Cargo:
@@ -158,10 +156,12 @@ MonoBehaviour:
   - {fileID: 1932631924925328, guid: c802d8fc35a603b4097a8d07541a0e88, type: 2}
   Enemy:
   - {fileID: 1438647493388042, guid: d5448a28f7c0cbf4ba6a72dbf515eb9a, type: 2}
+  Chassis:
+  - {fileID: 1959654170762378, guid: 0d972d80235c02849b6d89bc4f3cda58, type: 2}
 --- !u!114 &114786088035140054
 MonoBehaviour:
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1503653986877628}
   m_Enabled: 1
@@ -171,16 +171,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   VehicleBase: {fileID: 1385481512942962, guid: 80738d124ee2fa2429b9205ae197bd54,
     type: 2}
-  Chassis: []
-  Cab: []
-  Cargo: []
-  Attachment: []
-  Wheel: []
+  Cab:
+  - {fileID: 1408594170018292, guid: 5e4356373e156c942bb06f961cd46865, type: 2}
+  Cargo:
+  - {fileID: 1788266279563454, guid: 8064d15da5c9aa144949e49ed4a8b28f, type: 2}
+  Attachment:
+  - {fileID: 1234797646416620, guid: b7f9281686d485040b59cadfded44729, type: 2}
+  Wheel:
+  - {fileID: 1909892794563844, guid: e73dc02904499504d9604986f5a47d62, type: 2}
   Enemy: []
+  Chassis:
+  - {fileID: 1326238867576836, guid: 69a5393ed516ec948a0e5e9f1272dbd1, type: 2}
 --- !u!114 &114865764093907828
 MonoBehaviour:
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1156560492577136}
   m_Enabled: 1
@@ -190,16 +195,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   VehicleBase: {fileID: 1385481512942962, guid: 80738d124ee2fa2429b9205ae197bd54,
     type: 2}
-  Chassis: []
-  Cab: []
-  Cargo: []
-  Attachment: []
-  Wheel: []
+  Cab:
+  - {fileID: 1618207094704206, guid: 3b1641cc8e7eeb341ad14a245837ab05, type: 2}
+  Cargo:
+  - {fileID: 1939645366947130, guid: da96171f725f9d743a8834f51c7d6f5d, type: 2}
+  Attachment:
+  - {fileID: 1992920335284040, guid: 063c48537fe576c43b83952a9ac85367, type: 2}
+  Wheel:
+  - {fileID: 1878649621180922, guid: 6fc90cf9ea5997b45b801bfbe1fb1f4a, type: 2}
   Enemy: []
+  Chassis:
+  - {fileID: 1657344631570720, guid: 8453c4b6503ae094abf5dd14e70afbe1, type: 2}
 --- !u!114 &114997243933615760
 MonoBehaviour:
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1909269129037482}
   m_Enabled: 1
