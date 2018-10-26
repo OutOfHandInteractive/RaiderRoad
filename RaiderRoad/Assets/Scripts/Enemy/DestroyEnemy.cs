@@ -15,7 +15,7 @@ public class DestroyEnemy : MonoBehaviour {
     public void Destroy()
     {
         //Set wall gameobject
-        GameObject wall = GameObject.FindGameObjectWithTag("wall");
+        GameObject wall = GameObject.FindGameObjectWithTag("Wall");
         //Set movement speed of enemy
         float movement = speed * Time.deltaTime;
 

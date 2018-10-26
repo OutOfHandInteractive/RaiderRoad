@@ -5,16 +5,18 @@ using UnityEngine;
 public class WaitEnemy : MonoBehaviour {
     //Current game object
     private GameObject cObject;
-   
+    private VehicleAI cVehicle;
     //Set enemy to this script
-    public void StartWait(GameObject enemy)
+    public void StartWait(GameObject enemy, VehicleAI vehicle)
     {
         cObject = enemy;
+        cVehicle = vehicle;
     }
 
     public void Wait()
     {
         //Enter board state after 15 seconds
-        cObject.GetComponent<EnemyAI>().Invoke("EnterBoard", 15f);
+        if (cVehicle.getState() == VehicleAI.State.Chase)
+            cObject.GetComponent<EnemyAI>().EnterBoard();
     }
 }
