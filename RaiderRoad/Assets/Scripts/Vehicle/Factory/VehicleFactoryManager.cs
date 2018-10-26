@@ -10,6 +10,8 @@ public class VehicleFactoryManager : MonoBehaviour {
 	public VehicleFactoryM m;
 	public VehicleFactoryH h;
 
+    public vehicleTypes getType;
+
 	public void ConstructVehicle(vehicleTypes type) {
 		if (type == vehicleTypes.light)
 			l.AssembleVehicle();
@@ -18,4 +20,14 @@ public class VehicleFactoryManager : MonoBehaviour {
 		else
 			h.AssembleVehicle();
 	}
+
+    public GameObject newConstructVehicle(vehicleTypes type)
+    {
+        if (type == vehicleTypes.light)
+            return l.AssembleVehicle();
+        else if (type == vehicleTypes.medium)
+            return m.AssembleVehicle();
+        else
+            return h.AssembleVehicle();
+    }
 }

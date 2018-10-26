@@ -35,7 +35,6 @@ public class VehicleAI : MonoBehaviour {
         chase = new ChaseVehicle();
         attack = new AttackVehicle();
         leave = new LeaveVehicle();
-        transform.position = GameObject.Find("Spawn").transform.position;
 
         int action = Random.Range(0, 100);
         if (action < 50)
