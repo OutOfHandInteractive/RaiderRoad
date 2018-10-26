@@ -58,7 +58,7 @@ public class EnemyAI : MonoBehaviour {
                     wait.Wait();
                     break;
                 case State.Board:
-                    board.StartBoard(enemy, rb, side);
+                    board.StartJump(enemy, rb, side);
                     board.Board();
                     break;
                 case State.Destroy:
@@ -70,7 +70,7 @@ public class EnemyAI : MonoBehaviour {
                     fight.Fight();
                     break;
                 case State.Escape:
-                    escape.StartEscape(enemy, rb, side);
+                    escape.StartJump(enemy, rb, side);
                     escape.Escape();
                     break;
             }
