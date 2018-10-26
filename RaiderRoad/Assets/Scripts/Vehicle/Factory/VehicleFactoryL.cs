@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class VehicleFactoryL : VehicleFactory_I {
 
+	private const int WHEEL_COUNT_L = 4;
+
 	public List<GameObject> Chassis;
 
 	protected override GameObject selectChassis() {
@@ -14,15 +16,15 @@ public class VehicleFactoryL : VehicleFactory_I {
 	//attach enemy to cab
 	public override void AttachEnemy(GameObject cab) {
 		GameObject enemy = Instantiate(selectEnemy());
-		enemy.transform.SetParent(cab.GetComponent<CabL>().cargoNode.transform);
+		enemy.transform.SetParent(cab.GetComponent<Cab>().cargoNode.transform);
 		enemy.transform.position = enemy.transform.parent.transform.position;
 	}
 
 	// attach wheel to frame
-	public override void AttachWheels(GameObject chassis) {
+	public override void AttachWheels(GameObject chassis, VehicleAI v) {
 		GameObject wheelToUse = selectWheel();
 		GameObject wheel;
-		for (int i = 0; i < chassis.GetComponent<ChassisL>().getNumWheels(); i++) {
+		for (int i = 0; i < WHEEL_COUNT_L; i++) {
 			wheel = Instantiate(wheelToUse);
 			wheel.transform.SetParent(chassis.GetComponent<ChassisL>().wheelNodes[i].transform);
 			wheel.transform.position = wheel.transform.parent.transform.position;
@@ -30,5 +32,10 @@ public class VehicleFactoryL : VehicleFactory_I {
 				wheel.transform.localScale = new Vector3(-1 * wheel.transform.localScale.x, 1 * wheel.transform.localScale.y, 1 * wheel.transform.localScale.z);
 			}
 		}
+
+		Wheel wheelScript = wheelToUse.GetComponent<Wheel>();
+		v.setMaxHealth(v.getMaxHealth() + wheelScript.healthModifier);
+		v.setRamDamage(v.getRamDamage() + wheelScript.ramDamageModifier);
+		v.setSpeed(v.getSpeed() + wheelScript.speedModifier);
 	}
 }

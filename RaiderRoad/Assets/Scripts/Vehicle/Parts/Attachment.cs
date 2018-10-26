@@ -4,13 +4,7 @@ using UnityEngine;
 
 public class Attachment : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+	public float healthModifier;
+	public float ramDamageModifier;
+	public float speedModifier;
 }

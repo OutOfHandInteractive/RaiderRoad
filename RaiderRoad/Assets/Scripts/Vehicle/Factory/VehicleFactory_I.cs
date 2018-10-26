@@ -18,7 +18,7 @@ public abstract class VehicleFactory_I : MonoBehaviour {
 
 	protected abstract GameObject selectChassis();
 	public abstract void AttachEnemy(GameObject cab);
-	public abstract void AttachWheels(GameObject chassis);
+	public abstract void AttachWheels(GameObject chassis, VehicleAI v);
 
 	public VehicleFactory_I() {
 		rand = new System.Random();
@@ -30,11 +30,11 @@ public abstract class VehicleFactory_I : MonoBehaviour {
 		VehicleAI vAI = vehicle.GetComponent<VehicleAI>();
 
 		chassis = AttachChassis(vehicle, vAI);
-		cab = AttachCab(chassis);
-		cargo = AttachCargo(cab);
+		cab = AttachCab(chassis, vAI);
+		cargo = AttachCargo(cab, vAI);
 		AttachAttachment(cab, vAI);
 		AttachEnemy(cab);
-		AttachWheels(chassis);
+		AttachWheels(chassis, vAI);
 	}
 
 	// set up chassis
@@ -43,7 +43,7 @@ public abstract class VehicleFactory_I : MonoBehaviour {
 		chassis.transform.SetParent(vehicle.transform);
 		chassis.transform.position = Vector3.zero;
 
-		ChassisL chassisScript = chassis.GetComponent<ChassisL>();
+		Chassis chassisScript = chassis.GetComponent<Chassis>();
 		v.setMaxHealth(v.getMaxHealth() + chassisScript.baseHealth);
 		v.setRamDamage(v.getRamDamage() + chassisScript.baseRamDamage);
 		v.setSpeed(v.getSpeed() + chassisScript.baseSpeed);
@@ -52,19 +52,29 @@ public abstract class VehicleFactory_I : MonoBehaviour {
 	}
 
 	// attach cab to chassis
-	public GameObject AttachCab(GameObject chassis) {
+	public GameObject AttachCab(GameObject chassis, VehicleAI v) {
 		GameObject cab = Instantiate(selectCab());
-		cab.transform.SetParent(chassis.GetComponent<ChassisL>().cabNode.transform);
+		cab.transform.SetParent(chassis.GetComponent<Chassis>().cabNode.transform);
 		cab.transform.position = cab.transform.parent.transform.position;
+		Cab cabScript = v.GetComponent<Cab>();
+
+		v.setMaxHealth(v.getMaxHealth() + cabScript.healthModifier);
+		v.setRamDamage(v.getRamDamage() + cabScript.ramDamageModifier);
+		v.setRamDamage(v.getRamDamage() + cabScript.speedModifier);
 
 		return cab;
 	}
 
 	// attach cargo to cab
-	public GameObject AttachCargo(GameObject cab) {
+	public GameObject AttachCargo(GameObject cab, VehicleAI v) {
 		GameObject cargo = Instantiate(selectCargo());
-		cargo.transform.SetParent(cab.GetComponent<CabL>().cargoNode.transform);
+		cargo.transform.SetParent(cab.GetComponent<Cab>().cargoNode.transform);
 		cargo.transform.position = cargo.transform.parent.transform.position;
+		Cargo cargoScript = v.GetComponent<Cargo>();
+
+		v.setMaxHealth(v.getMaxHealth() + cargoScript.healthModifier);
+		v.setRamDamage(v.getRamDamage() + cargoScript.ramDamageModifier);
+		v.setRamDamage(v.getRamDamage() + cargoScript.speedModifier);
 
 		return cargo;
 	}
@@ -72,12 +82,13 @@ public abstract class VehicleFactory_I : MonoBehaviour {
 	// attach attachment to cab
 	public void AttachAttachment(GameObject cab, VehicleAI v) {
 		GameObject front_attachment = Instantiate(selectAttachment());
-		front_attachment.transform.SetParent(cab.GetComponent<CabL>().front_attachmentNode.transform);
+		front_attachment.transform.SetParent(cab.GetComponent<Cab>().front_attachmentNode.transform);
 		front_attachment.transform.position = front_attachment.transform.parent.transform.position;
-		AttachmentL attachmentScript = front_attachment.GetComponent<AttachmentL>();
+		Attachment attachmentScript = front_attachment.GetComponent<Attachment>();
 
-		//v.setMaxHealth(v.getMaxHealth() + attachmentScript.healthModifier);
-		//v.setRamDamage(v.getRamDamage() + attachmentScript.ramDamageModifier);
+		v.setMaxHealth(v.getMaxHealth() + attachmentScript.healthModifier);
+		v.setRamDamage(v.getRamDamage() + attachmentScript.ramDamageModifier);
+		v.setRamDamage(v.getRamDamage() + attachmentScript.speedModifier);
 	}
 
 	#region Component Selectors
