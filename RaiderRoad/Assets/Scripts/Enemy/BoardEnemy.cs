@@ -22,7 +22,7 @@ public class BoardEnemy : MonoBehaviour {
         cObject = enemy;
         cRb = rb;
         cSide = side;
-        initialAngle = 75f;
+        initialAngle = 60f;
 
 
     }
@@ -76,7 +76,7 @@ public class BoardEnemy : MonoBehaviour {
         //50% chance to go into Destroy State or Fight State
         if (action < 50)
         {
-            cObject.GetComponent<EnemyAI>().Invoke("EnterDestroy", 5f);
+            cObject.GetComponent<EnemyAI>().EnterDestroy();
         }
         else
         {

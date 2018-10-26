@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class SpawnVehicle : MonoBehaviour {
 
-    private enum vehicles { };
     private List<Transform> spawnPoints;
     private int numPoints;
     public VehicleFactoryManager factory;

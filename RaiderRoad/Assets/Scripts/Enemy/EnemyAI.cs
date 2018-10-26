@@ -54,7 +54,7 @@ public class EnemyAI : MonoBehaviour {
             switch (currentState)
             {
                 case State.Wait:
-                    wait.StartWait(enemy);
+                    wait.StartWait(enemy,vehicle);
                     wait.Wait();
                     break;
                 case State.Board:
@@ -123,12 +123,12 @@ public class EnemyAI : MonoBehaviour {
     private void OnCollisionEnter(Collision collision)
     {
         //Destroy wall if enemy touches it
-        if (collision.gameObject.tag == "wall")
+        if (collision.gameObject.tag == "Wall")
         {
             Destroy(collision.gameObject);
         }
         //Die if enemy touches road
-        if (collision.gameObject.tag == "road" && currentState != State.Wait)
+        if (collision.gameObject.tag == "road" /*&& currentState != State.Wait*/)
         {
             Destroy(gameObject);
         }
