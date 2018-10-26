@@ -22,15 +22,34 @@ public class BoardEnemy : MonoBehaviour {
         cObject = enemy;
         cRb = rb;
         cSide = side;
-        initialAngle = 75f;
+        initialAngle = 60f;
 
 
+    }
+
+    private Vector3 GetTarget(Vector3 planePos)
+    {
+        Transform floor = RV.Find("Floor");
+        Transform closest = null;
+        float minDist = 1 / 0f;
+        foreach (Transform tile in floor)
+        {
+            Vector3 tilePos = new Vector3(tile.position.x, 0, tile.position.z);
+            float dist = Vector3.Distance(tilePos, planePos);
+            if (closest == null || dist < minDist)
+            {
+                closest = tile;
+                minDist = dist;
+            }
+        }
+        return closest.position;
     }
 
     public void Board()
     {
         //RV destination position
-        Vector3 pos = RV.position;
+        Vector3 planePos = new Vector3(cObject.transform.position.x, 0, cObject.transform.position.z);
+        Vector3 pos = GetTarget(planePos);
 
         //Get gravity
         float gravity = Physics.gravity.magnitude;
@@ -39,7 +58,6 @@ public class BoardEnemy : MonoBehaviour {
 
         //Positions of this object and the target on the same plane
         Vector3 planeTar = new Vector3(pos.x, 0, pos.z);
-        Vector3 planePos = new Vector3(cObject.transform.position.x, 0, cObject.transform.position.z);
 
         //Planar distance between objects
         float distance = Vector3.Distance(planeTar, planePos);
@@ -47,20 +65,14 @@ public class BoardEnemy : MonoBehaviour {
         float yOffset = cObject.transform.position.y - pos.y;
 
         //Equation to get initial velocity
+        // vi = (1/cos(theta)) * sqrt((g * d^2 /2)/(d*tan(theta)+y))
         float initialVelocity = (1 / Mathf.Cos(angle)) * Mathf.Sqrt((0.5f * gravity * Mathf.Pow(distance, 2)) / (distance * Mathf.Tan(angle) + yOffset));
 
 
         Vector3 velocity = new Vector3();
-        if (cSide.Equals("left"))
-        {
-            //Use positive velocity if vehicle is on left side
-            velocity = new Vector3(0, initialVelocity * Mathf.Sin(angle), initialVelocity * Mathf.Cos(angle));
-        }
-        else
-        {
-            //Use negative velocity if vehicle is on left side
-            velocity = new Vector3(0, initialVelocity * Mathf.Sin(angle), -initialVelocity * Mathf.Cos(angle));
-        }
+        //Use positive velocity if vehicle is on left side, negative otherwise
+        float zSign = cSide.Equals("left") ? 1 : -1;
+        velocity = new Vector3(0, initialVelocity * Mathf.Sin(angle), zSign * initialVelocity * Mathf.Cos(angle));
 
         //Rotate our velocity to match the direction between the two objects
         float angleBetweenObjects = Vector3.Angle(Vector3.forward, planeTar - planePos);
@@ -74,14 +86,8 @@ public class BoardEnemy : MonoBehaviour {
         }
 
         //50% chance to go into Destroy State or Fight State
-        if (action < 50)
-        {
-            cObject.GetComponent<EnemyAI>().Invoke("EnterDestroy", 5f);
-        }
-        else
-        {
-            cObject.GetComponent<EnemyAI>().Invoke("EnterFight", 5f);
-        }
+        string actionStr = (action < 50) ? "EnterDestroy" : "EnterFight";
+        cObject.GetComponent<EnemyAI>().Invoke(actionStr, 5f);
         
     }
 }
