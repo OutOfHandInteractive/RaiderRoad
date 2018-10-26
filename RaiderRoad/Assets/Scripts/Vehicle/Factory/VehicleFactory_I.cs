@@ -24,7 +24,7 @@ public abstract class VehicleFactory_I : MonoBehaviour {
 		rand = new System.Random();
 	}
 
-	public void AssembleVehicle() {
+	public GameObject AssembleVehicle() {
 		GameObject vehicle, chassis, cab, cargo;
 		vehicle = Instantiate(VehicleBase, new Vector3(0, 0, 0), Quaternion.identity);
 		VehicleAI vAI = vehicle.GetComponent<VehicleAI>();
@@ -35,7 +35,10 @@ public abstract class VehicleFactory_I : MonoBehaviour {
 		AttachAttachment(cab, vAI);
 		AttachEnemy(cab);
 		AttachWheels(chassis);
+
+        return vehicle;
 	}
+
 
 	// set up chassis
 	public GameObject AttachChassis(GameObject vehicle, VehicleAI v) {

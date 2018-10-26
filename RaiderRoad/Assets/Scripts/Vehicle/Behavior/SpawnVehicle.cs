@@ -4,12 +4,21 @@ using UnityEngine;
 
 public class SpawnVehicle : MonoBehaviour {
 
-    private System.Random random = new System.Random();
+    private enum vehicles { };
+    private List<Transform> spawnPoints;
+    private int numPoints;
     public VehicleFactoryManager factory;
+    private VehicleFactoryManager.vehicleTypes types;
+    
     // Use this for initialization
     void Start()
     {
-
+        spawnPoints = new List<Transform>();
+        foreach (Transform child in transform)
+        {
+            Debug.Log(child);
+            spawnPoints.Add(child);
+        }
     }
 
     // Update is called once per frame
@@ -17,7 +26,12 @@ public class SpawnVehicle : MonoBehaviour {
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            factory.ConstructVehicle(VehicleFactoryManager.vehicleTypes.light);
+            numPoints = Random.Range(0, spawnPoints.Count);
+            //Debug.Log(numPoints);
+            types = (VehicleFactoryManager.vehicleTypes)Random.Range(0,2);
+            //Debug.Log(types);
+            GameObject vehicle = factory.newConstructVehicle(types);
+            vehicle.transform.position = spawnPoints[numPoints].transform.position;
         }
 
     }
