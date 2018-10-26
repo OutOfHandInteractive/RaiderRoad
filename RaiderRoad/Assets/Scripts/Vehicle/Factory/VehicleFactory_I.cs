@@ -56,11 +56,11 @@ public abstract class VehicleFactory_I : MonoBehaviour {
 		GameObject cab = Instantiate(selectCab());
 		cab.transform.SetParent(chassis.GetComponent<Chassis>().cabNode.transform);
 		cab.transform.position = cab.transform.parent.transform.position;
-		Cab cabScript = v.GetComponent<Cab>();
+		Cab cabScript = cab.GetComponent<Cab>();
 
 		v.setMaxHealth(v.getMaxHealth() + cabScript.healthModifier);
 		v.setRamDamage(v.getRamDamage() + cabScript.ramDamageModifier);
-		v.setRamDamage(v.getRamDamage() + cabScript.speedModifier);
+		v.setSpeed(v.getSpeed() + cabScript.speedModifier);
 
 		return cab;
 	}
@@ -70,11 +70,11 @@ public abstract class VehicleFactory_I : MonoBehaviour {
 		GameObject cargo = Instantiate(selectCargo());
 		cargo.transform.SetParent(cab.GetComponent<Cab>().cargoNode.transform);
 		cargo.transform.position = cargo.transform.parent.transform.position;
-		Cargo cargoScript = v.GetComponent<Cargo>();
+		Cargo cargoScript = cargo.GetComponent<Cargo>();
 
 		v.setMaxHealth(v.getMaxHealth() + cargoScript.healthModifier);
 		v.setRamDamage(v.getRamDamage() + cargoScript.ramDamageModifier);
-		v.setRamDamage(v.getRamDamage() + cargoScript.speedModifier);
+		v.setSpeed(v.getSpeed() + cargoScript.speedModifier);
 
 		return cargo;
 	}
@@ -88,7 +88,7 @@ public abstract class VehicleFactory_I : MonoBehaviour {
 
 		v.setMaxHealth(v.getMaxHealth() + attachmentScript.healthModifier);
 		v.setRamDamage(v.getRamDamage() + attachmentScript.ramDamageModifier);
-		v.setRamDamage(v.getRamDamage() + attachmentScript.speedModifier);
+		v.setSpeed(v.getSpeed() + attachmentScript.speedModifier);
 	}
 
 	#region Component Selectors
