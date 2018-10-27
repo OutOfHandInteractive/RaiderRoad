@@ -1,0 +1,30 @@
+﻿@startuml
+hide empty description
+'' Mook AI state diagram
+
+[*] --> Wait
+Wait -> WeaponAttack : Vehicle threatened
+Wait --> Board : Chasing RV
+WeaponAttack --> Board : Chasing RV
+Board --> OnRV
+
+state OnRV{
+	[*] --> StealDestroy : Thief, Hooligan
+	[*] --> Fight : Bruiser
+
+	StealDestroy -> Fight : Attacked
+	Fight -> StealDestroy : POI item dropped
+	Fight -> StealDestroy : Player incap
+
+	StealDestroy --> Escape : Stole something
+	Escape --> Fight : Attacked
+
+	Fight --> Death : Health depleted
+	Escape --> [*]
+	Death --> [*]
+}
+
+OnRV --> Wait : Alive
+OnRV --> [*] : Dead
+
+@enduml

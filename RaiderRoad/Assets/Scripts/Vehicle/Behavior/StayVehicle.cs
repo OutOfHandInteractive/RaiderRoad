@@ -3,20 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class ChaseVehicle : MonoBehaviour {
-    //Loading point location, agent info
-    private Transform player;
+public class StayVehicle : MonoBehaviour {
+
     private NavMeshAgent cEnemy;
     private GameObject cObject;
-
-    //Initialize agent
-    public virtual void StartChase(NavMeshAgent agent, GameObject enemy)
+    private Transform player;
+    public void StartStay(NavMeshAgent agent, GameObject enemy)
     {
         cEnemy = agent;
         cObject = enemy;
     }
 
-    public void Chase(string side)
+    public void Stay(string side)
     {
         //Stop completely when next to spot
         cEnemy.autoBraking = true;
@@ -33,11 +31,9 @@ public class ChaseVehicle : MonoBehaviour {
         //Go to loading area
         cEnemy.SetDestination(player.transform.position);
 
-        //Leave after 10 seconds
-        if(!cEnemy.pathPending && cEnemy.remainingDistance < .01f)
+        if(!GameObject.FindGameObjectWithTag("Enemy"))
         {
-            cObject.GetComponent<VehicleAI>().EnterStay();
+            cObject.GetComponent<VehicleAI>().EnterLeave();
         }
-
     }
 }

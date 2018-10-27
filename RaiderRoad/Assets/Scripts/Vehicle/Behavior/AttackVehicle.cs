@@ -8,15 +8,18 @@ public class AttackVehicle : MonoBehaviour{
     private int wanderPoints = 0;
     private List<Transform> attackPoints;
     private NavMeshAgent cEnemy;
+    private Rigidbody cRb;
     private GameObject cObject;
     private GameObject WallsRV;
+    private int hitCount = 0;
 
     //Initialize agent and attack points
-    public void StartAttack(NavMeshAgent agent, GameObject enemy, string side)
+    public void StartAttack(NavMeshAgent agent, GameObject enemy, Rigidbody rb, string side)
     {
         cEnemy = agent;
         cObject = enemy;
         attackPoints = new List<Transform>();
+        cRb = rb;
         if(side.Equals("left"))
         {
             WallsRV = GameObject.Find("NodesLeft");
@@ -36,17 +39,23 @@ public class AttackVehicle : MonoBehaviour{
      public void Attack()
      {
         //Stop if there is nothing to attack
-         if (attackPoints.Count == 0)
+        if (attackPoints.Count == 0)
              return;
 
          //Go to attack point
          cEnemy.SetDestination(attackPoints[wanderPoints].position);
-         
-         //Find random attack point
-         wanderPoints = Random.Range(0, attackPoints.Count);
+        //Find random attack point
+        wanderPoints = Random.Range(0, attackPoints.Count);
+        if (cEnemy.remainingDistance < 1f)
+        {
+            hitCount++;
+        }
 
-         //Leave after 10 seconds
-         cObject.GetComponent<VehicleAI>().Invoke("EnterLeave", 10f);
+        if(hitCount >= 5)
+        {
+            cObject.GetComponent<VehicleAI>().EnterLeave();
+        }
+
     }
 
 
