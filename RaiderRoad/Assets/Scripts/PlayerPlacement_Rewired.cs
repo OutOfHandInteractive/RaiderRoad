@@ -61,7 +61,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
             floatItem(); //not following player
             if (player.GetButtonDown("Place Object") && trapNodes.Count > 0)
             {
-                if (heldItem.tag == "trap")
+                if (heldItem.tag == "Trap")
                 {
                     GameObject trapBuild = (GameObject)trapNodes[0];
                     if (!trapBuild.GetComponent<TrapNode>().occupied)
