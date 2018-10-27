@@ -13,8 +13,18 @@ public class TrapNode : MonoBehaviour {
 
     public void BuildTrap(GameObject trapToPlace)
     {
-        Quaternion parentRot = gameObject.transform.rotation;
-        Instantiate(trapToPlace, new Vector3(transform.position.x, transform.position.y, transform.position.z), parentRot);
+        Vector3 dir = gameObject.transform.forward;
+        if (isFloor)
+        {
+            Instantiate(trapToPlace, new Vector3(transform.position.x, transform.position.y, transform.position.z),
+                Quaternion.identity);
+        }
+        else
+        {
+            Instantiate(trapToPlace, new Vector3(transform.position.x, transform.position.y, transform.position.z),
+                Quaternion.LookRotation(dir));
+        }
+        
         occupied = true;
     }
 }
