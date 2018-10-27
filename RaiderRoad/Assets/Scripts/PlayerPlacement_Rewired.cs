@@ -61,18 +61,21 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
             floatItem(); //not following player
             if (player.GetButtonDown("Place Object") && trapNodes.Count > 0)
             {
-                GameObject trapBuild = (GameObject)trapNodes[0];
-                if (!trapBuild.GetComponent<TrapNode>().occupied)
+                if (heldItem.tag == "trap")
                 {
-                    trapBuild.GetComponent<TrapNode>().BuildTrap(heldItem);
-                    heldItem = null;
-                    hasItem = false;
-                    Destroy(floatingItem);
-                    buildMode = false;
-                }
-                else
-                {
-                    Debug.Log("Occupied >:(");
+                    GameObject trapBuild = (GameObject)trapNodes[0];
+                    if (!trapBuild.GetComponent<TrapNode>().occupied)
+                    {
+                        trapBuild.GetComponent<TrapNode>().BuildTrap(heldItem);
+                        heldItem = null;
+                        hasItem = false;
+                        Destroy(floatingItem);
+                        buildMode = false;
+                    }
+                    else
+                    {
+                        Debug.Log("Occupied >:(");
+                    }
                 }
             }
         }
@@ -152,6 +155,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         {
             //Debug.Log("Trap node added");
             trapNodes.Add(other.gameObject);
+            if (buildMode) other.GetComponent<TrapNode>().Show(trap); //if player is in build mode, activate show wall in the build node script
         }
         if (other.gameObject.CompareTag("Trap"))
         {
@@ -184,6 +188,8 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         //Debug.Log("Removed");
         //GameObject toRemove = (GameObject)nodes[0];
         if(other.gameObject.name == "BuildNode" || other.name == "xNode") other.GetComponent<BuildNode>().RemoveShow(); //if object leaving is a build node, make sure it isn't showing holo of object
+        if (other.name == "Trap") other.GetComponent<TrapNode>().RemoveShow();
+
         nodes.Remove(other.gameObject);
         trapNodes.Remove(other.gameObject);
         attackRange.Remove(other.gameObject);

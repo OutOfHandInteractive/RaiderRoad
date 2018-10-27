@@ -11,10 +11,14 @@ public class Trap : MonoBehaviour
     public int hits;
     public float health;
 
+    public bool isHolo = false;
+    private Material myMat; //reference material of gameObject
+
     // Use this for initialization
     void Start()
     {
-
+        myMat = gameObject.GetComponent<Renderer>().material;
+        if (isHolo) MakeHolo();
     }
 
     // Update is called once per frame
@@ -36,5 +40,13 @@ public class Trap : MonoBehaviour
     public void Damage(float damage)
     {
         health -= damage;
+    }
+
+    void MakeHolo() // a function for making wall material holographic
+    {
+        gameObject.GetComponent<BoxCollider>().enabled = false;
+        Color tempColor = myMat.color;
+        tempColor.a = 0.4f;
+        myMat.color = tempColor;
     }
 }
