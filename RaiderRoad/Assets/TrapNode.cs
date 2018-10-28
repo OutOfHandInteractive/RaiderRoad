@@ -15,22 +15,24 @@ public class TrapNode : MonoBehaviour {
     //  Private Variables
     //--------------------
     private GameObject holo;
+    private GameObject item;
 
     public void BuildTrap(GameObject trapToPlace)
     {
         Vector3 dir = gameObject.transform.forward;
         if (isFloor)
         {
-            Instantiate(trapToPlace, new Vector3(transform.position.x, transform.position.y, transform.position.z),
+            item = Instantiate(trapToPlace, new Vector3(transform.position.x, transform.position.y, transform.position.z),
                 Quaternion.identity);
         }
         else
         {
-            Instantiate(trapToPlace, new Vector3(transform.position.x, transform.position.y, transform.position.z),
+            item = Instantiate(trapToPlace, new Vector3(transform.position.x, transform.position.y, transform.position.z),
                 Quaternion.LookRotation(dir));
         }
         
         occupied = true;
+        item.GetComponent<Trap>().myNode = gameObject;
     }
 
     public void Show(GameObject trapToShow)

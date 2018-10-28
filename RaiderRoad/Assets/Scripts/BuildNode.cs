@@ -19,23 +19,24 @@ public class BuildNode : MonoBehaviour {
     //--------------------
 
     private GameObject holo;
+    private GameObject item;
 
     public void Build(GameObject wallToPlace)
     {
         if (this.isHorizontal)
         {
-            Instantiate(wallToPlace, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
+            item = Instantiate(wallToPlace, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
             occupied = true;
         }
         else
         {
-            Instantiate(wallToPlace, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.Euler(new Vector3(0, 90, 0)));
+            item = Instantiate(wallToPlace, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.Euler(new Vector3(0, 90, 0)));
             occupied = true;
         }
-        
+        item.GetComponent<Wall>().myNode = gameObject;
     }
 
-    public void Show(GameObject wallToShow){ //hologram function, not efficient/working properly
+    public void Show(GameObject wallToShow){ //hologram function
 
         if (this.isHorizontal)
         {

@@ -19,6 +19,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
     public GameObject heldItem = null; //probably make private later on
     public GameObject trap;
     public float damage = 25.0f;
+    public float timeToDrop = 1f; //Time needed to drop item (by holding down button)
 
     public Material TempAttMat; //for temporary attack for prototype
 
@@ -34,6 +35,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
     private GameObject floatingItem;
 
     private Color currentAttColor; //for temporary attack for prototype
+    private float holdTime; //timer for "how long button is held"
 
     [System.NonSerialized]
     private bool initialized;
@@ -78,9 +80,28 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
                     }
                 }
             }
+
+            if (player.GetButton("Use"))
+            {
+                holdTime += Time.deltaTime;
+                if (holdTime > timeToDrop)
+                {
+                    GameObject dropItem = null;
+                    if (heldItem.tag == "Trap") dropItem = heldItem.GetComponent<Trap>().drop; //get the drop prefab item from item's script
+                    // more ifs for other items
+                    GameObject item = Instantiate(dropItem, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);    //create drop item
+                    item.name = heldItem.name + " Drop";
+
+                    heldItem = null;
+                    hasItem = false;
+                    Destroy(floatingItem);
+                    buildMode = false;
+                }
+            }
         }
         else
         {
+
             if (player.GetButtonDown("Build Mode"))
             {
                 if (buildMode) attackRange = new ArrayList(); //When switching out of build mode, attack will get stuck in InvalidOperationException: List has changed. This helps
@@ -151,11 +172,14 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
             //GameObject toRemove = (GameObject)nodes[0];
             //toRemove.GetComponent<BuildNode>().Show(wall);
         }
-        if (other.name == "Trap")
+        if (heldItem != null && other.name == "Trap")
         {
-            //Debug.Log("Trap node added");
-            trapNodes.Add(other.gameObject);
-            if (buildMode) other.GetComponent<TrapNode>().Show(trap); //if player is in build mode, activate show wall in the build node script
+            if (heldItem.tag == "Trap")
+            {
+                //Debug.Log("Trap node added");
+                trapNodes.Add(other.gameObject);
+                if (buildMode) other.GetComponent<TrapNode>().Show(trap); //if player is in build mode, activate show wall in the build node script
+            }
         }
         if (other.gameObject.CompareTag("Trap"))
         {

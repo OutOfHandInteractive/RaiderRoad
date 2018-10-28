@@ -13,6 +13,7 @@ public class Trap : MonoBehaviour
 
     public bool isHolo = false;
     private Material myMat; //reference material of gameObject
+    public GameObject myNode; //node it spawned from
 
     // Use this for initialization
     void Start()
@@ -34,6 +35,7 @@ public class Trap : MonoBehaviour
     {
         GameObject item = Instantiate(drop, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
         item.name = "Trap Drop";
+        myNode.GetComponent<TrapNode>().occupied = false; // set node to unoccupied again
         Destroy(this.gameObject);
     }
 
