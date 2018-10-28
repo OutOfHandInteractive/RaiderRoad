@@ -18,20 +18,19 @@ public class PayloadM : Payload {
 		}
 
 		payloadInstance[0].transform.SetParent(enemyNode01.transform);
-		payloadInstance[0].transform.position = Vector3.zero;
+		payloadInstance[0].transform.position = new Vector3(0, 1f, 0);
 
 		payloadInstance[1].transform.SetParent(enemyNode02.transform);
-		payloadInstance[1].transform.position = Vector3.zero;
+		payloadInstance[1].transform.position = new Vector3(0, 1f, 0);
 
 		payloadInstance[2].transform.SetParent(enemyNode03.transform);
-		payloadInstance[2].transform.position = Vector3.zero;
+		payloadInstance[2].transform.position = new Vector3(0, 1f, 0);
 
 		payloadInstance[3].transform.SetParent(enemyNode04.transform);
-		payloadInstance[3].transform.position = Vector3.zero;
+		payloadInstance[3].transform.position = new Vector3(0, 1f, 0);
 	}
 
 	protected override EnemyAI SelectEnemies() {
-		Debug.Log("enemy prefab count " + enemies.Count);
 		int selectedIndex = rand.Next(0, enemies.Count); // error getting thrown here, null ref exception
 		return enemies[selectedIndex];
 	}
