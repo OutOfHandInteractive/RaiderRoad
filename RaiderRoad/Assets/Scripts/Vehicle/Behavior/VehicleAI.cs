@@ -5,11 +5,12 @@ using UnityEngine.AI;
 
 public class VehicleAI : MonoBehaviour {
     //States
-    public enum State { Wander, Chase, Attack, Leave };
+    public enum State { Wander, Chase, Stay, Attack, Leave };
 
     //State Classes
     private WanderVehicle wander;
     private ChaseVehicle chase;
+    private StayVehicle stay;
     private AttackVehicle attack;
     private LeaveVehicle leave;
 
@@ -17,6 +18,7 @@ public class VehicleAI : MonoBehaviour {
     protected NavMeshAgent agent;
     public State currentState;
     private GameObject enemy;
+    private Rigidbody rb;
 
     private string side;
 
@@ -33,9 +35,10 @@ public class VehicleAI : MonoBehaviour {
         agent = GetComponent<NavMeshAgent>();
         wander = new WanderVehicle();
         chase = new ChaseVehicle();
+        stay = new StayVehicle();
         attack = new AttackVehicle();
         leave = new LeaveVehicle();
-
+        rb = GetComponent<Rigidbody>();
         int action = Random.Range(0, 100);
         if (action < 50)
         {
@@ -63,8 +66,12 @@ public class VehicleAI : MonoBehaviour {
                 chase.StartChase(agent, enemy);
                 chase.Chase(side);
                 break;
+            case State.Stay:
+                stay.StartStay(agent, enemy);
+                stay.Stay(side);
+                break;
             case State.Attack:
-                attack.StartAttack(agent, enemy, side);
+                attack.StartAttack(agent, enemy, rb, side);
                 attack.Attack();
                 break;
             case State.Leave:
@@ -78,6 +85,10 @@ public class VehicleAI : MonoBehaviour {
     public void EnterChase()
     {
         currentState = State.Chase;
+    }
+    public void EnterStay()
+    {
+        currentState = State.Stay;
     }
     public void EnterAttack()
     {

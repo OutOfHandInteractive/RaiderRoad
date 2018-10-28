@@ -18,7 +18,9 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
     public Text mode;
     public GameObject heldItem = null; //probably make private later on
     public GameObject trap;
+    public GameObject engine;
     public float damage = 25.0f;
+    public float timeToDrop = 1f; //Time needed to drop item (by holding down button)
 
     public Material TempAttMat; //for temporary attack for prototype
 
@@ -29,11 +31,13 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
     private GameObject rv;
     private ArrayList nodes = new ArrayList();      //probably better way to do this, REVISIT!
     private ArrayList trapNodes = new ArrayList();
+    private ArrayList engineNodes = new ArrayList();
     private ArrayList attackRange = new ArrayList();
     private bool hasItem = false;
     private GameObject floatingItem;
 
     private Color currentAttColor; //for temporary attack for prototype
+    private float holdTime; //timer for "how long button is held"
 
     [System.NonSerialized]
     private bool initialized;
@@ -59,25 +63,66 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         if(heldItem != null)
         {
             floatItem(); //not following player
-            if (player.GetButtonDown("Place Object") && trapNodes.Count > 0)
+            if (player.GetButtonDown("Place Object"))
             {
-                GameObject floorBuild = (GameObject)trapNodes[0];
-                if (!floorBuild.GetComponentInParent<floor>().occupied)
+                if (heldItem.tag == "Trap" && trapNodes.Count > 0)
                 {
-                    floorBuild.GetComponentInParent<floor>().BuildTrap(heldItem);
+                    GameObject trapBuild = (GameObject)trapNodes[0];
+                    //Debug.Log(trapBuild);
+                    if (!trapBuild.GetComponent<TrapNode>().occupied)
+                    {
+                        trapBuild.GetComponent<TrapNode>().BuildTrap(heldItem);
+                        heldItem = null;
+                        hasItem = false;
+                        Destroy(floatingItem);
+                        buildMode = false;
+                    }
+                    else
+                    {
+                        Debug.Log("Occupied >:(");
+                    }
+                }
+                else if (heldItem.tag == "Engine" && engineNodes.Count > 0)
+                {
+                    GameObject EngineBuild = (GameObject)engineNodes[0];
+                    if (!EngineBuild.GetComponent<PoiNode>().occupied)
+                    {
+                        EngineBuild.GetComponent<PoiNode>().BuildPoi(heldItem);
+                        heldItem = null;
+                        hasItem = false;
+                        Destroy(floatingItem);
+                        buildMode = false;
+                    }
+                    else
+                    {
+                        Debug.Log("Occupied >:(");
+                    }
+                }
+            }
+
+            if (player.GetButton("Use"))
+            {
+                holdTime += Time.deltaTime;
+                if (holdTime > timeToDrop)
+                {
+                    GameObject dropItem = null;
+                    if (heldItem.tag == "Trap") dropItem = heldItem.GetComponent<Trap>().drop; //get the drop prefab item from item's script
+                    if (heldItem.tag == "Engine") dropItem = heldItem.GetComponent<Engine>().drop;
+                    // more ifs for other items
+                    GameObject item = Instantiate(dropItem, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);    //create drop item
+                    item.name = heldItem.name + " Drop";
+
                     heldItem = null;
                     hasItem = false;
                     Destroy(floatingItem);
                     buildMode = false;
-                }
-                else
-                {
-                    Debug.Log("Occupied >:(");
+                    holdTime = 0f;
                 }
             }
         }
         else
         {
+
             if (player.GetButtonDown("Build Mode"))
             {
                 if (buildMode) attackRange = new ArrayList(); //When switching out of build mode, attack will get stuck in InvalidOperationException: List has changed. This helps
@@ -100,6 +145,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
                         Debug.Log("Occupied >:(");
                     }
                 }
+                if (wallInventory <= 0) buildMode = false; //leave wall build mode if you have no wall (needs more feedback)
             }
             else if (player.GetButtonDown("Attack"))
             {
@@ -117,6 +163,10 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
                     else if (item.CompareTag("Trap"))
                     {
                         item.GetComponent<Trap>().Damage(damage);
+                    }
+                    else if (item.CompareTag("Engine"))
+                    {
+                        item.GetComponent<Engine>().Damage(damage);
                     }
                 }
 
@@ -140,7 +190,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
     {
         
         //Debug.Log(other.name);
-        if ((other.gameObject.name == "BuildNode" || other.name == "xNode"))
+        if ((other.gameObject.name == "BuildNode" || other.name == "xNode") && wallInventory > 0)
         {
             //Debug.Log("Added");
             nodes.Add(other.gameObject);
@@ -148,10 +198,23 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
             //GameObject toRemove = (GameObject)nodes[0];
             //toRemove.GetComponent<BuildNode>().Show(wall);
         }
-        if (other.name == "Trap")
+        if (heldItem != null && other.name == "Trap")
         {
-            //Debug.Log("Trap node added");
-            trapNodes.Add(other.gameObject);
+            if (heldItem.tag == "Trap")
+            {
+                //Debug.Log("Trap node added");
+                trapNodes.Add(other.gameObject);
+                if (buildMode) other.GetComponent<TrapNode>().Show(trap); //if player is in build mode, activate show wall in the build node script
+            }
+        }
+        if (heldItem != null && other.name == "PoiNode")
+        {
+            if (heldItem.tag == "Engine")
+            {
+                //Debug.Log("Trap node added");
+                engineNodes.Add(other.gameObject);
+                if (buildMode) other.GetComponent<PoiNode>().Show(engine); //if player is in build mode, activate show wall in the build node script
+            }
         }
         if (other.gameObject.CompareTag("Trap"))
         {
@@ -161,11 +224,15 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         {
             attackRange.Add(other.gameObject);
         }
+        if (other.gameObject.CompareTag("Engine"))
+        {
+            attackRange.Add(other.gameObject);
+        }
 
         // Pick Up
         //if (other.gameObject.CompareTag("Drops"))
         //{
-            if(other.name == "Wall Drop")
+        if (other.name == "Wall Drop")
             {
                 wallInventory++;
                 Destroy(other.gameObject);
@@ -173,6 +240,12 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
             else if(other.name == "Trap Drop")
             {
                 heldItem = trap;
+                Destroy(other.gameObject);
+                buildMode = true;
+            }
+            else if(other.name == "Engine Drop")
+            {
+                heldItem = engine;
                 Destroy(other.gameObject);
                 buildMode = true;
             }
@@ -184,8 +257,12 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         //Debug.Log("Removed");
         //GameObject toRemove = (GameObject)nodes[0];
         if(other.gameObject.name == "BuildNode" || other.name == "xNode") other.GetComponent<BuildNode>().RemoveShow(); //if object leaving is a build node, make sure it isn't showing holo of object
+        if (other.name == "Trap") other.GetComponent<TrapNode>().RemoveShow();
+        if (other.name == "PoiNode") other.GetComponent<PoiNode>().RemoveShow();
+
         nodes.Remove(other.gameObject);
         trapNodes.Remove(other.gameObject);
+        engineNodes.Remove(other.gameObject);
         attackRange.Remove(other.gameObject);
     }
 
@@ -203,7 +280,10 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
     {
         if (!hasItem)
         {
-            floatingItem = Instantiate(heldItem.GetComponent<Trap>().drop, //fix later for prettier
+            GameObject myFloat = null;
+            if (heldItem == trap) myFloat = heldItem.GetComponent<Trap>().drop;
+            else if (heldItem == engine) myFloat = heldItem.GetComponent<Engine>().drop;
+            floatingItem = Instantiate(myFloat, //fix later for prettier
                 new Vector3(transform.parent.position.x, transform.parent.position.y + 0.65f, transform.parent.position.z), Quaternion.identity, transform.parent);
             hasItem = true;
         }

@@ -10,7 +10,7 @@ public class ChaseVehicle : MonoBehaviour {
     private GameObject cObject;
 
     //Initialize agent
-    public void StartChase(NavMeshAgent agent, GameObject enemy)
+    public virtual void StartChase(NavMeshAgent agent, GameObject enemy)
     {
         cEnemy = agent;
         cObject = enemy;
@@ -34,6 +34,10 @@ public class ChaseVehicle : MonoBehaviour {
         cEnemy.SetDestination(player.transform.position);
 
         //Leave after 10 seconds
-        cObject.GetComponent<VehicleAI>().Invoke("EnterLeave", 20f);
+        if(!cEnemy.pathPending && cEnemy.remainingDistance < .01f)
+        {
+            cObject.GetComponent<VehicleAI>().EnterStay();
+        }
+
     }
 }

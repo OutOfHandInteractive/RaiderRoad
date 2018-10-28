@@ -29,7 +29,6 @@ public class FightEnemy : MonoBehaviour {
         }
 
         //Cancel enterboard invoke and go to enterescape after 5 seconds
-        cObject.GetComponent<EnemyAI>().CancelInvoke("EnterBoard");
         cObject.GetComponent<EnemyAI>().Invoke("EnterEscape", 5f);
     }
 }

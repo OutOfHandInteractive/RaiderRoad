@@ -14,7 +14,7 @@ public class JumpEnemy : MonoBehaviour
         cObject = enemy;
         cRb = rb;
         cSide = side;
-        initialAngle = 60f;
+        initialAngle = 70f;
     }
 
     protected void Jump(Vector3 pos, float zSign)

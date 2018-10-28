@@ -12,6 +12,7 @@ public class Wall : MonoBehaviour {
 
     public bool isHolo = false;
     private Material myMat; //reference material of gameObject
+    public GameObject myNode; //node it spawned from
 
     // Use this for initialization
     void Start () {
@@ -31,6 +32,7 @@ public class Wall : MonoBehaviour {
     {
         GameObject item = Instantiate(drop, new Vector3(transform.position.x, transform.position.y - .5f, transform.position.z), Quaternion.identity);
         item.name = "Wall Drop";
+        myNode.GetComponent<BuildNode>().occupied = false; // set node to unoccupied again
         Destroy(this.gameObject);
     }
 
@@ -42,6 +44,9 @@ public class Wall : MonoBehaviour {
     void MakeHolo() // a function for making wall material holographic
     {
         gameObject.GetComponent<BoxCollider>().enabled = false;
+        BoxCollider [] myWallColl = gameObject.GetComponentsInChildren<BoxCollider>();
+        for (int i = 0; i < myWallColl.Length; i++)
+            myWallColl[i].enabled = false;
         Color tempColor = myMat.color;
         tempColor.a = 0.4f;
         myMat.color = tempColor;

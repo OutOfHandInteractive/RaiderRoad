@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class SpawnVehicle : MonoBehaviour {
 
@@ -27,7 +28,7 @@ public class SpawnVehicle : MonoBehaviour {
         {
             numPoints = Random.Range(0, spawnPoints.Count);
             //Debug.Log(numPoints);
-            types = (VehicleFactoryManager.vehicleTypes)Random.Range(0,2);
+            types = (VehicleFactoryManager.vehicleTypes)Random.Range(0,3);
             //Debug.Log(types);
             GameObject vehicle = factory.newConstructVehicle(types);
             vehicle.transform.position = spawnPoints[numPoints].transform.position;
