@@ -22,7 +22,8 @@ public class DestroyEnemy : MonoBehaviour {
         //If there are no more walls, go to Escape state, else keep going for walls
         if(!wall)
         {
-            cObject.GetComponent<EnemyAI>().EnterEscape();
+            cObject.GetComponent<EnemyAI>().Invoke("EnterEscape", 5f);
+            //cObject.GetComponent<EnemyAI>().EnterEscape();
         }
         else if (wall)
         {
