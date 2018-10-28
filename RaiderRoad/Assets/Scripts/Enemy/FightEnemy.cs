@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FightEnemy : MonoBehaviour {
+public class FightEnemy : AbstractEnemyAI {
 
     //Enemy and enemy speed
     private GameObject cObject;
@@ -16,7 +16,8 @@ public class FightEnemy : MonoBehaviour {
     public void Fight()
     {
         //Get player object
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        GameObject player = Closest(cObject.transform.position, players);
         //Get enemy speed
         float movement = speed * Time.deltaTime;
 

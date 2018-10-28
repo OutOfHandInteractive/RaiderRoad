@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DestroyEnemy : MonoBehaviour {
+public class DestroyEnemy : AbstractEnemyAI {
     //enemy, speed
     private GameObject cObject;
     private float speed = 2f;
@@ -15,18 +15,18 @@ public class DestroyEnemy : MonoBehaviour {
     public void Destroy()
     {
         //Set wall gameobject
-        GameObject wall = GameObject.FindGameObjectWithTag("Wall");
+        GameObject[] walls = GameObject.FindGameObjectsWithTag("Wall");
         //Set movement speed of enemy
         float movement = speed * Time.deltaTime;
 
         //If there are no more walls, go to Escape state, else keep going for walls
-        if(!wall)
+        if (walls.Length <= 0)
         {
             cObject.GetComponent<EnemyAI>().Invoke("EnterEscape", 5f);
             //cObject.GetComponent<EnemyAI>().EnterEscape();
-        }
-        else if (wall)
+        }else
         {
+            GameObject wall = Closest(cObject.transform.position, walls);
             cObject.transform.LookAt(wall.transform);
             cObject.transform.position = Vector3.MoveTowards(cObject.transform.position, wall.transform.position, movement);
         }

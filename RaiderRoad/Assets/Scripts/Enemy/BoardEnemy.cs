@@ -19,20 +19,7 @@ public class BoardEnemy : JumpEnemy {
 
     private Vector3 GetTarget(Vector3 planePos)
     {
-        Transform floor = GameObject.Find("Floor").transform;
-        Transform closest = null;
-        float minDist = 1 / 0f;
-        foreach (Transform tile in floor)
-        {
-            Vector3 tilePos = new Vector3(tile.position.x, 0, tile.position.z);
-            float dist = Vector3.Distance(tilePos, planePos);
-            if (closest == null || dist < minDist)
-            {
-                closest = tile;
-                minDist = dist;
-            }
-        }
-        return closest.position;
+        return Closest(planePos, GameObject.FindGameObjectsWithTag("Floor")).transform.position;
     }
 
     public void Board()

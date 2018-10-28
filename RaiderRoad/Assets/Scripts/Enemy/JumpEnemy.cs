@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class JumpEnemy : MonoBehaviour
+public class JumpEnemy : AbstractEnemyAI
 {
     protected GameObject cObject;
     protected Rigidbody cRb;
