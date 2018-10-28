@@ -14,10 +14,11 @@ public class VehicleFactoryL : VehicleFactory_I {
 	}
 
 	//attach enemy to cab
-	public override void AttachEnemy(GameObject cab) {
-		GameObject enemy = Instantiate(selectEnemy());
-		enemy.transform.SetParent(cab.GetComponent<Cab>().cargoNode.transform);
-		enemy.transform.position = enemy.transform.parent.transform.position;
+	public override void AttachPayload(GameObject cargo) {
+		GameObject payload = Instantiate(selectPayload());
+		payload.transform.SetParent(cargo.GetComponent<Cargo>().payloadNode.transform);
+		payload.transform.position = payload.transform.parent.transform.position;
+		payload.GetComponent<PayloadL>().populate();
 	}
 
 	// attach wheel to frame
