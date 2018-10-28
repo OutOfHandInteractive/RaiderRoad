@@ -13,7 +13,8 @@ Attack --> Panic : Health too low
 
 Ram --> Follow
 Attack --> Follow
-Follow --> Leave : Mooks return
+Follow --> Load : Arrive next to RV
+Load --> Leave : Mooks return
 
 Panic --> Crash : Health depleted
 Panic --> Leave : Time passes
