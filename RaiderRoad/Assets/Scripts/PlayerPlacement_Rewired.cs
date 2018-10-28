@@ -68,6 +68,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
                 if (heldItem.tag == "Trap" && trapNodes.Count > 0)
                 {
                     GameObject trapBuild = (GameObject)trapNodes[0];
+                    //Debug.Log(trapBuild);
                     if (!trapBuild.GetComponent<TrapNode>().occupied)
                     {
                         trapBuild.GetComponent<TrapNode>().BuildTrap(heldItem);
