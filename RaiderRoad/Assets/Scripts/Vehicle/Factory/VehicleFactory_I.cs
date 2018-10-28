@@ -14,10 +14,10 @@ public abstract class VehicleFactory_I : MonoBehaviour {
 	public List<GameObject> Cargo;
 	public List<GameObject> Attachment;
 	public List<GameObject> Wheel;
-	public List<GameObject> Enemy;
+	public List<GameObject> Payload;
 
 	protected abstract GameObject selectChassis();
-	public abstract void AttachEnemy(GameObject cab);
+	public abstract void AttachPayload(GameObject cargo);
 	public abstract void AttachWheels(GameObject chassis, VehicleAI v);
 
 	public VehicleFactory_I() {
@@ -33,7 +33,7 @@ public abstract class VehicleFactory_I : MonoBehaviour {
 		cab = AttachCab(chassis, vAI);
 		cargo = AttachCargo(cab, vAI);
 		AttachAttachment(cab, vAI);
-		AttachEnemy(cab);
+		AttachPayload(cargo);
 		AttachWheels(chassis, vAI);
 
         return vehicle;
@@ -115,9 +115,9 @@ public abstract class VehicleFactory_I : MonoBehaviour {
 		return Attachment[selectedIndex];
 	}
 
-	protected GameObject selectEnemy() {
-		int selectedIndex = rand.Next(0, Enemy.Count);
-		return Enemy[selectedIndex];
+	protected GameObject selectPayload() {
+		int selectedIndex = rand.Next(0, Payload.Count);
+		return Payload[selectedIndex];
 	}
 	#endregion
 }

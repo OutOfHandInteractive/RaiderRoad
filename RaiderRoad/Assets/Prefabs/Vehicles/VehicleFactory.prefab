@@ -147,15 +147,14 @@ MonoBehaviour:
   - {fileID: 1128151241659348, guid: 7dc0bae953ca4d54688d0c31d6f2f061, type: 2}
   Cargo:
   - {fileID: 1695861254108760, guid: 572347acb1af8ec4c9107691d8a74eea, type: 2}
-  - {fileID: 1250911310889898, guid: 53d98afb91c7eaa42ae1cb9b9b7c72c6, type: 2}
   Attachment:
   - {fileID: 1641046405219654, guid: 8ffeb7348d3b54643a48a76ee41638d2, type: 2}
   - {fileID: 1791915265035928, guid: 706d4359a480536498064ca08ff64f51, type: 2}
   Wheel:
   - {fileID: 1098921371053844, guid: f03ad5d505dafd94eab014bc5f5f8467, type: 2}
   - {fileID: 1932631924925328, guid: c802d8fc35a603b4097a8d07541a0e88, type: 2}
-  Enemy:
-  - {fileID: 1438647493388042, guid: d5448a28f7c0cbf4ba6a72dbf515eb9a, type: 2}
+  Payload:
+  - {fileID: 1298091651914130, guid: fca790209593f9a4b9d2b12f2bdb91a6, type: 2}
   Chassis:
   - {fileID: 1959654170762378, guid: 0d972d80235c02849b6d89bc4f3cda58, type: 2}
 --- !u!114 &114786088035140054
@@ -179,7 +178,8 @@ MonoBehaviour:
   - {fileID: 1234797646416620, guid: b7f9281686d485040b59cadfded44729, type: 2}
   Wheel:
   - {fileID: 1909892794563844, guid: e73dc02904499504d9604986f5a47d62, type: 2}
-  Enemy: []
+  Payload:
+  - {fileID: 1979498839891784, guid: 5503c037f93eefd47b0cafa8e805b828, type: 2}
   Chassis:
   - {fileID: 1326238867576836, guid: 69a5393ed516ec948a0e5e9f1272dbd1, type: 2}
 --- !u!114 &114865764093907828
@@ -203,7 +203,8 @@ MonoBehaviour:
   - {fileID: 1992920335284040, guid: 063c48537fe576c43b83952a9ac85367, type: 2}
   Wheel:
   - {fileID: 1878649621180922, guid: 6fc90cf9ea5997b45b801bfbe1fb1f4a, type: 2}
-  Enemy: []
+  Payload:
+  - {fileID: 1036283265047302, guid: 73aef69570c611942a6a1b7fd998c271, type: 2}
   Chassis:
   - {fileID: 1657344631570720, guid: 8453c4b6503ae094abf5dd14e70afbe1, type: 2}
 --- !u!114 &114997243933615760
@@ -220,3 +221,4 @@ MonoBehaviour:
   l: {fileID: 114327575816733572}
   m: {fileID: 114786088035140054}
   h: {fileID: 114865764093907828}
+  getType: 0
