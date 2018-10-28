@@ -8,12 +8,8 @@ public class PayloadL : Payload {
 	public GameObject enemyNode01, enemyNode02;
 	public List<EnemyAI> enemies;
 
-	private List<GameObject> payloadInstance;
-
-	private void Start() {
-		payloadInstance = new List<GameObject>();
-		rand = new System.Random();
-	}
+	private List<GameObject> payloadInstance = new List<GameObject>();
+	private System.Random rand = new System.Random();
 
 	public override void populate() {
 		for (int i=0; i < PAYLOAD_SIZE; i++) {

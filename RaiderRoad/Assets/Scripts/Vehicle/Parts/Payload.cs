@@ -7,7 +7,5 @@ public abstract class Payload : MonoBehaviour {
 	public abstract void populate();
 	public List<payloadTypes> payloadCode;
 
-	protected static System.Random rand;
-
 	protected abstract EnemyAI SelectEnemies();
 }
