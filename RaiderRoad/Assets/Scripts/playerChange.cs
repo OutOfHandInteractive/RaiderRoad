@@ -25,6 +25,8 @@ public class playerChange : MonoBehaviour {
 			player.GetComponent<PlayerController_Rewired> ().enabled = false;
 			view.GetComponent<PlayerPlacement_Rewired> ().enabled = false;
 			view.GetComponent<BoxCollider> ().enabled = false;
+
+            player.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
 		}
 	}
 
@@ -44,5 +46,8 @@ public class playerChange : MonoBehaviour {
 		player.GetComponent<PlayerController_Rewired> ().enabled = true;
 		view.GetComponent<PlayerPlacement_Rewired> ().enabled = true;
 		view.GetComponent<BoxCollider> ().enabled = true;
-	}
+
+        player.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+        player.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
+    }
 }

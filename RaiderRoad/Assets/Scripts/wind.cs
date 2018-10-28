@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class wind : MonoBehaviour {
 
-    public float windSpeed = 0.02f;
+    private float i;
 
 	void Update () 
 	{
-		transform.Translate (Vector3.back * windSpeed * Time.deltaTime);
+        i = -0.01f;
+        i *= transform.position.z;
+		transform.Translate (new Vector3 (0, 0, i));
 	}
 }

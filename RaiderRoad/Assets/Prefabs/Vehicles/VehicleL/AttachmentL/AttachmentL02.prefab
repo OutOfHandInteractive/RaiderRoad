@@ -8,15 +8,15 @@ Prefab:
     m_TransformParent: {fileID: 0}
     m_Modifications: []
     m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 0}
+  m_SourcePrefab: {fileID: 0}
   m_RootGameObject: {fileID: 1791915265035928}
-  m_IsPrefabParent: 1
+  m_IsPrefabAsset: 1
 --- !u!1 &1791915265035928
 GameObject:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
+  serializedVersion: 6
   m_Component:
   - component: {fileID: 4449294609896044}
   - component: {fileID: 114375165774433342}
@@ -30,7 +30,7 @@ GameObject:
 --- !u!4 &4449294609896044
 Transform:
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1791915265035928}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -43,11 +43,14 @@ Transform:
 --- !u!114 &114375165774433342
 MonoBehaviour:
   m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1791915265035928}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 816e902fb4ce14a4cb51e1c07e146536, type: 3}
+  m_Script: {fileID: 11500000, guid: 0e7f614eb7afd4b4c80845e6e1a54838, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  healthModifier: 0
+  ramDamageModifier: 0
+  speedModifier: 0

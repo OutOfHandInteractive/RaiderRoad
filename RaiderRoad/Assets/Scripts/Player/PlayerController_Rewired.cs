@@ -21,6 +21,8 @@ public class PlayerController_Rewired : MonoBehaviour {
 
     private Vector3 rotateVector;
 
+    public bool paused = false;
+
 
     [System.NonSerialized]
     private bool initialized;
@@ -45,14 +47,32 @@ public class PlayerController_Rewired : MonoBehaviour {
 
     private void GetInput()
     {
-        moveVector.x = player.GetAxis("Move Horizontal") * Time.deltaTime * moveSpeed;
-        moveVector.y = player.GetAxis("Move Vertical") * Time.deltaTime * moveSpeed;
+        if (!paused)
+        {
+            moveVector.x = player.GetAxis("Move Horizontal") * Time.deltaTime * moveSpeed;
+            moveVector.y = player.GetAxis("Move Vertical") * Time.deltaTime * moveSpeed;
 
-        //Twin Stick Rotation
-        //rotateVector = Vector3.right * player.GetAxis("Rotate Horizontal") + Vector3.forward * player.GetAxis("Rotate Vertical");
+            //Twin Stick Rotation
+            //rotateVector = Vector3.right * player.GetAxis("Rotate Horizontal") + Vector3.forward * player.GetAxis("Rotate Vertical");
 
-        //Single Stick Rotation
-        rotateVector = Vector3.right * player.GetAxis("Move Horizontal") + Vector3.forward * player.GetAxis("Move Vertical");
+            //Single Stick Rotation
+            rotateVector = Vector3.right * player.GetAxis("Move Horizontal") + Vector3.forward * player.GetAxis("Move Vertical");
+        }
+
+        /*
+        if (player.GetButton("Start"))
+        {
+            paused = true;
+            player.controllers.maps.SetMapsEnabled(false, "Default");
+            player.controllers.maps.SetMapsEnabled(true, "UI");
+        }
+        else if (player.GetButton("UIStart"))
+        {
+            paused = false;
+            player.controllers.maps.SetMapsEnabled(true, "Default");
+            player.controllers.maps.SetMapsEnabled(false, "UI");
+        }
+        */
     }
 
     private void ProcessInput()
