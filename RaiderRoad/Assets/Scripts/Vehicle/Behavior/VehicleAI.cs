@@ -23,9 +23,9 @@ public class VehicleAI : MonoBehaviour {
     private string side;
 
 	//Statistics
-	private float maxHealth;
-	private float ramDamage;
-	private float speed;
+	public float maxHealth;
+	public float ramDamage;
+	public float speed;
 
 	// Use this for initialization
 	void Start () {
