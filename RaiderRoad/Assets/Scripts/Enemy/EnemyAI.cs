@@ -128,7 +128,7 @@ public class EnemyAI : MonoBehaviour {
             Destroy(collision.gameObject);
         }
         //Die if enemy touches road
-        if (collision.gameObject.tag == "road" /*&& currentState != State.Wait*/)
+        if (collision.gameObject.tag == "road" /*currentState != State.Wait*/)
         {
             Destroy(gameObject);
         }
@@ -160,4 +160,5 @@ public class EnemyAI : MonoBehaviour {
             transform.parent = null;
         }
     }
+ 
 }

@@ -6,7 +6,6 @@ public class EscapeEnemy : JumpEnemy {
 
     //Gameobject, rigidbody, vehicle, initialangle for jump, if enemy jumped, current side 
     private Transform eVehicle;
-
     public override void StartJump(GameObject enemy, Rigidbody rb, string side)
     {
         base.StartJump(enemy, rb, side);
@@ -22,6 +21,10 @@ public class EscapeEnemy : JumpEnemy {
         float zSign = cSide.Equals("left") ? -1 : 1;
         Jump(pos, zSign);
 
-        cObject.GetComponent<EnemyAI>().EnterWait();
+        if(cObject.transform.parent.tag == "eVehicle")
+        {
+            eVehicle.GetComponent<VehicleAI>().EnterLeave();
+        }
+        //cObject.GetComponent<EnemyAI>().EnterWait();
     }
 }
