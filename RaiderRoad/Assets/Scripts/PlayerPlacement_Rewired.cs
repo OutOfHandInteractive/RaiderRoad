@@ -139,7 +139,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
                     GameObject toBuild = (GameObject)nodes[0];
                     if (!toBuild.GetComponent<BuildNode>().occupied)
                     {
-                        toBuild.GetComponent<BuildNode>().Build(wall);
+                        toBuild.GetComponent<BuildNode>().Build(wall, toBuild);
                         wallInventory--;
                         changeInventory();
                         //other.gameObject.SetActive (false);

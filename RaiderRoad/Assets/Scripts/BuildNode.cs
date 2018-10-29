@@ -21,16 +21,20 @@ public class BuildNode : MonoBehaviour {
     private GameObject holo;
     private GameObject item;
 
-    public void Build(GameObject wallToPlace)
+    public void Build(GameObject wallToPlace, GameObject spawnNode)
     {
         if (this.isHorizontal)
         {
             item = Instantiate(wallToPlace, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
+            item.transform.localScale = new Vector3(1, 1, 0.1f);
+            item.transform.parent = spawnNode.transform;
             occupied = true;
         }
         else
         {
             item = Instantiate(wallToPlace, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.Euler(new Vector3(0, 90, 0)));
+            item.transform.localScale = new Vector3(1, 1, 0.1f);
+            item.transform.parent = spawnNode.transform;
             occupied = true;
         }
         item.GetComponent<Wall>().myNode = gameObject;
