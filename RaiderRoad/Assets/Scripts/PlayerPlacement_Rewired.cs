@@ -268,12 +268,12 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
 
     public void changeInventory() //change inventory in text only after building wall, saves overhead
     {
-        inventoryText.text = "Walls: " + wallInventory.ToString();
+        //inventoryText.text = "Walls: " + wallInventory.ToString();
     }
 
     void displayMode()
     {
-        mode.text = "Build Mode: " + buildMode;
+        //mode.text = "Build Mode: " + buildMode;
     }
 
     public void floatItem() //makes held item float and spin above player

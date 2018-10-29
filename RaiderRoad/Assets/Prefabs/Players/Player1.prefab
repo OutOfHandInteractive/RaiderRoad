@@ -99,7 +99,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1581730514998164}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.98, y: 0.6, z: -1.18}
+  m_LocalPosition: {x: 453.22546, y: 1039.9874, z: -1998.1233}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children:
   - {fileID: 4154602001020008}
@@ -216,29 +216,31 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.38025647, y: 0.79743356, z: 0.6896373}
-  m_Center: {x: -0.008903979, y: -0.07771269, z: -0.2668429}
+  m_Size: {x: 0.38025647, y: 0.42412192, z: 0.31500506}
+  m_Center: {x: -0.008903979, y: -0.15236399, z: -0.3917175}
 --- !u!114 &114586731710966824
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1757454909120126}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e09a37cb775bb894f994e1d4143744a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   playerId: 0
   wall: {fileID: 1475573904591342, guid: 819954f284979f44dbb66a870bc79c23, type: 2}
-  wallInventory: 0
+  wallInventory: 5
   buildMode: 0
   inventoryText: {fileID: 0}
   mode: {fileID: 0}
   heldItem: {fileID: 0}
-  trap: {fileID: 0}
+  trap: {fileID: 1142158633605222, guid: 62619318446c96f4297f0f9a3a0cdfd0, type: 2}
+  engine: {fileID: 1961960362687784, guid: 1fc8343e3c101a1448230a3e42e5b419, type: 2}
   damage: 25
-  TempAttMat: {fileID: 0}
+  timeToDrop: 1
+  TempAttMat: {fileID: 2100000, guid: 05a81ce83f5a4894885e1928a79d3406, type: 2}
 --- !u!114 &114904637472767522
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -253,6 +255,7 @@ MonoBehaviour:
   playerId: 0
   moveSpeed: 3
   view: {fileID: 1757454909120126}
+  paused: 0
 --- !u!136 &136421382273011124
 CapsuleCollider:
   m_ObjectHideFlags: 1
