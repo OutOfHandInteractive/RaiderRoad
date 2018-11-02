@@ -19,7 +19,7 @@ public class BoardEnemy : JumpEnemy {
 
     private Vector3 GetTarget(Vector3 planePos)
     {
-        return Closest(planePos, GameObject.FindGameObjectsWithTag("Floor")).transform.position;
+        return Closest(planePos, GameObject.FindGameObjectsWithTag("floor")).transform.position;
     }
 
     public void Board()

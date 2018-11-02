@@ -44,6 +44,10 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
 
     void Initialize()
     {
+        //TEMP
+        inventoryText = GameObject.Find("WallText").GetComponent<Text>(); //make this work for all players
+        mode = GameObject.Find("BuildingMode").GetComponent<Text>();
+
         // Get the Rewired Player object for this player.
         player = ReInput.players.GetPlayer(playerId);
         rv = GameObject.FindGameObjectWithTag("RV");
@@ -135,7 +139,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
                     GameObject toBuild = (GameObject)nodes[0];
                     if (!toBuild.GetComponent<BuildNode>().occupied)
                     {
-                        toBuild.GetComponent<BuildNode>().Build(wall);
+                        toBuild.GetComponent<BuildNode>().Build(wall, toBuild);
                         wallInventory--;
                         changeInventory();
                         //other.gameObject.SetActive (false);

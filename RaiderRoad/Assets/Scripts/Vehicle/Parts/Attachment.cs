@@ -7,4 +7,5 @@ public class Attachment : MonoBehaviour {
 	public float healthModifier;
 	public float ramDamageModifier;
 	public float speedModifier;
+	public float threatModifier;
 }
