@@ -26,7 +26,8 @@ public class SpawnVehicle : MonoBehaviour {
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            numPoints = Random.Range(0, spawnPoints.Count);
+            numPoints = Random.Range(1, spawnPoints.Count);
+            Debug.Log(numPoints);
             //Debug.Log(numPoints);
             types = (VehicleFactoryManager.vehicleTypes)Random.Range(0,3);
             //Debug.Log(types);

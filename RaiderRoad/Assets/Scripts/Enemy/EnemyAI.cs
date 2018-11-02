@@ -43,7 +43,7 @@ public class EnemyAI : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        Debug.Log(currentState);
+        //Debug.Log(currentState);
         //Go to weapon state when vehicle is ramming
         if (vehicle.getState() == VehicleAI.State.Attack)
         {
@@ -123,9 +123,10 @@ public class EnemyAI : MonoBehaviour {
     private void OnCollisionEnter(Collision collision)
     {
         //Destroy wall if enemy touches it
-        if (collision.gameObject.tag == "Wall")
+        if (collision.gameObject.CompareTag("Wall"))
         {
-            Destroy(collision.gameObject);
+            Debug.Log("HIT");
+            collision.gameObject.GetComponent<Wall>().Damage(25f);
         }
         //Die if enemy touches road
         if (collision.gameObject.tag == "road" /*currentState != State.Wait*/)
@@ -158,6 +159,14 @@ public class EnemyAI : MonoBehaviour {
         if (collision.gameObject.tag == "RV")
         {
             transform.parent = null;
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Wall")
+        {
+            Destroy(other.gameObject);
         }
     }
  
