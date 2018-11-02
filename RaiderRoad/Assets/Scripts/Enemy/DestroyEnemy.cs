@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DestroyEnemy : AbstractEnemyAI {
+public class DestroyEnemy : EnemyAI {
     //enemy, speed
     private GameObject cObject;
     private float speed = 2f;
@@ -22,7 +22,7 @@ public class DestroyEnemy : AbstractEnemyAI {
         //If there are no more walls, go to Escape state, else keep going for walls
         if (walls.Length <= 0)
         {
-            cObject.GetComponent<EnemyAI>().Invoke("EnterEscape", 5f);
+            cObject.GetComponent<StatefulEnemyAI>().Invoke("EnterEscape", 5f);
             //cObject.GetComponent<EnemyAI>().EnterEscape();
         }else
         {

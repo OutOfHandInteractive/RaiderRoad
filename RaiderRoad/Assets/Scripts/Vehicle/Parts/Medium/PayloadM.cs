@@ -6,7 +6,7 @@ public class PayloadM : Payload {
 	private const int PAYLOAD_SIZE = 4;
 
 	public GameObject enemyNode01, enemyNode02, enemyNode03, enemyNode04;
-	public List<EnemyAI> enemies;
+	public List<StatefulEnemyAI> enemies;
 
 	private List<GameObject> payloadInstance = new List<GameObject>();
 	private System.Random rand = new System.Random();
@@ -30,7 +30,7 @@ public class PayloadM : Payload {
 		payloadInstance[3].transform.position = new Vector3(0, 1f, 0);
 	}
 
-	protected override EnemyAI SelectEnemies() {
+	protected override StatefulEnemyAI SelectEnemies() {
 		int selectedIndex = rand.Next(0, enemies.Count); // error getting thrown here, null ref exception
 		return enemies[selectedIndex];
 	}

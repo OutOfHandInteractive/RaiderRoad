@@ -6,7 +6,7 @@ public class PayloadL : Payload {
 	private const int PAYLOAD_SIZE = 2;
 
 	public GameObject enemyNode01, enemyNode02;
-	public List<EnemyAI> enemies;
+	public List<StatefulEnemyAI> enemies;
 
 	private List<GameObject> payloadInstance = new List<GameObject>();
 	private System.Random rand = new System.Random();
@@ -24,7 +24,7 @@ public class PayloadL : Payload {
 		payloadInstance[1].transform.position = new Vector3(0, 1f, 0);
 	}
 
-	protected override EnemyAI SelectEnemies() {
+	protected override StatefulEnemyAI SelectEnemies() {
 		int selectedIndex = rand.Next(0, enemies.Count);
 		return enemies[selectedIndex];
 	}

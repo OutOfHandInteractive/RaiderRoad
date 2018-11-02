@@ -9,13 +9,21 @@ public class EscapeEnemy : JumpEnemy {
     public override void StartJump(GameObject enemy, Rigidbody rb, string side)
     {
         base.StartJump(enemy, rb, side);
-        //Initialize vehicle, enemy, rigidbody, side and angle for jumping
-        eVehicle = GameObject.FindGameObjectWithTag("eVehicle").transform;
+        Radio.GetRadio().CallForEvac(this);
+    }
+
+    public void RadioEvacCallback(StayVehicle vehicle)
+    {
+        cSide = vehicle.Side();
+        eVehicle = vehicle.transform;
     }
 
     public void Escape()
     {
-
+        // Wait to recieve vehicle
+        if (eVehicle == null) {
+            return;
+        }
         //Enemy vehicle destination position
         Vector3 pos = eVehicle.position;
         float zSign = cSide.Equals("left") ? -1 : 1;

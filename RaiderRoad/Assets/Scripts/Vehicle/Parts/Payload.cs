@@ -7,5 +7,5 @@ public abstract class Payload : MonoBehaviour {
 	public abstract void populate();
 	public List<payloadTypes> payloadCode;
 
-	protected abstract EnemyAI SelectEnemies();
+	protected abstract StatefulEnemyAI SelectEnemies();
 }
