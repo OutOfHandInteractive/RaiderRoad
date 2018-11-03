@@ -23,6 +23,10 @@ public class PlayerController_Rewired : MonoBehaviour {
 
     public bool paused = false;
 
+	// object interaction
+	public bool interacting = false;
+	private List<GameObject> interactables = new List<GameObject>(); 
+
 
     [System.NonSerialized]
     private bool initialized;
@@ -41,23 +45,31 @@ public class PlayerController_Rewired : MonoBehaviour {
         if (!ReInput.isReady) return; // Exit if Rewired isn't ready. This would only happen during a script recompile in the editor.
         if (!initialized) Initialize(); // Reinitialize after a recompile in the editor
 
-        GetInput();
-        ProcessInput();
+		if (!interacting) {
+			GetInput();
+			ProcessInput();
+		}
     }
 
     private void GetInput()
     {
-        if (!paused)
-        {
-            moveVector.x = player.GetAxis("Move Horizontal") * Time.deltaTime * moveSpeed;
-            moveVector.y = player.GetAxis("Move Vertical") * Time.deltaTime * moveSpeed;
+		if (!paused && !interacting) {
+			moveVector.x = player.GetAxis("Move Horizontal") * Time.deltaTime * moveSpeed;
+			moveVector.y = player.GetAxis("Move Vertical") * Time.deltaTime * moveSpeed;
 
-            //Twin Stick Rotation
-            //rotateVector = Vector3.right * player.GetAxis("Rotate Horizontal") + Vector3.forward * player.GetAxis("Rotate Vertical");
+			//Twin Stick Rotation
+			//rotateVector = Vector3.right * player.GetAxis("Rotate Horizontal") + Vector3.forward * player.GetAxis("Rotate Vertical");
 
-            //Single Stick Rotation
-            rotateVector = Vector3.right * player.GetAxis("Move Horizontal") + Vector3.forward * player.GetAxis("Move Vertical");
-        }
+			//Single Stick Rotation
+			rotateVector = Vector3.right * player.GetAxis("Move Horizontal") + Vector3.forward * player.GetAxis("Move Vertical");
+
+			if (player.GetButtonDown("Use")) {
+				Debug.Log("pressing button");
+				if (interactables.Count > 0 && !interactables[0].GetComponent<Interactable>().isOnCooldown()) {
+					interactables[0].GetComponent<Interactable>().Interact(this);
+				}
+			}
+		}
 
         /*
         if (player.GetButton("Start"))
@@ -88,6 +100,7 @@ public class PlayerController_Rewired : MonoBehaviour {
         }
     }
 
+	// --------------------- Getters / Setters ----------------------
     public void SetId(int id)
     {
         playerId = id;
@@ -98,4 +111,28 @@ public class PlayerController_Rewired : MonoBehaviour {
     {
         return playerId;
     }
+
+	public Player GetPlayer() {
+		return player;
+	}
+
+	public void setInteractingFlag() {
+		interacting = true;
+	}
+
+	public void unsetInteractingFlag() {
+		interacting = false;
+	}
+
+	public void addInteractable(GameObject i) {
+		if (!interactables.Contains(i)) {
+			Debug.Log("added weapon");
+			interactables.Add(i);
+		}
+	}
+
+	public void removeInteractable(GameObject i) {
+		Debug.Log("removed weapon");
+		interactables.Remove(i);
+	}
 }

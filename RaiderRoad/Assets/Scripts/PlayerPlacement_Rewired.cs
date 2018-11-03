@@ -28,6 +28,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
     // Private Variables
     //--------------------
     private Player player;
+	private PlayerController_Rewired pController;
     private GameObject rv;
     private ArrayList nodes = new ArrayList();      //probably better way to do this, REVISIT!
     private ArrayList trapNodes = new ArrayList();
@@ -42,7 +43,11 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
     [System.NonSerialized]
     private bool initialized;
 
-    void Initialize()
+	private void Start() {
+		pController = GetComponentInParent<PlayerController_Rewired>();
+	}
+
+	void Initialize()
     {
         //TEMP
         inventoryText = GameObject.Find("WallText").GetComponent<Text>(); //make this work for all players
@@ -232,6 +237,9 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         {
             attackRange.Add(other.gameObject);
         }
+		if (other.gameObject.CompareTag("Interactable")) {
+			pController.addInteractable(other.gameObject);
+		}
 
         // Pick Up
         //if (other.gameObject.CompareTag("Drops"))
@@ -268,7 +276,11 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         trapNodes.Remove(other.gameObject);
         engineNodes.Remove(other.gameObject);
         attackRange.Remove(other.gameObject);
-    }
+
+		if (other.gameObject.CompareTag("Interactable")) {
+			pController.removeInteractable(other.gameObject);
+		}
+	}
 
     public void changeInventory() //change inventory in text only after building wall, saves overhead
     {
