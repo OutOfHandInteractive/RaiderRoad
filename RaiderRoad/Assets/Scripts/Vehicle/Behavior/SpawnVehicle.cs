@@ -26,6 +26,7 @@ public class SpawnVehicle : MonoBehaviour {
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
+            //Get range of spawn, DO NOT GET 0 IT IS THE PARENT
             numPoints = Random.Range(1, spawnPoints.Count);
             Debug.Log(numPoints);
             //Debug.Log(numPoints);

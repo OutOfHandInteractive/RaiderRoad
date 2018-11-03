@@ -8,7 +8,7 @@ public class ChaseVehicle : MonoBehaviour {
     private Transform player;
     private NavMeshAgent cEnemy;
     private GameObject cObject;
-
+    private float timer = 0f;
     //Initialize agent
     public virtual void StartChase(NavMeshAgent agent, GameObject enemy)
     {
@@ -33,7 +33,19 @@ public class ChaseVehicle : MonoBehaviour {
         //Go to loading area
         cEnemy.SetDestination(player.transform.position);
 
-        //Leave after 10 seconds
+        //Increase time if state destination has not been reached
+        if(cEnemy.remainingDistance > .1f)
+        {
+            timer += Time.deltaTime;
+        }
+        //Debug.Log(timer);
+        //Leave if you can't enter state destination
+        if (timer > 5)
+        {
+            cObject.GetComponent<VehicleAI>().EnterLeave();
+        }
+
+        //Enter stay if you get to the loading position
         if(!cEnemy.pathPending && cEnemy.remainingDistance < .01f)
         {
             cObject.GetComponent<VehicleAI>().EnterStay();

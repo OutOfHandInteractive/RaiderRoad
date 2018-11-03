@@ -79,19 +79,23 @@ public class EnemyAI : MonoBehaviour {
 
     }
 
-    //Methods to enter states
+    //Methods to enter states, change color based on states
     public void EnterWait()
     {
         currentState = State.Wait;
+        enemy.GetComponent<Renderer>().material.color = Color.white;
+        
     }
     public void EnterBoard()
     {
         currentState = State.Board;
+        enemy.GetComponent<Renderer>().material.color = Color.green;
     }
 
     public void EnterWeapon()
     {
         currentState = State.Weapon;
+        enemy.GetComponent<Renderer>().material.color = Color.gray;
     }
 
     public void EnterSteal()
@@ -102,16 +106,19 @@ public class EnemyAI : MonoBehaviour {
     public void EnterDestroy()
     {
         currentState = State.Destroy;
+        enemy.GetComponent<Renderer>().material.color = Color.yellow;
     }
 
     public void EnterFight()
     {
         currentState = State.Fight;
+        enemy.GetComponent<Renderer>().material.color = Color.red;
     }
 
     public void EnterEscape()
     {
         currentState = State.Escape;
+        enemy.GetComponent<Renderer>().material.color = Color.blue;
     }
 
     public void EnterDeath()
@@ -122,12 +129,6 @@ public class EnemyAI : MonoBehaviour {
     //Collison handling
     private void OnCollisionEnter(Collision collision)
     {
-        //Destroy wall if enemy touches it
-        if (collision.gameObject.CompareTag("Wall"))
-        {
-            Debug.Log("HIT");
-            collision.gameObject.GetComponent<Wall>().Damage(25f);
-        }
         //Die if enemy touches road
         if (collision.gameObject.tag == "road" /*currentState != State.Wait*/)
         {
@@ -164,9 +165,20 @@ public class EnemyAI : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Wall")
+        //Check if you hit the player and do action
+        if(other.gameObject.tag == "Player" && currentState == State.Fight)
         {
-            Destroy(other.gameObject);
+            Debug.Log("Hit");
+            other.gameObject.GetComponent<Rigidbody>().AddForce(Vector3.up*100, ForceMode.Impulse);
+        }
+    }
+    private void OnTriggerStay(Collider other)
+    {
+        //Check if you hit a wall and destroy it
+        if (other.gameObject.tag == "Wall" && currentState == State.Destroy)
+        {
+            //Debug.Log("HIT");
+            other.gameObject.GetComponent<Wall>().Damage(25f);
         }
     }
  
