@@ -19,11 +19,11 @@ public class TrapNode : MonoBehaviour {
 
     public void BuildTrap(GameObject trapToPlace)
     {
-        Vector3 dir = gameObject.transform.forward;
+        Vector3 dir = gameObject.transform.up;
         if (isFloor)
         {
             item = Instantiate(trapToPlace, new Vector3(transform.position.x, transform.position.y, transform.position.z),
-                Quaternion.identity);
+                Quaternion.LookRotation(dir));
         }
         else
         {
