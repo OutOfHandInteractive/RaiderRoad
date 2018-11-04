@@ -7,11 +7,13 @@ public class cannon : Interactable {
 
 	// ------------------------- public variables ---------------------------
 	// references
-	public GameObject munitions;
+	public cannonball munitions;
 	public GameObject reticule;
+	public GameObject barrel;
 
 	// gameplay values
 	public float reticuleMoveSpeed;
+	public float firingCooldown;
 
 	// ----------------------------------------------------------------------
 
@@ -22,6 +24,8 @@ public class cannon : Interactable {
 	private Player player;
 	private Vector2 moveVector;
 	private Vector3 rotateVector;
+	private GameObject proj;
+	public float firingCooldownTimer;
 
 	[System.NonSerialized]
 	private bool initialized;
@@ -32,12 +36,16 @@ public class cannon : Interactable {
 		user = null;
 		userPlayerId = -1;
 		cooldownTimer = cooldown;
+		firingCooldownTimer = firingCooldown;
 	}
 
 	// Update is called once per frame
 	void Update () {
 		if (isOnCooldown()) {
 			cooldownTimer -= Time.deltaTime;
+		}
+		if (isOnFiringCooldown()) {
+			firingCooldownTimer -= Time.deltaTime;
 		}
 
 		GetInput();
@@ -57,6 +65,13 @@ public class cannon : Interactable {
 
 			if (player.GetButtonDown("Exit Interactable")) {
 				Leave();
+			}
+
+			if (player.GetButtonDown("Shoot Weapon") && !isOnFiringCooldown()) {
+				proj = Instantiate(munitions.gameObject, barrel.transform.position, Quaternion.identity);
+				proj.GetComponent<cannonball>().launch(reticule.transform.position, barrel.transform.position);
+
+				firingCooldownTimer = firingCooldown;
 			}
 		}
 	}
@@ -88,5 +103,12 @@ public class cannon : Interactable {
 		user.unsetInteractingFlag();
 		inUse = false;
 		reticule.SetActive(false);
+	}
+
+	private bool isOnFiringCooldown() {
+		if (firingCooldownTimer > 0)
+			return true;
+		else
+			return false;
 	}
 }

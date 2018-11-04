@@ -95,6 +95,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1940471113103950
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4640928387019772}
+  m_Layer: 0
+  m_Name: Barrel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!4 &4053602107035696
 Transform:
   m_ObjectHideFlags: 1
@@ -128,8 +143,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1770521110274576}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0.35, y: -0.454, z: -0}
+  m_LocalScale: {x: 0.68945, y: 0.68945, z: 0.68945}
   m_Children:
   - {fileID: 4053602107035696}
   - {fileID: 4611683586769562}
@@ -143,11 +158,12 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1820248315558176}
   m_LocalRotation: {x: -0, y: -0.9999998, z: -0, w: -0.00065302674}
-  m_LocalPosition: {x: 3.21, y: 1.5, z: 2.5219252}
+  m_LocalPosition: {x: 3.21, y: 1.5, z: 2.03}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4275113202490036}
   - {fileID: 4204467141084014}
+  - {fileID: 4640928387019772}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: -180.075, z: 0}
@@ -164,6 +180,19 @@ Transform:
   m_Father: {fileID: 4275113202490036}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
+--- !u!4 &4640928387019772
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1940471113103950}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.659, y: -0.52, z: -0.02}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4515392154336526}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &23505851410791802
 MeshRenderer:
   m_ObjectHideFlags: 1
@@ -258,8 +287,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.82, y: 1.95, z: 0.78}
-  m_Center: {x: 0.1, y: -0.51, z: 0}
+  m_Size: {x: 0.33892334, y: 1.2597787, z: 0.5740206}
+  m_Center: {x: 0.46227935, y: -0.85511065, z: -0.00441283}
 --- !u!114 &114911493078376058
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -273,9 +302,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   userPlayerId: 0
   cooldown: 0.25
-  munitions: {fileID: 1624235888426134, guid: d7622689f6c1335499d009ba28e3a1f9, type: 2}
+  munitions: {fileID: 114172599775709256, guid: d7622689f6c1335499d009ba28e3a1f9,
+    type: 2}
   reticule: {fileID: 1093626621963086}
+  barrel: {fileID: 1940471113103950}
   reticuleMoveSpeed: 3
+  firingCooldown: 1
+  firingCooldownTimer: 0
 --- !u!136 &136708845833577730
 CapsuleCollider:
   m_ObjectHideFlags: 1
