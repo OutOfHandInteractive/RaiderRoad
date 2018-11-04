@@ -81,7 +81,7 @@ public class flamethrower : Interactable {
             overheated = true;
             firing = false;
             flame.SetActive(false);
-            barrel.GetComponent<MeshRenderer>().material = overheatMat;
+            //barrel.GetComponent<MeshRenderer>().material = overheatMat;
             cooldownCount = overheatCooldown;
             overheatCount = overheatTime;
         }
@@ -94,7 +94,7 @@ public class flamethrower : Interactable {
         if (cooldownCount <= 0.0f)
         {
             overheated = false;
-            barrel.GetComponent<MeshRenderer>().material = normalMat;
+            //barrel.GetComponent<MeshRenderer>().material = normalMat;
             cooldownCount = overheatCooldown;
             overheatCount = overheatTime;
         }
