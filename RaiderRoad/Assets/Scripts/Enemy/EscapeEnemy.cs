@@ -24,6 +24,7 @@ public class EscapeEnemy : JumpEnemy {
         if (eVehicle == null) {
             return;
         }
+        //TODO: move to the same side as the vehicle
         //Enemy vehicle destination position
         Vector3 pos = eVehicle.position;
         float zSign = cSide.Equals("left") ? -1 : 1;

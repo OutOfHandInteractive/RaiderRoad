@@ -53,7 +53,8 @@ public class StayVehicle : MonoBehaviour {
         cEnemy.SetDestination(player.transform.position);
 
         bool leave = false;
-        if(!GameObject.FindGameObjectWithTag("Enemy"))
+        int extantEnemies = GameObject.FindGameObjectsWithTag("Enemy").Length;
+        if (extantEnemies <= 0)
         {
             leave = true;
         }
@@ -64,7 +65,8 @@ public class StayVehicle : MonoBehaviour {
             {
                 Radio.GetRadio().ReadyForEvac(this);
                 calledRadio = true;
-            }else if(CountEnemiesOnBoard() > 5) //TODO this limit should depend on size of vehicle
+            }
+            else if(CountEnemiesOnBoard() >= System.Math.Min(5, extantEnemies)) //TODO this limit should depend on size of vehicle
             {
                 leave = true;
             }
