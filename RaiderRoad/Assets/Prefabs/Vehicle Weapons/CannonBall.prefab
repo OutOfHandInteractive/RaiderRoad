@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 33143283433073744}
   - component: {fileID: 23423081388720740}
   - component: {fileID: 135081626594855348}
+  - component: {fileID: 114172599775709256}
   m_Layer: 0
   m_Name: CannonBall
   m_TagString: Untagged
@@ -37,7 +38,7 @@ Transform:
   m_GameObject: {fileID: 1624235888426134}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -10.261261, y: 6.558402, z: 2.6920109}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -84,6 +85,19 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1624235888426134}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &114172599775709256
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1624235888426134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86d63da807f00e245b7ca5223d3a2a49, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 0
+  travelTime: 0.75
 --- !u!135 &135081626594855348
 SphereCollider:
   m_ObjectHideFlags: 1
