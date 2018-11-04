@@ -239,7 +239,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1581730514998164}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1, y: 0.05, z: -1}
+  m_LocalPosition: {x: -1, y: 0.05, z: -5.08}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 224443738691715492}
@@ -472,7 +472,7 @@ MonoBehaviour:
   engine: {fileID: 1961960362687784, guid: 1fc8343e3c101a1448230a3e42e5b419, type: 2}
   damage: 25
   timeToDrop: 1
-  TempAttMat: {fileID: 2100000, guid: 05a81ce83f5a4894885e1928a79d3406, type: 2}
+  AttackObject: {fileID: 1160741953486916}
 --- !u!114 &114686055922215506
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -525,6 +525,7 @@ MonoBehaviour:
   moveSpeed: 3
   view: {fileID: 1757454909120126}
   paused: 0
+  interacting: 0
 --- !u!114 &114980003031055120
 MonoBehaviour:
   m_ObjectHideFlags: 1

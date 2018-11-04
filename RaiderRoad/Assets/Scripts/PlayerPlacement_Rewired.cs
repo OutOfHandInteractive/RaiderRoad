@@ -22,7 +22,8 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
     public float damage = 25.0f;
     public float timeToDrop = 1f; //Time needed to drop item (by holding down button)
 
-    public Material TempAttMat; //for temporary attack for prototype
+    public GameObject AttackObject;
+    private Material TempAttMat; //for temporary attack for prototype
 
     //--------------------
     // Private Variables
@@ -60,6 +61,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         initialized = true;
         changeInventory(); //set inventory text to players inventory count
 
+        TempAttMat = AttackObject.GetComponent<Renderer>().material;
         currentAttColor = TempAttMat.color; //get current color so we can play with alpha
     }
 

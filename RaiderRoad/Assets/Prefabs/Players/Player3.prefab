@@ -223,7 +223,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1561502499550232}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1, y: 0.05, z: -1}
+  m_LocalPosition: {x: 1, y: 0.05, z: -5.08}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 224847848972199364}
@@ -642,6 +642,7 @@ MonoBehaviour:
   moveSpeed: 3
   view: {fileID: 1980728606597626}
   paused: 0
+  interacting: 0
 --- !u!114 &114270211512497354
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -767,7 +768,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e09a37cb775bb894f994e1d4143744a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerId: 0
+  playerId: 2
   wall: {fileID: 1475573904591342, guid: 819954f284979f44dbb66a870bc79c23, type: 2}
   wallInventory: 8
   buildMode: 0
@@ -778,7 +779,7 @@ MonoBehaviour:
   engine: {fileID: 1961960362687784, guid: 1fc8343e3c101a1448230a3e42e5b419, type: 2}
   damage: 25
   timeToDrop: 1
-  TempAttMat: {fileID: 2100000, guid: 05a81ce83f5a4894885e1928a79d3406, type: 2}
+  AttackObject: {fileID: 1987916154672912}
 --- !u!136 &136099288530506266
 CapsuleCollider:
   m_ObjectHideFlags: 1
