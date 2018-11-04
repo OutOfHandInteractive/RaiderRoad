@@ -38,7 +38,8 @@ public class TrapNode : MonoBehaviour {
     public void Show(GameObject trapToShow)
     { //hologram function, not efficient/working properly
 
-        holo = Instantiate(trapToShow, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
+        Vector3 dir = gameObject.transform.up;
+        holo = Instantiate(trapToShow, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.LookRotation(dir));
 
         holo.GetComponent<Trap>().isHolo = true;
     }
