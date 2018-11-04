@@ -45,8 +45,9 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
     void Initialize()
     {
         //TEMP
-        inventoryText = GameObject.Find("WallText").GetComponent<Text>(); //make this work for all players
-        mode = GameObject.Find("BuildingMode").GetComponent<Text>();
+        //inventoryText = GameObject.Find("WallText").GetComponent<Text>(); //make this work for all players
+        //mode = GameObject.Find("BuildingMode").GetComponent<Text>();
+        //Direct connection, because each player has their own canvas
 
         // Get the Rewired Player object for this player.
         player = ReInput.players.GetPlayer(playerId);
@@ -272,12 +273,14 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
 
     public void changeInventory() //change inventory in text only after building wall, saves overhead
     {
-        inventoryText.text = "Walls: " + wallInventory.ToString();
+        inventoryText.text = wallInventory.ToString();
     }
 
     void displayMode()
     {
-        mode.text = "Build Mode: " + buildMode;
+        if (buildMode) mode.text = "Building";
+        else mode.text = " ";
+        //mode.text = "Build Mode: " + buildMode;
     }
 
     public void floatItem() //makes held item float and spin above player
@@ -288,7 +291,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
             if (heldItem == trap) myFloat = heldItem.GetComponent<Trap>().drop;
             else if (heldItem == engine) myFloat = heldItem.GetComponent<Engine>().drop;
             floatingItem = Instantiate(myFloat, //fix later for prettier
-                new Vector3(transform.parent.position.x, transform.parent.position.y + 0.65f, transform.parent.position.z), Quaternion.identity, transform.parent);
+                new Vector3(transform.parent.position.x, transform.parent.position.y + 1.5f, transform.parent.position.z), Quaternion.identity, transform.parent);
             hasItem = true;
         }
 
