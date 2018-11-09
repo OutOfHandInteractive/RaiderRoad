@@ -194,7 +194,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1093626621963086}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -4.947, y: -0.021, z: 0}
+  m_LocalPosition: {x: 5, y: 0, z: 0}
   m_LocalScale: {x: 0.4, y: 0.4, z: 1}
   m_Children: []
   m_Father: {fileID: 4515392154336526}
@@ -206,8 +206,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1276977587443246}
-  m_LocalRotation: {x: 0, y: -1, z: 0, w: 0}
-  m_LocalPosition: {x: -0.645, y: -0.5, z: 0.428}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.695, y: -0.5, z: -0.427}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4444564426774164}
@@ -216,7 +216,7 @@ Transform:
   - {fileID: 4191306213814244}
   m_Father: {fileID: 4515392154336526}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: -180, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4373569594094572
 Transform:
   m_ObjectHideFlags: 1
@@ -264,7 +264,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1820248315558176}
-  m_LocalRotation: {x: 0, y: -1, z: 0, w: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 3.367, y: 0.548, z: 0.994}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -273,7 +273,7 @@ Transform:
   - {fileID: 4261152284891302}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: -180, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4561387247452486
 Transform:
   m_ObjectHideFlags: 1
@@ -533,8 +533,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.3389233, y: 1.0113463, z: 0.5740206}
-  m_Center: {x: 0.16, y: -0.017799973, z: -0.00441283}
+  m_Size: {x: 0.59749824, y: 1.0113463, z: 0.9341339}
+  m_Center: {x: 0.030712515, y: -0.017799973, z: -0.006832123}
 --- !u!114 &114911493078376058
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -554,6 +554,10 @@ MonoBehaviour:
   barrel: {fileID: 1940471113103950}
   reticuleMoveSpeed: 3
   firingCooldown: 1
+  coneAngle: 45
+  correctionSpeed: 3.5
+  maxRange: 10
+  forwardDir: {x: 0, y: 0, z: 0}
   firingCooldownTimer: 0
 --- !u!212 &212647616481149826
 SpriteRenderer:
