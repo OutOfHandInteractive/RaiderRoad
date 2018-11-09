@@ -3,15 +3,13 @@
 
 actor Player
 
-rectangle Unity {
-	rectangle Renderer
-	rectangle Rewired <<Plugin>>
-}
 
-Player --> Rewired
-Player <-- Renderer
 
 rectangle RaiderRoad {
+	rectangle Unity {
+		rectangle Renderer
+		rectangle Rewired <<Plugin>>
+	}
 	rectangle Events
 	rectangle GameObjects {
 		rectangle Players
@@ -21,6 +19,9 @@ rectangle RaiderRoad {
 	}
 	rectangle EnemyAI
 }
+
+Player --> Rewired
+Player <-- Renderer
 
 Vehicles <-- Events
 Vehicles --> EnemyAI
