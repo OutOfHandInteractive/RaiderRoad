@@ -83,7 +83,7 @@ public class cannon : Interactable {
 		// If the player has given input, move the reticule accordingly
 		if (moveVector.x != 0.0f || moveVector.y != 0.0f) {
 			reticule.transform.Translate(moveVector.x, 0, moveVector.y, Space.World);
-			newAngle = Mathf.Atan((reticule.transform.localPosition.x) / (reticule.transform.localPosition.z)) * Mathf.Rad2Deg;
+			//newAngle = Mathf.Atan((reticule.transform.localPosition.x) / (reticule.transform.localPosition.z)) * Mathf.Rad2Deg;
 		}
 		//Debug.Log("x: " + reticule.transform.localPosition.x + " z: " + reticule.transform.localPosition.z + " angle: " + newAngle);
 
