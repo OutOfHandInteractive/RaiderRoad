@@ -27,6 +27,7 @@ public class cannon : Interactable {
 	private Vector3 rotateVector;
 	private GameObject proj;
 	public Vector3 forwardDir;
+	public Vector3 dist;
 
 	// updating variables
 	public float firingCooldownTimer;
@@ -57,6 +58,9 @@ public class cannon : Interactable {
 			firingCooldownTimer -= Time.deltaTime;
 		}
 
+		dist = reticule.transform.position - barrel.transform.position;
+		dist = new Vector3(dist.x, 0, dist.z);
+
 		GetInput();
 		ProcessInput();
 	}
@@ -83,13 +87,16 @@ public class cannon : Interactable {
 		// If the player has given input, move the reticule accordingly
 		if (moveVector.x != 0.0f || moveVector.y != 0.0f) {
 			reticule.transform.Translate(moveVector.x, 0, moveVector.y, Space.World);
-			//newAngle = Mathf.Atan((reticule.transform.localPosition.x) / (reticule.transform.localPosition.z)) * Mathf.Rad2Deg;
+			newAngle = Mathf.Atan((reticule.transform.localPosition.x) / (reticule.transform.localPosition.z));
 		}
 		//Debug.Log("x: " + reticule.transform.localPosition.x + " z: " + reticule.transform.localPosition.z + " angle: " + newAngle);
 
-		// Clamp x (opposite leg) transform between -tan(angle)*z and tan(angle)*z, and clamp z (adj. leg) between 0 and max range
-		reticule.transform.localPosition = new Vector3(Mathf.Clamp(reticule.transform.localPosition.x, reticule.transform.localPosition.z * Mathf.Tan(-coneAngle * Mathf.Deg2Rad), reticule.transform.localPosition.z * Mathf.Tan(coneAngle * Mathf.Deg2Rad)), 
-			0, Mathf.Clamp(reticule.transform.localPosition.z, 0, maxRange));
+		// Clamp x (opposite leg) transform between -tan(angle)*z and tan(angle)*z
+		// Clamp z (adj. leg) between 0 and maxRange - tan(pi/2 - (pi - (pi/2 + newAngle)))*reticuleX
+		reticule.transform.localPosition = new Vector3(
+			Mathf.Clamp(reticule.transform.localPosition.x, reticule.transform.localPosition.z * Mathf.Tan(-coneAngle * Mathf.Deg2Rad), reticule.transform.localPosition.z * Mathf.Tan(coneAngle * Mathf.Deg2Rad)),
+			0, 
+			Mathf.Clamp(reticule.transform.localPosition.z, 0, maxRange - Mathf.Tan((Mathf.PI/2) - (Mathf.PI - ((Mathf.PI/2) + newAngle)))* reticule.transform.localPosition.x));
 	}
 
 	private float getMaxRange() {

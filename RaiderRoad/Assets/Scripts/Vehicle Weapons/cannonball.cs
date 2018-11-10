@@ -12,22 +12,22 @@ public class cannonball : MonoBehaviour {
 	private Vector3 source;
 	private Vector3 dir;
 	private Vector3 horizVelocity;
-	private float vertSpeed;
 	private float timeRemaining;
 
 	// Projectile motion
-	private const float ANGLE = 45;
+	public float angle;
 	private const float G = -9.81f;
 	private float timeElapsed;
+	public float xVel, yVel, zVel, xzVel;
+	public float xzAng;
 	private float oldY;
 
 	// Update is called once per frame
 	void Update () {
-		transform.position += horizVelocity * Time.deltaTime;
 		timeRemaining -= Time.deltaTime;
 		timeElapsed = travelTime - timeRemaining;
 
-		//transform.position += new Vector3(0f, deltaY(), 0f);
+		transform.position += new Vector3(xVel*Time.deltaTime, deltaY(), zVel*Time.deltaTime);
 
 		if(timeRemaining <= 0) {
 			Destroy(gameObject);
@@ -38,16 +38,28 @@ public class cannonball : MonoBehaviour {
 		target = _target;
 		source = _source;
 		dir = target - source;
-		horizVelocity = dir / travelTime;
-		vertSpeed = horizVelocity.magnitude * Mathf.Tan(ANGLE);
+
+		// need to fix x/z velocity
+		angle = angleOfReach(_target, _source);
+		xzAng = Mathf.Atan(dir.z / dir.x);
+		xzVel = muzzleVelocity * Mathf.Cos(angle * Mathf.Deg2Rad);
+		xVel = xzVel * Mathf.Cos(xzAng);
+		zVel = xzVel * Mathf.Sin(xzAng);
+		Debug.Log(angle);
+		yVel = muzzleVelocity * Mathf.Sin(angle * Mathf.Deg2Rad);
 
 		timeRemaining = travelTime;
 	}
 
 	public float deltaY() {
-		Debug.Log(vertSpeed);
+		Debug.Log(yVel);
 
-		return (float)(source.y + (vertSpeed * timeElapsed) + (0.5 * G * Mathf.Pow(timeElapsed, 2))) - transform.position.y;
+		return (float)(source.y + (yVel * timeElapsed) + (0.5 * G * Mathf.Pow(timeElapsed, 2))) - transform.position.y;
+	}
+
+	public float angleOfReach(Vector3 _target, Vector3 _source) {
+		// supposed to use positive G, but the constant is set to negative to make stuff more intuitive. can change if needed
+		return (float)(0.5 * Mathf.Asin((-G * Vector3.Distance(_source, _target)) / Mathf.Pow(muzzleVelocity, 2)) * Mathf.Rad2Deg);
 	}
 
 	public float getMaxRange(float h) {
