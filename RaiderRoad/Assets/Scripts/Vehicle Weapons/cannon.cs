@@ -80,15 +80,16 @@ public class cannon : Interactable {
 	}
 
 	private void ProcessInput() {
-		// ------------------- facing right -------------------
+		// If the player has given input, move the reticule accordingly
 		if (moveVector.x != 0.0f || moveVector.y != 0.0f) {
 			reticule.transform.Translate(moveVector.x, 0, moveVector.y, Space.World);
-			newAngle = Mathf.Atan((reticule.transform.localPosition.z) / (reticule.transform.localPosition.x)) * Mathf.Rad2Deg;
+			newAngle = Mathf.Atan((reticule.transform.localPosition.x) / (reticule.transform.localPosition.z)) * Mathf.Rad2Deg;
 		}
-		Debug.Log(newAngle);
+		//Debug.Log("x: " + reticule.transform.localPosition.x + " z: " + reticule.transform.localPosition.z + " angle: " + newAngle);
 
-		reticule.transform.localPosition = new Vector3(Mathf.Clamp(reticule.transform.localPosition.x, 0, maxRange), 0,
-			Mathf.Clamp(reticule.transform.localPosition.z, reticule.transform.localPosition.x * Mathf.Tan(-coneAngle * Mathf.Deg2Rad), reticule.transform.localPosition.x * Mathf.Tan(coneAngle * Mathf.Deg2Rad)));
+		// Clamp x (opposite leg) transform between -tan(angle)*z and tan(angle)*z, and clamp z (adj. leg) between 0 and max range
+		reticule.transform.localPosition = new Vector3(Mathf.Clamp(reticule.transform.localPosition.x, reticule.transform.localPosition.z * Mathf.Tan(-coneAngle * Mathf.Deg2Rad), reticule.transform.localPosition.z * Mathf.Tan(coneAngle * Mathf.Deg2Rad)), 
+			0, Mathf.Clamp(reticule.transform.localPosition.z, 0, maxRange));
 	}
 
 	private float getMaxRange() {
