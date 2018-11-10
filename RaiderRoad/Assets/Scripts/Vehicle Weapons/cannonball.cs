@@ -6,6 +6,7 @@ public class cannonball : MonoBehaviour {
 	
 	public float damage;
 	public float travelTime;
+	public float muzzleVelocity;
 
 	private Vector3 target;
 	private Vector3 source;
@@ -47,5 +48,9 @@ public class cannonball : MonoBehaviour {
 		Debug.Log(vertSpeed);
 
 		return (float)(source.y + (vertSpeed * timeElapsed) + (0.5 * G * Mathf.Pow(timeElapsed, 2))) - transform.position.y;
+	}
+
+	public float getMaxRange(float h) {
+		return (muzzleVelocity / G) * Mathf.Sqrt(Mathf.Pow(muzzleVelocity, 2) + (2 * G * h));
 	}
 }

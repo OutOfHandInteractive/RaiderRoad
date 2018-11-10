@@ -14,18 +14,25 @@ public class cannon : Interactable {
 	// gameplay values
 	public float reticuleMoveSpeed;
 	public float firingCooldown;
+	public float coneAngle;
+	public float correctionSpeed;
+	public float maxRange;
 
 	// ----------------------------------------------------------------------
 
-	// ----------------------
-	// Private variables
-	// ----------------------
+	// -------------------------- Private variables -------------------------
 	private bool paused = false;
 	private Player player;
 	private Vector2 moveVector;
 	private Vector3 rotateVector;
 	private GameObject proj;
+	public Vector3 forwardDir;
+
+	// updating variables
 	public float firingCooldownTimer;
+	private float newAngle;
+
+	// ----------------------------------------------------------------------
 
 	[System.NonSerialized]
 	private bool initialized;
@@ -37,6 +44,8 @@ public class cannon : Interactable {
 		userPlayerId = -1;
 		cooldownTimer = cooldown;
 		firingCooldownTimer = firingCooldown;
+
+		forwardDir = transform.forward;
 	}
 
 	// Update is called once per frame
@@ -57,12 +66,6 @@ public class cannon : Interactable {
 			moveVector.x = player.GetAxis("Move Horizontal") * Time.deltaTime * reticuleMoveSpeed;
 			moveVector.y = player.GetAxis("Move Vertical") * Time.deltaTime * reticuleMoveSpeed;
 
-			//Twin Stick Rotation
-			//rotateVector = Vector3.right * player.GetAxis("Rotate Horizontal") + Vector3.forward * player.GetAxis("Rotate Vertical");
-
-			//Single Stick Rotation
-			//rotateVector = Vector3.right * player.GetAxis("Move Horizontal") + Vector3.forward * player.GetAxis("Move Vertical");
-
 			if (player.GetButtonDown("Exit Interactable")) {
 				Leave();
 			}
@@ -77,13 +80,20 @@ public class cannon : Interactable {
 	}
 
 	private void ProcessInput() {
+		// If the player has given input, move the reticule accordingly
 		if (moveVector.x != 0.0f || moveVector.y != 0.0f) {
 			reticule.transform.Translate(moveVector.x, 0, moveVector.y, Space.World);
+			//newAngle = Mathf.Atan((reticule.transform.localPosition.x) / (reticule.transform.localPosition.z)) * Mathf.Rad2Deg;
 		}
+		//Debug.Log("x: " + reticule.transform.localPosition.x + " z: " + reticule.transform.localPosition.z + " angle: " + newAngle);
 
-		if (rotateVector.sqrMagnitude > 0.0f) {
-			reticule.transform.rotation = Quaternion.LookRotation(rotateVector, Vector3.up);
-		}
+		// Clamp x (opposite leg) transform between -tan(angle)*z and tan(angle)*z, and clamp z (adj. leg) between 0 and max range
+		reticule.transform.localPosition = new Vector3(Mathf.Clamp(reticule.transform.localPosition.x, reticule.transform.localPosition.z * Mathf.Tan(-coneAngle * Mathf.Deg2Rad), reticule.transform.localPosition.z * Mathf.Tan(coneAngle * Mathf.Deg2Rad)), 
+			0, Mathf.Clamp(reticule.transform.localPosition.z, 0, maxRange));
+	}
+
+	private float getMaxRange() {
+		return munitions.getMaxRange(barrel.transform.position.y);
 	}
 
 	// ------------------- Interaction Methods ---------------------
