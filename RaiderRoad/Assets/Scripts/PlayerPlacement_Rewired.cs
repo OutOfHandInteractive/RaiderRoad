@@ -209,7 +209,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
     {
         
         //Debug.Log(other.name);
-        if ((other.gameObject.name == "BuildNode" || other.name == "xNode") && wallInventory > 0)
+        if ((other.tag.Equals("WallNode") && wallInventory > 0))
         {
             //Debug.Log("Added");
             nodes.Add(other.gameObject);
