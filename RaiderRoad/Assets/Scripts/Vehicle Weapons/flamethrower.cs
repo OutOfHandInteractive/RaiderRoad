@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -62,51 +62,7 @@ public class flamethrower : Interactable {
         GetInput();
 		ProcessInput();
 
-        if (firing)
-        {
-            overheatCount -= Time.deltaTime;
-        }
-        else if (!overheated && overheatCount < overheatTime)
-        {
-            overheatCount += Time.deltaTime;
-        }
-        else if (overheatCount >= overheatTime)
-        {
-            overheatCount = overheatTime;
-        }
-
-
-        if (overheatCount <= 0.0f)
-        {
-            overheated = true;
-            firing = false;
-            flame.SetActive(false);
-            barrel.GetComponent<MeshRenderer>().material = overheatMat;
-            cooldownCount = overheatCooldown;
-            overheatCount = overheatTime;
-        }
-
-        if (overheated)
-        {
-            cooldownCount -= Time.deltaTime;
-        }
-
-        if (cooldownCount <= 0.0f)
-        {
-            overheated = false;
-            barrel.GetComponent<MeshRenderer>().material = normalMat;
-            cooldownCount = overheatCooldown;
-            overheatCount = overheatTime;
-        }
-
-        if (!overheated)
-        {
-            overheat.text = overheatCount.ToString("F2");
-        }
-        else
-        {
-            overheat.text = cooldownCount.ToString("F2");
-        }
+        CheckOverheat();
 	}
 
 	private void GetInput() {
@@ -152,6 +108,55 @@ public class flamethrower : Interactable {
             transform.LookAt(reticule.transform);
         }
 	}
+    
+    void CheckOverheat() 
+    {
+        if (firing)
+        {
+            overheatCount -= Time.deltaTime;
+        }
+        else if (!overheated && overheatCount < overheatTime)
+        {
+            overheatCount += Time.deltaTime;
+        }
+        else if (overheatCount >= overheatTime)
+        {
+            overheatCount = overheatTime;
+        }
+
+
+        if (overheatCount <= 0.0f)
+        {
+            overheated = true;
+            firing = false;
+            flame.SetActive(false);
+            barrel.GetComponent<MeshRenderer>().material = overheatMat;
+            cooldownCount = overheatCooldown;
+            overheatCount = overheatTime;
+        }
+
+        if (overheated)
+        {
+            cooldownCount -= Time.deltaTime;
+        }
+
+        if (cooldownCount <= 0.0f)
+        {
+            overheated = false;
+            barrel.GetComponent<MeshRenderer>().material = normalMat;
+            cooldownCount = overheatCooldown;
+            overheatCount = overheatTime;
+        }
+
+        if (!overheated)
+        {
+            overheat.text = overheatCount.ToString("F2");
+        }
+        else
+        {
+            overheat.text = cooldownCount.ToString("F2");
+        }
+    }
 
 	// ------------------- Interaction Methods ---------------------
 
