@@ -15,8 +15,7 @@ public class cannon : Interactable {
 	public float reticuleMoveSpeed;
 	public float firingCooldown;
 	public float coneAngle;
-	public float correctionSpeed;
-	public float maxRange;
+	private float maxRange;
 
 	// ----------------------------------------------------------------------
 
@@ -26,11 +25,11 @@ public class cannon : Interactable {
 	private Vector2 moveVector;
 	private Vector3 rotateVector;
 	private GameObject proj;
-	public Vector3 forwardDir;
-	public Vector3 dist;
+	private Vector3 forwardDir;
+	private Vector3 dist;
 
 	// updating variables
-	public float firingCooldownTimer;
+	private float firingCooldownTimer;
 	private float newAngle;
 
 	// ----------------------------------------------------------------------
@@ -47,6 +46,7 @@ public class cannon : Interactable {
 		firingCooldownTimer = firingCooldown;
 
 		forwardDir = transform.forward;
+		maxRange = getMaxRange();
 	}
 
 	// Update is called once per frame
@@ -100,7 +100,7 @@ public class cannon : Interactable {
 	}
 
 	private float getMaxRange() {
-		return munitions.getMaxRange(barrel.transform.position.y);
+		return munitions.getMaxRange();
 	}
 
 	// ------------------- Interaction Methods ---------------------

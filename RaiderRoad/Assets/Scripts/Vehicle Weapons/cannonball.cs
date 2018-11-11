@@ -62,7 +62,7 @@ public class cannonball : MonoBehaviour {
 		return (float)(0.5 * Mathf.Asin((-G * Vector3.Distance(_source, _target)) / Mathf.Pow(muzzleVelocity, 2)) * Mathf.Rad2Deg);
 	}
 
-	public float getMaxRange(float h) {
-		return (muzzleVelocity / G) * Mathf.Sqrt(Mathf.Pow(muzzleVelocity, 2) + (2 * G * h));
+	public float getMaxRange() {
+		return (Mathf.Pow(muzzleVelocity, 2) / -G);
 	}
 }
