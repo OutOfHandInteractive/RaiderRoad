@@ -94,6 +94,7 @@ public class PlayerController_Rewired : MonoBehaviour {
             if (player.GetButtonDown("Jump") && grounded) 
             {
                 rb.AddForce(transform.up * jumpForce);
+                grounded = false;
             }
 		}
         
@@ -144,26 +145,20 @@ public class PlayerController_Rewired : MonoBehaviour {
         RaycastHit hit;
         Debug.DrawRay(transform.position, -Vector3.up, Color.green);
         if (Physics.Raycast(new Vector3(transform.position.x,transform.position.y + .5f, transform.position.z), -Vector3.up, out hit)) {
-            Debug.Log(hit.collider);
+            //Debug.Log(hit.collider);
             Vector3 pos = hit.point + hit.normal * 0.01f;
             jumpIndicator.transform.position = pos;
             //jumpIndicator.transform.position = new Vector3(jumpIndicator.transform.position.x, pos, jumpIndicator.transform.position.z);
         }
     }
     
-    void OnCollisionEnter(Collision theCollision)
+    void OnCollisionEnter(Collision other)
     {
-        if (theCollision.gameObject.name == "floor")
+        //Debug.Log(other.gameObject.tag);
+        if (other.gameObject.tag == "floor")
         {
+            //Debug.Log("Can jump");
             grounded = true;
-        }
-    }
-    
-    void OnCollisionExit(Collision theCollision)
-    {
-        if (theCollision.gameObject.name == "floor")
-        {
-            grounded = false;
         }
     }
     
