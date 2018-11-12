@@ -23,7 +23,7 @@ public class TrapNode : MonoBehaviour {
         if (isFloor)
         {
             item = Instantiate(trapToPlace, new Vector3(transform.position.x, transform.position.y, transform.position.z),
-                Quaternion.LookRotation(dir));
+                Quaternion.identity);
         }
         else
         {
