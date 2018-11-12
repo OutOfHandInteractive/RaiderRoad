@@ -231,7 +231,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1005041382149096}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -3.3, y: -0.021000028, z: 0.194}
+  m_LocalPosition: {x: -3, y: -0.021000028, z: 0}
   m_LocalScale: {x: 0.40000018, y: 0.40000024, z: 1}
   m_Children: []
   m_Father: {fileID: 4094329721702162}
@@ -455,8 +455,8 @@ MonoBehaviour:
   overheatCooldown: 3
   normalMat: {fileID: 2100000, guid: 7960cd9395a2b8645b34c62abd6d9f4b, type: 2}
   overheatMat: {fileID: 2100000, guid: 66c2ca5b6eb2c64419a8e6a46e68030c, type: 2}
-  range: 3
   reticuleMoveSpeed: 3
+  coneAngle: 45
 --- !u!114 &114102681350744906
 MonoBehaviour:
   m_ObjectHideFlags: 1
