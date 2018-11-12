@@ -11,18 +11,19 @@ public class flamethrower : Interactable {
 	public GameObject flame;
 	public GameObject reticule;
 	public GameObject barrel;
+	public GameObject weapon;
     public Text overheat;
-    public float overheatTime;
-    public float overheatCooldown;
     public Material normalMat;
     public Material overheatMat;
     
 	// gameplay values
 	public float reticuleMoveSpeed;
     public float coneAngle;
-    
+	public float overheatTime;
+	public float overheatCooldown;
+
 	// ----------------------------------------------------------------------
-    
+
 	// ----------------------
 	// Private variables
 	// ----------------------
@@ -54,6 +55,7 @@ public class flamethrower : Interactable {
     
 	// Update is called once per frame
 	void Update () {
+		weapon.transform.LookAt(reticule.transform);
         if (isOnCooldown())
         {
             cooldownTimer -= Time.deltaTime;
@@ -119,10 +121,10 @@ public class flamethrower : Interactable {
                                                        Mathf.Clamp(reticule.transform.localPosition.z, reticule.transform.localPosition.x * Mathf.Tan(coneAngle * Mathf.Deg2Rad), reticule.transform.localPosition.x * Mathf.Tan(-coneAngle * Mathf.Deg2Rad)));
         
         
-        if (reticule.activeSelf == true)
+        /*if (reticule.activeSelf == true)
         {
             transform.LookAt(reticule.transform);
-        }
+        }*/
 	}
     
     void CheckOverheat() 
