@@ -45,7 +45,7 @@ public class flamethrower : Interactable {
 		inUse = false;
 		user = null;
 		userPlayerId = -1;
-        barrel.GetComponent<MeshRenderer>().material = normalMat;
+        //barrel.GetComponent<MeshRenderer>().material = normalMat;
         overheatCount = overheatTime;
         cooldownCount = overheatCooldown;
         overheated = false;
@@ -114,20 +114,23 @@ public class flamethrower : Interactable {
 			newAngle = Mathf.Atan((reticule.transform.localPosition.z) / (reticule.transform.localPosition.x));
 		}
 		//Debug.Log("x: " + reticule.transform.localPosition.x + " z: " + reticule.transform.localPosition.z + " angle: " + newAngle);
-        
+
 		// Clamp x (opposite leg) transform between -tan(angle)*z and tan(angle)*z
 		// Clamp z (adj. leg) between 0 and maxRange - tan(pi/2 - (pi - (pi/2 + newAngle)))*reticuleX
-		reticule.transform.localPosition = new Vector3(reticule.transform.localPosition.x, 0,
-                                                       Mathf.Clamp(reticule.transform.localPosition.z, reticule.transform.localPosition.x * Mathf.Tan(coneAngle * Mathf.Deg2Rad), reticule.transform.localPosition.x * Mathf.Tan(-coneAngle * Mathf.Deg2Rad)));
-        
-        
-        /*if (reticule.activeSelf == true)
+		//reticule.transform.localPosition = new Vector3(reticule.transform.localPosition.x, 0,
+		// Mathf.Clamp(reticule.transform.localPosition.z, reticule.transform.localPosition.x * Mathf.Tan(coneAngle * Mathf.Deg2Rad), reticule.transform.localPosition.x * Mathf.Tan(-coneAngle * Mathf.Deg2Rad)));
+		reticule.transform.localPosition = new Vector3(
+			Mathf.Clamp(reticule.transform.localPosition.x, reticule.transform.localPosition.z * Mathf.Tan(-coneAngle * Mathf.Deg2Rad), reticule.transform.localPosition.z * Mathf.Tan(coneAngle * Mathf.Deg2Rad)), 
+			0,
+			reticule.transform.localPosition.z);
+
+		/*if (reticule.activeSelf == true)
         {
             transform.LookAt(reticule.transform);
         }*/
 	}
-    
-    void CheckOverheat() 
+
+	void CheckOverheat() 
     {
         if (firing)
         {
@@ -148,7 +151,7 @@ public class flamethrower : Interactable {
             overheated = true;
             firing = false;
             flame.SetActive(false);
-            barrel.GetComponent<MeshRenderer>().material = overheatMat;
+            //weapon.GetComponent<MeshRenderer>().material = overheatMat;
             cooldownCount = overheatCooldown;
             overheatCount = overheatTime;
         }
@@ -161,7 +164,7 @@ public class flamethrower : Interactable {
         if (cooldownCount <= 0.0f)
         {
             overheated = false;
-            barrel.GetComponent<MeshRenderer>().material = normalMat;
+            //weapon.GetComponent<MeshRenderer>().material = normalMat;
             cooldownCount = overheatCooldown;
             overheatCount = overheatTime;
         }
