@@ -21,6 +21,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
     public GameObject engine;
     public float damage = 25.0f;
     public float timeToDrop = 1f; //Time needed to drop item (by holding down button)
+    public GameObject[] weapons = new GameObject[3];
 
     public GameObject AttackObject; //for temporary attack for prototype
 
