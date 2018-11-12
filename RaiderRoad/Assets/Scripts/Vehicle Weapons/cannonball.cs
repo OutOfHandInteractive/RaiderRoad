@@ -27,7 +27,7 @@ public class cannonball : MonoBehaviour {
 		timeRemaining -= Time.deltaTime;
 		timeElapsed = travelTime - timeRemaining;
 
-		transform.position += new Vector3(xVel*Time.deltaTime, deltaY(), zVel*Time.deltaTime);
+		//transform.position += new Vector3(xVel*Time.deltaTime, deltaY(), zVel*Time.deltaTime);
 
 		if(timeRemaining <= 0) {
 			Destroy(gameObject);
