@@ -20,8 +20,7 @@ public class sceneManagerScript : MonoBehaviour {
     public Transform character2;
     public Transform character3;
     public Transform character4;
-    private Transform rv; //rv is reference to RV obj in scene; CurrentRV is a reference to most recent RV obj in assets (to get right name)
-    //public Transform CurrentRV;
+    private Transform rv; //rv is reference to RV obj in scene
 
     void Awake() {
 		// Have playlist persist across scenes.
@@ -38,10 +37,10 @@ public class sceneManagerScript : MonoBehaviour {
     void Start()
     {
         if (SceneManager.GetActiveScene() != SceneManager.GetSceneByName("PlayerSelect"))
-        {
+        {   
             nextScene = null;
         }
-        else
+        else    //check in case someone tests game starting in the player select screen, if so default to first scene
         {
             nextScene = NeedPlaySelScene[0];
         }
@@ -49,7 +48,7 @@ public class sceneManagerScript : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-        if (Input.GetKey("escape"))
+        if (Input.GetKey("escape"))     //Set all variables back to null and send player to Scene menu
         {
             nextScene = null;
             char1Players = null;
@@ -61,7 +60,7 @@ public class sceneManagerScript : MonoBehaviour {
 	}
 
     public void LoadScene(string myScene) {
-        if (NeedPlaySelScene.Contains(myScene))
+        if (NeedPlaySelScene.Contains(myScene))     //if scene needs player select, go to that and set it to be next scene
         {
             nextScene = myScene;
             SceneManager.LoadScene(playSelScene, LoadSceneMode.Single);
@@ -72,7 +71,7 @@ public class sceneManagerScript : MonoBehaviour {
     }
 
     public void PlaySelDone(int[] c1Array, int[] c2Array, int[] c3Array, int[] c4Array) {
-        char1Players = c1Array;
+        char1Players = c1Array;     //Pull all the arrays from the player select menu (so we know how many of each character we have)
         char2Players = c2Array;
         char3Players = c3Array;
         char4Players = c4Array;
@@ -103,9 +102,9 @@ public class sceneManagerScript : MonoBehaviour {
         if (char1Players.Length > 0)
         {
             Transform[] player = new Transform[char1Players.Length];
-            for (int i = 0; i < char1Players.Length; i++)
+            for (int i = 0; i < char1Players.Length; i++)       //for loop in case multiples of character
             {
-                player[i] = Instantiate(character1, playerPos[i].position, character1.rotation, rv);
+                player[i] = Instantiate(character1, playerPos[i].position, character1.rotation, rv);    //create character, set them to player spawn position
                 player[i].gameObject.GetComponent<PlayerController_Rewired>().SetId(char1Players[i]);
                 player[i].Find("View").gameObject.GetComponent<PlayerPlacement_Rewired>().SetId(char1Players[i]);
                 //Debug.Log(player[i]);
