@@ -21,36 +21,49 @@ public class BuildNode : MonoBehaviour {
     private GameObject holo;
     private GameObject item;
 
-    public void Build(GameObject wallToPlace, GameObject spawnNode)
+    public void Build(GameObject objectToPlace, GameObject spawnNode)
     {
-        if (this.isHorizontal)
-        {
-            item = Instantiate(wallToPlace, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
-            item.transform.localScale = new Vector3(1, 1, 0.1f);
-            item.transform.parent = spawnNode.transform;
-            occupied = true;
+        if(objectToPlace.tag == "Wall"){ //If object is a wall
+            if (this.isHorizontal)
+            {
+                item = Instantiate(objectToPlace, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
+                item.transform.localScale = new Vector3(1, 1, 0.1f);
+                item.transform.parent = spawnNode.transform;
+                occupied = true;
+            }
+            else
+            {
+                item = Instantiate(objectToPlace, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.Euler(new Vector3(0, 90, 0)));
+                item.transform.localScale = new Vector3(1, 1, 0.1f);
+                item.transform.parent = spawnNode.transform;
+                occupied = true;
+            }
         }
-        else
-        {
-            item = Instantiate(wallToPlace, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.Euler(new Vector3(0, 90, 0)));
-            item.transform.localScale = new Vector3(1, 1, 0.1f);
+        else if(objectToPlace.tag == "Interactable"){
+            Vector3 dir = gameObject.transform.forward;
+            item = Instantiate(objectToPlace, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.LookRotation(dir));
+            item.transform.localScale = new Vector3(1.5f, 0.7f, 0.7f);
             item.transform.parent = spawnNode.transform;
             occupied = true;
+
         }
         item.GetComponent<Wall>().myNode = gameObject;
     }
 
-    public void Show(GameObject wallToShow){ //hologram function
-
-        if (this.isHorizontal)
-        {
-            holo = Instantiate(wallToShow, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
+    public void Show(GameObject makeHolo){ //hologram function
+        if(makeHolo.tag == "Wall"){
+            if (this.isHorizontal)
+            {
+                holo = Instantiate(makeHolo, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
+            }
+            else
+            {
+                holo = Instantiate(makeHolo, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.Euler(new Vector3(0, 90, 0)));
+            }
+        }else{
+            Vector3 dir = gameObject.transform.forward;
+            holo = Instantiate(makeHolo, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.LookRotation(dir));
         }
-        else
-        {
-            holo = Instantiate(wallToShow, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.Euler(new Vector3(0, 90, 0)));
-        }
-
         holo.GetComponent<Wall>().isHolo = true;
     }
 
