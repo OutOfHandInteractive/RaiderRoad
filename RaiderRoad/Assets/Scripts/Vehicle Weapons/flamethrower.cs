@@ -35,7 +35,7 @@ public class flamethrower : Interactable {
     private float cooldownCount;
     private bool firing = false;
     private float newAngle;
-    
+    private bool interacting = false;
     
 	[System.NonSerialized]
         private bool initialized;
@@ -72,8 +72,9 @@ public class flamethrower : Interactable {
 			moveVector.x = player.GetAxis("Move Horizontal") * Time.deltaTime * reticuleMoveSpeed;
 			moveVector.y = player.GetAxis("Move Vertical") * Time.deltaTime * reticuleMoveSpeed;
             
-			if (player.GetButtonDown("Exit Interactable")) {
+			if (player.GetButtonDown("Exit Interactable") && interacting) {
 				Leave();
+                Debug.Log("Left Flamethrower");
 			}
             
 			if (player.GetButtonDown("Shoot Weapon") && !overheated)
@@ -85,6 +86,10 @@ public class flamethrower : Interactable {
             {
                 flame.SetActive(false);
                 firing = false;
+            }
+            
+            if (reticule.activeSelf == true) {
+                interacting = true;
             }
         }
 	}
@@ -196,5 +201,6 @@ public class flamethrower : Interactable {
         user.unsetInteractingFlag();
 		inUse = false;
 		reticule.SetActive(false);
+        interacting = false;
 	}
 }

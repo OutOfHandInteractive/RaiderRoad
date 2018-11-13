@@ -206,6 +206,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
+--- !u!1 &1532749662353186
+GameObject:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4229392036559844}
+  m_Layer: 0
+  m_Name: Barrel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1593056957681830
 GameObject:
   m_ObjectHideFlags: 0
@@ -537,11 +552,11 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1530418609519860}
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -0.032999996, y: 0.691, z: 3.6200008}
+  m_LocalPosition: {x: 0.02, y: 0.59, z: 3.42}
   m_LocalScale: {x: 6.067743, y: 1.1878, z: -0.00023569034}
   m_Children: []
   m_Father: {fileID: 4993774807337880}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!4 &4227006579914976
 Transform:
@@ -555,6 +570,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4043967182172402}
   m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4229392036559844
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1532749662353186}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 3.6250014, y: 0.45699996, z: 0.3930006}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4993774807337880}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4265805261449474
 Transform:
@@ -632,7 +660,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4993774807337880}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4493445201368720
 Transform:
@@ -744,6 +772,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4043967182172402}
+  - {fileID: 4229392036559844}
   - {fileID: 4479041866582756}
   - {fileID: 4171977232116664}
   m_Father: {fileID: 4094329721702162}
@@ -1484,7 +1513,7 @@ MonoBehaviour:
   cooldown: 0
   flame: {fileID: 1530418609519860}
   reticule: {fileID: 1005041382149096}
-  barrel: {fileID: 1256973579298874}
+  barrel: {fileID: 1532749662353186}
   weapon: {fileID: 1397531503825144}
   overheat: {fileID: 114102681350744906}
   normalMat: {fileID: 2100000, guid: 7960cd9395a2b8645b34c62abd6d9f4b, type: 2}
