@@ -40,7 +40,7 @@ public class BuildNode : MonoBehaviour {
                 occupied = true;
             }
         }
-        else if(objectToPlace.name == "WeaponTest")
+        else if(objectToPlace.name == "WeaponTest" && canPlaceWeapon)
         {
             Vector3 dir = gameObject.transform.forward;
             item = Instantiate(objectToPlace, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.LookRotation(dir));

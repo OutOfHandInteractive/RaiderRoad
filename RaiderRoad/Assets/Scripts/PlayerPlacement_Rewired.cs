@@ -237,7 +237,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
             {
                 other.GetComponent<BuildNode>().Show(wall);
             }
-            else if (buildMode && heldItem.CompareTag("Weapon"))
+            else if (buildMode && heldItem.CompareTag("Weapon") && other.GetComponent<BuildNode>().canPlaceWeapon)
             {
                 other.GetComponent<BuildNode>().Show(heldItem);
             }
@@ -291,7 +291,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
             wallInventory++;
             Destroy(other.gameObject);
         }
-        else if(other.tag == "Drops")
+        else if(other.tag == "Drops" && !heldItem)
         {
             heldItem = other.GetComponent<ItemDrop>().item;
             Destroy(other.gameObject);
