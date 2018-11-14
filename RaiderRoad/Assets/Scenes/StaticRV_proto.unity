@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657838, g: 0.49641234, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -310,6 +310,11 @@ Prefab:
     - target: {fileID: 4642256496040704, guid: 68e65662634328844bf9703af5c0c728, type: 2}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114244400078430228, guid: 68e65662634328844bf9703af5c0c728,
+        type: 2}
+      propertyPath: canPlaceWeapon
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 68e65662634328844bf9703af5c0c728, type: 2}
@@ -1546,6 +1551,7 @@ MonoBehaviour:
   wall: {fileID: 1475573904591342, guid: 819954f284979f44dbb66a870bc79c23, type: 2}
   occupied: 0
   isHorizontal: 0
+  canPlaceWeapon: 0
 --- !u!135 &159460334
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1805,6 +1811,11 @@ Prefab:
     - target: {fileID: 4642256496040704, guid: 68e65662634328844bf9703af5c0c728, type: 2}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 180
+      objectReference: {fileID: 0}
+    - target: {fileID: 114244400078430228, guid: 68e65662634328844bf9703af5c0c728,
+        type: 2}
+      propertyPath: canPlaceWeapon
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 68e65662634328844bf9703af5c0c728, type: 2}
@@ -2312,6 +2323,7 @@ MonoBehaviour:
   wall: {fileID: 1475573904591342, guid: 819954f284979f44dbb66a870bc79c23, type: 2}
   occupied: 0
   isHorizontal: 0
+  canPlaceWeapon: 0
 --- !u!135 &192684003
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -2612,6 +2624,7 @@ MonoBehaviour:
   wall: {fileID: 1475573904591342, guid: 819954f284979f44dbb66a870bc79c23, type: 2}
   occupied: 0
   isHorizontal: 0
+  canPlaceWeapon: 0
 --- !u!135 &213651902
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -2738,6 +2751,7 @@ MonoBehaviour:
   wall: {fileID: 1475573904591342, guid: 819954f284979f44dbb66a870bc79c23, type: 2}
   occupied: 0
   isHorizontal: 0
+  canPlaceWeapon: 0
 --- !u!135 &229583028
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -3175,6 +3189,11 @@ Prefab:
       propertyPath: m_Layer
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 114204247270577492, guid: 68e65662634328844bf9703af5c0c728,
+        type: 2}
+      propertyPath: canPlaceWeapon
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 68e65662634328844bf9703af5c0c728, type: 2}
   m_IsPrefabAsset: 0
@@ -3232,6 +3251,7 @@ MonoBehaviour:
   wall: {fileID: 1475573904591342, guid: 819954f284979f44dbb66a870bc79c23, type: 2}
   occupied: 0
   isHorizontal: 0
+  canPlaceWeapon: 0
 --- !u!135 &293732888
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -3732,6 +3752,11 @@ Prefab:
       propertyPath: m_Layer
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 114204247270577492, guid: 68e65662634328844bf9703af5c0c728,
+        type: 2}
+      propertyPath: canPlaceWeapon
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 68e65662634328844bf9703af5c0c728, type: 2}
   m_IsPrefabAsset: 0
@@ -3842,6 +3867,11 @@ Prefab:
     - target: {fileID: 4642256496040704, guid: 68e65662634328844bf9703af5c0c728, type: 2}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114244400078430228, guid: 68e65662634328844bf9703af5c0c728,
+        type: 2}
+      propertyPath: canPlaceWeapon
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 68e65662634328844bf9703af5c0c728, type: 2}
@@ -4124,6 +4154,11 @@ Prefab:
       propertyPath: m_LocalEulerAnglesHint.y
       value: 180
       objectReference: {fileID: 0}
+    - target: {fileID: 114244400078430228, guid: 68e65662634328844bf9703af5c0c728,
+        type: 2}
+      propertyPath: canPlaceWeapon
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 68e65662634328844bf9703af5c0c728, type: 2}
   m_IsPrefabAsset: 0
@@ -4373,6 +4408,7 @@ MonoBehaviour:
   wall: {fileID: 1475573904591342, guid: 819954f284979f44dbb66a870bc79c23, type: 2}
   occupied: 0
   isHorizontal: 0
+  canPlaceWeapon: 0
 --- !u!135 &470436559
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -4676,6 +4712,11 @@ Prefab:
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114244400078430228, guid: 68e65662634328844bf9703af5c0c728,
+        type: 2}
+      propertyPath: canPlaceWeapon
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 68e65662634328844bf9703af5c0c728, type: 2}
   m_IsPrefabAsset: 0
@@ -4794,6 +4835,11 @@ Prefab:
       propertyPath: m_LocalEulerAnglesHint.y
       value: 180
       objectReference: {fileID: 0}
+    - target: {fileID: 114244400078430228, guid: 68e65662634328844bf9703af5c0c728,
+        type: 2}
+      propertyPath: canPlaceWeapon
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 68e65662634328844bf9703af5c0c728, type: 2}
   m_IsPrefabAsset: 0
@@ -4859,6 +4905,7 @@ MonoBehaviour:
   wall: {fileID: 1475573904591342, guid: 819954f284979f44dbb66a870bc79c23, type: 2}
   occupied: 0
   isHorizontal: 0
+  canPlaceWeapon: 0
 --- !u!135 &488157315
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -5306,6 +5353,11 @@ Prefab:
       propertyPath: m_Layer
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 114204247270577492, guid: 68e65662634328844bf9703af5c0c728,
+        type: 2}
+      propertyPath: canPlaceWeapon
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 68e65662634328844bf9703af5c0c728, type: 2}
   m_IsPrefabAsset: 0
@@ -5636,6 +5688,7 @@ MonoBehaviour:
   wall: {fileID: 1475573904591342, guid: 819954f284979f44dbb66a870bc79c23, type: 2}
   occupied: 0
   isHorizontal: 0
+  canPlaceWeapon: 0
 --- !u!135 &572412077
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -5794,6 +5847,11 @@ Prefab:
     - target: {fileID: 1049252534688448, guid: 68e65662634328844bf9703af5c0c728, type: 2}
       propertyPath: m_Layer
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114204247270577492, guid: 68e65662634328844bf9703af5c0c728,
+        type: 2}
+      propertyPath: canPlaceWeapon
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 68e65662634328844bf9703af5c0c728, type: 2}
@@ -6131,12 +6189,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 27
       objectReference: {fileID: 0}
-    - target: {fileID: 114586731710966824, guid: 51b5e7053239d5248984cbc45edb9802,
-        type: 2}
-      propertyPath: wall
-      value: 
-      objectReference: {fileID: 1995987925131286, guid: 049154bc0de2d40e9970317c86fbfeb1,
-        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 51b5e7053239d5248984cbc45edb9802, type: 2}
   m_IsPrefabAsset: 0
@@ -7109,6 +7161,11 @@ Prefab:
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114244400078430228, guid: 68e65662634328844bf9703af5c0c728,
+        type: 2}
+      propertyPath: canPlaceWeapon
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 68e65662634328844bf9703af5c0c728, type: 2}
   m_IsPrefabAsset: 0
@@ -7541,6 +7598,7 @@ MonoBehaviour:
   wall: {fileID: 1475573904591342, guid: 819954f284979f44dbb66a870bc79c23, type: 2}
   occupied: 0
   isHorizontal: 0
+  canPlaceWeapon: 0
 --- !u!135 &715832050
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -7639,6 +7697,11 @@ Prefab:
       propertyPath: m_RootOrder
       value: 31
       objectReference: {fileID: 0}
+    - target: {fileID: 114860124110327914, guid: 049154bc0de2d40e9970317c86fbfeb1,
+        type: 2}
+      propertyPath: drop
+      value: 
+      objectReference: {fileID: 1767356871}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 049154bc0de2d40e9970317c86fbfeb1, type: 2}
   m_IsPrefabAsset: 0
@@ -8269,6 +8332,11 @@ Prefab:
       propertyPath: m_LocalEulerAnglesHint.y
       value: 180
       objectReference: {fileID: 0}
+    - target: {fileID: 114244400078430228, guid: 68e65662634328844bf9703af5c0c728,
+        type: 2}
+      propertyPath: canPlaceWeapon
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 68e65662634328844bf9703af5c0c728, type: 2}
   m_IsPrefabAsset: 0
@@ -8638,6 +8706,11 @@ Prefab:
     - target: {fileID: 4642256496040704, guid: 68e65662634328844bf9703af5c0c728, type: 2}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114244400078430228, guid: 68e65662634328844bf9703af5c0c728,
+        type: 2}
+      propertyPath: canPlaceWeapon
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 68e65662634328844bf9703af5c0c728, type: 2}
@@ -9067,6 +9140,7 @@ MonoBehaviour:
   wall: {fileID: 1475573904591342, guid: 819954f284979f44dbb66a870bc79c23, type: 2}
   occupied: 0
   isHorizontal: 0
+  canPlaceWeapon: 0
 --- !u!135 &822230540
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -9360,6 +9434,7 @@ MonoBehaviour:
   wall: {fileID: 1475573904591342, guid: 819954f284979f44dbb66a870bc79c23, type: 2}
   occupied: 0
   isHorizontal: 0
+  canPlaceWeapon: 0
 --- !u!135 &863770856
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -9583,6 +9658,7 @@ MonoBehaviour:
   wall: {fileID: 1475573904591342, guid: 819954f284979f44dbb66a870bc79c23, type: 2}
   occupied: 0
   isHorizontal: 0
+  canPlaceWeapon: 0
 --- !u!135 &888627575
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -9686,6 +9762,7 @@ MonoBehaviour:
   wall: {fileID: 1475573904591342, guid: 819954f284979f44dbb66a870bc79c23, type: 2}
   occupied: 0
   isHorizontal: 0
+  canPlaceWeapon: 0
 --- !u!135 &899106235
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -10175,6 +10252,7 @@ MonoBehaviour:
   wall: {fileID: 1475573904591342, guid: 819954f284979f44dbb66a870bc79c23, type: 2}
   occupied: 0
   isHorizontal: 0
+  canPlaceWeapon: 0
 --- !u!135 &964482119
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -10425,6 +10503,16 @@ Prefab:
     - target: {fileID: 4642256496040704, guid: 68e65662634328844bf9703af5c0c728, type: 2}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114204247270577492, guid: 68e65662634328844bf9703af5c0c728,
+        type: 2}
+      propertyPath: canPlaceWeapon
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114244400078430228, guid: 68e65662634328844bf9703af5c0c728,
+        type: 2}
+      propertyPath: canPlaceWeapon
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 68e65662634328844bf9703af5c0c728, type: 2}
@@ -10724,6 +10812,11 @@ Prefab:
     - target: {fileID: 4642256496040704, guid: 68e65662634328844bf9703af5c0c728, type: 2}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114244400078430228, guid: 68e65662634328844bf9703af5c0c728,
+        type: 2}
+      propertyPath: canPlaceWeapon
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 68e65662634328844bf9703af5c0c728, type: 2}
@@ -11233,6 +11326,11 @@ Prefab:
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114244400078430228, guid: 68e65662634328844bf9703af5c0c728,
+        type: 2}
+      propertyPath: canPlaceWeapon
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 68e65662634328844bf9703af5c0c728, type: 2}
   m_IsPrefabAsset: 0
@@ -11285,6 +11383,7 @@ MonoBehaviour:
   wall: {fileID: 1475573904591342, guid: 819954f284979f44dbb66a870bc79c23, type: 2}
   occupied: 0
   isHorizontal: 0
+  canPlaceWeapon: 0
 --- !u!135 &1031875785
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -12506,6 +12605,11 @@ Prefab:
     - target: {fileID: 4642256496040704, guid: 68e65662634328844bf9703af5c0c728, type: 2}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 180
+      objectReference: {fileID: 0}
+    - target: {fileID: 114244400078430228, guid: 68e65662634328844bf9703af5c0c728,
+        type: 2}
+      propertyPath: canPlaceWeapon
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 68e65662634328844bf9703af5c0c728, type: 2}
@@ -14171,6 +14275,11 @@ Prefab:
       propertyPath: m_Layer
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 114204247270577492, guid: 68e65662634328844bf9703af5c0c728,
+        type: 2}
+      propertyPath: canPlaceWeapon
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 68e65662634328844bf9703af5c0c728, type: 2}
   m_IsPrefabAsset: 0
@@ -14321,6 +14430,7 @@ MonoBehaviour:
   wall: {fileID: 1475573904591342, guid: 819954f284979f44dbb66a870bc79c23, type: 2}
   occupied: 0
   isHorizontal: 0
+  canPlaceWeapon: 0
 --- !u!135 &1401611483
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -14519,6 +14629,48 @@ Prefab:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 68e65662634328844bf9703af5c0c728, type: 2}
+  m_IsPrefabAsset: 0
+--- !u!1001 &1408551041
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4180551520891130, guid: 81cfc744c231f00418c95b1452b9cb27, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 5.44
+      objectReference: {fileID: 0}
+    - target: {fileID: 4180551520891130, guid: 81cfc744c231f00418c95b1452b9cb27, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0.275
+      objectReference: {fileID: 0}
+    - target: {fileID: 4180551520891130, guid: 81cfc744c231f00418c95b1452b9cb27, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: -5.07
+      objectReference: {fileID: 0}
+    - target: {fileID: 4180551520891130, guid: 81cfc744c231f00418c95b1452b9cb27, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4180551520891130, guid: 81cfc744c231f00418c95b1452b9cb27, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 4180551520891130, guid: 81cfc744c231f00418c95b1452b9cb27, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4180551520891130, guid: 81cfc744c231f00418c95b1452b9cb27, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 4180551520891130, guid: 81cfc744c231f00418c95b1452b9cb27, type: 2}
+      propertyPath: m_RootOrder
+      value: 32
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 81cfc744c231f00418c95b1452b9cb27, type: 2}
   m_IsPrefabAsset: 0
 --- !u!1 &1422304532
 GameObject:
@@ -15054,6 +15206,7 @@ MonoBehaviour:
   wall: {fileID: 1475573904591342, guid: 819954f284979f44dbb66a870bc79c23, type: 2}
   occupied: 0
   isHorizontal: 0
+  canPlaceWeapon: 0
 --- !u!54 &1498288320
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -15667,6 +15820,11 @@ Prefab:
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114244400078430228, guid: 68e65662634328844bf9703af5c0c728,
+        type: 2}
+      propertyPath: canPlaceWeapon
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 68e65662634328844bf9703af5c0c728, type: 2}
   m_IsPrefabAsset: 0
@@ -15862,6 +16020,11 @@ Prefab:
     - target: {fileID: 4642256496040704, guid: 68e65662634328844bf9703af5c0c728, type: 2}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 180
+      objectReference: {fileID: 0}
+    - target: {fileID: 114244400078430228, guid: 68e65662634328844bf9703af5c0c728,
+        type: 2}
+      propertyPath: canPlaceWeapon
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 68e65662634328844bf9703af5c0c728, type: 2}
@@ -16072,6 +16235,11 @@ Prefab:
     - target: {fileID: 4642256496040704, guid: 68e65662634328844bf9703af5c0c728, type: 2}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 180
+      objectReference: {fileID: 0}
+    - target: {fileID: 114244400078430228, guid: 68e65662634328844bf9703af5c0c728,
+        type: 2}
+      propertyPath: canPlaceWeapon
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 68e65662634328844bf9703af5c0c728, type: 2}
@@ -16440,6 +16608,11 @@ Prefab:
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114244400078430228, guid: 68e65662634328844bf9703af5c0c728,
+        type: 2}
+      propertyPath: canPlaceWeapon
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 68e65662634328844bf9703af5c0c728, type: 2}
   m_IsPrefabAsset: 0
@@ -16545,6 +16718,11 @@ Prefab:
     - target: {fileID: 4642256496040704, guid: 68e65662634328844bf9703af5c0c728, type: 2}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 180
+      objectReference: {fileID: 0}
+    - target: {fileID: 114244400078430228, guid: 68e65662634328844bf9703af5c0c728,
+        type: 2}
+      propertyPath: canPlaceWeapon
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 68e65662634328844bf9703af5c0c728, type: 2}
@@ -16653,6 +16831,7 @@ MonoBehaviour:
   wall: {fileID: 1475573904591342, guid: 819954f284979f44dbb66a870bc79c23, type: 2}
   occupied: 0
   isHorizontal: 0
+  canPlaceWeapon: 0
 --- !u!135 &1645872380
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -17260,6 +17439,7 @@ MonoBehaviour:
   wall: {fileID: 1475573904591342, guid: 819954f284979f44dbb66a870bc79c23, type: 2}
   occupied: 0
   isHorizontal: 0
+  canPlaceWeapon: 0
 --- !u!135 &1708966572
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -17430,6 +17610,11 @@ Prefab:
       propertyPath: m_LocalEulerAnglesHint.y
       value: 180
       objectReference: {fileID: 0}
+    - target: {fileID: 114244400078430228, guid: 68e65662634328844bf9703af5c0c728,
+        type: 2}
+      propertyPath: canPlaceWeapon
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 68e65662634328844bf9703af5c0c728, type: 2}
   m_IsPrefabAsset: 0
@@ -17535,6 +17720,11 @@ Prefab:
     - target: {fileID: 4642256496040704, guid: 68e65662634328844bf9703af5c0c728, type: 2}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114244400078430228, guid: 68e65662634328844bf9703af5c0c728,
+        type: 2}
+      propertyPath: canPlaceWeapon
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 68e65662634328844bf9703af5c0c728, type: 2}
@@ -17995,6 +18185,7 @@ MonoBehaviour:
   wall: {fileID: 1475573904591342, guid: 819954f284979f44dbb66a870bc79c23, type: 2}
   occupied: 0
   isHorizontal: 0
+  canPlaceWeapon: 0
 --- !u!135 &1765924891
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -18054,6 +18245,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4444241764131600, guid: 68e65662634328844bf9703af5c0c728,
     type: 2}
   m_PrefabInternal: {fileID: 1131444119}
+--- !u!1 &1767356871 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1372200723842344, guid: 81cfc744c231f00418c95b1452b9cb27,
+    type: 2}
+  m_PrefabInternal: {fileID: 1408551041}
 --- !u!4 &1771040489 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4444241764131600, guid: 68e65662634328844bf9703af5c0c728,
@@ -18108,6 +18304,7 @@ MonoBehaviour:
   wall: {fileID: 1475573904591342, guid: 819954f284979f44dbb66a870bc79c23, type: 2}
   occupied: 0
   isHorizontal: 0
+  canPlaceWeapon: 0
 --- !u!135 &1775808232
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -18787,6 +18984,7 @@ MonoBehaviour:
   wall: {fileID: 1475573904591342, guid: 819954f284979f44dbb66a870bc79c23, type: 2}
   occupied: 0
   isHorizontal: 0
+  canPlaceWeapon: 0
 --- !u!135 &1835601205
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -20542,6 +20740,7 @@ MonoBehaviour:
   wall: {fileID: 1475573904591342, guid: 819954f284979f44dbb66a870bc79c23, type: 2}
   occupied: 0
   isHorizontal: 0
+  canPlaceWeapon: 0
 --- !u!135 &2053803229
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -21257,6 +21456,7 @@ MonoBehaviour:
   wall: {fileID: 1475573904591342, guid: 819954f284979f44dbb66a870bc79c23, type: 2}
   occupied: 0
   isHorizontal: 0
+  canPlaceWeapon: 0
 --- !u!135 &2099215964
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -21743,6 +21943,11 @@ Prefab:
       propertyPath: m_LocalEulerAnglesHint.y
       value: 180
       objectReference: {fileID: 0}
+    - target: {fileID: 114244400078430228, guid: 68e65662634328844bf9703af5c0c728,
+        type: 2}
+      propertyPath: canPlaceWeapon
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 68e65662634328844bf9703af5c0c728, type: 2}
   m_IsPrefabAsset: 0
@@ -21795,6 +22000,7 @@ MonoBehaviour:
   wall: {fileID: 1475573904591342, guid: 819954f284979f44dbb66a870bc79c23, type: 2}
   occupied: 0
   isHorizontal: 0
+  canPlaceWeapon: 0
 --- !u!135 &2131204676
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -21965,6 +22171,11 @@ Prefab:
       propertyPath: m_LocalEulerAnglesHint.y
       value: 180
       objectReference: {fileID: 0}
+    - target: {fileID: 114244400078430228, guid: 68e65662634328844bf9703af5c0c728,
+        type: 2}
+      propertyPath: canPlaceWeapon
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 68e65662634328844bf9703af5c0c728, type: 2}
   m_IsPrefabAsset: 0
@@ -22044,6 +22255,7 @@ MonoBehaviour:
   wall: {fileID: 1475573904591342, guid: 819954f284979f44dbb66a870bc79c23, type: 2}
   occupied: 0
   isHorizontal: 0
+  canPlaceWeapon: 0
 --- !u!135 &2140340519
 SphereCollider:
   m_ObjectHideFlags: 0
