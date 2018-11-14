@@ -10,6 +10,7 @@ public class cannon : Interactable {
 	public cannonball munitions;
 	public GameObject reticule;
 	public GameObject barrel;
+	public GameObject weapon;
 
 	// gameplay values
 	public float reticuleMoveSpeed;
@@ -51,6 +52,7 @@ public class cannon : Interactable {
 
 	// Update is called once per frame
 	void Update () {
+		weapon.transform.LookAt(reticule.transform);
 		if (isOnCooldown()) {
 			cooldownTimer -= Time.deltaTime;
 		}
@@ -96,7 +98,7 @@ public class cannon : Interactable {
 		reticule.transform.localPosition = new Vector3(
 			Mathf.Clamp(reticule.transform.localPosition.x, reticule.transform.localPosition.z * Mathf.Tan(-coneAngle * Mathf.Deg2Rad), reticule.transform.localPosition.z * Mathf.Tan(coneAngle * Mathf.Deg2Rad)),
 			0, 
-			Mathf.Clamp(reticule.transform.localPosition.z, 0, maxRange - Mathf.Tan((Mathf.PI/2) - (Mathf.PI - ((Mathf.PI/2) + newAngle)))* reticule.transform.localPosition.x));
+			Mathf.Clamp(reticule.transform.localPosition.z, 1, maxRange - Mathf.Tan((Mathf.PI/2) - (Mathf.PI - ((Mathf.PI/2) + newAngle)))* reticule.transform.localPosition.x));
 	}
 
 	private float getMaxRange() {
