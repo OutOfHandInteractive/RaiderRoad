@@ -14,6 +14,8 @@ public class Weapon : MonoBehaviour {
     private Material myMat; //reference material of gameObject
     public GameObject myNode; //node it spawned from
 
+    public List<GameObject> disabledNodes = new List<GameObject>();
+
     // Use this for initialization
     void Start()
     {
@@ -49,5 +51,24 @@ public class Weapon : MonoBehaviour {
         Color tempColor = myMat.color;
         tempColor.a = 0.4f;
         myMat.color = tempColor;
+    }
+
+    public void DisableNear(){
+        Collider[] hitColliders = Physics.OverlapBox(gameObject.transform.position, transform.localScale * 0.1f, Quaternion.identity);
+        //Gizmos.DrawWireCube(transform.position, transform.localScale);
+        Debug.Log(hitColliders.Length.ToString());
+        foreach(Collider c in hitColliders){
+            BuildNode hit = c.GetComponent<BuildNode>();
+            if (hit.canPlaceWeapon){
+                disabledNodes.Add(c.gameObject);
+                hit.canPlaceWeapon = false;
+                Debug.Log("Removed ability to place weapon");
+            }
+        }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.DrawWireCube(transform.position, transform.localScale);
     }
 }

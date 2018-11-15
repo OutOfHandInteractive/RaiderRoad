@@ -46,6 +46,7 @@ public class BuildNode : MonoBehaviour {
             item = Instantiate(objectToPlace, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.LookRotation(dir));
             item.transform.localScale = new Vector3(1.5f, 0.7f, 0.7f);
             item.transform.parent = spawnNode.transform;
+            item.GetComponent<Weapon>().DisableNear();
             occupied = true;
         }
         item.GetComponent<Wall>().myNode = gameObject;
