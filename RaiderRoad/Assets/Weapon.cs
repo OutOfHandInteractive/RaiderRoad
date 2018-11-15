@@ -54,21 +54,28 @@ public class Weapon : MonoBehaviour {
     }
 
     public void DisableNear(){
-        Collider[] hitColliders = Physics.OverlapBox(gameObject.transform.position, transform.localScale * 0.1f, Quaternion.identity);
-        //Gizmos.DrawWireCube(transform.position, transform.localScale);
-        Debug.Log(hitColliders.Length.ToString());
+        Collider[] hitColliders = Physics.OverlapBox(gameObject.transform.position, transform.localScale / 10, Quaternion.LookRotation(gameObject.transform.forward));
+        //Debug.Log(hitColliders.Length.ToString());
         foreach(Collider c in hitColliders){
-            BuildNode hit = c.GetComponent<BuildNode>();
-            if (hit.canPlaceWeapon){
-                disabledNodes.Add(c.gameObject);
-                hit.canPlaceWeapon = false;
-                Debug.Log("Removed ability to place weapon");
+            if(c.name == "xNode")
+            {
+                BuildNode hit = c.GetComponent<BuildNode>();
+                if (hit.canPlaceWeapon){
+                    disabledNodes.Add(hit.gameObject);
+                    hit.canPlaceWeapon = false;
+                    //Debug.Log("Removed ability to place weapon");
+                }
             }
+            
         }
+        //Debug.Log("count: " + disabledNodes.Count);
     }
 
+    /*
     private void OnDrawGizmosSelected()
     {
+        Gizmos.color = Color.red;
         Gizmos.DrawWireCube(transform.position, transform.localScale);
     }
+    */
 }

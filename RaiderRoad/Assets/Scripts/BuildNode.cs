@@ -12,7 +12,7 @@ public class BuildNode : MonoBehaviour {
     public GameObject wall;
     public bool occupied = false;
     public bool isHorizontal;
-    public bool canPlaceWeapon;
+    public bool canPlaceWeapon = false;
     //public float height = 1f;
 
     //--------------------
