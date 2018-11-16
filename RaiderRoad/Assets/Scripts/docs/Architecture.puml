@@ -1,0 +1,34 @@
+﻿@startuml
+'' Architecture
+
+actor Player
+
+
+
+rectangle RaiderRoad {
+	rectangle Unity {
+		rectangle Renderer
+		rectangle Rewired <<Plugin>>
+	}
+	rectangle Events
+	rectangle GameObjects {
+		rectangle Players
+		rectangle RV
+		rectangle Mooks
+		rectangle Vehicles
+	}
+	rectangle EnemyAI
+}
+
+Player --> Rewired
+Player <-- Renderer
+
+Vehicles <-- Events
+Vehicles --> EnemyAI
+Mooks --> EnemyAI
+Renderer <-- GameObjects
+Rewired --> Players
+Players -> RV
+Mooks <-> Vehicles : Radio
+
+@enduml

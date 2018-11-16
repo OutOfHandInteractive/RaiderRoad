@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DestroyEnemy : AbstractEnemyAI {
+public class DestroyEnemy : EnemyAI {
     //enemy, speed
     private GameObject cObject;
-    private float speed = 2f;
 
     public void StartDestroy(GameObject enemy)
     {
@@ -28,7 +27,7 @@ public class DestroyEnemy : AbstractEnemyAI {
             cObject.transform.position = Vector3.MoveTowards(cObject.transform.position, vehicle.transform.position, movement);
             if (Vector3.Distance(cObject.transform.position, vehicle.transform.position) < 5f || vehicle == null)
                 cObject.GetComponent<EnemyAI>().EnterEscape();*/
-            cObject.GetComponent<EnemyAI>().EnterFight();
+            cObject.GetComponent<StatefulEnemyAI>().EnterFight();
             //cObject.GetComponent<EnemyAI>().EnterEscape();
         }else
         {

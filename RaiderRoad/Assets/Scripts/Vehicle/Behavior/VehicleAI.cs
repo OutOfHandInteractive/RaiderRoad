@@ -50,7 +50,7 @@ public class VehicleAI : MonoBehaviour {
         }
 
         //Start wander state
-        wander.StartWander(agent, enemy, side);
+        EnterWander();
     }
 
     // Update is called once per frame
@@ -63,39 +63,44 @@ public class VehicleAI : MonoBehaviour {
                     wander.Wander();
                 break;
             case State.Chase:
-                chase.StartChase(agent, enemy);
                 chase.Chase(side);
                 break;
             case State.Stay:
-                stay.StartStay(agent, enemy);
                 stay.Stay(side);
                 break;
             case State.Attack:
-                attack.StartAttack(agent, enemy, rb, side);
                 attack.Attack();
                 break;
             case State.Leave:
-                leave.StartLeave(agent);
                 leave.Leave();
                 break;
         }
     }
 
     //Used to change state from different classes
+    public void EnterWander()
+    {
+        wander.StartWander(agent, enemy, side);
+        currentState = State.Wander;
+    }
     public void EnterChase()
     {
+        chase.StartChase(agent, enemy);
         currentState = State.Chase;
     }
     public void EnterStay()
     {
+        stay.StartStay(agent, enemy);
         currentState = State.Stay;
     }
     public void EnterAttack()
     {
+        attack.StartAttack(agent, enemy, rb, side);
         currentState = State.Attack;
     }
     public void EnterLeave()
     {
+        leave.StartLeave(agent);
         currentState = State.Leave;
     }
 

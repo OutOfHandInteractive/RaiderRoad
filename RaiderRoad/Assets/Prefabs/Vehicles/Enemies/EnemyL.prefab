@@ -40,9 +40,9 @@ GameObject:
   - component: {fileID: 33532357404152528}
   - component: {fileID: 23830767450568418}
   - component: {fileID: 54534836611005438}
-  - component: {fileID: 114498103962525282}
   - component: {fileID: 136416641854343566}
   - component: {fileID: 65974137982068154}
+  - component: {fileID: 114560717921950488}
   m_Layer: 0
   m_Name: EnemyL
   m_TagString: Enemy
@@ -188,7 +188,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 2, z: 1}
   m_Center: {x: 0, y: 0, z: 1}
---- !u!114 &114498103962525282
+--- !u!114 &114560717921950488
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -196,10 +196,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1438647493388042}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fa5a498710d32cf4baabe7cf541a7732, type: 3}
+  m_Script: {fileID: 11500000, guid: 1c43ede2cde11c342b4e7c156609578e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  munnitions: {fileID: 1624235888426134, guid: d7622689f6c1335499d009ba28e3a1f9, type: 2}
 --- !u!136 &136416641854343566
 CapsuleCollider:
   m_ObjectHideFlags: 1
