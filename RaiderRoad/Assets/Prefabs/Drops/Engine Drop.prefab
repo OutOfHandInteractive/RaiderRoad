@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 23557458222589676}
   - component: {fileID: 65099974853285074}
   - component: {fileID: 114395526264345546}
+  - component: {fileID: 114928157118429346}
   m_Layer: 0
   m_Name: Engine Drop
   m_TagString: Drops
@@ -109,3 +110,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 50
+--- !u!114 &114928157118429346
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1099907924002084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21e75019525a9e4489e70f27957f976a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  item: {fileID: 1961960362687784, guid: 1fc8343e3c101a1448230a3e42e5b419, type: 2}

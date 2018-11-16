@@ -78,9 +78,9 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         //checking that player isn't "interacting" (driving, piloting weapon, etc)
         if (!myInteracting) {
 
-            if (heldItem != null)
+            if (heldItem != null) //change this to tags later
             {
-                floatItem(); //not following player
+                floatItem();
                 if (player.GetButtonDown("Place Object"))
                 {
                     if (heldItem.tag == "Trap" && trapNodes.Count > 0)
@@ -110,6 +110,22 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
                             hasItem = false;
                             Destroy(floatingItem);
                             buildMode = false;
+                        }
+                        else
+                        {
+                            Debug.Log("Occupied >:(");
+                        }
+                    }else if (heldItem.name == "WeaponTest")
+                    {
+                        GameObject toBuild = (GameObject)nodes[0];
+                        if (!toBuild.GetComponent<BuildNode>().occupied)
+                        {
+                            toBuild.GetComponent<BuildNode>().Build(heldItem, toBuild);
+                            heldItem = null;
+                            hasItem = false;
+                            Destroy(floatingItem);
+                            buildMode = false;
+                            //other.gameObject.SetActive (false);
                         }
                         else
                         {
@@ -186,6 +202,10 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
                         {
                             item.GetComponent<Engine>().Damage(damage);
                         }
+                        else if (item.CompareTag("Weapon"))
+                        {
+                            item.GetComponent<Weapon>().Damage(damage);
+                        }
                     }
 
                     currentAttColor.a = 0.5f; //setting attack model's mat to 1/2 visible
@@ -209,11 +229,19 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
     {
         
         //Debug.Log(other.name);
-        if ((other.gameObject.name == "BuildNode" || other.name == "xNode") && wallInventory > 0)
+        if ((other.tag == "WallNode") && wallInventory > 0)
         {
             //Debug.Log("Added");
             nodes.Add(other.gameObject);
-            if(buildMode && heldItem == null) other.GetComponent<BuildNode>().Show(wall); //if player is in build mode, activate show wall in the build node script
+            if (buildMode && heldItem == null)
+            {
+                other.GetComponent<BuildNode>().Show(wall);
+            }
+            else if (buildMode && heldItem.CompareTag("Weapon") && other.GetComponent<BuildNode>().canPlaceWeapon)
+            {
+                other.GetComponent<BuildNode>().Show(heldItem);
+            }
+            //if player is in build mode, activate show wall in the build node script
             //GameObject toRemove = (GameObject)nodes[0];
             //toRemove.GetComponent<BuildNode>().Show(wall);
         }
@@ -250,27 +278,26 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
 		if (other.gameObject.CompareTag("Interactable")) {
 			pController.addInteractable(other.gameObject);
 		}
+        if (other.gameObject.CompareTag("Weapon"))
+        {
+            pController.addInteractable(other.gameObject);
+        }
 
         // Pick Up
         //if (other.gameObject.CompareTag("Drops"))
         //{
         if (other.name == "Wall Drop")
-            {
-                wallInventory++;
-                Destroy(other.gameObject);
-            }
-            else if(other.name == "Trap Drop")
-            {
-                heldItem = trap;
-                Destroy(other.gameObject);
-                buildMode = true;
-            }
-            else if(other.name == "Engine Drop")
-            {
-                heldItem = engine;
-                Destroy(other.gameObject);
-                buildMode = true;
-            }
+        {
+            wallInventory++;
+            Destroy(other.gameObject);
+        }
+        else if(other.tag == "Drops" && !heldItem)
+        {
+            heldItem = other.GetComponent<ItemDrop>().item;
+            Destroy(other.gameObject);
+            buildMode = true;
+        }
+
         //}
     }
 
@@ -308,9 +335,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
     {
         if (!hasItem)
         {
-            GameObject myFloat = null;
-            if (heldItem == trap) myFloat = heldItem.GetComponent<Trap>().drop;
-            else if (heldItem == engine) myFloat = heldItem.GetComponent<Engine>().drop;
+            GameObject myFloat = heldItem;
             floatingItem = Instantiate(myFloat, //fix later for prettier
                 new Vector3(transform.parent.position.x, transform.parent.position.y + 1.5f, transform.parent.position.z), Quaternion.identity, transform.parent);
             hasItem = true;
