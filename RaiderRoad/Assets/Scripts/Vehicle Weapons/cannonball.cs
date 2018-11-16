@@ -5,6 +5,8 @@ using UnityEngine;
 public class cannonball : MonoBehaviour {
 	
 	public float damage;
+	public float splashDamage;
+	public float splashRadius;
 	public float travelTime;
 	public float muzzleVelocity;
 
@@ -34,6 +36,28 @@ public class cannonball : MonoBehaviour {
 		}
 	}
 
+	private void OnTriggerEnter(Collider other) {
+		if (other.gameObject.CompareTag("eVehicle")) {
+			other.gameObject.GetComponentInParent<VehicleAI>().takeDamage(damage);
+		}
+		else if (other.gameObject.CompareTag("Enemy")) {
+			other.gameObject.GetComponent<EnemyAI>().takeDamage(damage);
+		}
+
+		Collider[] splashTargets = Physics.OverlapSphere(transform.position, splashRadius);
+
+		for (int i = 0; i<splashTargets.Length; i++) {
+			if (splashTargets[i].gameObject.CompareTag("eVehicle")) {
+				other.gameObject.GetComponentInParent<VehicleAI>().takeDamage(splashDamage);
+			}
+			else if (splashTargets[i].gameObject.CompareTag("Enemy")) {
+				other.gameObject.GetComponent<EnemyAI>().takeDamage(splashDamage);
+			}
+		}
+	}
+
+
+	#region Physics
 	public void launch(Vector3 _target, Vector3 _source) {
 		target = _target;
 		source = _source;
@@ -65,4 +89,5 @@ public class cannonball : MonoBehaviour {
 	public float getMaxRange() {
 		return (Mathf.Pow(muzzleVelocity, 2) / -G);
 	}
+	#endregion
 }
