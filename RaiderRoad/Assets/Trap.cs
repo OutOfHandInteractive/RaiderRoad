@@ -34,7 +34,7 @@ public class Trap : MonoBehaviour
     void spawnDrop()
     {
         GameObject item = Instantiate(drop, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
-        item.name = "Trap Drop";
+        item.name = drop.name;
         myNode.GetComponent<TrapNode>().occupied = false; // set node to unoccupied again
         Destroy(this.gameObject);
     }

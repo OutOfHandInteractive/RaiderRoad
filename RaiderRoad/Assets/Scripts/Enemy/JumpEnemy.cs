@@ -14,7 +14,7 @@ public class JumpEnemy : EnemyAI
         cObject = enemy;
         cRb = rb;
         cSide = side;
-        initialAngle = 70f;
+        initialAngle = 75f;
     }
 
     protected void Jump(Vector3 pos, float zSign)

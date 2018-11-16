@@ -26,10 +26,13 @@ public class SpawnVehicle : MonoBehaviour {
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            numPoints = Random.Range(0, spawnPoints.Count);
+            //Get range of spawn, DO NOT GET 0 IT IS THE PARENT
+            numPoints = Random.Range(1, spawnPoints.Count);
+            Debug.Log(numPoints);
             //Debug.Log(numPoints);
             types = (VehicleFactoryManager.vehicleTypes)Random.Range(0,3);
             //Debug.Log(types);
+            //GameObject vehicle = factory.newConstructVehicle(types);
             GameObject vehicle = factory.newConstructVehicle(types);
             vehicle.transform.position = spawnPoints[numPoints].transform.position;
         }

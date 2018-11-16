@@ -9,6 +9,7 @@ public class FightEnemy : EnemyAI {
     private GameObject _target;
     private float speed = 2f;
 
+    private int playerHit = 0;
     public void StartFight(GameObject enemy, GameObject target = null)
     {
         //Initialized enemy
@@ -32,15 +33,36 @@ public class FightEnemy : EnemyAI {
         GameObject player = GetTarget();
         //Get enemy speed
         float movement = speed * Time.deltaTime;
-        //If player exists
-        if (player != null)
+
+        GameObject[] vehicles = GameObject.FindGameObjectsWithTag("eVehicle");
+
+        //If doesnt exist or if player has been hit go into escape state
+        if (player != null || playerHit > 1)
+        {
+
+            //Find vehicle to escape to
+            GameObject vehicle = Closest(cObject.transform.position, vehicles);
+            if (vehicle == null)
+                cObject.GetComponent<StatefulEnemyAI>().EnterFight();
+            cObject.transform.LookAt(vehicle.transform);
+            cObject.transform.position = Vector3.MoveTowards(cObject.transform.position, vehicle.transform.position, movement);
+            //If a reasonable jumping distance to vehicle, escape
+            if (Vector3.Distance(cObject.transform.position, vehicle.transform.position) < 5f)
+                cObject.GetComponent<StatefulEnemyAI>().EnterEscape();
+
+            //Check if player is hit
+            if (Vector3.Distance(cObject.transform.position, player.transform.position) < 1f)
+            {
+                //Debug.Log("PlayerHit");
+                playerHit++;
+            }
+        }
+        else
         {
             //Look at player and move towards them
             cObject.transform.LookAt(player.transform);
             cObject.transform.position = Vector3.MoveTowards(cObject.transform.position, player.transform.position, movement);
-        }
 
-        //Cancel enterboard invoke and go to enterescape after 5 seconds
-        cObject.GetComponent<StatefulEnemyAI>().Invoke("EnterEscape", 5f);
+        }
     }
 }

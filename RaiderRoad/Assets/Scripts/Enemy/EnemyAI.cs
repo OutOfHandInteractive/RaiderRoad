@@ -3,7 +3,7 @@ using System.Collections;
 
 public abstract class EnemyAI : MonoBehaviour
 {
-
+    
     public GameObject Closest(Vector3 myPos, GameObject[] objects)
     {
         float minDist = 1 / 0f;

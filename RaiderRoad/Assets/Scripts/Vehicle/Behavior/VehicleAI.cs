@@ -55,7 +55,7 @@ public class VehicleAI : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-        Debug.Log(currentState);
+        //Debug.Log(currentState);
         switch (currentState)
         {
             case State.Wander:
