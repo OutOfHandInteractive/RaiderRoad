@@ -10,6 +10,7 @@ public class EnemyAI : MonoBehaviour {
     //State Classes
     private WaitEnemy wait;
     private BoardEnemy board;
+    private WeaponAttackEnemy weapon;
     private DestroyEnemy destroy;
     private FightEnemy fight;
     private EscapeEnemy escape;
@@ -22,6 +23,7 @@ public class EnemyAI : MonoBehaviour {
     //Vehicle variables
     private VehicleAI vehicle;
     private string side;
+    public GameObject munnitions;
 
     // Use this for initialization
     void Start () {
@@ -29,6 +31,7 @@ public class EnemyAI : MonoBehaviour {
         rb = GetComponent<Rigidbody>();
         wait = new WaitEnemy();
         board = new BoardEnemy();
+        weapon = new WeaponAttackEnemy();
         destroy = new DestroyEnemy();
         fight = new FightEnemy();
         escape = new EscapeEnemy();
@@ -56,6 +59,10 @@ public class EnemyAI : MonoBehaviour {
                 case State.Wait:
                     wait.StartWait(enemy,vehicle);
                     wait.Wait();
+                    break;
+                case State.Weapon:
+                    weapon.StartWeapon(enemy,vehicle, munnitions);
+                    weapon.Weapon();
                     break;
                 case State.Board:
                     board.StartJump(enemy, rb, side);
