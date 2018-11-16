@@ -10,8 +10,10 @@ public class StayVehicle : MonoBehaviour {
     private Transform player;
     private string cSide;
     private bool calledRadio = false;
+    private StayVehicle self;
     public void StartStay(NavMeshAgent agent, GameObject enemy)
     {
+        self = this;
         cEnemy = agent;
         cObject = enemy;
     }
@@ -24,9 +26,10 @@ public class StayVehicle : MonoBehaviour {
     private int CountEnemiesOnBoard()
     {
         int res = 0;
-        foreach (GameObject enemy in GameObject.FindGameObjectsWithTag("Enemy"))
+        for(int i=0; i<cObject.transform.childCount; i++)
         {
-            if (enemy.transform.parent == cObject.transform)
+            GameObject obj = cObject.transform.GetChild(i).gameObject;
+            if(obj.tag == "Enemy")
             {
                 res++;
             }
@@ -63,19 +66,21 @@ public class StayVehicle : MonoBehaviour {
             // At loading area
             if (!calledRadio)
             {
-                Radio.GetRadio().ReadyForEvac(this);
+                Radio.GetRadio().ReadyForEvac(ref self);
                 calledRadio = true;
             }
             else if(CountEnemiesOnBoard() >= System.Math.Min(5, extantEnemies)) //TODO this limit should depend on size of vehicle
             {
+                Debug.Log("All loaded up and ready to go!");
                 leave = true;
             }
+            //Debug.Log("Waiting for enemies");
         }
         if (leave)
         {
             if (calledRadio)
             {
-                Radio.GetRadio().EvacLeaving(this);
+                Radio.GetRadio().EvacLeaving(ref self);
             }
             cObject.GetComponent<VehicleAI>().EnterLeave();
         }

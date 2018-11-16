@@ -16,7 +16,7 @@ public class Radio : MonoBehaviour
     /*
      * Evacuation of Mooks onto escape vehicles
      */
-    private LinkedList<StayVehicle> evacVehicles = new LinkedList<StayVehicle>();
+    private List<StayVehicle> evacVehicles = new List<StayVehicle>();
     private Queue<EscapeEnemy> mooksForEvac = new Queue<EscapeEnemy>();
     public void CallForEvac(EscapeEnemy mook)
     {
@@ -24,25 +24,29 @@ public class Radio : MonoBehaviour
         CheckForEvac();
     }
 
-    public void ReadyForEvac(StayVehicle vehicle)
+    public void ReadyForEvac(ref StayVehicle vehicle)
     {
-        evacVehicles.AddLast(vehicle);
+        Debug.Log("Ready for evac");
+        evacVehicles.Add(vehicle);
         CheckForEvac();
     }
 
-    public void EvacLeaving(StayVehicle vehicle)
+    public void EvacLeaving(ref StayVehicle vehicle)
     {
+        Debug.Log("Leaving");
         evacVehicles.Remove(vehicle);
         // No check
     }
 
     private void CheckForEvac()
     {
+        //evacVehicles.RemoveAll(delegate (StayVehicle v) { return v == null; });
         while(mooksForEvac.Count>0 && evacVehicles.Count > 0)
         {
             //TODO: Make this smarter
             EscapeEnemy mook = mooksForEvac.Dequeue();
-            StayVehicle vehicle = evacVehicles.First.Value;
+            StayVehicle vehicle = evacVehicles[0];
+            Debug.Log("Found vehicle: " +vehicle);
             mook.RadioEvacCallback(vehicle);
         }
     }

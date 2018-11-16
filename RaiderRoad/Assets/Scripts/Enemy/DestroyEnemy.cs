@@ -5,7 +5,6 @@ using UnityEngine;
 public class DestroyEnemy : EnemyAI {
     //enemy, speed
     private GameObject cObject;
-    private float speed = 2f;
 
     public void StartDestroy(GameObject enemy)
     {

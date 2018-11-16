@@ -43,7 +43,7 @@ public class StatefulEnemyAI : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        Debug.Log(currentState);
+        //Debug.Log(currentState);
         //Go to weapon state when vehicle is ramming
         if (vehicle.getState() == VehicleAI.State.Attack)
         {
@@ -79,16 +79,21 @@ public class StatefulEnemyAI : MonoBehaviour {
     {
         wait.StartWait(enemy, vehicle);
         currentState = State.Wait;
+        enemy.GetComponent<Renderer>().material.color = Color.white;
+        
     }
     public void EnterBoard()
     {
         board.StartJump(enemy, rb, side);
         currentState = State.Board;
+        enemy.GetComponent<Renderer>().material.color = Color.green;
+
     }
 
     public void EnterWeapon()
     {
         currentState = State.Weapon;
+        enemy.GetComponent<Renderer>().material.color = Color.gray;
     }
 
     public void EnterSteal()
@@ -100,18 +105,21 @@ public class StatefulEnemyAI : MonoBehaviour {
     {
         destroy.StartDestroy(enemy);
         currentState = State.Destroy;
+        enemy.GetComponent<Renderer>().material.color = Color.yellow;
     }
 
     public void EnterFight()
     {
         fight.StartFight(enemy);
         currentState = State.Fight;
+        enemy.GetComponent<Renderer>().material.color = Color.red;
     }
 
     public void EnterEscape()
     {
         escape.StartJump(enemy, rb, side);
         currentState = State.Escape;
+        enemy.GetComponent<Renderer>().material.color = Color.blue;
     }
 
     public void EnterDeath()
