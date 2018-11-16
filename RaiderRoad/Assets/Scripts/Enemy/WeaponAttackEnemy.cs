@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WeaponAttackEnemy : AbstractEnemyAI {
+public class WeaponAttackEnemy : EnemyAI {
 
     private GameObject cMunnitions;
     private GameObject proj;
