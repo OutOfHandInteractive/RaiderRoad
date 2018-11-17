@@ -5,6 +5,8 @@ using UnityEngine;
 public class cannonball : MonoBehaviour {
 	
 	public float damage;
+	public float splashDamage;
+	public float splashRadius;
 	public float travelTime;
 	public float muzzleVelocity;
 
@@ -34,6 +36,31 @@ public class cannonball : MonoBehaviour {
 		}
 	}
 
+	private void OnTriggerEnter(Collider other) {
+		GameObject directTarget = other.gameObject;
+		if (directTarget.CompareTag("eVehicle")) {
+			directTarget.GetComponentInParent<VehicleAI>().takeDamage(damage);
+		}
+		else if (directTarget.CompareTag("Enemy")) {
+			directTarget.GetComponent<EnemyAI>().takeDamage(damage);
+		}
+
+		Collider[] splashTargets = Physics.OverlapSphere(transform.position, splashRadius);
+
+		for (int i = 0; i<splashTargets.Length; i++) {
+			if (splashTargets[i].gameObject.CompareTag("eVehicle") && splashTargets[i] != other) {
+				other.gameObject.GetComponentInParent<VehicleAI>().takeDamage(splashDamage);
+			}
+			else if (splashTargets[i].gameObject.CompareTag("Enemy") && splashTargets[i] != other) {
+				other.gameObject.GetComponent<EnemyAI>().takeDamage(splashDamage);
+			}
+		}
+
+		Destroy(gameObject);
+	}
+
+
+	#region Physics
 	public void launch(Vector3 _target, Vector3 _source) {
 		target = _target;
 		source = _source;
@@ -45,15 +72,12 @@ public class cannonball : MonoBehaviour {
 		xzVel = muzzleVelocity * Mathf.Cos(angle * Mathf.Deg2Rad);
 		xVel = xzVel * Mathf.Cos(xzAng);
 		zVel = xzVel * Mathf.Sin(xzAng);
-		Debug.Log(angle);
 		yVel = muzzleVelocity * Mathf.Sin(angle * Mathf.Deg2Rad);
 
 		timeRemaining = travelTime;
 	}
 
 	public float deltaY() {
-		Debug.Log(yVel);
-
 		return (float)(source.y + (yVel * timeElapsed) + (0.5 * G * Mathf.Pow(timeElapsed, 2))) - transform.position.y;
 	}
 
@@ -65,4 +89,5 @@ public class cannonball : MonoBehaviour {
 	public float getMaxRange() {
 		return (Mathf.Pow(muzzleVelocity, 2) / -G);
 	}
+	#endregion
 }
