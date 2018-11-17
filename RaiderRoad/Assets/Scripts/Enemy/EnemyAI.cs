@@ -23,8 +23,14 @@ public class EnemyAI : MonoBehaviour {
     private VehicleAI vehicle;
     private string side;
 
+	// statistics
+	public float maxHealth;
+	private float currentHealth;
+
     // Use this for initialization
     void Start () {
+		currentHealth = maxHealth;
+
         enemy = gameObject;
         rb = GetComponent<Rigidbody>();
         wait = new WaitEnemy();
@@ -78,6 +84,14 @@ public class EnemyAI : MonoBehaviour {
 
 
     }
+
+	public void takeDamage(float damage) {
+		currentHealth -= damage;
+
+		if (currentHealth <= 0) {
+			EnterDestroy();
+		}
+	}
 
     //Methods to enter states, change color based on states
     public void EnterWait()
