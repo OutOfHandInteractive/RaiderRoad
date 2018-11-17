@@ -27,8 +27,11 @@ public class VehicleAI : MonoBehaviour {
 	public float ramDamage;
 	public float speed;
 
+	public float currentHealth;
+
 	// Use this for initialization
 	void Start () {
+		currentHealth = maxHealth;
 
         //Initialize all the classes
         enemy = gameObject;
@@ -81,6 +84,17 @@ public class VehicleAI : MonoBehaviour {
         }
     }
 
+	// ---------------- Combat Functions ------------------
+	public void takeDamage(float damage) {
+		currentHealth -= damage;
+
+		Debug.Log("took " + damage + " damage");
+
+		if (currentHealth <= 0) {
+			Destroy(gameObject);
+		}
+	}
+
     //Used to change state from different classes
     public void EnterChase()
     {
@@ -114,6 +128,7 @@ public class VehicleAI : MonoBehaviour {
 
 	public void setMaxHealth(float _maxHealth) {
 		maxHealth = _maxHealth;
+		currentHealth = maxHealth;
 	}
 
 	public float getRamDamage() {
