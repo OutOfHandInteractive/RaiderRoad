@@ -83,7 +83,7 @@ public class cannonball : MonoBehaviour {
 
 	public float angleOfReach(Vector3 _target, Vector3 _source) {
 		// supposed to use positive G, but the constant is set to negative to make stuff more intuitive. can change if needed
-		return (float)(0.5 * Mathf.Asin((-G * Vector3.Distance(_source, _target)) / Mathf.Pow(muzzleVelocity, 2)) * Mathf.Rad2Deg);
+		return 90f - ((float)(0.5 * Mathf.Asin((-G * Vector3.Distance(_source, _target)) / Mathf.Pow(muzzleVelocity, 2))) * Mathf.Rad2Deg);
 	}
 
 	public float getMaxRange() {
