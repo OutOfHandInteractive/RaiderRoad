@@ -27,7 +27,7 @@ public class VehicleAI : MonoBehaviour {
 	public float ramDamage;
 	public float speed;
 
-	private float currentHealth;
+	public float currentHealth;
 
 	// Use this for initialization
 	void Start () {
@@ -88,6 +88,8 @@ public class VehicleAI : MonoBehaviour {
 	public void takeDamage(float damage) {
 		currentHealth -= damage;
 
+		Debug.Log("took " + damage + " damage");
+
 		if (currentHealth <= 0) {
 			Destroy(gameObject);
 		}
@@ -126,6 +128,7 @@ public class VehicleAI : MonoBehaviour {
 
 	public void setMaxHealth(float _maxHealth) {
 		maxHealth = _maxHealth;
+		currentHealth = maxHealth;
 	}
 
 	public float getRamDamage() {
