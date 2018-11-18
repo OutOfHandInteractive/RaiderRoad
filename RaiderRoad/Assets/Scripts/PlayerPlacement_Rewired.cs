@@ -21,6 +21,8 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
     public GameObject engine;
     public float damage = 25.0f;
     public float timeToDrop = 1f; //Time needed to drop item (by holding down button)
+    public float knockback_force = 2000.0f;
+    public float attack_cooldown = .25f;
 
     public GameObject AttackObject; //for temporary attack for prototype
 
@@ -42,6 +44,8 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
     private Color currentAttColor; //for temporary attack for prototype
     private Material TempAttMat;
     private float holdTime; //timer for "how long button is held"
+    private float attackCount;
+    private bool canAttack = true;
 
     [System.NonSerialized]
     private bool initialized;
@@ -73,6 +77,16 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         if (!initialized) Initialize(); // Reinitialize after a recompile in the editor
         changeInventory();
         displayMode();
+
+        // Attack cooldown
+        if (!canAttack)
+        {
+            attackCount -= Time.deltaTime;
+        }
+        if (attackCount <= 0.0)
+        {
+            canAttack = true;
+        }
 
         myInteracting = pController.interacting;
         //checking that player isn't "interacting" (driving, piloting weapon, etc)
@@ -181,8 +195,10 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
                     }
                     if (wallInventory <= 0) buildMode = false; //leave wall build mode if you have no wall (needs more feedback)
                 }
-                else if (player.GetButtonDown("Attack"))
+                else if (player.GetButtonDown("Attack") && canAttack)
                 {
+                    canAttack = false;
+                    attackCount = attack_cooldown;
                     foreach (GameObject item in attackRange)
                     {
                         //Debug.Log(item);
@@ -205,6 +221,14 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
                         else if (item.CompareTag("Weapon"))
                         {
                             item.GetComponent<Weapon>().Damage(damage);
+                        }
+                        else if (item.CompareTag("Enemy"))
+                        {
+                            item.GetComponent<EnemyAI>().Damage(damage);
+                            Vector3 dir = item.transform.position - transform.parent.position;
+                            dir = Vector3.Normalize(new Vector3(dir.x, 0.0f, dir.z));
+                            item.GetComponent<Rigidbody>().AddForce(dir * knockback_force);
+                            //Debug.Log(dir);
                         }
                     }
 
@@ -275,7 +299,11 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         {
             attackRange.Add(other.gameObject);
         }
-		if (other.gameObject.CompareTag("Interactable")) {
+        if (other.gameObject.CompareTag("Enemy"))
+        {
+            attackRange.Add(other.gameObject);
+        }
+        if (other.gameObject.CompareTag("Interactable")) {
 			pController.addInteractable(other.gameObject);
 		}
         if (other.gameObject.CompareTag("Weapon"))

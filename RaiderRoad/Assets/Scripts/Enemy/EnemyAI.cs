@@ -140,6 +140,11 @@ public class EnemyAI : MonoBehaviour {
         currentState = State.Death;
     }
 
+    public void Damage(float damage)
+    {
+        currentHealth -= damage;
+    }
+
     //Collison handling
     private void OnCollisionEnter(Collision collision)
     {
