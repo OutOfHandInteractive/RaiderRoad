@@ -42,7 +42,7 @@ public class VehicleAI : MonoBehaviour {
         attack = new AttackVehicle();
         leave = new LeaveVehicle();
         rb = GetComponent<Rigidbody>();
-        int action = Random.Range(0, 100);
+        /*int action = Random.Range(0, 100);
         if (action < 50)
         {
             side = "left";
@@ -50,8 +50,8 @@ public class VehicleAI : MonoBehaviour {
         else
         {
             side = "right";
-        }
-
+        }*/
+        Debug.Log(side);
         //Start wander state
         wander.StartWander(agent, enemy, side);
     }
@@ -146,6 +146,11 @@ public class VehicleAI : MonoBehaviour {
 	public void setSpeed(float _speed) {
 		speed = _speed;
 	}
+
+    public void setSide(string _side)
+    {
+        side = _side;
+    }
 
     public string getSide()
     {

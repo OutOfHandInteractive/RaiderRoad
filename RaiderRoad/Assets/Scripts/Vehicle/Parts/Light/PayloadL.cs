@@ -7,6 +7,7 @@ public class PayloadL : Payload {
 
 	public GameObject enemyNode01, enemyNode02;
 	public List<EnemyAI> enemies;
+    public List<Interactable> weapons;
 
 	private List<GameObject> payloadInstance = new List<GameObject>();
 	private System.Random rand = new System.Random();
@@ -15,6 +16,11 @@ public class PayloadL : Payload {
 		for (int i=0; i < PAYLOAD_SIZE; i++) {
 			if (payloadCode[i] == payloadTypes.enemy)
 				payloadInstance.Add(Instantiate(SelectEnemies().gameObject));
+            if (payloadCode[i] == payloadTypes.weapon)
+            {
+                payloadInstance.Add(Instantiate(SelectInteractable().gameObject));
+            }
+ 
 		}
 
 		payloadInstance[0].transform.SetParent(enemyNode01.transform);
@@ -28,4 +34,10 @@ public class PayloadL : Payload {
 		int selectedIndex = rand.Next(0, enemies.Count);
 		return enemies[selectedIndex];
 	}
+
+    protected override Interactable SelectInteractable()
+    {
+        int selectedIndex = rand.Next(0, weapons.Count);
+        return weapons[selectedIndex];
+    }
 }

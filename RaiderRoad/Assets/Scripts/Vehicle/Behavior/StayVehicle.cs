@@ -31,7 +31,7 @@ public class StayVehicle : MonoBehaviour {
         //Go to loading area
         cEnemy.SetDestination(player.transform.position);
 
-        if(!GameObject.FindGameObjectWithTag("Enemy"))
+        if(!GameObject.FindGameObjectWithTag("Enemy") && GameObject.FindGameObjectWithTag("Enemy").GetComponent<EnemyAI>().GetState() != EnemyAI.State.Weapon)
         {
             cObject.GetComponent<VehicleAI>().EnterLeave();
         }
