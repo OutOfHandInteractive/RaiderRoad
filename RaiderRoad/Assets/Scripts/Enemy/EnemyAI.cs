@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 public class EnemyAI : MonoBehaviour {
     //States
-    private enum State { Wait, Board, Weapon, Steal, Destroy, Fight, Escape, Death };
+    public enum State { Wait, Board, Weapon, Steal, Destroy, Fight, Escape, Death };
 
     //State Classes
     private WaitEnemy wait;
@@ -19,11 +19,13 @@ public class EnemyAI : MonoBehaviour {
     private GameObject enemy;
     private State currentState;
     private Rigidbody rb;
+    private GameObject parent;
 
     //Vehicle variables
     private VehicleAI vehicle;
     private string side;
     public GameObject munnitions;
+    private GameObject interactable;
 
     // Use this for initialization
     void Start () {
@@ -38,7 +40,12 @@ public class EnemyAI : MonoBehaviour {
 
         //Get vehicle information, side
         vehicle = gameObject.GetComponentInParent<VehicleAI>();
+        Debug.Log(vehicle.getSide());
         side = vehicle.getSide();
+        parent = transform.parent.gameObject;
+        interactable = vehicle.GetComponentInChildren<HasWeapon>().gameObject;
+        Debug.Log(interactable);
+
 
         EnterWait();
 
@@ -48,9 +55,19 @@ public class EnemyAI : MonoBehaviour {
 	void Update () {
         //Debug.Log(currentState);
         //Go to weapon state when vehicle is ramming
-        if (vehicle.getState() == VehicleAI.State.Attack)
+
+        Debug.Log(interactable);
+        Debug.Log(transform.parent);
+        if (!interactable.transform.GetComponentInChildren<EnemyAI>())
+        {
+            transform.parent = interactable.transform;
+            transform.position = interactable.transform.position;
+            transform.rotation = Quaternion.identity;
+        }
+        if (transform.parent.name == "EnemyInt" && vehicle.getState() == VehicleAI.State.Chase)
         {
             EnterWeapon();
+
         }
         else
         {
@@ -61,7 +78,7 @@ public class EnemyAI : MonoBehaviour {
                     wait.Wait();
                     break;
                 case State.Weapon:
-                    weapon.StartWeapon(enemy,vehicle, munnitions);
+                    weapon.StartWeapon(enemy, vehicle, munnitions);
                     weapon.Weapon();
                     break;
                 case State.Board:
@@ -148,7 +165,7 @@ public class EnemyAI : MonoBehaviour {
         //Change transform to stay on vehicles
         if (collision.gameObject.tag == "eVehicle")
         {
-            transform.parent = collision.transform;
+            transform.parent = parent.transform;
         }
         if (collision.gameObject.tag == "RV")
         {
@@ -178,6 +195,10 @@ public class EnemyAI : MonoBehaviour {
             Debug.Log("Hit");
             other.gameObject.GetComponent<Rigidbody>().AddForce(Vector3.up*100, ForceMode.Impulse);
         }
+        if(other.gameObject.tag == "EnemyInteract" && currentState == State.Wait)
+        {
+            transform.parent = other.transform;
+        }
     }
     private void OnTriggerStay(Collider other)
     {
@@ -187,6 +208,16 @@ public class EnemyAI : MonoBehaviour {
             //Debug.Log("HIT");
             other.gameObject.GetComponent<Wall>().Damage(25f);
         }
+    }
+
+    public State GetState()
+    {
+        return currentState;
+    }
+
+    public void SetState(State _currentState)
+    {
+        currentState = _currentState;
     }
  
 }

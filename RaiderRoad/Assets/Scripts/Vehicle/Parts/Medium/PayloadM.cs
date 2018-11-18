@@ -7,7 +7,7 @@ public class PayloadM : Payload {
 
 	public GameObject enemyNode01, enemyNode02, enemyNode03, enemyNode04;
 	public List<EnemyAI> enemies;
-    public List<cannon> cannons;
+    public List<Interactable> weapons;
 
     private List<GameObject> payloadInstance = new List<GameObject>();
 	private System.Random rand = new System.Random();
@@ -18,7 +18,7 @@ public class PayloadM : Payload {
 				payloadInstance.Add(Instantiate(SelectEnemies().gameObject));
             if (payloadCode[i] == payloadTypes.weapon)
             {
-                payloadInstance.Add(Instantiate(SelectCannons().gameObject));
+                payloadInstance.Add(Instantiate(SelectInteractable().gameObject));
             }
         }
 
@@ -39,9 +39,9 @@ public class PayloadM : Payload {
 		int selectedIndex = rand.Next(0, enemies.Count); // error getting thrown here, null ref exception
 		return enemies[selectedIndex];
 	}
-    protected cannon SelectCannons()
+    protected override Interactable SelectInteractable()
     {
-        int selectedIndex = rand.Next(0, cannons.Count);
-        return cannons[selectedIndex];
+        int selectedIndex = rand.Next(0, weapons.Count);
+        return weapons[selectedIndex];
     }
 }
