@@ -5,11 +5,12 @@ using UnityEngine.AI;
 
 public class VehicleAI : MonoBehaviour {
     //States
-    public enum State { Wander, Chase, Attack, Leave };
+    public enum State { Wander, Chase, Stay, Attack, Leave };
 
     //State Classes
     private WanderVehicle wander;
     private ChaseVehicle chase;
+    private StayVehicle stay;
     private AttackVehicle attack;
     private LeaveVehicle leave;
 
@@ -17,27 +18,31 @@ public class VehicleAI : MonoBehaviour {
     protected NavMeshAgent agent;
     public State currentState;
     private GameObject enemy;
+    private Rigidbody rb;
 
     private string side;
 
 	//Statistics
-	private float maxHealth;
-	private float ramDamage;
-	private float speed;
+	public float maxHealth;
+	public float ramDamage;
+	public float speed;
+
+	public float currentHealth;
 
 	// Use this for initialization
 	void Start () {
+		currentHealth = maxHealth;
 
         //Initialize all the classes
         enemy = gameObject;
         agent = GetComponent<NavMeshAgent>();
         wander = new WanderVehicle();
         chase = new ChaseVehicle();
+        stay = new StayVehicle();
         attack = new AttackVehicle();
         leave = new LeaveVehicle();
-        transform.position = GameObject.Find("Spawn").transform.position;
-
-        int action = Random.Range(0, 100);
+        rb = GetComponent<Rigidbody>();
+        /*int action = Random.Range(0, 100);
         if (action < 50)
         {
             side = "left";
@@ -45,15 +50,15 @@ public class VehicleAI : MonoBehaviour {
         else
         {
             side = "right";
-        }
-
+        }*/
+        Debug.Log(side);
         //Start wander state
         wander.StartWander(agent, enemy, side);
     }
 
     // Update is called once per frame
     void Update () {
-        Debug.Log(currentState);
+        //Debug.Log(currentState);
         switch (currentState)
         {
             case State.Wander:
@@ -64,8 +69,12 @@ public class VehicleAI : MonoBehaviour {
                 chase.StartChase(agent, enemy);
                 chase.Chase(side);
                 break;
+            case State.Stay:
+                stay.StartStay(agent, enemy);
+                stay.Stay(side);
+                break;
             case State.Attack:
-                attack.StartAttack(agent, enemy, side);
+                attack.StartAttack(agent, enemy, rb, side);
                 attack.Attack();
                 break;
             case State.Leave:
@@ -75,10 +84,25 @@ public class VehicleAI : MonoBehaviour {
         }
     }
 
+	// ---------------- Combat Functions ------------------
+	public void takeDamage(float damage) {
+		currentHealth -= damage;
+
+		Debug.Log("took " + damage + " damage");
+
+		if (currentHealth <= 0) {
+			Destroy(gameObject);
+		}
+	}
+
     //Used to change state from different classes
     public void EnterChase()
     {
         currentState = State.Chase;
+    }
+    public void EnterStay()
+    {
+        currentState = State.Stay;
     }
     public void EnterAttack()
     {
@@ -104,6 +128,7 @@ public class VehicleAI : MonoBehaviour {
 
 	public void setMaxHealth(float _maxHealth) {
 		maxHealth = _maxHealth;
+		currentHealth = maxHealth;
 	}
 
 	public float getRamDamage() {
@@ -121,6 +146,11 @@ public class VehicleAI : MonoBehaviour {
 	public void setSpeed(float _speed) {
 		speed = _speed;
 	}
+
+    public void setSide(string _side)
+    {
+        side = _side;
+    }
 
     public string getSide()
     {

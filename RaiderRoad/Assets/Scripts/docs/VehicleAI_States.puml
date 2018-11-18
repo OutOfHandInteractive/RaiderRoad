@@ -1,0 +1,24 @@
+﻿@startuml
+hide empty description
+'' Enemy AI State Diagram
+
+[*] --> Wander
+Wander --> Ram : Rnd
+Wander --> Follow : Rnd
+Wander --> Attack : Rnd
+
+Ram --> Panic : Health too low
+Follow --> Panic : Health too low
+Attack --> Panic : Health too low
+
+Ram --> Follow
+Attack --> Follow
+Follow --> Load : Arrive next to RV
+Load --> Leave : Mooks return
+
+Panic --> Crash : Health depleted
+Panic --> Leave : Time passes
+
+Leave --> [*]
+Crash --> [*]
+@enduml

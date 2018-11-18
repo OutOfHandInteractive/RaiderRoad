@@ -61,9 +61,9 @@ public class PlayerCharacterSelect : MonoBehaviour {
             count -= Time.deltaTime;
         }
        
-        if (player.GetButtonDown("Start"))
+        if (player.GetButtonDown("Jump"))
         {
-            characterSelect.GetComponent<CharacterSelect>().SpawnPlayers();
+            characterSelect.GetComponent<CharacterSelect>().PassPlayerId();
         }
     }
 
