@@ -4,20 +4,23 @@ using UnityEngine;
 
 public class WeaponAttackEnemy : AbstractEnemyAI {
 
+    private GameObject fireFX;
     private GameObject cMunnitions;
     private GameObject proj;
     private GameObject cObject;
     private VehicleAI eVehicle;
     private GameObject cannon;
     private GameObject barrel;
-    private GameObject flame;
     private GameObject flamethrower;
     private bool fired = false;
-    public void StartWeapon(GameObject enemy, VehicleAI vehicle, GameObject munnitions)
+    private ParticleSystem fireInstance;
+    private bool created = false;
+    public void StartWeapon(GameObject enemy, VehicleAI vehicle, GameObject munnitions, GameObject fire)
     {
         cObject = enemy;
         eVehicle = vehicle;
         cMunnitions = munnitions;
+        fireFX = fire;
         if (cObject.transform.parent.tag == "Cannon")
         {
             cannon = GameObject.Find("Cannon_Body");
@@ -26,7 +29,14 @@ public class WeaponAttackEnemy : AbstractEnemyAI {
         else if (cObject.transform.parent.tag == "Fire")
         {
             flamethrower = GameObject.Find("FlameThrower_Body");
-            flame = flamethrower.transform.GetChild(3).gameObject;
+            barrel = GameObject.Find("Barrel");
+            if(!created)
+            {
+                fireInstance = Instantiate(fireFX, barrel.transform.position, fireFX.transform.rotation, barrel.transform).GetComponent<ParticleSystem>();
+                fireInstance.Stop();
+                created = true;
+            }
+
         }
     }
 	
@@ -82,6 +92,7 @@ public class WeaponAttackEnemy : AbstractEnemyAI {
 
     void Flames()
     {
-        flame.SetActive(true);
+
+        fireInstance.Play();
     }
 }

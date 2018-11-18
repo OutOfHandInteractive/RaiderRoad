@@ -14,6 +14,7 @@ public class EnemyAI : MonoBehaviour {
     private DestroyEnemy destroy;
     private FightEnemy fight;
     private EscapeEnemy escape;
+    private DeathEnemy death;
 
     //Enemy variables
     private GameObject enemy;
@@ -25,6 +26,7 @@ public class EnemyAI : MonoBehaviour {
     private VehicleAI vehicle;
     private string side;
     public GameObject munnitions;
+    public GameObject fire;
     private GameObject interactable;
 
 	// statistics
@@ -43,6 +45,7 @@ public class EnemyAI : MonoBehaviour {
         destroy = new DestroyEnemy();
         fight = new FightEnemy();
         escape = new EscapeEnemy();
+        death = new DeathEnemy();
 
         //Get vehicle information, side
         vehicle = gameObject.GetComponentInParent<VehicleAI>();
@@ -84,7 +87,7 @@ public class EnemyAI : MonoBehaviour {
                     wait.Wait();
                     break;
                 case State.Weapon:
-                    weapon.StartWeapon(enemy, vehicle, munnitions);
+                    weapon.StartWeapon(enemy, vehicle, munnitions, fire);
                     weapon.Weapon();
                     break;
                 case State.Board:
@@ -103,6 +106,9 @@ public class EnemyAI : MonoBehaviour {
                     escape.StartJump(enemy, rb, side);
                     escape.Escape();
                     break;
+                case State.Death:
+                    death.Death(enemy);
+                    break;
             }
         }
 
@@ -110,10 +116,11 @@ public class EnemyAI : MonoBehaviour {
     }
 
 	public void takeDamage(float damage) {
+        Debug.Log(currentHealth);
 		currentHealth -= damage;
 
 		if (currentHealth <= 0) {
-			EnterDestroy();
+			EnterDeath();
 		}
 	}
 
@@ -186,9 +193,9 @@ public class EnemyAI : MonoBehaviour {
         {
             transform.parent = parent.transform;
         }
-        if (collision.gameObject.tag == "RV")
+        if (collision.gameObject.tag == "floor")
         {
-            transform.parent = collision.transform;
+            transform.parent = collision.transform.root;
             //currentState = State.Destroy;
         }
     }
@@ -200,7 +207,7 @@ public class EnemyAI : MonoBehaviour {
         {
             transform.parent = null;
         }
-        if (collision.gameObject.tag == "RV")
+        if (collision.gameObject.tag == "floor")
         {
             transform.parent = null;
         }

@@ -21,7 +21,7 @@ public class EscapeEnemy : JumpEnemy {
         float zSign = cSide.Equals("left") ? -1 : 1;
         Jump(pos, zSign);
 
-        if(cObject.transform.root.tag == "eVehicle" && cObject.transform.parent != null)
+        if(cObject.transform.root.tag == "eVehicle" && cObject.transform.parent != null && cObject.GetComponent<EnemyAI>().GetState() != EnemyAI.State.Weapon)
         {
             eVehicle.GetComponent<VehicleAI>().EnterLeave();
         }
