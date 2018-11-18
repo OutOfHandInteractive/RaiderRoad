@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public abstract class EnemyAI : MonoBehaviour
+public abstract class EnemyAI
 {
     protected float speed = 2f;
     public GameObject Closest(Vector3 myPos, GameObject[] objects)

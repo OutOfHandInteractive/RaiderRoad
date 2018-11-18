@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System;
 
-public class Radio : MonoBehaviour
+public class Radio
 {
     private static Radio instance = new Radio();
 
@@ -16,22 +16,26 @@ public class Radio : MonoBehaviour
     /*
      * Evacuation of Mooks onto escape vehicles
      */
-    private List<StayVehicle> evacVehicles = new List<StayVehicle>();
-    private Queue<EscapeEnemy> mooksForEvac = new Queue<EscapeEnemy>();
+    private static List<StayVehicle> evacVehicles = new List<StayVehicle>();
+    private static Queue<EscapeEnemy> mooksForEvac = new Queue<EscapeEnemy>();
     public void CallForEvac(EscapeEnemy mook)
     {
         mooksForEvac.Enqueue(mook);
         CheckForEvac();
     }
 
-    public void ReadyForEvac(ref StayVehicle vehicle)
+    public void ReadyForEvac(StayVehicle vehicle)
     {
-        Debug.Log("Ready for evac");
+        if(vehicle == null)
+        {
+            Debug.Log("WTF");
+        }
+        Debug.Log("Ready for evac: "+vehicle.ToString());
         evacVehicles.Add(vehicle);
         CheckForEvac();
     }
 
-    public void EvacLeaving(ref StayVehicle vehicle)
+    public void EvacLeaving(StayVehicle vehicle)
     {
         Debug.Log("Leaving");
         evacVehicles.Remove(vehicle);
@@ -46,7 +50,8 @@ public class Radio : MonoBehaviour
             //TODO: Make this smarter
             EscapeEnemy mook = mooksForEvac.Dequeue();
             StayVehicle vehicle = evacVehicles[0];
-            Debug.Log("Found vehicle: " +vehicle);
+            //Debug.Assert(vehicle != null);
+            //Debug.Log("Found vehicle: " +vehicle);
             mook.RadioEvacCallback(vehicle);
         }
     }

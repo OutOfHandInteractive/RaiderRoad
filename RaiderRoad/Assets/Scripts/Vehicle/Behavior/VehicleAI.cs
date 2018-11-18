@@ -29,7 +29,7 @@ public class VehicleAI : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-
+        
         //Initialize all the classes
         enemy = gameObject;
         agent = GetComponent<NavMeshAgent>();
@@ -48,7 +48,7 @@ public class VehicleAI : MonoBehaviour {
         {
             side = "right";
         }
-
+    
         //Start wander state
         EnterWander();
     }

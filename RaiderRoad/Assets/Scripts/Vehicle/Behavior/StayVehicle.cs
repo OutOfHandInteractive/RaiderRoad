@@ -3,19 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class StayVehicle : MonoBehaviour {
+public class StayVehicle {
 
     private NavMeshAgent cEnemy;
     private GameObject cObject;
     private Transform player;
     private string cSide;
     private bool calledRadio = false;
-    private StayVehicle self;
     public void StartStay(NavMeshAgent agent, GameObject enemy)
     {
-        self = this;
         cEnemy = agent;
         cObject = enemy;
+    }
+
+    public GameObject GetObject()
+    {
+        return cObject;
     }
 
     public string Side()
@@ -35,6 +38,11 @@ public class StayVehicle : MonoBehaviour {
             }
         }
         return res;
+    }
+
+    public override string ToString()
+    {
+        return "StayVehicle";
     }
 
     public void Stay(string side)
@@ -66,7 +74,12 @@ public class StayVehicle : MonoBehaviour {
             // At loading area
             if (!calledRadio)
             {
-                Radio.GetRadio().ReadyForEvac(ref self);
+                if(this == null)
+                {
+                    Debug.Log("This shit is retarded");
+                }
+                Debug.Log("Calling radio: " + this.ToString());
+                Radio.GetRadio().ReadyForEvac(this);
                 calledRadio = true;
             }
             else if(CountEnemiesOnBoard() >= System.Math.Min(5, extantEnemies)) //TODO this limit should depend on size of vehicle
@@ -80,7 +93,7 @@ public class StayVehicle : MonoBehaviour {
         {
             if (calledRadio)
             {
-                Radio.GetRadio().EvacLeaving(ref self);
+                Radio.GetRadio().EvacLeaving(this);
             }
             cObject.GetComponent<VehicleAI>().EnterLeave();
         }

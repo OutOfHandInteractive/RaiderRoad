@@ -24,7 +24,8 @@ public class WeaponAttackEnemy : EnemyAI {
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
         GameObject player = Closest(cObject.transform.position, players);
         cannon.transform.LookAt(player.transform.position);
-        proj = Instantiate(cMunnitions.gameObject, barrel.transform.position, Quaternion.identity);
+
+        proj = Object.Instantiate(cMunnitions.gameObject, barrel.transform.position, Quaternion.identity);
         proj.GetComponent<cannonball>().launch(player.transform.position, barrel.transform.position);
 
     }

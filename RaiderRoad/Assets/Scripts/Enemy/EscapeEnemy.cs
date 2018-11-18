@@ -15,9 +15,14 @@ public class EscapeEnemy : JumpEnemy {
 
     public void RadioEvacCallback(StayVehicle vehicle)
     {
+        if(vehicle == null)
+        {
+            Debug.Log("Received null vehicle!");
+            return;
+        }
         cSide = vehicle.Side();
-        Debug.Log("Roger!");
-        eVehicle = vehicle.transform;
+        //Debug.Log("Roger!");
+        eVehicle = vehicle.GetObject().transform;
     }
 
     public void Escape()
