@@ -13,6 +13,8 @@ public class Event : MonoBehaviour {
 	public float postDelay;
     private VehicleFactoryManager.vehicleTypes _type;
 
+	private GameObject v;
+
     /*public Event(int dif, VehicleFactoryManager.vehicleTypes type)       //add game object to constructor for spawning
     {
         Debug.Log("Event Created");
@@ -35,7 +37,7 @@ public class Event : MonoBehaviour {
     {
         Debug.Log("spawn called");
         //based on type, call proper function - for now just creates light vehicle
-        factory.ConstructVehicle(_type);
+        v = factory.newConstructVehicle(_type);
         //GameObject.CreatePrimitive(PrimitiveType.Cube);
     }
 }
