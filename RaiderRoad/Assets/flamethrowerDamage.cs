@@ -54,11 +54,11 @@ public class flamethrowerDamage : MonoBehaviour {
 		}
 	}
 
-	private void setTickDamage(float _tickDamage) {
+	public void setTickDamage(float _tickDamage) {
 		tickDamage = _tickDamage;
 	}
 
-	private void setTickTime(float _tick) {
+	public void setTickTime(float _tick) {
 		tickTime = _tick;
 		tickTimeCountdown = tickTime;
 	}

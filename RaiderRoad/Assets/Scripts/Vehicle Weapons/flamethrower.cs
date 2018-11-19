@@ -22,6 +22,8 @@ public class flamethrower : Interactable {
     public float coneAngle;
 	public float overheatTime;
 	public float overheatCooldown;
+	public float tickDamage;	// damage between ticks
+	public float tickTime;		// amount of seconds between ticks
 
 	// ----------------------------------------------------------------------
 
@@ -58,6 +60,9 @@ public class flamethrower : Interactable {
         overheated = false;
         firing = false;
         cooldownTimer = cooldown;
+
+		damageCollider.GetComponent<flamethrowerDamage>().setTickDamage(tickDamage);
+		damageCollider.GetComponent<flamethrowerDamage>().setTickTime(tickTime);
 	}
     
 	// Update is called once per frame
