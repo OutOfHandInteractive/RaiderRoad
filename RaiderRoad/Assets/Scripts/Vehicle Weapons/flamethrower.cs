@@ -15,6 +15,7 @@ public class flamethrower : Interactable {
     public Material normalMat;
     public Material overheatMat;
 	public GameObject fireFX;
+	public GameObject damageCollider;
     
 	// gameplay values
 	public float reticuleMoveSpeed;
@@ -88,12 +89,14 @@ public class flamethrower : Interactable {
             {
 				fireInstance.Play();
                 firing = true;
+				damageCollider.SetActive(true);
 			}
             if (player.GetButtonUp("Shoot Weapon"))
             {
 				fireInstance.Stop();
                 firing = false;
-            }
+				damageCollider.SetActive(false);
+			}
             
             if (reticule.activeSelf == true) {
                 interacting = true;
@@ -138,6 +141,7 @@ public class flamethrower : Interactable {
         {
             overheated = true;
             firing = false;
+			damageCollider.SetActive(false);
 			fireInstance.Stop();
 			//weapon.GetComponent<MeshRenderer>().material = overheatMat;
 			cooldownCount = overheatCooldown;

@@ -275,6 +275,23 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1610773540476156
+GameObject:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4216574664046502}
+  - component: {fileID: 65290431375559670}
+  - component: {fileID: 114004204790840938}
+  m_Layer: 0
+  m_Name: damageCollider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
 --- !u!1 &1661161713904068
 GameObject:
   m_ObjectHideFlags: 1
@@ -476,6 +493,19 @@ Transform:
   m_Father: {fileID: 4860630819240622}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4216574664046502
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1610773540476156}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.019, y: 0.555, z: 1.597}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4755299435438332}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4247375020734768
 Transform:
   m_ObjectHideFlags: 1
@@ -658,13 +688,14 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1755833588380400}
-  m_LocalRotation: {x: -0.062260278, y: 0.00000008940697, z: 0.0000000018626451, w: 0.99806}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0, y: -0.501, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4860630819240622}
   - {fileID: 4901135343450284}
   - {fileID: 4016787514394116}
+  - {fileID: 4216574664046502}
   m_Father: {fileID: 4878625373666344}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1334,6 +1365,18 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1271805426424876}
   m_Mesh: {fileID: 4300006, guid: b79d56fb079ef0e49b610b5b35d0be72, type: 3}
+--- !u!65 &65290431375559670
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1610773540476156}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.5, y: 0.5, z: 4.5}
+  m_Center: {x: 0, y: 0, z: 1.21}
 --- !u!65 &65580179566833754
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -1346,6 +1389,17 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.8851876, y: 1.0113463, z: 0.5561055}
   m_Center: {x: 0, y: -0.017799973, z: -0.4305535}
+--- !u!114 &114004204790840938
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1610773540476156}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 018313a7545c21d4187bbe6b4d19d759, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114029647993289004
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1447,6 +1501,7 @@ MonoBehaviour:
   normalMat: {fileID: 2100000, guid: 7960cd9395a2b8645b34c62abd6d9f4b, type: 2}
   overheatMat: {fileID: 2100000, guid: 66c2ca5b6eb2c64419a8e6a46e68030c, type: 2}
   fireFX: {fileID: 1395703786283796, guid: e3957306ac6e4004abce694a03535b94, type: 2}
+  damageCollider: {fileID: 1610773540476156}
   reticuleMoveSpeed: 3
   coneAngle: 45
   overheatTime: 5

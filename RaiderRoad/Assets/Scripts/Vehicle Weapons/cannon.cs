@@ -29,6 +29,7 @@ public class cannon : Interactable {
 	private GameObject proj;
 	private Vector3 forwardDir;
 	private Vector3 dist;
+	private bool interacting = false;
 
 	// updating variables
 	private float firingCooldownTimer;
@@ -73,8 +74,9 @@ public class cannon : Interactable {
 			moveVector.x = player.GetAxis("Move Horizontal") * Time.deltaTime * reticuleMoveSpeed;
 			moveVector.y = player.GetAxis("Move Vertical") * Time.deltaTime * reticuleMoveSpeed;
 
-			if (player.GetButtonDown("Exit Interactable")) {
+			if (player.GetButtonDown("Exit Interactable") && interacting) {
 				Leave();
+				interacting = false;
 			}
 
 			if (player.GetButtonDown("Shoot Weapon") && !isOnFiringCooldown()) {
@@ -87,6 +89,10 @@ public class cannon : Interactable {
 				StartCoroutine(particleDestroy(tempFx));
 
 				firingCooldownTimer = firingCooldown;
+			}
+
+			if (reticule.activeSelf == true) {
+				interacting = true;
 			}
 		}
 	}
