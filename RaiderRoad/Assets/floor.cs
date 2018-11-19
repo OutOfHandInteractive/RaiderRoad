@@ -3,12 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class floor : MonoBehaviour {
+    //Michael
 
-    public float height = 1f;
-
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
+    //--------------------
+    //  Public Variables
+    //--------------------
 }

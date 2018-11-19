@@ -4,45 +4,39 @@ using UnityEngine;
 
 public class VehicleFactoryH : VehicleFactory_I {
 
-	private GameObject frame, cab, cargo, wheel, attachment;
-	private static System.Random rand;
+	private const int WHEEL_COUNT_H = 6;
 
-	public VehicleFactoryH() {
-		rand = new System.Random();
-	}
+	public List<GameObject> Chassis;
 
-	public override void AssembleVehicle() {
-		Instantiate(VehicleBase, new Vector3(0, 0, 0), Quaternion.identity);
-
-		frame = selectFrame();
-		cab = selectCab();
-		cargo = selectCargo();
-		wheel = selectWheel();
-		attachment = selectAttachment();
-	}
-
-	private GameObject selectFrame() {
+	protected override GameObject selectChassis() {
 		int selectedIndex = rand.Next(0, Chassis.Count);
 		return Chassis[selectedIndex];
 	}
 
-	private GameObject selectCab() {
-		int selectedIndex = rand.Next(0, Cab.Count);
-		return Cab[selectedIndex];
+	//attach enemy to cab
+	public override void AttachPayload(GameObject cargo) {
+		GameObject payload = Instantiate(selectPayload());
+		payload.transform.SetParent(cargo.GetComponent<Cargo>().payloadNode.transform);
+		payload.transform.position = payload.transform.parent.transform.position;
+		payload.GetComponent<PayloadH>().populate();
 	}
 
-	private GameObject selectCargo() {
-		int selectedIndex = rand.Next(0, Cargo.Count);
-		return Cargo[selectedIndex];
-	}
+	// attach wheel to frame
+	public override void AttachWheels(GameObject chassis, VehicleAI v) {
+		GameObject wheelToUse = selectWheel();
+		GameObject wheel;
+		for (int i = 0; i < WHEEL_COUNT_H; i++) {
+			wheel = Instantiate(wheelToUse);
+			wheel.transform.SetParent(chassis.GetComponent<Chassis>().wheelNodes[i].transform);
+			wheel.transform.position = wheel.transform.parent.transform.position;
+			if (i % 2 == 1) { // even-numbered wheels are driver-side, so odd need to be scaled to -1 in X
+				wheel.transform.localScale = new Vector3(-1 * wheel.transform.localScale.x, 1 * wheel.transform.localScale.y, 1 * wheel.transform.localScale.z);
+			}
+		}
 
-	private GameObject selectWheel() {
-		int selectedIndex = rand.Next(0, Wheel.Count);
-		return Wheel[selectedIndex];
-	}
-
-	private GameObject selectAttachment() {
-		int selectedIndex = rand.Next(0, Attachment.Count);
-		return Attachment[selectedIndex];
+		Wheel wheelScript = wheelToUse.GetComponent<Wheel>();
+		v.setMaxHealth(v.getMaxHealth() + wheelScript.healthModifier);
+		v.setRamDamage(v.getRamDamage() + wheelScript.ramDamageModifier);
+		v.setSpeed(v.getSpeed() + wheelScript.speedModifier);
 	}
 }
