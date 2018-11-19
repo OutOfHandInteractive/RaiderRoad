@@ -43,7 +43,6 @@ public class EventManager : MonoBehaviour {
 
     IEnumerator initialize()
     {
-        vFactory = gameObject.AddComponent<VehicleFactoryManager>() as VehicleFactoryManager;
         onDeck = generate(difficultyRating);                //create event cluster at starting difficulty and set as on-deck
         yield return new WaitForSecondsRealtime(10);       //delay for some short time - let's say 30 seconds for now/10 for testing
         lastDone();                                     //switches on-deck to active, deploys it, and creates new on-deck cluster
@@ -77,7 +76,7 @@ public class EventManager : MonoBehaviour {
             _nE.initialize(difRate, type);
             _new.Add(_nE);          //uses current dif rate, [for now] default spawn position, [for now] default enemy to create an event
         }
-        newEC.GetComponent<EventCluster>().startUp(_new);
+        newEC.GetComponent<EventCluster>().startUp(_new, vFactory);
         return newEC;
     }
 
