@@ -8,11 +8,13 @@ public class flamethrowerDamage : MonoBehaviour {
 	private float tickTime; // time in seconds between damage ticks
 	private float tickTimeCountdown;
 
-	private List<EnemyAI> enemyTargets;
-	private List<VehicleAI> vehicleTargets; 
-	
+	private List<EnemyAI> enemyTargets = new List<EnemyAI>();
+	private List<VehicleAI> vehicleTargets = new List<VehicleAI>();
+
 	// Update is called once per frame
 	void Update () {
+		tickTimeCountdown -= Time.deltaTime;
+		Debug.Log(tickTimeCountdown);
 		if (tickTimeCountdown <= 0) {
 			tickTimeCountdown = tickTime;
 
@@ -35,6 +37,7 @@ public class flamethrowerDamage : MonoBehaviour {
 	}
 
 	private void OnTriggerEnter(Collider other) {
+		Debug.Log("adding target");
 		GameObject directTarget = other.gameObject;
 		if (directTarget.CompareTag("eVehicle")) {
 			vehicleTargets.Add(directTarget.GetComponentInParent<VehicleAI>());

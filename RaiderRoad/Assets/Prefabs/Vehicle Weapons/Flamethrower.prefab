@@ -359,7 +359,7 @@ GameObject:
   m_IsActive: 1
 --- !u!1 &1755833588380400
 GameObject:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 6
@@ -386,6 +386,21 @@ GameObject:
   - component: {fileID: 114029647993289004}
   m_Layer: 5
   m_Name: Canvas
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1783272412598750
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4371955173919422}
+  m_Layer: 0
+  m_Name: FlamethrowerBodyWrapper
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -585,6 +600,20 @@ Transform:
   m_Father: {fileID: 4860630819240622}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4371955173919422
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1783272412598750}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 4755299435438332}
+  m_Father: {fileID: 4878625373666344}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4385937328770904
 Transform:
   m_ObjectHideFlags: 1
@@ -688,16 +717,16 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1755833588380400}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0, y: -0.501, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.501, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4860630819240622}
   - {fileID: 4901135343450284}
   - {fileID: 4016787514394116}
   - {fileID: 4216574664046502}
-  m_Father: {fileID: 4878625373666344}
-  m_RootOrder: 3
+  m_Father: {fileID: 4371955173919422}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4860630819240622
 Transform:
@@ -733,7 +762,7 @@ Transform:
   - {fileID: 224290122041760282}
   - {fileID: 4105069939712218}
   - {fileID: 4303344513358416}
-  - {fileID: 4755299435438332}
+  - {fileID: 4371955173919422}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
@@ -1375,7 +1404,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.5, y: 0.5, z: 4.5}
+  m_Size: {x: 0.5, y: 1.5, z: 4.5}
   m_Center: {x: 0, y: 0, z: 1.21}
 --- !u!65 &65580179566833754
 BoxCollider:
@@ -1496,7 +1525,7 @@ MonoBehaviour:
   cooldown: 0
   reticule: {fileID: 1964385130816118}
   barrel: {fileID: 1088967032555834}
-  weapon: {fileID: 1755833588380400}
+  weapon: {fileID: 1783272412598750}
   overheat: {fileID: 114259618680938694}
   normalMat: {fileID: 2100000, guid: 7960cd9395a2b8645b34c62abd6d9f4b, type: 2}
   overheatMat: {fileID: 2100000, guid: 66c2ca5b6eb2c64419a8e6a46e68030c, type: 2}
@@ -1506,7 +1535,7 @@ MonoBehaviour:
   coneAngle: 45
   overheatTime: 5
   overheatCooldown: 3
-  tickDamage: 0.25
+  tickDamage: 0.5
   tickTime: 0.5
 --- !u!114 &114364577518434546
 MonoBehaviour:
