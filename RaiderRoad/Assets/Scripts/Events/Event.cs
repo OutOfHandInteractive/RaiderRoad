@@ -13,7 +13,7 @@ public class Event : MonoBehaviour {
 	public float postDelay;
     private VehicleFactoryManager.vehicleTypes _type;
 
-	private GameObject v;
+	private GameObject e;
 
     /*public Event(int dif, VehicleFactoryManager.vehicleTypes type)       //add game object to constructor for spawning
     {
@@ -37,7 +37,8 @@ public class Event : MonoBehaviour {
     {
         Debug.Log("spawn called");
         //based on type, call proper function - for now just creates light vehicle
-        v = factory.newConstructVehicle(_type);
+        e = factory.newConstructVehicle(_type);
+		difficultyRating = e.GetComponentInChildren<eventObject>().getDifficulty();
         //GameObject.CreatePrimitive(PrimitiveType.Cube);
     }
 }

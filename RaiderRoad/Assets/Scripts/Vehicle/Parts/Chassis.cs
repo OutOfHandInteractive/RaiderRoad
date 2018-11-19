@@ -10,7 +10,7 @@ public abstract class Chassis : Part {
 	public float baseHealth;
 	public float baseRamDamage;
 	public float baseSpeed;
-	public float baseThreat;
+	public int baseThreat;
 
 
 	// ---------- Getters and Setters ----------
