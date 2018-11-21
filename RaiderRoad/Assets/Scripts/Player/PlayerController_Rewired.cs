@@ -4,10 +4,12 @@ using UnityEngine;
 using Rewired;
 
 public class PlayerController_Rewired : MonoBehaviour {
-    //--------------------
-    // Public Variables
-    //--------------------
-    public int playerId = 0;
+    public enum playerStates { up, down };
+
+	// ----------------------- Public Variables ---------------------------
+	public float basehealth;
+
+	public int playerId = 0;
     
     public float moveSpeed = 10f;
     
@@ -17,27 +19,37 @@ public class PlayerController_Rewired : MonoBehaviour {
     public float jumpIndicatorScaling = 10f;
     
     public float jumpForce;
-    
-    //--------------------
-    // Private Variables
-    //--------------------
+	public float reviveTime;
+	// --------------------------------------------------------------------
+   
+		
+    // ----------------------- Private Variables --------------------------
     private Player player;
     private Vector2 moveVector;
     
     private Vector3 rotateVector;
     
     private Rigidbody rb;
-    
+
+	public float currentHealth;
     private float baseJumpInidicatorScale;
     private float baseJumpIndicatorDist;
+	public float reviveCountdown;
     
+	// states and flags
     private bool grounded = true;
-    
-    public bool paused = false;
+	public bool paused = false;
+	public bool reviving = false;
+	public bool beingRevived = false;
+	private playerStates state;
+
     
 	// object interaction
 	public bool interacting = false;
-	private List<GameObject> interactables = new List<GameObject>(); 
+	private List<GameObject> interactables = new List<GameObject>();
+	private List<GameObject> downedPlayers = new List<GameObject>();
+
+	// ----------------------------------------------------------------------
     
     
     [System.NonSerialized]
@@ -45,6 +57,9 @@ public class PlayerController_Rewired : MonoBehaviour {
     
     void Start () 
     {
+		currentHealth = basehealth;
+		state = playerStates.up;
+		reviveCountdown = 0;
         rb = gameObject.GetComponent<Rigidbody>();
         baseJumpInidicatorScale = jumpIndicator.transform.localScale.x;
         baseJumpIndicatorDist = Vector3.Distance(transform.position, jumpIndicator.transform.position);
@@ -61,10 +76,13 @@ public class PlayerController_Rewired : MonoBehaviour {
     
     void Update()
     {
+		if (currentHealth <= 0) {
+			state = playerStates.down;
+		}
         if (!ReInput.isReady) return; // Exit if Rewired isn't ready. This would only happen during a script recompile in the editor.
         if (!initialized) Initialize(); // Reinitialize after a recompile in the editor
         
-		if (!interacting) {
+		if (!interacting && state == playerStates.up) {
 			GetInput();
 			ProcessInput();
 		}
@@ -74,30 +92,47 @@ public class PlayerController_Rewired : MonoBehaviour {
     
     private void GetInput()
     {
-		if (!paused && !interacting) {
+		// main input
+		if (!paused && !interacting && !reviving) {
 			moveVector.x = player.GetAxis("Move Horizontal") * Time.deltaTime * moveSpeed;
 			moveVector.y = player.GetAxis("Move Vertical") * Time.deltaTime * moveSpeed;
-            
+
 			//Twin Stick Rotation
 			//rotateVector = Vector3.right * player.GetAxis("Rotate Horizontal") + Vector3.forward * player.GetAxis("Rotate Vertical");
-            
+
 			//Single Stick Rotation
 			rotateVector = Vector3.right * player.GetAxis("Move Horizontal") + Vector3.forward * player.GetAxis("Move Vertical");
-            
+
 			if (player.GetButtonDown("Use")) {
 				Debug.Log("pressing button");
+				if (downedPlayers.Count > 0) {
+					reviving = true;
+					reviveCountdown = reviveTime;
+				}
 				if (interactables.Count > 0 && !interactables[0].GetComponent<Interactable>().isOnCooldown()) {
 					interactables[0].GetComponent<Interactable>().Interact(this);
 				}
 			}
-            
-            if (player.GetButtonDown("Jump") && grounded) 
-            {
-                rb.AddForce(transform.up * jumpForce);
-                grounded = false;
-            }
+
+			if (player.GetButtonDown("Jump") && grounded) {
+				rb.AddForce(transform.up * jumpForce);
+				grounded = false;
+			}
 		}
-        
+
+		// reviving functions
+		if (player.GetButton("Use") && reviving) {
+			reviveCountdown -= Time.deltaTime;
+			if (reviveCountdown <= 0) {
+				revive(downedPlayers[0].GetComponent<PlayerController_Rewired>());
+				removeDownedPlayer(downedPlayers[0]);
+				reviving = false;
+			}
+		}
+		else if (player.GetButtonUp("Use") && reviving) {
+			reviving = false;
+		}
+
         /*
         if (player.GetButton("Start"))
         {
@@ -161,6 +196,18 @@ public class PlayerController_Rewired : MonoBehaviour {
             grounded = true;
         }
     }
+
+	public void revive(PlayerController_Rewired p) {
+		p.currentHealth = basehealth;
+		p.setState(playerStates.up);
+	}
+
+	public void takeDamage(float _damage) {
+		currentHealth -= _damage;
+		if (currentHealth <= 0) {
+			state = playerStates.down;
+		}
+	}
     
     // --------------------- Getters / Setters ----------------------
     public void SetId(int id)
@@ -177,6 +224,14 @@ public class PlayerController_Rewired : MonoBehaviour {
     public Player GetPlayer() {
         return player;
     }
+
+	public playerStates getState() {
+		return state;
+	}
+
+	public void setState(playerStates s) {
+		state = s;
+	}
     
     public void setInteractingFlag() {
         interacting = true;
@@ -197,4 +252,12 @@ public class PlayerController_Rewired : MonoBehaviour {
         Debug.Log("removed weapon");
         interactables.Remove(i);
     }
+
+	public void addDownedPlayer(GameObject p) {
+		downedPlayers.Add(p);
+	}
+
+	public void removeDownedPlayer(GameObject p) {
+		downedPlayers.Remove(p);
+	}
 }

@@ -310,6 +310,11 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         {
             pController.addInteractable(other.gameObject);
         }
+		if (other.gameObject.CompareTag("Player")) {
+			if (other.GetComponent<PlayerController_Rewired>().getState() == PlayerController_Rewired.playerStates.down) {
+				pController.addDownedPlayer(other.gameObject);
+			}
+		}
 
         // Pick Up
         //if (other.gameObject.CompareTag("Drops"))
@@ -344,6 +349,11 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
 
 		if (other.gameObject.CompareTag("Interactable")) {
 			pController.removeInteractable(other.gameObject);
+		}
+		if (other.gameObject.CompareTag("Player")) {
+			if (other.GetComponent<PlayerController_Rewired>().getState() == PlayerController_Rewired.playerStates.down) {
+				pController.removeDownedPlayer(other.gameObject);
+			}
 		}
 	}
 

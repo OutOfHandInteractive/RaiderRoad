@@ -619,13 +619,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cef6ea1ae1cef5c43b1c454b08c56bd7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  basehealth: 10
   playerId: 1
   moveSpeed: 3
   view: {fileID: 1411014284825234}
   jumpIndicator: {fileID: 1604261379275858}
   jumpIndicatorScaling: 5
   jumpForce: 18000
+  reviveTime: 0
+  currentHealth: 0
   paused: 0
+  reviving: 0
+  beingRevived: 0
   interacting: 0
 --- !u!114 &114623983675379740
 MonoBehaviour:
