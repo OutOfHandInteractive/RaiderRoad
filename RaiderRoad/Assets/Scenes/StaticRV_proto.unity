@@ -2400,48 +2400,6 @@ Prefab:
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 68e65662634328844bf9703af5c0c728, type: 2}
   m_IsPrefabAsset: 0
---- !u!1001 &175067471
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 1159519431}
-    m_Modifications:
-    - target: {fileID: 4169347110580142, guid: 19de1b1a4499cbc4abc4bbfa05c85430, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 0.022
-      objectReference: {fileID: 0}
-    - target: {fileID: 4169347110580142, guid: 19de1b1a4499cbc4abc4bbfa05c85430, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 0.069
-      objectReference: {fileID: 0}
-    - target: {fileID: 4169347110580142, guid: 19de1b1a4499cbc4abc4bbfa05c85430, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: -0.0377
-      objectReference: {fileID: 0}
-    - target: {fileID: 4169347110580142, guid: 19de1b1a4499cbc4abc4bbfa05c85430, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: -0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 4169347110580142, guid: 19de1b1a4499cbc4abc4bbfa05c85430, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4169347110580142, guid: 19de1b1a4499cbc4abc4bbfa05c85430, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4169347110580142, guid: 19de1b1a4499cbc4abc4bbfa05c85430, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 4169347110580142, guid: 19de1b1a4499cbc4abc4bbfa05c85430, type: 2}
-      propertyPath: m_RootOrder
-      value: 5
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 19de1b1a4499cbc4abc4bbfa05c85430, type: 2}
-  m_IsPrefabAsset: 0
 --- !u!4 &181066380 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4444241764131600, guid: 68e65662634328844bf9703af5c0c728,
@@ -4722,10 +4680,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 27
       objectReference: {fileID: 0}
-    - target: {fileID: 1917609455555102, guid: f9cf844a8df05f74fbd726af33c67f29, type: 2}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f9cf844a8df05f74fbd726af33c67f29, type: 2}
   m_IsPrefabAsset: 0
@@ -6413,10 +6367,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 26
       objectReference: {fileID: 0}
-    - target: {fileID: 1803712825263230, guid: 51b5e7053239d5248984cbc45edb9802, type: 2}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 51b5e7053239d5248984cbc45edb9802, type: 2}
   m_IsPrefabAsset: 0
@@ -6915,13 +6865,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cef6ea1ae1cef5c43b1c454b08c56bd7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  basehealth: 0
   playerId: 0
   moveSpeed: 3.5
   view: {fileID: 1219372590}
   jumpIndicator: {fileID: 0}
   jumpIndicatorScaling: 100
   jumpForce: 0
+  reviveTime: 0
+  currentHealth: 0
+  reviveCountdown: 0
   paused: 0
+  reviving: 0
+  beingRevived: 0
+  state: 0
   interacting: 0
 --- !u!1001 &667942342
 Prefab:
@@ -12637,11 +12594,6 @@ Prefab:
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 68e65662634328844bf9703af5c0c728, type: 2}
   m_IsPrefabAsset: 0
---- !u!4 &1159519431 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4914171367738596, guid: 51b5e7053239d5248984cbc45edb9802,
-    type: 2}
-  m_PrefabInternal: {fileID: 611269892}
 --- !u!1 &1167183659
 GameObject:
   m_ObjectHideFlags: 0
@@ -19099,13 +19051,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cef6ea1ae1cef5c43b1c454b08c56bd7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  basehealth: 0
   playerId: 0
   moveSpeed: 3.5
   view: {fileID: 1219372590}
   jumpIndicator: {fileID: 0}
   jumpIndicatorScaling: 100
   jumpForce: 0
+  reviveTime: 0
+  currentHealth: 0
+  reviveCountdown: 0
   paused: 0
+  reviving: 0
+  beingRevived: 0
+  state: 0
   interacting: 0
 --- !u!4 &1828268487 stripped
 Transform:

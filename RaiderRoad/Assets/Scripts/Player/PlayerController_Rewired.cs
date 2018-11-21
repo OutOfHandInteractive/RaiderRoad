@@ -240,6 +240,14 @@ public class PlayerController_Rewired : MonoBehaviour {
     public void unsetInteractingFlag() {
         interacting = false;
     }
+
+	public float getMaxHealth() {
+		return basehealth;
+	}
+
+	public float getHealth() {
+		return currentHealth;
+	}
     
     public void addInteractable(GameObject i) {
         if (!interactables.Contains(i)) {
