@@ -41,7 +41,7 @@ public class PlayerController_Rewired : MonoBehaviour {
 	public bool paused = false;
 	public bool reviving = false;
 	public bool beingRevived = false;
-	private playerStates state;
+	public playerStates state;
 
     
 	// object interaction
@@ -109,7 +109,7 @@ public class PlayerController_Rewired : MonoBehaviour {
 					reviving = true;
 					reviveCountdown = reviveTime;
 				}
-				if (interactables.Count > 0 && !interactables[0].GetComponent<Interactable>().isOnCooldown()) {
+				else if (interactables.Count > 0 && !interactables[0].GetComponent<Interactable>().isOnCooldown()) {
 					interactables[0].GetComponent<Interactable>().Interact(this);
 				}
 			}

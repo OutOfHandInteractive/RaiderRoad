@@ -312,6 +312,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         }
 		if (other.gameObject.CompareTag("Player")) {
 			if (other.GetComponent<PlayerController_Rewired>().getState() == PlayerController_Rewired.playerStates.down) {
+				Debug.Log("adding downed player");
 				pController.addDownedPlayer(other.gameObject);
 			}
 		}
@@ -352,6 +353,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
 		}
 		if (other.gameObject.CompareTag("Player")) {
 			if (other.GetComponent<PlayerController_Rewired>().getState() == PlayerController_Rewired.playerStates.down) {
+				Debug.Log("removing downed player");
 				pController.removeDownedPlayer(other.gameObject);
 			}
 		}
