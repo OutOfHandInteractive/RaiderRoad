@@ -6,7 +6,6 @@ using UnityEngine.AI;
 public class EnemyAI : MonoBehaviour {
     //States
     public enum State { Wait, Board, Weapon, Steal, Destroy, Fight, Escape, Death };
-
     //State Classes
     private WaitEnemy wait;
     private BoardEnemy board;
@@ -28,10 +27,11 @@ public class EnemyAI : MonoBehaviour {
     public GameObject munnitions;
     public GameObject fire;
     private GameObject interactable;
+    public GameObject dropOnDeath;
 
 	// statistics
 	public float maxHealth;
-	private float currentHealth;
+    private float currentHealth;
 
     // Use this for initialization
     void Start () {
@@ -107,11 +107,10 @@ public class EnemyAI : MonoBehaviour {
                     escape.Escape();
                     break;
                 case State.Death:
-                    death.Death(enemy);
+                    death.Death(enemy, dropOnDeath);
                     break;
             }
         }
-
 
     }
 

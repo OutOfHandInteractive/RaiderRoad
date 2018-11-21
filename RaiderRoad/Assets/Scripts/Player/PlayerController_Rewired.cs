@@ -189,7 +189,7 @@ public class PlayerController_Rewired : MonoBehaviour {
     
     void OnCollisionEnter(Collision other)
     {
-        Debug.Log(other.gameObject.name);
+        //Debug.Log(other.gameObject.name);
         if (other.gameObject.tag == "floor")
         {
             //Debug.Log("Can jump");
