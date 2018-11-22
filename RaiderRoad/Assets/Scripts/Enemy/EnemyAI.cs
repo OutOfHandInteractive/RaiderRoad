@@ -235,6 +235,8 @@ public class EnemyAI : MonoBehaviour {
         }
     }
 
+
+	// -------------------- Getters and Setters ----------------------
     public State GetState()
     {
         return currentState;
@@ -245,4 +247,11 @@ public class EnemyAI : MonoBehaviour {
         currentState = _currentState;
     }
  
+	public float getMaxHealth() {
+		return maxHealth;
+	}
+
+	public float getHealth() {
+		return currentHealth;
+	}
 }
