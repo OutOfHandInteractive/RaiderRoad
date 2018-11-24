@@ -31,6 +31,7 @@ public class EnemyAI : MonoBehaviour {
 
 	// statistics
 	public float maxHealth;
+	public float damagePower;
     private float currentHealth;
 
     // Use this for initialization
@@ -170,10 +171,10 @@ public class EnemyAI : MonoBehaviour {
         currentState = State.Death;
     }
 
-    public void Damage(float damage)
+    /*public void Damage(float damage)
     {
         currentHealth -= damage;
-    }
+    }*/
 
     //Collison handling
     private void OnCollisionEnter(Collision collision)
@@ -218,7 +219,8 @@ public class EnemyAI : MonoBehaviour {
         if(other.gameObject.tag == "Player" && currentState == State.Fight)
         {
             Debug.Log("Hit");
-            other.gameObject.GetComponent<Rigidbody>().AddForce(Vector3.up*100, ForceMode.Impulse);
+			//other.gameObject.GetComponent<Rigidbody>().AddForce(Vector3.up*100, ForceMode.Impulse);
+			other.gameObject.GetComponent<PlayerController_Rewired>().takeDamage(damagePower);	// augment to switch states if player's health <= 0
         }
         if(other.gameObject.tag == "EnemyInteract" && currentState == State.Wait)
         {
