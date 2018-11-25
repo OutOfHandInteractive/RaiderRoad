@@ -32,8 +32,8 @@ public class SpawnVehicle : MonoBehaviour {
             //Debug.Log(numPoints);
             types = (VehicleFactoryManager.vehicleTypes)Random.Range(0,3);
             //Debug.Log(types);
+            GameObject vehicle = factory.newConstructVehicle(VehicleFactoryManager.vehicleTypes.medium);
             //GameObject vehicle = factory.newConstructVehicle(types);
-            GameObject vehicle = factory.newConstructVehicle(types);
             vehicle.GetComponent<VehicleAI>().setSide(spawnPoints[numPoints].name);
             vehicle.transform.position = spawnPoints[numPoints].transform.position;
         }

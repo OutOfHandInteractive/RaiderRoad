@@ -20,6 +20,8 @@ public class EnemyAI : MonoBehaviour {
     private State currentState;
     private Rigidbody rb;
     private GameObject parent;
+    private Vector3 scale;
+    private bool damaged;
 
     //Vehicle variables
     private VehicleAI vehicle;
@@ -31,11 +33,15 @@ public class EnemyAI : MonoBehaviour {
 
 	// statistics
 	public float maxHealth;
-    private float currentHealth;
+    public float currentHealth;
+    private bool inRange;
 
     // Use this for initialization
     void Start () {
 		currentHealth = maxHealth;
+        inRange = false;
+        scale = transform.localScale;
+        damaged = false;
 
         enemy = gameObject;
         rb = GetComponent<Rigidbody>();
@@ -67,11 +73,17 @@ public class EnemyAI : MonoBehaviour {
 
         Debug.Log(interactable);
         Debug.Log(transform.parent);
+
         if (!interactable.transform.GetComponentInChildren<EnemyAI>())
         {
+            gameObject.tag = "usingWeapon";
             transform.parent = interactable.transform;
             transform.position = interactable.transform.position;
             transform.rotation = Quaternion.identity;
+            transform.localScale = scale;
+            weapon.StartWeapon(enemy, vehicle, munnitions, fire, side);
+            GameObject weapons = weapon.getWeapon();
+            weapon.LookAtPlayer(weapons);
         }
         if (transform.parent.name == "EnemyInt" && vehicle.getState() == VehicleAI.State.Chase)
         {
@@ -87,7 +99,6 @@ public class EnemyAI : MonoBehaviour {
                     wait.Wait();
                     break;
                 case State.Weapon:
-                    weapon.StartWeapon(enemy, vehicle, munnitions, fire);
                     weapon.Weapon();
                     break;
                 case State.Board:
@@ -117,6 +128,7 @@ public class EnemyAI : MonoBehaviour {
 	public void takeDamage(float damage) {
         Debug.Log(currentHealth);
 		currentHealth -= damage;
+        damaged = true;
 
 		if (currentHealth <= 0) {
 			EnterDeath();
@@ -215,19 +227,39 @@ public class EnemyAI : MonoBehaviour {
     private void OnTriggerEnter(Collider other)
     {
         //Check if you hit the player and do action
-        if(other.gameObject.tag == "Player" && currentState == State.Fight)
+        if (other.gameObject.tag == "Player" && currentState == State.Fight)
         {
-            Debug.Log("Hit");
-            other.gameObject.GetComponent<Rigidbody>().AddForce(Vector3.up*100, ForceMode.Impulse);
+            
+            StartCoroutine(WindUp(other));
+
         }
-        if(other.gameObject.tag == "EnemyInteract" && currentState == State.Wait)
+        if (other.gameObject.tag == "EnemyInteract" && currentState == State.Wait)
         {
             transform.parent = other.transform;
         }
     }
+    IEnumerator WindUp(Collider other)
+    {
+        Debug.Log(Time.time);
+        fight.WindupAttack();
+        yield return new WaitForSeconds(.5f);
+        if(inRange)
+        {
+            fight.HitPlayer(other);
+        }
+        else
+        {
+            fight.Missed();
+        }
+        Debug.Log(Time.time);
+    }
     private void OnTriggerStay(Collider other)
     {
         //Check if you hit a wall and destroy it
+        if (other.gameObject.tag == "Player" && currentState == State.Fight)
+        {
+            inRange = true;
+        }
         if (other.gameObject.tag == "Wall" && currentState == State.Destroy)
         {
             //Debug.Log("HIT");
@@ -235,7 +267,13 @@ public class EnemyAI : MonoBehaviour {
         }
     }
 
-
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.tag == "Player" && currentState == State.Fight)
+        {
+            inRange = false;
+        }
+    }
 	// -------------------- Getters and Setters ----------------------
     public State GetState()
     {
@@ -254,4 +292,9 @@ public class EnemyAI : MonoBehaviour {
 	public float getHealth() {
 		return currentHealth;
 	}
+
+    public bool getDamaged()
+    {
+        return damaged;
+    }
 }
