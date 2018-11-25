@@ -78,6 +78,7 @@ public class PlayerController_Rewired : MonoBehaviour {
     {
 		if (currentHealth <= 0) {
 			state = playerStates.down;
+            Destroy(gameObject);
 		}
         if (!ReInput.isReady) return; // Exit if Rewired isn't ready. This would only happen during a script recompile in the editor.
         if (!initialized) Initialize(); // Reinitialize after a recompile in the editor
@@ -190,10 +191,15 @@ public class PlayerController_Rewired : MonoBehaviour {
     void OnCollisionEnter(Collision other)
     {
         //Debug.Log(other.gameObject.name);
-        if (other.gameObject.tag == "floor")
+        if (other.gameObject.tag == "floor" || other.gameObject.tag == "eVehicle")
         {
             //Debug.Log("Can jump");
             grounded = true;
+        }
+        if (other.gameObject.tag == "road")
+        {
+            takeDamage(2f);
+            transform.position = GameObject.Find("player1Spawn").transform.position;
         }
     }
 
@@ -206,6 +212,7 @@ public class PlayerController_Rewired : MonoBehaviour {
 		currentHealth -= _damage;
 		if (currentHealth <= 0) {
 			state = playerStates.down;
+            Destroy(gameObject);
 		}
 	}
     
