@@ -70,7 +70,7 @@ public class EventManager : MonoBehaviour {
         List<Event> _new = new List<Event>();
         GameObject newEC = Instantiate(eCluster);
         int clusterSize = 3 + difRate;
-        for (int i = 0; i < difRate; i++)
+        for (int i = 0; i < clusterSize; i++)
         {
             Debug.Log("creating event " + i);
             //type becomes something different
