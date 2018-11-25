@@ -74,7 +74,7 @@ public class EventCluster : MonoBehaviour {
     //increase completeness of cluster - called from vehicle on destroy
     public void updatePercent(){
         complete += weight;
-        if(weight >= threshold && spawnFlag){   //if cluster completion at certain level & no new cluster has been called
+        if(complete >= threshold && spawnFlag){   //if cluster completion at certain level & no new cluster has been called
             spawnFlag = false;                  //disable so only one new cluster gets generated
             manager.GetComponent<EventManager>().lastDone();        //call the generate function in manager
         }

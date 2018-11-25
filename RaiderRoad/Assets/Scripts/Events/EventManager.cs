@@ -10,8 +10,9 @@ public class EventManager : MonoBehaviour {
     //public enum vehicleTypes { light, medium, heavy };
 
     public float TimeBetweenEvents;
-    public float TimeBetweenDifficultyAdjustment = 150;     //for now, difficulty updated every 2 1/2 minutes
-    private int difficultyRating = 3;       //set to 3 for testing
+    public float TimeBetweenDifficultyAdjustment = 15;     //for now, difficulty updated every 2 1/2 minutes
+    [SerializeField]
+    private int difficultyRating = 1;       //set to 1 for testing
     public VehicleFactoryManager vFactory; //= gameObject.AddComponent<VehicleFactoryManager>() as VehicleFactoryManager;
 
 
@@ -67,7 +68,8 @@ public class EventManager : MonoBehaviour {
         VehicleFactoryManager.vehicleTypes type = VehicleFactoryManager.vehicleTypes.medium;              //for now using medium, but this will be changed based on other factors
         Event _nE;
         List<Event> _new = new List<Event>();
-        GameObject newEC = Instantiate(eCluster);        
+        GameObject newEC = Instantiate(eCluster);
+        int clusterSize = 3 + difRate;
         for (int i = 0; i < difRate; i++)
         {
             Debug.Log("creating event " + i);
