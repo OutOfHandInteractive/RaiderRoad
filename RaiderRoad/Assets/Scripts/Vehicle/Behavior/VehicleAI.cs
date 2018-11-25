@@ -27,8 +27,11 @@ public class VehicleAI : MonoBehaviour {
 	public float ramDamage;
 	public float speed;
 
+	public float currentHealth;
+
 	// Use this for initialization
 	void Start () {
+		currentHealth = maxHealth;
 
         //Initialize all the classes
         enemy = gameObject;
@@ -39,7 +42,7 @@ public class VehicleAI : MonoBehaviour {
         attack = new AttackVehicle();
         leave = new LeaveVehicle();
         rb = GetComponent<Rigidbody>();
-        int action = Random.Range(0, 100);
+        /*int action = Random.Range(0, 100);
         if (action < 50)
         {
             side = "left";
@@ -47,15 +50,15 @@ public class VehicleAI : MonoBehaviour {
         else
         {
             side = "right";
-        }
-
+        }*/
+        Debug.Log(side);
         //Start wander state
         wander.StartWander(agent, enemy, side);
     }
 
     // Update is called once per frame
     void Update () {
-        Debug.Log(currentState);
+        //Debug.Log(currentState);
         switch (currentState)
         {
             case State.Wander:
@@ -80,6 +83,17 @@ public class VehicleAI : MonoBehaviour {
                 break;
         }
     }
+
+	// ---------------- Combat Functions ------------------
+	public void takeDamage(float damage) {
+		currentHealth -= damage;
+
+		Debug.Log("took " + damage + " damage");
+
+		if (currentHealth <= 0) {
+			Destroy(gameObject);
+		}
+	}
 
     //Used to change state from different classes
     public void EnterChase()
@@ -114,6 +128,7 @@ public class VehicleAI : MonoBehaviour {
 
 	public void setMaxHealth(float _maxHealth) {
 		maxHealth = _maxHealth;
+		currentHealth = maxHealth;
 	}
 
 	public float getRamDamage() {
@@ -131,6 +146,11 @@ public class VehicleAI : MonoBehaviour {
 	public void setSpeed(float _speed) {
 		speed = _speed;
 	}
+
+    public void setSide(string _side)
+    {
+        side = _side;
+    }
 
     public string getSide()
     {

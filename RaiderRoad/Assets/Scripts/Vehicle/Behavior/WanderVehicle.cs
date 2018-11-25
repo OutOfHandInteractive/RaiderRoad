@@ -46,7 +46,7 @@ public class WanderVehicle : MonoBehaviour {
         wanderPoints = Random.Range(0, patrols.Count);
 
         //Chance to attack or chase the RV
-        if (action < 50)
+        if (action < 100)
         {
             cObject.GetComponent<VehicleAI>().Invoke("EnterChase", 10f);
         }

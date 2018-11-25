@@ -19,4 +19,17 @@ public abstract class AbstractEnemyAI : MonoBehaviour
         }
         return closest;
     }
+
+    public GameObject ClosestVehicle(Vector3 myPos, GameObject vehicle)
+    {
+        float minDist = 1 / 0f;
+        GameObject closest = null;
+        float dist = Vector3.Distance(vehicle.transform.position, myPos);
+        if (closest == null || dist < minDist)
+        {
+            closest = vehicle;
+            minDist = dist;
+        }
+        return closest;
+    }
 }

@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 23872419804818262}
   - component: {fileID: 65632316349797096}
   - component: {fileID: 114386453142902196}
+  - component: {fileID: 114432072598812342}
   m_Layer: 0
   m_Name: Trap Drop
   m_TagString: Drops
@@ -109,3 +110,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 50
+--- !u!114 &114432072598812342
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1918633486051878}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21e75019525a9e4489e70f27957f976a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  item: {fileID: 1142158633605222, guid: 62619318446c96f4297f0f9a3a0cdfd0, type: 2}
