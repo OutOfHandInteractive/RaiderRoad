@@ -10,17 +10,17 @@ public class EventManager : MonoBehaviour {
     //public enum vehicleTypes { light, medium, heavy };
 
     public float TimeBetweenEvents;
-    public float TimeBetweenDifficultyAdjustment;
-    private int difficultyRating = 1;       //set to 1 for testing
+    public float TimeBetweenDifficultyAdjustment = 150;     //for now, difficulty updated every 2 1/2 minutes
+    private int difficultyRating = 3;       //set to 3 for testing
     public VehicleFactoryManager vFactory; //= gameObject.AddComponent<VehicleFactoryManager>() as VehicleFactoryManager;
 
 
-    // Equation coefficients
-    public float expectedGameLengthModifier;
-    public float sinFrequencyModifier;
-    public float sinAmplitudeModifier;
-    public float difficultySlopeModifier;
-    public float baseDifficultyRating;
+    // Equation coefficients                    -------all set to 1 for now
+    public float expectedGameLengthModifier = 1;
+    public float sinFrequencyModifier = 1;
+    public float sinAmplitudeModifier = 1;
+    public float difficultySlopeModifier = 1;
+    public float baseDifficultyRating = 1;
 
     // Variation coefficients
     public float randomModifierMin;
@@ -64,10 +64,10 @@ public class EventManager : MonoBehaviour {
 
     GameObject generate(int difRate)      //I don't think we need a coroutine for thise - at least not yet
     {
-        VehicleFactoryManager.vehicleTypes type = VehicleFactoryManager.vehicleTypes.light;              //for now using light, but this will be changed based on other factors
+        VehicleFactoryManager.vehicleTypes type = VehicleFactoryManager.vehicleTypes.medium;              //for now using medium, but this will be changed based on other factors
         Event _nE;
         List<Event> _new = new List<Event>();
-        GameObject newEC = Instantiate(eCluster);
+        GameObject newEC = Instantiate(eCluster);        
         for (int i = 0; i < difRate; i++)
         {
             Debug.Log("creating event " + i);
