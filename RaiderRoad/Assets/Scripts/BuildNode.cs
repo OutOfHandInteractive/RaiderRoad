@@ -39,6 +39,7 @@ public class BuildNode : MonoBehaviour {
                 item.transform.parent = spawnNode.transform;
                 occupied = true;
             }
+            item.GetComponent<Wall>().myNode = gameObject;
         }
         else if(objectToPlace.name == "WeaponTest" && canPlaceWeapon)
         {
@@ -48,8 +49,9 @@ public class BuildNode : MonoBehaviour {
             item.transform.parent = spawnNode.transform;
             item.GetComponent<Weapon>().DisableNear();
             occupied = true;
+            item.GetComponent<Weapon>().myNode = gameObject;
         }
-        item.GetComponent<Wall>().myNode = gameObject;
+        
     }
 
     public void Show(GameObject makeHolo){ //hologram function
@@ -62,11 +64,12 @@ public class BuildNode : MonoBehaviour {
             {
                 holo = Instantiate(makeHolo, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.Euler(new Vector3(0, 90, 0)));
             }
+            holo.GetComponent<Wall>().isHolo = true;
         }else{
             Vector3 dir = gameObject.transform.forward;
             holo = Instantiate(makeHolo, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.LookRotation(dir));
         }
-        holo.GetComponent<Wall>().isHolo = true;
+        
     }
 
     public void RemoveShow()
