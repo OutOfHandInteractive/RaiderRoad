@@ -63,7 +63,7 @@ public class PlayerCharacterSelect : MonoBehaviour {
        
         if (player.GetButtonDown("Jump"))
         {
-            characterSelect.GetComponent<CharacterSelect>().SpawnPlayers();
+            characterSelect.GetComponent<CharacterSelect>().PassPlayerId();
         }
     }
 

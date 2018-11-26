@@ -21,6 +21,8 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
     public GameObject engine;
     public float damage = 25.0f;
     public float timeToDrop = 1f; //Time needed to drop item (by holding down button)
+    public float knockback_force = 2000.0f;
+    public float attack_cooldown = .25f;
 
     public GameObject AttackObject; //for temporary attack for prototype
 
@@ -42,6 +44,8 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
     private Color currentAttColor; //for temporary attack for prototype
     private Material TempAttMat;
     private float holdTime; //timer for "how long button is held"
+    private float attackCount;
+    private bool canAttack = true;
 
     [System.NonSerialized]
     private bool initialized;
@@ -73,6 +77,16 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         if (!initialized) Initialize(); // Reinitialize after a recompile in the editor
         changeInventory();
         displayMode();
+
+        // Attack cooldown
+        if (!canAttack)
+        {
+            attackCount -= Time.deltaTime;
+        }
+        if (attackCount <= 0.0)
+        {
+            canAttack = true;
+        }
 
         myInteracting = pController.interacting;
         //checking that player isn't "interacting" (driving, piloting weapon, etc)
@@ -115,7 +129,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
                         {
                             Debug.Log("Occupied >:(");
                         }
-                    }else if (heldItem.name == "WeaponTest")
+                    }else if (heldItem.tag == "Weapon") //to change later?
                     {
                         GameObject toBuild = (GameObject)nodes[0];
                         if (!toBuild.GetComponent<BuildNode>().occupied)
@@ -181,8 +195,10 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
                     }
                     if (wallInventory <= 0) buildMode = false; //leave wall build mode if you have no wall (needs more feedback)
                 }
-                else if (player.GetButtonDown("Attack"))
+                else if (player.GetButtonDown("Attack") && canAttack)
                 {
+                    canAttack = false;
+                    attackCount = attack_cooldown;
                     foreach (GameObject item in attackRange)
                     {
                         //Debug.Log(item);
@@ -205,6 +221,14 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
                         else if (item.CompareTag("Weapon"))
                         {
                             item.GetComponent<Weapon>().Damage(damage);
+                        }
+                        else if (item.CompareTag("Enemy"))
+                        {
+                            Vector3 dir = item.transform.position - transform.parent.position;
+                            dir = Vector3.Normalize(new Vector3(dir.x, 0.0f, dir.z));
+                            item.GetComponent<Rigidbody>().AddForce(dir * knockback_force);
+                            item.GetComponent<EnemyAI>().takeDamage(damage);
+                            //Debug.Log(dir);
                         }
                     }
 
@@ -275,13 +299,29 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         {
             attackRange.Add(other.gameObject);
         }
-		if (other.gameObject.CompareTag("Interactable")) {
-			pController.addInteractable(other.gameObject);
+        if (other.gameObject.CompareTag("Enemy"))
+        {
+            attackRange.Add(other.gameObject);
+        }
+        if (other.gameObject.CompareTag("Interactable")) {
+            if (other.GetComponentInChildren<BoxCollider>().enabled)
+            {
+                pController.addInteractable(other.gameObject);
+            }
+			
 		}
+        /*
         if (other.gameObject.CompareTag("Weapon"))
         {
             pController.addInteractable(other.gameObject);
         }
+        */
+		if (other.gameObject.CompareTag("Player")) {
+			if (other.GetComponent<PlayerController_Rewired>().getState() == PlayerController_Rewired.playerStates.down) {
+				Debug.Log("adding downed player");
+				pController.addDownedPlayer(other.gameObject);
+			}
+		}
 
         // Pick Up
         //if (other.gameObject.CompareTag("Drops"))
@@ -316,6 +356,12 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
 
 		if (other.gameObject.CompareTag("Interactable")) {
 			pController.removeInteractable(other.gameObject);
+		}
+		if (other.gameObject.CompareTag("Player")) {
+			if (other.GetComponent<PlayerController_Rewired>().getState() == PlayerController_Rewired.playerStates.down) {
+				Debug.Log("removing downed player");
+				pController.removeDownedPlayer(other.gameObject);
+			}
 		}
 	}
 

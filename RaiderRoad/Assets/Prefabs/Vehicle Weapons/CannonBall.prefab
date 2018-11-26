@@ -96,7 +96,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86d63da807f00e245b7ca5223d3a2a49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 0
+  damage: 5
+  splashDamage: 2
+  splashRadius: 3
   travelTime: 2
   muzzleVelocity: 8
   angle: 0
@@ -112,7 +114,7 @@ SphereCollider:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1624235888426134}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5

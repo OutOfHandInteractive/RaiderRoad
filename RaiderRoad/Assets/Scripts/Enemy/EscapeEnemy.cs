@@ -5,7 +5,7 @@ using UnityEngine;
 public class EscapeEnemy : JumpEnemy {
 
     //Gameobject, rigidbody, vehicle, initialangle for jump, if enemy jumped, current side 
-    private Transform eVehicle;
+    private GameObject eVehicle;
     public override void StartJump(GameObject enemy, Rigidbody rb, string side)
     {
         base.StartJump(enemy, rb, side);
@@ -47,8 +47,7 @@ public class EscapeEnemy : JumpEnemy {
             Jump(pos, zSign);
         }
 
-
-        if(cObject.transform.parent.tag == "eVehicle" && cObject.transform.parent != null)
+        if(cObject.transform.root.tag == "eVehicle" && cObject.transform.parent != null && cObject.GetComponent<EnemyAI>().GetState() != EnemyAI.State.Weapon)
         {
             eVehicle.GetComponent<VehicleAI>().EnterLeave();
         }

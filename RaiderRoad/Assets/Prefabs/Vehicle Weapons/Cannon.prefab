@@ -238,6 +238,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1627214250577488
+GameObject:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4305880816565090}
+  - component: {fileID: 114602112253968876}
+  m_Layer: 0
+  m_Name: EnemyInt
+  m_TagString: Cannon
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1683131423865072
 GameObject:
   m_ObjectHideFlags: 1
@@ -418,6 +434,19 @@ Transform:
   m_Father: {fileID: 4066738935544942}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4305880816565090
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1627214250577488}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.48, z: -0.868}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4525511810641660}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4339996573690400
 Transform:
   m_ObjectHideFlags: 1
@@ -488,6 +517,7 @@ Transform:
   m_Children:
   - {fileID: 4751770569283560}
   - {fileID: 4640928387019772}
+  - {fileID: 4305880816565090}
   m_Father: {fileID: 4515392154336526}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1089,6 +1119,17 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.8342216, y: 0.8402002, z: 0.56629336}
   m_Center: {x: 0, y: -0.08557308, z: -0.41790408}
+--- !u!114 &114602112253968876
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1627214250577488}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8cc82ce5e0f59a4799638d30948d7af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114911493078376058
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1107,6 +1148,7 @@ MonoBehaviour:
   reticule: {fileID: 1093626621963086}
   barrel: {fileID: 1940471113103950}
   weapon: {fileID: 1081908904729746}
+  smokeBurst: {fileID: 1042969681109656, guid: 09f1a7aa5feb7bb49b9261fa12065899, type: 2}
   reticuleMoveSpeed: 3
   firingCooldown: 1
   coneAngle: 45

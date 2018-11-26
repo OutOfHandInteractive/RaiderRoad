@@ -8,4 +8,6 @@ public abstract class Payload : MonoBehaviour {
 	public List<payloadTypes> payloadCode;
 
 	protected abstract StatefulEnemyAI SelectEnemies();
+	protected abstract EnemyAI SelectEnemies();
+    protected abstract Interactable SelectInteractable();
 }

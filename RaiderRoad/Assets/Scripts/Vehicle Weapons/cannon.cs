@@ -11,6 +11,7 @@ public class cannon : Interactable {
 	public GameObject reticule;
 	public GameObject barrel;
 	public GameObject weapon;
+	public GameObject smokeBurst;
 
 	// gameplay values
 	public float reticuleMoveSpeed;
@@ -28,6 +29,7 @@ public class cannon : Interactable {
 	private GameObject proj;
 	private Vector3 forwardDir;
 	private Vector3 dist;
+	private bool interacting = false;
 
 	// updating variables
 	private float firingCooldownTimer;
@@ -72,15 +74,25 @@ public class cannon : Interactable {
 			moveVector.x = player.GetAxis("Move Horizontal") * Time.deltaTime * reticuleMoveSpeed;
 			moveVector.y = player.GetAxis("Move Vertical") * Time.deltaTime * reticuleMoveSpeed;
 
-			if (player.GetButtonDown("Exit Interactable")) {
+			if (player.GetButtonDown("Exit Interactable") && interacting) {
 				Leave();
+				interacting = false;
 			}
 
 			if (player.GetButtonDown("Shoot Weapon") && !isOnFiringCooldown()) {
 				proj = Instantiate(munitions.gameObject, barrel.transform.position, Quaternion.identity);
+
+				// Fire the cannon
 				proj.GetComponent<cannonball>().launch(reticule.transform.position, barrel.transform.position);
+				GameObject tempFx = Instantiate(smokeBurst, barrel.transform.position, Quaternion.identity);
+				tempFx.gameObject.transform.LookAt(reticule.transform);
+				StartCoroutine(particleDestroy(tempFx));
 
 				firingCooldownTimer = firingCooldown;
+			}
+
+			if (reticule.activeSelf == true) {
+				interacting = true;
 			}
 		}
 	}
@@ -129,5 +141,11 @@ public class cannon : Interactable {
 			return true;
 		else
 			return false;
+	}
+
+	IEnumerator particleDestroy(GameObject fx) {
+		yield return new WaitUntil(delegate { return !fx.GetComponentInChildren<ParticleSystem>().IsAlive(); });
+
+		Destroy(fx);
 	}
 }

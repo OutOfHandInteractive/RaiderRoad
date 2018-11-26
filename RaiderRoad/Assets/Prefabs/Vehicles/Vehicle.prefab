@@ -23,6 +23,10 @@ Prefab:
       propertyPath: m_IsKinematic
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: maxHealth
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 0}
   m_RootGameObject: {fileID: 1385481512942962}
@@ -85,9 +89,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: 0
-  maxHealth: 0
+  maxHealth: 2
   ramDamage: 0
   speed: 0
+  currentHealth: 0
 --- !u!195 &195580747568780906
 NavMeshAgent:
   m_ObjectHideFlags: 1
