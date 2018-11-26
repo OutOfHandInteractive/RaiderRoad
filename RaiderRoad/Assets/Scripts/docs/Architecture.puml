@@ -3,7 +3,10 @@
 
 actor Player
 
-
+rectangle Hardware {
+	rectangle Controller
+	rectangle Monitor
+}
 
 rectangle RaiderRoad {
 	rectangle Unity {
@@ -20,8 +23,11 @@ rectangle RaiderRoad {
 	rectangle EnemyAI
 }
 
-Player --> Rewired
-Player <-- Renderer
+Player --> Controller : Input
+Player <-- Monitor : Visual
+
+Controller --> Rewired
+Monitor <-- Renderer
 
 Vehicles <-- Events
 Vehicles --> EnemyAI
