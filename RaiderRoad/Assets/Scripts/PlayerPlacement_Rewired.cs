@@ -129,7 +129,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
                         {
                             Debug.Log("Occupied >:(");
                         }
-                    }else if (heldItem.name == "WeaponTest")
+                    }else if (heldItem.name == "WeaponTest") //to change later?
                     {
                         GameObject toBuild = (GameObject)nodes[0];
                         if (!toBuild.GetComponent<BuildNode>().occupied)

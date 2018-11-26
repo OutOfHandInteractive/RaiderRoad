@@ -19,7 +19,7 @@ public class Weapon : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-        myMat = gameObject.GetComponent<Renderer>().material;
+        myMat = gameObject.GetComponentInChildren<Renderer>().material;
         if (isHolo) MakeHolo();
     }
 
