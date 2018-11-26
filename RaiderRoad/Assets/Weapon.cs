@@ -71,6 +71,13 @@ public class Weapon : MonoBehaviour {
         //Debug.Log("count: " + disabledNodes.Count);
     }
 
+    private void OnDestroy()
+    {
+        foreach(GameObject node in disabledNodes)
+        {
+            node.GetComponent<BuildNode>().canPlaceWeapon = true;
+        }
+    }
     /*
     private void OnDrawGizmosSelected()
     {
