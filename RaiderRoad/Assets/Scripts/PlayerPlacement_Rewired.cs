@@ -129,7 +129,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
                         {
                             Debug.Log("Occupied >:(");
                         }
-                    }else if (heldItem.name == "WeaponTest")
+                    }else if (heldItem.tag == "Weapon") //to change later?
                     {
                         GameObject toBuild = (GameObject)nodes[0];
                         if (!toBuild.GetComponent<BuildNode>().occupied)
@@ -304,12 +304,18 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
             attackRange.Add(other.gameObject);
         }
         if (other.gameObject.CompareTag("Interactable")) {
-			pController.addInteractable(other.gameObject);
+            if (other.GetComponentInChildren<BoxCollider>().enabled)
+            {
+                pController.addInteractable(other.gameObject);
+            }
+			
 		}
+        /*
         if (other.gameObject.CompareTag("Weapon"))
         {
             pController.addInteractable(other.gameObject);
         }
+        */
 		if (other.gameObject.CompareTag("Player")) {
 			if (other.GetComponent<PlayerController_Rewired>().getState() == PlayerController_Rewired.playerStates.down) {
 				Debug.Log("adding downed player");

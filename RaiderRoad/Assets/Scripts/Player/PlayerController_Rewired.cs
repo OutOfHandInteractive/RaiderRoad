@@ -78,7 +78,7 @@ public class PlayerController_Rewired : MonoBehaviour {
     {
 		if (currentHealth <= 0) {
 			state = playerStates.down;
-            Destroy(gameObject);
+            //Destroy(gameObject);
 		}
         if (!ReInput.isReady) return; // Exit if Rewired isn't ready. This would only happen during a script recompile in the editor.
         if (!initialized) Initialize(); // Reinitialize after a recompile in the editor
@@ -107,8 +107,7 @@ public class PlayerController_Rewired : MonoBehaviour {
 			if (player.GetButtonDown("Use")) {
 				Debug.Log("pressing button");
 				if (downedPlayers.Count > 0) {
-					reviving = true;
-					reviveCountdown = reviveTime;
+					startRevive(downedPlayers[0].GetComponent<PlayerController_Rewired>());
 				}
 				else if (interactables.Count > 0 && !interactables[0].GetComponent<Interactable>().isOnCooldown()) {
 					interactables[0].GetComponent<Interactable>().Interact(this);
@@ -131,7 +130,7 @@ public class PlayerController_Rewired : MonoBehaviour {
 			}
 		}
 		else if (player.GetButtonUp("Use") && reviving) {
-			reviving = false;
+			stopRevive(downedPlayers[0].GetComponent<PlayerController_Rewired>());
 		}
 
         /*
@@ -203,9 +202,22 @@ public class PlayerController_Rewired : MonoBehaviour {
         }
     }
 
+	// ------------------------- reviving and damage --------------------------------
+	public void startRevive(PlayerController_Rewired p) {
+		reviving = true;
+		reviveCountdown = reviveTime;
+		p.GetComponentInChildren<healthBar>().startRevive(reviveTime);
+	}
+
+	public void stopRevive(PlayerController_Rewired p) {
+		reviving = false;
+		p.GetComponentInChildren<healthBar>().stopRevive();
+	}
+
 	public void revive(PlayerController_Rewired p) {
 		p.currentHealth = basehealth;
 		p.setState(playerStates.up);
+		p.GetComponentInChildren<healthBar>().stopRevive();
 	}
 
 	public void takeDamage(float _damage) {
