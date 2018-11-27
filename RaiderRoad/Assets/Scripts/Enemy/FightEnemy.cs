@@ -42,7 +42,7 @@ public class FightEnemy : EnemyAI {
         GameObject[] vehicles = GameObject.FindGameObjectsWithTag("eVehicle");
         float movement = speed * Time.deltaTime;
         //If doesnt exist or if player has been hit go into escape state
-        if (!player || playerDamage >= 4f || cObject.GetComponent<EnemyAI>().currentHealth <= 25f)
+        if (!player || playerDamage >= 4f || cObject.GetComponent<StatefulEnemyAI>().currentHealth <= 25f)
         {
             cObject.GetComponent<StatefulEnemyAI>().EnterEscape();
         }

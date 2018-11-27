@@ -46,13 +46,13 @@ public class StatefulEnemyAI : EnemyAI {
 
         enemy = gameObject;
         rb = GetComponent<Rigidbody>();
-        wait = new WaitEnemy();
-        board = new BoardEnemy();
-        weapon = new WeaponAttackEnemy();
-        destroy = new DestroyEnemy();
-        fight = new FightEnemy();
-        escape = new EscapeEnemy();
-        death = new DeathEnemy();
+        wait = enemy.AddComponent<WaitEnemy>();
+        board = enemy.AddComponent<BoardEnemy>();
+        weapon = enemy.AddComponent<WeaponAttackEnemy>();
+        destroy = enemy.AddComponent<DestroyEnemy>();
+        fight = enemy.AddComponent<FightEnemy>();
+        escape = enemy.AddComponent<EscapeEnemy>();
+        death = enemy.AddComponent<DeathEnemy>();
 
         //Get vehicle information, side
         vehicle = gameObject.GetComponentInParent<VehicleAI>();
@@ -65,6 +65,11 @@ public class StatefulEnemyAI : EnemyAI {
 
         EnterWait();
 
+    }
+
+    public GameObject GetEnemyObject()
+    {
+        return enemy;
     }
     
     // Update is called once per frame
@@ -229,8 +234,8 @@ public class StatefulEnemyAI : EnemyAI {
     {
         //Check if you hit the player and do action
         if (other.gameObject.tag == "Player" && currentState == State.Fight)
-        {        
-            StartCoroutine(WindUp(other));
+        {   
+            vehicle.StartCoroutine(WindUp(other));
         }
         if (other.gameObject.tag == "EnemyInteract" && currentState == State.Wait)
         {

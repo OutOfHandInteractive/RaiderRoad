@@ -36,11 +36,11 @@ public class VehicleAI : MonoBehaviour {
         //Initialize all the classes
         enemy = gameObject;
         agent = GetComponent<NavMeshAgent>();
-        wander = new WanderVehicle();
-        chase = new ChaseVehicle();
-        stay = new StayVehicle();
-        attack = new AttackVehicle();
-        leave = new LeaveVehicle();
+        wander = enemy.AddComponent<WanderVehicle>();
+        chase = enemy.AddComponent<ChaseVehicle>();
+        stay = enemy.AddComponent<StayVehicle>();
+        attack = enemy.AddComponent<AttackVehicle>();
+        leave = enemy.AddComponent<LeaveVehicle>();
         rb = GetComponent<Rigidbody>();
         /*int action = Random.Range(0, 100);
         if (action < 50)

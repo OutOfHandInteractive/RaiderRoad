@@ -15,14 +15,14 @@ public class EscapeEnemy : JumpEnemy {
 
     public void RadioEvacCallback(StayVehicle vehicle)
     {
-        if(vehicle == null)
+        if(IsNull(vehicle))
         {
-            Debug.Log("Received null vehicle!");
+            Debug.Log("Received null vehicle! " + vehicle.ToString());
             return;
         }
         cSide = vehicle.Side();
         //Debug.Log("Roger!");
-        eVehicle = vehicle.GetObject().transform;
+        eVehicle = vehicle.GetObject();
     }
 
     public void Escape()
@@ -42,12 +42,12 @@ public class EscapeEnemy : JumpEnemy {
         if (Vector3.Distance(cObject.transform.position, eVehicle.transform.position) < 5f)
         {
             //Enemy vehicle destination position
-            Vector3 pos = eVehicle.position;
+            Vector3 pos = eVehicle.transform.position;
             float zSign = cSide.Equals("left") ? -1 : 1;
             Jump(pos, zSign);
         }
 
-        if(cObject.transform.root.tag == "eVehicle" && cObject.transform.parent != null && cObject.GetComponent<EnemyAI>().GetState() != EnemyAI.State.Weapon)
+        if(cObject.transform.root.tag == "eVehicle" && cObject.transform.parent != null && cObject.GetComponent<StatefulEnemyAI>().GetState() != StatefulEnemyAI.State.Weapon)
         {
             eVehicle.GetComponent<VehicleAI>().EnterLeave();
         }

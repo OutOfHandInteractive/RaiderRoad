@@ -51,7 +51,7 @@ public class Radio
             EscapeEnemy mook = mooksForEvac.Dequeue();
             StayVehicle vehicle = evacVehicles[0];
             //Debug.Assert(vehicle != null);
-            //Debug.Log("Found vehicle: " +vehicle);
+            Debug.Log("Found vehicle: " +vehicle.ToString());
             mook.RadioEvacCallback(vehicle);
         }
     }

@@ -42,6 +42,7 @@ GameObject:
   - component: {fileID: 54534836611005438}
   - component: {fileID: 136416641854343566}
   - component: {fileID: 65162875729072942}
+  - component: {fileID: 114498103962525282}
   m_Layer: 0
   m_Name: EnemyL
   m_TagString: Enemy
@@ -316,8 +317,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 2, z: 1}
   m_Center: {x: 0, y: 0, z: 1}
---- !u!114 &114560717921950488
-  m_Center: {x: 0, y: 0, z: 1.8}
 --- !u!114 &114076084759388714
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -357,7 +356,7 @@ MonoBehaviour:
   m_DynamicPixelsPerUnit: 1
 --- !u!114 &114498103962525282
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1438647493388042}
@@ -371,6 +370,7 @@ MonoBehaviour:
   dropOnDeath: {fileID: 1412282026529114, guid: c4b78f547f7592d42867fc5a56f7cc72,
     type: 2}
   maxHealth: 75
+  damagePower: 0
   currentHealth: 0
 --- !u!114 &114512811729222066
 MonoBehaviour:
@@ -426,6 +426,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 855abead96a0ef2439828e0f171742b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114560717921950488
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &114582930634840850

@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
-public abstract class EnemyAI
+public abstract class EnemyAI : MonoBehaviour
 {
     protected float speed = 2f;
     public GameObject Closest(Vector3 myPos, GameObject[] objects)
@@ -18,5 +19,22 @@ public abstract class EnemyAI
             }
         }
         return closest;
+    }
+
+    /// <summary>
+    /// This Method is for checking if an object TRULY IS null. Not Unity's stupid "fake null" that it looks for with it's overloaded == operator.
+    /// </summary>
+    /// <param name="obj">Object to test</param>
+    /// <returns>true iff the object is really null</returns>
+    public static bool IsNull(object obj)
+    {
+        try
+        {
+            obj.ToString();
+            return false;
+        }catch(NullReferenceException e)
+        {
+            return true;
+        }
     }
 }

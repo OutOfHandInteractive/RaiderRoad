@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class StayVehicle {
+public class StayVehicle : MonoBehaviour {
 
     private NavMeshAgent cEnemy;
     private GameObject cObject;

@@ -19,9 +19,9 @@ public class DestroyEnemy : EnemyAI {
         //Set movement speed of enemy
         float movement = speed * Time.deltaTime;
 
-        if(cObject.GetComponent<EnemyAI>().getDamaged())
+        if(cObject.GetComponent<StatefulEnemyAI>().getDamaged())
         {
-            cObject.GetComponent<EnemyAI>().EnterFight();
+            cObject.GetComponent<StatefulEnemyAI>().EnterFight();
         }
 
         //If there are no more walls, go to Fight state, else keep going for walls
