@@ -78,7 +78,6 @@ public class PlayerController_Rewired : MonoBehaviour {
     {
 		if (currentHealth <= 0) {
 			state = playerStates.down;
-            //Destroy(gameObject);
 		}
         if (!ReInput.isReady) return; // Exit if Rewired isn't ready. This would only happen during a script recompile in the editor.
         if (!initialized) Initialize(); // Reinitialize after a recompile in the editor
@@ -126,7 +125,6 @@ public class PlayerController_Rewired : MonoBehaviour {
 			if (reviveCountdown <= 0) {
 				revive(downedPlayers[0].GetComponent<PlayerController_Rewired>());
 				removeDownedPlayer(downedPlayers[0]);
-				reviving = false;
 			}
 		}
 		else if (player.GetButtonUp("Use") && reviving) {
@@ -217,6 +215,7 @@ public class PlayerController_Rewired : MonoBehaviour {
 	public void revive(PlayerController_Rewired p) {
 		p.currentHealth = basehealth;
 		p.setState(playerStates.up);
+		reviving = false;
 		p.GetComponentInChildren<healthBar>().stopRevive();
 	}
 
@@ -224,7 +223,6 @@ public class PlayerController_Rewired : MonoBehaviour {
 		currentHealth -= _damage;
 		if (currentHealth <= 0) {
 			state = playerStates.down;
-            Destroy(gameObject);
 		}
 	}
     
