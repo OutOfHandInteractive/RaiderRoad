@@ -9,11 +9,13 @@ public class SpawnRoad : MonoBehaviour {
     public List<GameObject> roadSegments;
     public float speed;
     public float FirstSpawnOffset = 10f;
+    public GameObject warningSprite;
 
     //--------------------
     // Private Variables
     //--------------------
     private int next;
+    private List<GameObject> warnings = new List<GameObject>();
 
     // Use this for initialization
     void Start () {
@@ -34,5 +36,24 @@ public class SpawnRoad : MonoBehaviour {
             road.GetComponent<MoveRoad>().SetSpeed(speed);
             next++;
         } 
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        //Debug.Log(other + " has entered");
+        if (other.gameObject.tag.Equals("Obstacle"))
+        {
+            warnings.Add(Instantiate(warningSprite, new Vector3(other.transform.position.x, warningSprite.transform.position.y, warningSprite.transform.position.z), Quaternion.identity));
+        }
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.tag.Equals("Obstacle"))
+        {
+            Debug.Log(warnings[0]);
+            Destroy(warnings[0]);
+            warnings.RemoveAt(0);
+        }
     }
 }
