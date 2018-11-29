@@ -40,7 +40,7 @@ GameObject:
   - component: {fileID: 114180172834051540}
   m_Layer: 0
   m_Name: Plated
-  m_TagString: Untagged
+  m_TagString: Destructable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -166,6 +166,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34b7badb19b3e7a40987378c024f1d73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealth: 3
+  isIntact: 1
+  wallDrop: {fileID: 1412282026529114, guid: c4b78f547f7592d42867fc5a56f7cc72, type: 2}
   cargoNode: {fileID: 1024517701480358}
   front_attachmentNode: {fileID: 1696628039955802}
   healthModifier: 2
