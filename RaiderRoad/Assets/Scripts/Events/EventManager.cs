@@ -9,7 +9,6 @@ public class EventManager : MonoBehaviour {
     //public enum EventTypes { vehicle, obstacle, fork };
     //public enum vehicleTypes { light, medium, heavy };
 
-    public float TimeBetweenEvents;
     public float TimeBetweenDifficultyAdjustment = 15;     //for now, difficulty updated every 2 1/2 minutes
     [SerializeField]
     private int difficultyRating = 1;       //set to 1 for testing
