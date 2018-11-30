@@ -82,7 +82,8 @@ public class EventManager : MonoBehaviour {
         for (int i = 0; i < clusterSize; i++)
         {
             Debug.Log("creating event " + i);
-            type = (VehicleFactoryManager.vehicleTypes)UnityEngine.Random.Range(0, 3);
+            //type = (VehicleFactoryManager.vehicleTypes)UnityEngine.Random.Range(0, 3);
+            type = VehicleFactoryManager.vehicleTypes.medium;
             _nE = newEC.AddComponent<Event>() as Event;
             _nE.initialize(difRate, type, spawnPoints);
             _new.Add(_nE);          //uses current dif rate, [for now] default spawn position, [for now] default enemy to create an event
