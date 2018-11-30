@@ -33,9 +33,6 @@ public class Event : MonoBehaviour {
     void Start()
     {
         Debug.Log("Event Created");
-        //spawnPoints = new List<Transform>();
-        
-
     }
 
     public void spawn(VehicleFactoryManager factory)

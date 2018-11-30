@@ -81,7 +81,7 @@ public class EventCluster : MonoBehaviour {
             manager.GetComponent<EventManager>().lastDone();        //call the generate function in manager
         }else if (complete >= 1){
             Debug.Log("cluster complete");
-            //Destroy(this.gameObject);
+            Destroy(this.gameObject);
         }
     }
         
