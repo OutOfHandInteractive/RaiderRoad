@@ -101,26 +101,21 @@ public class StatefulEnemyAI : EnemyAI {
             switch (currentState)
             {
                 case State.Wait:
-                    wait.StartWait(enemy,vehicle);
                     wait.Wait();
                     break;
                 case State.Weapon:
                     weapon.Weapon();
                     break;
                 case State.Board:
-                    board.StartJump(enemy, rb, side);
                     board.Board();
                     break;
                 case State.Destroy:
-                    destroy.StartDestroy(enemy);
                     destroy.Destroy();
                     break;
                 case State.Fight:
-                    fight.StartFight(enemy);
                     fight.Fight();
                     break;
                 case State.Escape:
-                    escape.StartJump(enemy, rb, side);
                     escape.Escape();
                     break;
                 case State.Death:
@@ -145,12 +140,14 @@ public class StatefulEnemyAI : EnemyAI {
     public void EnterWait()
     {
         currentState = State.Wait;
+        wait.StartWait(enemy, vehicle);
         enemy.GetComponent<Renderer>().material.color = Color.white;
         
     }
     public void EnterBoard()
     {
         currentState = State.Board;
+        board.StartJump(enemy, rb, side);
         enemy.GetComponent<Renderer>().material.color = Color.green;
     }
 
@@ -168,18 +165,21 @@ public class StatefulEnemyAI : EnemyAI {
     public void EnterDestroy()
     {
         currentState = State.Destroy;
+        destroy.StartDestroy(enemy);
         enemy.GetComponent<Renderer>().material.color = Color.yellow;
     }
 
     public void EnterFight()
     {
         currentState = State.Fight;
+        fight.StartFight(enemy);
         enemy.GetComponent<Renderer>().material.color = Color.red;
     }
 
     public void EnterEscape()
     {
         currentState = State.Escape;
+        escape.StartJump(enemy, rb, side);
         enemy.GetComponent<Renderer>().material.color = Color.blue;
     }
 
