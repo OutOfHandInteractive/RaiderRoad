@@ -36,8 +36,7 @@ public class EscapeEnemy : JumpEnemy {
         }
         //TODO: move to the same side as the vehicle
         float movement = speed * Time.deltaTime;
-        cObject.transform.LookAt(eVehicle.transform);
-        cObject.transform.position = Vector3.MoveTowards(cObject.transform.position, eVehicle.transform.position, movement);
+
         //If a reasonable jumping distance to vehicle, escape
         if (Vector3.Distance(cObject.transform.position, eVehicle.transform.position) < 5f)
         {
@@ -45,6 +44,12 @@ public class EscapeEnemy : JumpEnemy {
             Vector3 pos = eVehicle.transform.position;
             float zSign = cSide.Equals("left") ? -1 : 1;
             Jump(pos, zSign);
+        }
+        else
+        {
+            Vector3 targetPosition = new Vector3(eVehicle.transform.position.x, cObject.transform.position.y, eVehicle.transform.position.z);
+            cObject.transform.LookAt(targetPosition);
+            cObject.transform.position = Vector3.MoveTowards(cObject.transform.position, eVehicle.transform.position, movement);
         }
 
         if(cObject.transform.root.tag == "eVehicle" && cObject.transform.parent != null && cObject.GetComponent<StatefulEnemyAI>().GetState() != StatefulEnemyAI.State.Weapon)

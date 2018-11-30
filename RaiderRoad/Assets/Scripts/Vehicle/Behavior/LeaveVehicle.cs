@@ -20,4 +20,6 @@ public class LeaveVehicle : MonoBehaviour {
     {
         cEnemy.SetDestination(exit.position);
     }
+
+
 }

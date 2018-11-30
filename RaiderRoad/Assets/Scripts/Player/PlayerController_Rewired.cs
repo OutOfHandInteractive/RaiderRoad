@@ -185,23 +185,32 @@ public class PlayerController_Rewired : MonoBehaviour {
         }
     }
     
-    void OnCollisionEnter(Collision other)
+    private void OnCollisionEnter(Collision collision)
     {
         //Debug.Log(other.gameObject.name);
-        if (other.gameObject.tag == "floor" || other.gameObject.tag == "eVehicle")
+        if (collision.gameObject.tag == "floor" || collision.gameObject.tag == "eVehicle")
         {
             //Debug.Log("Can jump");
+            transform.parent = collision.transform.root;
             grounded = true;
         }
-        if (other.gameObject.tag == "road")
+        if (collision.gameObject.tag == "road")
         {
             takeDamage(2f);
             transform.position = GameObject.Find("player1Spawn").transform.position;
         }
     }
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.tag == "eVehicle")
+        {
+            //Debug.Log("Can jump");
+            transform.parent = null;
+        }
+    }
 
-	// ------------------------- reviving and damage --------------------------------
-	public void startRevive(PlayerController_Rewired p) {
+    // ------------------------- reviving and damage --------------------------------
+    public void startRevive(PlayerController_Rewired p) {
 		reviving = true;
 		reviveCountdown = reviveTime;
 		p.GetComponentInChildren<healthBar>().startRevive(reviveTime);

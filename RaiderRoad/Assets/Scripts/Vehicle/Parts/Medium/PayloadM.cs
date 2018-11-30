@@ -7,7 +7,7 @@ public class PayloadM : Payload {
 
 	public GameObject enemyNode01, enemyNode02, enemyNode03, enemyNode04;
 	public List<StatefulEnemyAI> enemies;
-    public List<Interactable> weapons;
+    public List<Weapon> weapons;
 
     private List<GameObject> payloadInstance = new List<GameObject>();
 	private System.Random rand = new System.Random();
@@ -26,20 +26,20 @@ public class PayloadM : Payload {
 		payloadInstance[0].transform.position = new Vector3(0, 1f, 0);
 
 		payloadInstance[1].transform.SetParent(enemyNode02.transform);
-		payloadInstance[1].transform.position = new Vector3(0, 1f, 0);
+		payloadInstance[1].transform.position = new Vector3(1f, 1f, 0);
 
 		payloadInstance[2].transform.SetParent(enemyNode03.transform);
-		payloadInstance[2].transform.position = new Vector3(0, 1f, 0);
+		payloadInstance[2].transform.position = new Vector3(-1f, 1f, 0);
 
 		payloadInstance[3].transform.SetParent(enemyNode04.transform);
-		payloadInstance[3].transform.position = new Vector3(0, 1f, 0);
+		payloadInstance[3].transform.position = new Vector3(0, 1f, -1f);
 	}
 
 	protected override StatefulEnemyAI SelectEnemies() {
 		int selectedIndex = rand.Next(0, enemies.Count); // error getting thrown here, null ref exception
 		return enemies[selectedIndex];
 	}
-    protected override Interactable SelectInteractable()
+    protected override Weapon SelectInteractable()
     {
         int selectedIndex = rand.Next(0, weapons.Count);
         return weapons[selectedIndex];
