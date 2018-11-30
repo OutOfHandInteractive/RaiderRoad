@@ -82,4 +82,12 @@ public class carscript2 : MonoBehaviour {
         initialized = false;
     }
 
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag.Equals("Obstacle"))
+        {
+            Debug.Log("You Hit an Obstacle");
+            // Insert Obstacle colliding code here
+        }
+    }
 }         
