@@ -16,7 +16,8 @@ public abstract class DestructiblePart : MonoBehaviour {
 		currentHealth -= damageDone;
 		if (currentHealth <= 0) {
 			isIntact = false;
-			Instantiate(wallDrop, transform.position + new Vector3(0, 2f, 0), Quaternion.identity);
+			GameObject item = Instantiate(wallDrop, transform.position + new Vector3(0, 2f, 0), Quaternion.identity, transform);
+			item.name = "Wall Drop";
 		}
 
 		return currentHealth;
