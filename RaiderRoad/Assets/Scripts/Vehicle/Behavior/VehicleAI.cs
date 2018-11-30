@@ -59,6 +59,10 @@ public class VehicleAI : MonoBehaviour {
     // Update is called once per frame
     void Update () {
         //Debug.Log(currentState);
+        if(transform.GetComponentInChildren<PlayerController_Rewired>())
+        {
+            EnterWander();
+        }
         switch (currentState)
         {
             case State.Wander:
@@ -117,7 +121,6 @@ public class VehicleAI : MonoBehaviour {
         leave.StartLeave(agent);
         currentState = State.Leave;
     }
-
     private void OnTriggerEnter(Collider other)
     {
         //Destroy this when it goes off screen

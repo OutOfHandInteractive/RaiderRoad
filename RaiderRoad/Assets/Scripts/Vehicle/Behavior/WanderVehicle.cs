@@ -52,7 +52,7 @@ public class WanderVehicle : MonoBehaviour {
         }
         else
         {
-            cObject.GetComponent<VehicleAI>().Invoke("EnterAttack", 5f);
+            cObject.GetComponent<VehicleAI>().Invoke("EnterAttack", 10f);
         }
     }
 }

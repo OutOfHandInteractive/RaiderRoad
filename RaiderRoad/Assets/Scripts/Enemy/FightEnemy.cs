@@ -49,7 +49,8 @@ public class FightEnemy : EnemyAI {
         else if(chasing)
         {
             //Look at player and move towards them
-            cObject.transform.LookAt(player.transform);
+            Vector3 targetPosition = new Vector3(player.transform.position.x, cObject.transform.position.y, player.transform.position.z);
+            cObject.transform.LookAt(targetPosition);
             cObject.transform.position = Vector3.MoveTowards(cObject.transform.position, player.transform.position, movement);
 
         }

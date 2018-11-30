@@ -95,7 +95,15 @@ public class StayVehicle : MonoBehaviour {
             {
                 Radio.GetRadio().EvacLeaving(this);
             }
-            cObject.GetComponent<VehicleAI>().EnterLeave();
+            StartCoroutine(waitToLeave());
         }
+    }
+
+    IEnumerator waitToLeave()
+    {
+        cObject.GetComponent<VehicleAI>().EnterWander();
+        yield return new WaitForSeconds(5);
+        cObject.GetComponent<VehicleAI>().EnterLeave();
+
     }
 }

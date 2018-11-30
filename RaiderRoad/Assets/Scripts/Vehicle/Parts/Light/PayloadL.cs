@@ -7,7 +7,7 @@ public class PayloadL : Payload {
 
 	public GameObject enemyNode01, enemyNode02;
 	public List<StatefulEnemyAI> enemies;
-    public List<Interactable> weapons;
+    public List<Weapon> weapons;
 
 	private List<GameObject> payloadInstance = new List<GameObject>();
 	private System.Random rand = new System.Random();
@@ -35,7 +35,7 @@ public class PayloadL : Payload {
 		return enemies[selectedIndex];
 	}
 
-    protected override Interactable SelectInteractable()
+    protected override Weapon SelectInteractable()
     {
         int selectedIndex = rand.Next(0, weapons.Count);
         return weapons[selectedIndex];

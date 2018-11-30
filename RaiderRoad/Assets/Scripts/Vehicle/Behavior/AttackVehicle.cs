@@ -14,6 +14,7 @@ public class AttackVehicle : MonoBehaviour{
     private GameObject attackPosition;
     private int hitCount = 0;
     private float timer = 0f;
+    private float lerpTime = 0;
 
     //Initialize agent and attack points
     public void StartAttack(NavMeshAgent agent, GameObject enemy, Rigidbody rb, string side)
@@ -55,7 +56,12 @@ public class AttackVehicle : MonoBehaviour{
         if (cEnemy.remainingDistance < 1f)
         {
             hitCount++;
-            cEnemy.transform.position = Vector3.Lerp(cEnemy.transform.position, attackPosition.transform.position, .2f);
+            cEnemy.enabled = false;
+            lerpTime += 10 * Time.deltaTime;
+            Vector3 movedirection = attackPosition.transform.position - cEnemy.transform.position;
+            cEnemy.transform.position = Vector3.Lerp(cEnemy.transform.position, attackPosition.transform.position, lerpTime);
+            cEnemy.enabled = true;
+            lerpTime = 0;
         }
         //Increase time if state destination has not been reached
         if (cEnemy.pathPending)
@@ -72,8 +78,15 @@ public class AttackVehicle : MonoBehaviour{
         //If vehicle hit RV more than 5 times leave
         if (hitCount >= 5)
         {
-            cObject.GetComponent<VehicleAI>().EnterLeave();
+            StartCoroutine(waitToLeave());
         }
+
+    }
+    IEnumerator waitToLeave()
+    {
+        cObject.GetComponent<VehicleAI>().EnterWander();
+        yield return new WaitForSeconds(5);
+        cObject.GetComponent<VehicleAI>().EnterLeave();
 
     }
 

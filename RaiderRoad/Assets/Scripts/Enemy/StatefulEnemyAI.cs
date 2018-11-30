@@ -83,15 +83,15 @@ public class StatefulEnemyAI : EnemyAI {
         if (!interactable.transform.GetComponentInChildren<EnemyAI>())
         {
             gameObject.tag = "usingWeapon";
-            transform.parent = interactable.transform;
+            transform.SetParent(interactable.transform, true);
             transform.position = interactable.transform.position;
             transform.rotation = Quaternion.identity;
-            transform.localScale = scale;
+            //transform.localScale = scale;
             weapon.StartWeapon(enemy, vehicle, munnitions, fire, side);
             GameObject weapons = weapon.getWeapon();
             weapon.LookAtPlayer(weapons);
         }
-        if (transform.parent.name == "EnemyInt" && vehicle.getState() == VehicleAI.State.Chase)
+        if (transform.parent != null && transform.parent.name == "EnemyInt" && vehicle.getState() == VehicleAI.State.Chase)
         {
             EnterWeapon();
 
