@@ -8,13 +8,10 @@ using UnityEngine.AI;
 public class EventManager : MonoBehaviour {
 
 
-    //public enum EventTypes { vehicle, obstacle, fork };
-    //public enum vehicleTypes { light, medium, heavy };
-
-    public float TimeBetweenDifficultyAdjustment = 15;     //for now, difficulty updated every 2 1/2 minutes
+    public float TimeBetweenDifficultyAdjustment = 60;     //for now, difficulty updated every minute
     [SerializeField]
     private int difficultyRating = 1;       //set to 1 for testing
-    public VehicleFactoryManager vFactory; //= gameObject.AddComponent<VehicleFactoryManager>() as VehicleFactoryManager;
+    public VehicleFactoryManager vFactory;
 
 
     // Equation coefficients                    -------all set to 1 for now
@@ -31,12 +28,16 @@ public class EventManager : MonoBehaviour {
     // event generation constants
     public int minEventDifficulty;
     public int maxEventDifficulty;
+    
+    //cluster objects - prefab, currently active, and next ready
     [SerializeField]
     private GameObject eCluster;
     [SerializeField]
     private GameObject onDeck;
     [SerializeField]
     private GameObject active;
+    
+    //spawn points for events
     [SerializeField]
     private List<Transform> spawnPoints;
 
@@ -91,13 +92,6 @@ public class EventManager : MonoBehaviour {
         newEC.GetComponent<EventCluster>().startUp(_new, vFactory);
         return newEC;
     }
-
-
-
-
-
-
-
 
     //saved from previous manager
     //------------------------------------------------------------------

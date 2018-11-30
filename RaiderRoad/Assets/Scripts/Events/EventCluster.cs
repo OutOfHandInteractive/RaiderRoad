@@ -22,24 +22,6 @@ public class EventCluster : MonoBehaviour {
     private int i = 0;          //needed to have this outside a function so that the coroutine doesn't mess up its value
     
 
-    //constructor - need list of events
-    /*public EventCluster(List<Event> sequence, VehicleFactoryManager factory){
-        events = sequence;
-        vFactory = factory;
-    }
-
-    //on start
-    void Start()
-    {
-        manager = GameObject.Find("EventManager");
-        initSize = events.Count;        //get number of events in cluster
-        weight = 1 / initSize;             //determine weight of a single event for completeness
-        foreach (Event element in events){           //sum of event difficulties
-            difficulty += element.difficultyRating;
-        }
-        //start spawning
-        StartCoroutine(dispense());
-    }*/
 
     public void startUp(List<Event> sequence, VehicleFactoryManager factory)
     {

@@ -38,7 +38,8 @@ public class Event : MonoBehaviour {
     public void spawn(VehicleFactoryManager factory)
     {
         numPoints = Random.Range(1, spawnPoints.Count);
-        Debug.Log("spawn called");
+        //Debug.Log("spawn = " + numPoints);
+        //Debug.Log("spawn called");
         //based on type, call proper function - for now just creates light vehicle
         e = factory.newConstructVehicle(_type);
         e.GetComponent<VehicleAI>().setSide(spawnPoints[numPoints].name);
