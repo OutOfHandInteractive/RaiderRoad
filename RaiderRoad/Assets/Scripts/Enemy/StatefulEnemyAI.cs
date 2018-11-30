@@ -217,7 +217,7 @@ public class StatefulEnemyAI : EnemyAI {
         {
             transform.parent = parent.transform;
         }
-        if (collision.gameObject.tag == "floor")
+        if (collision.gameObject.tag == "RV")
         {
             transform.parent = collision.transform.root;
             //currentState = State.Destroy;
@@ -231,7 +231,7 @@ public class StatefulEnemyAI : EnemyAI {
         {
             transform.parent = null;
         }
-        if (collision.gameObject.tag == "floor")
+        if (collision.gameObject.tag == "RV")
         {
             transform.parent = null;
         }
