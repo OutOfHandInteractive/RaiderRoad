@@ -59,7 +59,15 @@ public class StatefulEnemyAI : EnemyAI {
         Debug.Log(vehicle.getSide());
         side = vehicle.getSide();
         parent = transform.parent.gameObject;
-        interactable = vehicle.GetComponentInChildren<HasWeapon>().gameObject;
+        if(vehicle.GetComponentInChildren<HasWeapon>() != null)
+        {
+            interactable = vehicle.GetComponentInChildren<HasWeapon>().gameObject;
+        }
+        else
+        {
+            interactable = null;
+        }
+
         Debug.Log(interactable);
 
 
@@ -79,14 +87,13 @@ public class StatefulEnemyAI : EnemyAI {
 
         Debug.Log(interactable);
         Debug.Log(transform.parent);
-
-        if (!interactable.transform.GetComponentInChildren<EnemyAI>())
+        if (interactable && !interactable.transform.GetComponentInChildren<EnemyAI>())
         {
             gameObject.tag = "usingWeapon";
             transform.SetParent(interactable.transform, true);
             transform.position = interactable.transform.position;
             transform.rotation = Quaternion.identity;
-            //transform.localScale = scale;
+            transform.localScale = scale;
             weapon.StartWeapon(enemy, vehicle, munnitions, fire, side);
             GameObject weapons = weapon.getWeapon();
             weapon.LookAtPlayer(weapons);

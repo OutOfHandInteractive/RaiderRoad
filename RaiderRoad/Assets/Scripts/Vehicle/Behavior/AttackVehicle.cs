@@ -5,8 +5,8 @@ using UnityEngine.AI;
 
 public class AttackVehicle : MonoBehaviour{
     //Attack points and agent info
-    private int wanderPoints = 0;
-    private List<Transform> attackPoints;
+    private int attackPoints = 0;
+    private List<Transform> attackList;
     private NavMeshAgent cEnemy;
     private Rigidbody cRb;
     private GameObject cObject;
@@ -14,17 +14,15 @@ public class AttackVehicle : MonoBehaviour{
     private GameObject attackPosition;
     private int hitCount = 0;
     private float timer = 0f;
-    private float lerpTime = 0;
 
     //Initialize agent and attack points
     public void StartAttack(NavMeshAgent agent, GameObject enemy, Rigidbody rb, string side)
     {
         cEnemy = agent;
         cObject = enemy;
-        attackPoints = new List<Transform>();
+        attackList = new List<Transform>();
         cRb = rb;
         //Find random attack point
-        wanderPoints = Random.Range(0, attackPoints.Count);
         if (side.Equals("left"))
         {
             WallsRV = GameObject.Find("NodesLeft");
@@ -39,29 +37,24 @@ public class AttackVehicle : MonoBehaviour{
         //Get all building points
         foreach (Transform child in WallsRV.transform)
         {
-            attackPoints.Add(child);
+            attackList.Add(child);
         }
     }
 
      public void Attack()
      {
         //Stop if there is nothing to attack
-        if (attackPoints.Count == 0)
+        if (attackList.Count == 0)
              return;
 
          //Go to attack point
-        cEnemy.SetDestination(attackPoints[wanderPoints].position);
-
+        cEnemy.SetDestination(attackList[attackPoints].position);
+        attackPoints = Random.Range(0, attackList.Count);
         //Check if vehicle hit, add "knockback"
         if (cEnemy.remainingDistance < 1f)
         {
             hitCount++;
-            cEnemy.enabled = false;
-            lerpTime += 10 * Time.deltaTime;
-            Vector3 movedirection = attackPosition.transform.position - cEnemy.transform.position;
-            cEnemy.transform.position = Vector3.Lerp(cEnemy.transform.position, attackPosition.transform.position, lerpTime);
-            cEnemy.enabled = true;
-            lerpTime = 0;
+            cEnemy.SetDestination(attackPosition.transform.position);
         }
         //Increase time if state destination has not been reached
         if (cEnemy.pathPending)
@@ -72,7 +65,7 @@ public class AttackVehicle : MonoBehaviour{
         //Leave if you can't enter state destination
         if (timer > 5)
         {
-            cObject.GetComponent<VehicleAI>().EnterLeave();
+            StartCoroutine(waitToLeave());
         }
 
         //If vehicle hit RV more than 5 times leave
@@ -88,6 +81,16 @@ public class AttackVehicle : MonoBehaviour{
         yield return new WaitForSeconds(5);
         cObject.GetComponent<VehicleAI>().EnterLeave();
 
+    }
+    IEnumerator Knockback(Vector3 source, Vector3 target, float overTime)
+    {
+        float startTime = Time.time;
+        while (Time.time < startTime + overTime)
+        {
+            transform.position = Vector3.Lerp(source, target, (Time.time - startTime) / overTime);
+            yield return null;
+        }
+        transform.position = target;
     }
 
 

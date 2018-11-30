@@ -24,16 +24,17 @@ public class ChaseVehicle : MonoBehaviour {
         //Randomly choose to load left or right side
         if (side.Equals("left"))
         {
-            player = GameObject.FindGameObjectWithTag("EnemyL").transform;
+            player = GameObject.Find("EnemyL").transform;
         }
         else
         {
-            player = GameObject.FindGameObjectWithTag("EnemyR").transform;
+            player = GameObject.Find("EnemyR").transform;
         }
         //Go to loading area
         cEnemy.SetDestination(player.transform.position);
 
         //Increase time if state destination has not been reached
+        /*
         if(cEnemy.remainingDistance > .1f)
         {
             timer += Time.deltaTime;
@@ -43,7 +44,7 @@ public class ChaseVehicle : MonoBehaviour {
         if (timer > 5)
         {
             cObject.GetComponent<VehicleAI>().EnterLeave();
-        }
+        }*/
 
         //Enter stay if you get to the loading position
         if(!cEnemy.pathPending && cEnemy.remainingDistance < .01f)

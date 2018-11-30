@@ -63,13 +63,12 @@ public class WeaponAttackEnemy : EnemyAI {
         {
             if (!fired)
             {
-                CannonShoot();
+                StartCoroutine(WaitToShoot());
                 fired = true;
             }
         }
         else if (cObject.transform.parent.tag == "Fire")
         {
-            flamethrower.transform.LookAt(player.transform.position);
             Flames();
         }
 
@@ -83,6 +82,13 @@ public class WeaponAttackEnemy : EnemyAI {
         proj = Object.Instantiate(cMunnitions.gameObject, barrel.transform.position, Quaternion.identity);
         proj.GetComponent<Rigidbody>().velocity = CannonVelocity(player, 75f);
         Object.Destroy(proj, 3f);
+    }
+
+    IEnumerator WaitToShoot()
+    {
+        CannonShoot();
+        yield return new WaitForSeconds(3f);
+        fired = false;
     }
 
     Vector3 CannonVelocity(GameObject player, float angle)
@@ -123,6 +129,8 @@ public class WeaponAttackEnemy : EnemyAI {
     {
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
         GameObject player = Closest(cObject.transform.position, players);
+        Vector3 targetPosition = new Vector3(player.transform.position.x, weapons.transform.position.y, player.transform.position.z);
+        cObject.transform.LookAt(targetPosition);
         weapons.transform.LookAt(player.transform.position);
     }
 }
