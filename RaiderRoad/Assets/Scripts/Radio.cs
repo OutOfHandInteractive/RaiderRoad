@@ -39,6 +39,7 @@ public class Radio
     {
         Debug.Log("Leaving");
         evacVehicles.Remove(vehicle);
+        Debug.Log("evacVehicles length: " + evacVehicles.Count);
         // No check
     }
 
@@ -47,9 +48,15 @@ public class Radio
         //evacVehicles.RemoveAll(delegate (StayVehicle v) { return v == null; });
         while(mooksForEvac.Count>0 && evacVehicles.Count > 0)
         {
+            StayVehicle vehicle = evacVehicles[0];
+            if(vehicle == null)
+            {
+                Debug.Log("Dropping \"null\" vehicle");
+                evacVehicles.RemoveAt(0);
+                continue;
+            }
             //TODO: Make this smarter
             EscapeEnemy mook = mooksForEvac.Dequeue();
-            StayVehicle vehicle = evacVehicles[0];
             //Debug.Assert(vehicle != null);
             Debug.Log("Found vehicle: " +vehicle.ToString());
             mook.RadioEvacCallback(vehicle);
