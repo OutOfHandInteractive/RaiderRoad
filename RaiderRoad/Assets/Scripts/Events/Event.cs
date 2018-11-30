@@ -46,6 +46,7 @@ public class Event : MonoBehaviour {
         e = factory.newConstructVehicle(_type);
         e.GetComponent<VehicleAI>().setSide(spawnPoints[numPoints].name);
         e.transform.position = spawnPoints[numPoints].transform.position;
+        e.GetComponentInChildren<eventObject>().setCluster(this.gameObject);
 		difficultyRating = e.GetComponentInChildren<eventObject>().getDifficulty();
         //GameObject.CreatePrimitive(PrimitiveType.Cube);
     }

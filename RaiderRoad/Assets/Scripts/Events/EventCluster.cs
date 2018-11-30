@@ -18,7 +18,7 @@ public class EventCluster : MonoBehaviour {
     private float threshold;
     private bool spawnFlag = true;
     [SerializeField]
-    private float delay = 20;   //for testing 20, seconds
+    private float delay = 15;   //for testing 15, seconds
     private int i = 0;          //needed to have this outside a function so that the coroutine doesn't mess up its value
     
 
@@ -47,7 +47,8 @@ public class EventCluster : MonoBehaviour {
 		vFactory = factory;
         events = sequence;
         initSize = events.Count;        //get number of events in cluster
-        weight = 1 / initSize;             //determine weight of a single event for completeness
+        weight = 1.0f / initSize;             //determine weight of a single event for completeness
+        threshold = weight * (initSize-1);      //this should probably be replaced with something better but for now it works
         foreach (Event element in events)
         {           //sum of event difficulties
             difficulty += element.difficultyRating;
@@ -78,6 +79,9 @@ public class EventCluster : MonoBehaviour {
         if(complete >= threshold && spawnFlag){   //if cluster completion at certain level & no new cluster has been called
             spawnFlag = false;                  //disable so only one new cluster gets generated
             manager.GetComponent<EventManager>().lastDone();        //call the generate function in manager
+        }else if (complete >= 1){
+            Debug.Log("cluster complete");
+            //Destroy(this.gameObject);
         }
     }
         
