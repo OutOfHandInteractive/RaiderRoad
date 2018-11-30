@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
+
 
 public class EventManager : MonoBehaviour {
 
@@ -35,9 +37,17 @@ public class EventManager : MonoBehaviour {
     private GameObject onDeck;
     [SerializeField]
     private GameObject active;
+    [SerializeField]
+    private List<Transform> spawnPoints;
 
     void Start(){
         //StartCoroutine(difficultyManager());
+        spawnPoints = new List<Transform>();
+        foreach (Transform child in transform)      //get spawn points
+        {
+            Debug.Log(child);
+            spawnPoints.Add(child);
+        }
         StartCoroutine(initialize());                   //initializes first cluster
     }
 
@@ -64,7 +74,7 @@ public class EventManager : MonoBehaviour {
 
     GameObject generate(int difRate)      //I don't think we need a coroutine for thise - at least not yet
     {
-        VehicleFactoryManager.vehicleTypes type = VehicleFactoryManager.vehicleTypes.medium;              //for now using medium, but this will be changed based on other factors
+        VehicleFactoryManager.vehicleTypes type;
         Event _nE;
         List<Event> _new = new List<Event>();
         GameObject newEC = Instantiate(eCluster);
@@ -72,9 +82,9 @@ public class EventManager : MonoBehaviour {
         for (int i = 0; i < clusterSize; i++)
         {
             Debug.Log("creating event " + i);
-            //type becomes something different
+            type = (VehicleFactoryManager.vehicleTypes)UnityEngine.Random.Range(0, 3);
             _nE = newEC.AddComponent<Event>() as Event;
-            _nE.initialize(difRate, type);
+            _nE.initialize(difRate, type, spawnPoints);
             _new.Add(_nE);          //uses current dif rate, [for now] default spawn position, [for now] default enemy to create an event
         }
         newEC.GetComponent<EventCluster>().startUp(_new, vFactory);

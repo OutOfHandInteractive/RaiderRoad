@@ -20,6 +20,7 @@ public class EventCluster : MonoBehaviour {
     [SerializeField]
     private float delay = 20;   //for testing 20, seconds
     private int i = 0;          //needed to have this outside a function so that the coroutine doesn't mess up its value
+    
 
     //constructor - need list of events
     /*public EventCluster(List<Event> sequence, VehicleFactoryManager factory){

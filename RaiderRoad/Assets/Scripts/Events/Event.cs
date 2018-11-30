@@ -12,8 +12,10 @@ public class Event : MonoBehaviour {
 	public int difficultyRating;
 	public float postDelay;
     private VehicleFactoryManager.vehicleTypes _type;
-
-	private GameObject e;
+    private int numPoints;
+    private GameObject e;
+    [SerializeField]
+    private List<Transform> spawnPoints;
 
     /*public Event(int dif, VehicleFactoryManager.vehicleTypes type)       //add game object to constructor for spawning
     {
@@ -22,22 +24,28 @@ public class Event : MonoBehaviour {
         _type = type;
     }*/
 
-    public void initialize(int dif, VehicleFactoryManager.vehicleTypes type){    //constructor work-around
+    public void initialize(int dif, VehicleFactoryManager.vehicleTypes type, List<Transform> spawns){    //constructor work-around
         difficultyRating = dif;
         _type = type;
+        spawnPoints = spawns;
     }
 
     void Start()
     {
         Debug.Log("Event Created");
+        //spawnPoints = new List<Transform>();
+        
 
     }
 
     public void spawn(VehicleFactoryManager factory)
     {
+        numPoints = Random.Range(1, spawnPoints.Count);
         Debug.Log("spawn called");
         //based on type, call proper function - for now just creates light vehicle
         e = factory.newConstructVehicle(_type);
+        e.GetComponent<VehicleAI>().setSide(spawnPoints[numPoints].name);
+        e.transform.position = spawnPoints[numPoints].transform.position;
 		difficultyRating = e.GetComponentInChildren<eventObject>().getDifficulty();
         //GameObject.CreatePrimitive(PrimitiveType.Cube);
     }
