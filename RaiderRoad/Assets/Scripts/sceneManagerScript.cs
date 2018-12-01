@@ -110,7 +110,7 @@ public class sceneManagerScript : MonoBehaviour {
                 player[i].gameObject.GetComponent<PlayerController_Rewired>().SetId(playId);
                 player[i].Find("View").gameObject.GetComponent<PlayerPlacement_Rewired>().SetId(playId);
 
-                AssignPlayMat(player[i].gameObject.GetComponentsInChildren<Renderer>(), playId);  //assign materials to child objects (char1Players[i] will give player id)
+                AssignPlayMat(player[i].gameObject, playId);  //passing player gameObject and player id
                 //Debug.Log(player[i]);
             }
         }
@@ -128,7 +128,7 @@ public class sceneManagerScript : MonoBehaviour {
                 player[i].gameObject.GetComponent<PlayerController_Rewired>().SetId(playId);
                 player[i].Find("View").gameObject.GetComponent<PlayerPlacement_Rewired>().SetId(playId);
 
-                AssignPlayMat(player[i].gameObject.GetComponentsInChildren<Renderer>(), playId);
+                AssignPlayMat(player[i].gameObject, playId);
             }
         }
     }
@@ -145,7 +145,7 @@ public class sceneManagerScript : MonoBehaviour {
                 player[i].gameObject.GetComponent<PlayerController_Rewired>().SetId(playId);
                 player[i].Find("View").gameObject.GetComponent<PlayerPlacement_Rewired>().SetId(playId);
 
-                AssignPlayMat(player[i].gameObject.GetComponentsInChildren<Renderer>(), playId);
+                AssignPlayMat(player[i].gameObject, playId);
             }
         }
     }
@@ -162,13 +162,17 @@ public class sceneManagerScript : MonoBehaviour {
                 player[i].gameObject.GetComponent<PlayerController_Rewired>().SetId(playId);
                 player[i].Find("View").gameObject.GetComponent<PlayerPlacement_Rewired>().SetId(playId);
 
-                AssignPlayMat(player[i].gameObject.GetComponentsInChildren<Renderer>(), playId);
+                AssignPlayMat(player[i].gameObject, playId);
         }
         }
     }
 
-    void AssignPlayMat(Renderer[] myMats, int playerNum)
+    void AssignPlayMat(GameObject PlayerParent, int playerNum)
     {
+        Renderer[] myMats = PlayerParent.GetComponentsInChildren<Renderer>();   //assign materials of child objects
+
+        Material InstMat = Instantiate(charaMatArray[playerNum]);
+
         for (int j = 0; j < myMats.Length; j++)   //assign the same matterial to all the child objects
         {
             if (myMats[j].gameObject.name != "TempAttack")  //Make sure not assigning attack visual object
@@ -178,11 +182,12 @@ public class sceneManagerScript : MonoBehaviour {
                 for (int k = 0; k < tempMats.Length; k++)
                 {
                     //Debug.Log(charaMatArray[playerNum]);
-                    tempMats[k] = charaMatArray[playerNum]; //playerNum used to assign correct
+                    tempMats[k] = InstMat; //playerNum used to assign correct
                     //Debug.Log(tempMats[k]);
                 }
                 myMats[j].materials = tempMats;
             }
         }
+        PlayerParent.GetComponent<PlayerController_Rewired>().myMat = InstMat;
     }
 }

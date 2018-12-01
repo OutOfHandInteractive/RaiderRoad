@@ -50,7 +50,7 @@ public class PlayerController_Rewired : MonoBehaviour {
 	private List<GameObject> downedPlayers = new List<GameObject>();
 
     // [temporary] materials
-    private Material myMat;
+    public Material myMat;
     private Color myOrigColor;
 
 	// ----------------------------------------------------------------------
@@ -69,7 +69,7 @@ public class PlayerController_Rewired : MonoBehaviour {
         baseJumpIndicatorDist = Vector3.Distance(transform.position, jumpIndicator.transform.position);
 
         //setting material
-        myMat = GetComponentInChildren<Material>();
+        //myMat = gameObject.GetComponentInChildren<Renderer>().material;
         myOrigColor = myMat.color;
     }
     
@@ -231,7 +231,7 @@ public class PlayerController_Rewired : MonoBehaviour {
 
 	public void revive(PlayerController_Rewired p) {
 		p.currentHealth = basehealth;
-        myMat.color = myOrigColor;
+        p.backToOrigMat();
 		p.setState(playerStates.up);
 		reviving = false;
 		p.GetComponentInChildren<healthBar>().stopRevive();
@@ -306,4 +306,8 @@ public class PlayerController_Rewired : MonoBehaviour {
 	public void removeDownedPlayer(GameObject p) {
 		downedPlayers.Remove(p);
 	}
+
+    public void backToOrigMat() {
+        myMat.color = myOrigColor;
+    }
 }
