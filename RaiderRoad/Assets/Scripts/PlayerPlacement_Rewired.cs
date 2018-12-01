@@ -198,6 +198,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
                 }
                 else if (player.GetButtonDown("Attack") && canAttack)
                 {
+                    Debug.Log("count: " + destructableParts.Count);
                     canAttack = false;
                     attackCount = attack_cooldown;
 					if (destructableParts.Count == 0) {
@@ -207,7 +208,8 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
 								attackRange.Remove(item);
 							}
 							else if (item.CompareTag("Wall")) {
-								item.GetComponent<Wall>().Damage(damage);
+                                //Debug.Log("attacking wall");
+                                item.GetComponent<Wall>().Damage(damage);
 							}
 							else if (item.CompareTag("Trap")) {
 								item.GetComponent<Trap>().Damage(damage);
@@ -216,6 +218,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
 								item.GetComponent<Engine>().Damage(damage);
 							}
 							else if (item.CompareTag("Weapon")) {
+                                Debug.Log("attacking weapon");
 								item.GetComponent<Weapon>().Damage(damage);
 							}
 							else if (item.CompareTag("Enemy")) {
@@ -301,6 +304,10 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
             attackRange.Add(other.gameObject);
         }
         if (other.gameObject.CompareTag("Enemy"))
+        {
+            attackRange.Add(other.gameObject);
+        }
+        if (other.gameObject.CompareTag("Weapon"))
         {
             attackRange.Add(other.gameObject);
         }
