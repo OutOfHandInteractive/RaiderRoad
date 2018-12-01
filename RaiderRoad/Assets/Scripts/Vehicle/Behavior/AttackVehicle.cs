@@ -75,7 +75,7 @@ public class AttackVehicle : MonoBehaviour{
             }
 
             //If vehicle hit RV more than 5 times leave
-            if (hitCount >= 5)
+            if (hitCount >= 2)
             {
                 StartCoroutine(waitToLeave());
             }
@@ -107,7 +107,7 @@ public class AttackVehicle : MonoBehaviour{
         Debug.Log(impact);
         if (impact.magnitude > 0.2F)
             cEnemy.speed = 60;
-            cEnemy.destination = Vector3.Lerp(cObject.transform.position, impact, 1f); //Time.deltaTime);
+            cEnemy.destination = Vector3.Lerp(cObject.transform.position, impact, 5f); //Time.deltaTime);
         // consumes the impact energy each cycle:
         impact = Vector3.Lerp(impact, Vector3.zero, 5 * Time.deltaTime);
         yield return new WaitForSeconds(1);

@@ -6,12 +6,13 @@ using UnityEngine.AI;
 public class BoardEnemy : JumpEnemy {
 
     //enemy, rigidbody,rv, angle to jump, if enemy jumped, chance to take action, current side 
-    private int action = Random.Range(0, 100);
+    private int action;
 
 
     public override void StartJump(GameObject enemy, Rigidbody rb, string side)
     {
         base.StartJump(enemy, rb, side);
+        action = Random.Range(0, 100);
         //Set rv, enemy, rigidbody, current side, and angle to jump
 
 
