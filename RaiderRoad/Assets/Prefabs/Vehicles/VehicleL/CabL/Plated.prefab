@@ -25,7 +25,7 @@ GameObject:
   - component: {fileID: 114060961963603750}
   m_Layer: 0
   m_Name: Plated
-  m_TagString: Untagged
+  m_TagString: Destructable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -168,6 +168,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cargoNode: {fileID: 1964639205622852}
   front_attachmentNode: {fileID: 1690896798287864}
+  maxHealth: 0
   healthModifier: 2
   ramDamageModifier: 0
   speedModifier: -1

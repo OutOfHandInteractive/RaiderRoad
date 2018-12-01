@@ -59,7 +59,15 @@ public class StatefulEnemyAI : EnemyAI {
         Debug.Log(vehicle.getSide());
         side = vehicle.getSide();
         parent = transform.parent.gameObject;
-        interactable = vehicle.GetComponentInChildren<HasWeapon>().gameObject;
+        if(vehicle.GetComponentInChildren<HasWeapon>() != null)
+        {
+            interactable = vehicle.GetComponentInChildren<HasWeapon>().gameObject;
+        }
+        else
+        {
+            interactable = null;
+        }
+
         Debug.Log(interactable);
 
 
@@ -79,11 +87,10 @@ public class StatefulEnemyAI : EnemyAI {
 
         Debug.Log(interactable);
         Debug.Log(transform.parent);
-
-        if (!interactable.transform.GetComponentInChildren<EnemyAI>())
+        if (interactable && !interactable.transform.GetComponentInChildren<EnemyAI>())
         {
             gameObject.tag = "usingWeapon";
-            transform.parent = interactable.transform;
+            transform.SetParent(interactable.transform, true);
             transform.position = interactable.transform.position;
             transform.rotation = Quaternion.identity;
             transform.localScale = scale;
@@ -91,7 +98,7 @@ public class StatefulEnemyAI : EnemyAI {
             GameObject weapons = weapon.getWeapon();
             weapon.LookAtPlayer(weapons);
         }
-        if (transform.parent.name == "EnemyInt" && vehicle.getState() == VehicleAI.State.Chase)
+        if (transform.parent != null && transform.parent.name == "EnemyInt" && vehicle.getState() == VehicleAI.State.Chase)
         {
             EnterWeapon();
 
@@ -101,26 +108,21 @@ public class StatefulEnemyAI : EnemyAI {
             switch (currentState)
             {
                 case State.Wait:
-                    wait.StartWait(enemy,vehicle);
                     wait.Wait();
                     break;
                 case State.Weapon:
                     weapon.Weapon();
                     break;
                 case State.Board:
-                    board.StartJump(enemy, rb, side);
                     board.Board();
                     break;
                 case State.Destroy:
-                    destroy.StartDestroy(enemy);
                     destroy.Destroy();
                     break;
                 case State.Fight:
-                    fight.StartFight(enemy);
                     fight.Fight();
                     break;
                 case State.Escape:
-                    escape.StartJump(enemy, rb, side);
                     escape.Escape();
                     break;
                 case State.Death:
@@ -145,12 +147,14 @@ public class StatefulEnemyAI : EnemyAI {
     public void EnterWait()
     {
         currentState = State.Wait;
+        wait.StartWait(enemy, vehicle);
         enemy.GetComponent<Renderer>().material.color = Color.white;
         
     }
     public void EnterBoard()
     {
         currentState = State.Board;
+        board.StartJump(enemy, rb, side);
         enemy.GetComponent<Renderer>().material.color = Color.green;
     }
 
@@ -168,18 +172,21 @@ public class StatefulEnemyAI : EnemyAI {
     public void EnterDestroy()
     {
         currentState = State.Destroy;
+        destroy.StartDestroy(enemy);
         enemy.GetComponent<Renderer>().material.color = Color.yellow;
     }
 
     public void EnterFight()
     {
         currentState = State.Fight;
+        fight.StartFight(enemy);
         enemy.GetComponent<Renderer>().material.color = Color.red;
     }
 
     public void EnterEscape()
     {
         currentState = State.Escape;
+        escape.StartJump(enemy, rb, side);
         enemy.GetComponent<Renderer>().material.color = Color.blue;
     }
 
@@ -210,7 +217,7 @@ public class StatefulEnemyAI : EnemyAI {
         {
             transform.parent = parent.transform;
         }
-        if (collision.gameObject.tag == "floor")
+        if (collision.gameObject.tag == "RV")
         {
             transform.parent = collision.transform.root;
             //currentState = State.Destroy;
@@ -224,7 +231,7 @@ public class StatefulEnemyAI : EnemyAI {
         {
             transform.parent = null;
         }
-        if (collision.gameObject.tag == "floor")
+        if (collision.gameObject.tag == "RV")
         {
             transform.parent = null;
         }

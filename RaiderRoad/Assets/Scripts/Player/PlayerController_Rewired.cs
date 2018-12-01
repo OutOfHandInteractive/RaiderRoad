@@ -49,6 +49,10 @@ public class PlayerController_Rewired : MonoBehaviour {
 	private List<GameObject> interactables = new List<GameObject>();
 	private List<GameObject> downedPlayers = new List<GameObject>();
 
+    // [temporary] materials
+    public Material myMat;
+    private Color myOrigColor;
+
 	// ----------------------------------------------------------------------
     
     
@@ -63,6 +67,10 @@ public class PlayerController_Rewired : MonoBehaviour {
         rb = gameObject.GetComponent<Rigidbody>();
         baseJumpInidicatorScale = jumpIndicator.transform.localScale.x;
         baseJumpIndicatorDist = Vector3.Distance(transform.position, jumpIndicator.transform.position);
+
+        //setting material
+        //myMat = gameObject.GetComponentInChildren<Renderer>().material;
+        myOrigColor = myMat.color;
     }
     
     void Initialize()
@@ -185,23 +193,32 @@ public class PlayerController_Rewired : MonoBehaviour {
         }
     }
     
-    void OnCollisionEnter(Collision other)
+    private void OnCollisionEnter(Collision collision)
     {
-        //Debug.Log(other.gameObject.name);
-        if (other.gameObject.tag == "floor" || other.gameObject.tag == "eVehicle")
+        Debug.Log(collision.gameObject.name);
+        if (collision.gameObject.tag == "RV" || collision.gameObject.tag == "eVehicle")
         {
             //Debug.Log("Can jump");
+            transform.parent = collision.transform.root;
             grounded = true;
         }
-        if (other.gameObject.tag == "road")
+        if (collision.gameObject.tag == "road")
         {
             takeDamage(2f);
             transform.position = GameObject.Find("player1Spawn").transform.position;
         }
     }
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.tag == "eVehicle")
+        {
+            //Debug.Log("Can jump");
+            transform.parent = null;
+        }
+    }
 
-	// ------------------------- reviving and damage --------------------------------
-	public void startRevive(PlayerController_Rewired p) {
+    // ------------------------- reviving and damage --------------------------------
+    public void startRevive(PlayerController_Rewired p) {
 		reviving = true;
 		reviveCountdown = reviveTime;
 		p.GetComponentInChildren<healthBar>().startRevive(reviveTime);
@@ -214,6 +231,7 @@ public class PlayerController_Rewired : MonoBehaviour {
 
 	public void revive(PlayerController_Rewired p) {
 		p.currentHealth = basehealth;
+        p.backToOrigMat();
 		p.setState(playerStates.up);
 		reviving = false;
 		p.GetComponentInChildren<healthBar>().stopRevive();
@@ -222,6 +240,9 @@ public class PlayerController_Rewired : MonoBehaviour {
 	public void takeDamage(float _damage) {
 		currentHealth -= _damage;
 		if (currentHealth <= 0) {
+            Color deathColor = myOrigColor * 0.5f;        //Replace with proper death feedback
+            myMat.color = deathColor;
+
 			state = playerStates.down;
 		}
 	}
@@ -285,4 +306,8 @@ public class PlayerController_Rewired : MonoBehaviour {
 	public void removeDownedPlayer(GameObject p) {
 		downedPlayers.Remove(p);
 	}
+
+    public void backToOrigMat() {
+        myMat.color = myOrigColor;
+    }
 }

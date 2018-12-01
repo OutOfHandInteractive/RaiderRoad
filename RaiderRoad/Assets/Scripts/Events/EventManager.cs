@@ -2,119 +2,129 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
+
 
 public class EventManager : MonoBehaviour {
 
-	public VehicleFactoryManager factory;
 
-	private int difficultyRating;
-	private int queueDifficultySum; 
-	private Queue<Event> eventQueue;
+    public float TimeBetweenDifficultyAdjustment = 60;     //for now, difficulty updated every minute
+    [SerializeField]
+    private int difficultyRating = 1;       //set to 1 for testing
+    public VehicleFactoryManager vFactory;
 
-	public float TimeBetweenEvents;
-	public float TimeBetweenDifficultyAdjustment;
 
-	// Equation coefficients
-	public float expectedGameLengthModifier;
-	public float sinFrequencyModifier;
-	public float sinAmplitudeModifier;
-	public float difficultySlopeModifier;
-	public float baseDifficultyRating;
+    // Equation coefficients                    -------all set to 1 for now
+    public float expectedGameLengthModifier = 1;
+    public float sinFrequencyModifier = 1;
+    public float sinAmplitudeModifier = 1;
+    public float difficultySlopeModifier = 1;
+    public float baseDifficultyRating = 1;
 
-	// Variation coefficients
-	public float randomModifierMin;
-	public float randomModifierMax;
+    // Variation coefficients
+    public float randomModifierMin;
+    public float randomModifierMax;
 
-	// event generation constants
-	public int minEventDifficulty;
-	public int maxEventDifficulty;
+    // event generation constants
+    public int minEventDifficulty;
+    public int maxEventDifficulty;
+    
+    //cluster objects - prefab, currently active, and next ready
+    [SerializeField]
+    private GameObject eCluster;
+    [SerializeField]
+    private GameObject onDeck;
+    [SerializeField]
+    private GameObject active;
+    
+    //spawn points for events
+    [SerializeField]
+    private List<Transform> spawnPoints;
 
-	// Use this for initialization
-	void Start () {
-		StartCoroutine(events());
-		StartCoroutine(difficultyManager());
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	}
+    void Start(){
+        //StartCoroutine(difficultyManager());
+        spawnPoints = new List<Transform>();
+        foreach (Transform child in transform)      //get spawn points
+        {
+            Debug.Log(child);
+            spawnPoints.Add(child);
+        }
+        StartCoroutine(initialize());                   //initializes first cluster
+    }
 
-	// control when events are added to the queue
-	IEnumerator events() {
-		while (true) {
-			yield return new WaitUntil(delegate { return queueDifficultySum < difficultyRating; });
+    IEnumerator initialize()
+    {
+        onDeck = generate(difficultyRating);                //create event cluster at starting difficulty and set as on-deck
+        yield return new WaitForSecondsRealtime(10);       //delay for some short time - let's say 30 seconds for now/10 for testing
+        lastDone();                                     //switches on-deck to active, deploys it, and creates new on-deck cluster
+        StartCoroutine(difficultyManager());
+    }
 
-			addEventsToQueue(difficultyRating - queueDifficultySum);
-		}
-	}
+    //called from last cluster generated once it reaches certain threshold - deploys next cluster and generates a new one on deck
+    public void lastDone()
+    {
+        active = onDeck;
+        deployActive();               //deploys 'active' cluster
+        onDeck = generate(difficultyRating);
+    }
 
-	// control game difficulty rating
-	IEnumerator difficultyManager() {
-		while (true) {
-			difficultyRating = calculateDifficultyRating();
-			Debug.Log(difficultyRating);
+    void deployActive()
+    {
+        active.GetComponent<EventCluster>().startDispense();
+    }
 
-			yield return new WaitForSecondsRealtime(TimeBetweenDifficultyAdjustment);
-		}
-	}
+    GameObject generate(int difRate)      //I don't think we need a coroutine for thise - at least not yet
+    {
+        VehicleFactoryManager.vehicleTypes type;
+        Event _nE;
+        List<Event> _new = new List<Event>();
+        GameObject newEC = Instantiate(eCluster);
+        int clusterSize = 3 + difRate;
+        for (int i = 0; i < clusterSize; i++)
+        {
+            Debug.Log("creating event " + i);
+            //type = (VehicleFactoryManager.vehicleTypes)UnityEngine.Random.Range(0, 3);
+            type = VehicleFactoryManager.vehicleTypes.medium;
+            _nE = newEC.AddComponent<Event>() as Event;
+            _nE.initialize(difRate, type, spawnPoints);
+            _new.Add(_nE);          //uses current dif rate, [for now] default spawn position, [for now] default enemy to create an event
+        }
+        newEC.GetComponent<EventCluster>().startUp(_new, vFactory);
+        return newEC;
+    }
 
-	// Use difficulty equation to calculate event difficulty rating based on current time
-	private int calculateDifficultyRating() {
-		float timeMinutes = GameManager.GameManagerInstance.getGameTime()/60;
-		double calculatedDifficulty;
+    //saved from previous manager
+    //------------------------------------------------------------------
+    // control game difficulty rating
+    IEnumerator difficultyManager()
+    {
+        while (true)
+        {
+            difficultyRating = calculateDifficultyRating();
+            Debug.Log(difficultyRating);
 
-		System.Random rand = new System.Random();
-		double randomModifier = (rand.NextDouble() * (randomModifierMax - randomModifierMin)) + randomModifierMin;
+            yield return new WaitForSecondsRealtime(TimeBetweenDifficultyAdjustment);
+        }
+    }
 
-		// Equation to calculate difficulty rating. Has base linear slope modified by a sin function to give peaks and valleys
-		// to difficulty
-		// diff = diffSlope*x + sin(frequencyModifier*x) + baseDifficulty
-		calculatedDifficulty = ((difficultySlopeModifier*timeMinutes) + (sinAmplitudeModifier*Math.Sin(sinFrequencyModifier*timeMinutes)) + baseDifficultyRating);
+    // Use difficulty equation to calculate event difficulty rating based on current time
+    private int calculateDifficultyRating()
+    {
+        float timeMinutes = GameManager.GameManagerInstance.getGameTime() / 60;
+        double calculatedDifficulty;
 
-		// add modifier to calculated difficulty +/- some percent
-		calculatedDifficulty += calculatedDifficulty * randomModifier;
+        System.Random rand = new System.Random();
+        double randomModifier = (rand.NextDouble() * (randomModifierMax - randomModifierMin)) + randomModifierMin;
 
-		// return rating rounded to nearest whole number
-		return Convert.ToInt32(calculatedDifficulty);
-	}
+        // Equation to calculate difficulty rating. Has base linear slope modified by a sin function to give peaks and valleys
+        // to difficulty
+        // diff = diffSlope*x + sin(frequencyModifier*x) + baseDifficulty
+        calculatedDifficulty = ((difficultySlopeModifier * timeMinutes) + (sinAmplitudeModifier * Math.Sin(sinFrequencyModifier * timeMinutes)) + baseDifficultyRating);
 
-	// while there is space left in the queue as per the difficulty of the events, add them to the end
-	private void addEventsToQueue(int spaceToAdd) {
-		System.Random rand = new System.Random();
-		int eventDifficulty;
+        // add modifier to calculated difficulty +/- some percent
+        calculatedDifficulty += calculatedDifficulty * randomModifier;
 
-		while (spaceToAdd > 0) {
-			if (spaceToAdd >= 5) {
-				eventDifficulty = rand.Next(minEventDifficulty, maxEventDifficulty);
-				spaceToAdd -= eventDifficulty;
-				queueDifficultySum += eventDifficulty;
-				// add event to queue
-			}
-			else {
-				eventDifficulty = rand.Next(minEventDifficulty, spaceToAdd);
-				spaceToAdd -= eventDifficulty;
-				queueDifficultySum += eventDifficulty;
-				// add event to queue
-			}
-		} 
-	}
-
-	// generate an event based on the difficulty generated
-	private void generateEvent(int eventDifficulty) {
-		if (eventDifficulty == 1) {
-			// create light vehicle
-		}
-		else if (eventDifficulty == 2) {
-			// create obstacle in road
-		}
-		else if (eventDifficulty == 3) {
-			// create medium vehicle
-		}
-		else if (eventDifficulty == 4) {
-			// create fork in road
-		}
-		else if (eventDifficulty == 5) {
-			// create heavy vehicle
-		}
-	}
+        // return rating rounded to nearest whole number
+        return Convert.ToInt32(calculatedDifficulty);
+    }
 }

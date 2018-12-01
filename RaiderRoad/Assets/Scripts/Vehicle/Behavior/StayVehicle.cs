@@ -5,15 +5,32 @@ using UnityEngine.AI;
 
 public class StayVehicle : MonoBehaviour {
 
+    private List<Transform> load;
+    private int loadPoints = 0;
     private NavMeshAgent cEnemy;
     private GameObject cObject;
-    private Transform player;
+    private GameObject player;
     private string cSide;
     private bool calledRadio = false;
-    public void StartStay(NavMeshAgent agent, GameObject enemy)
+    public void StartStay(NavMeshAgent agent, GameObject enemy, string side)
     {
         cEnemy = agent;
         cObject = enemy;
+        load = new List<Transform>();
+        cSide = side;
+        cEnemy.speed = 6f;
+        if (side.Equals("left"))
+        {
+            player = GameObject.Find("EnemyLload");
+        }
+        else
+        {
+            player = GameObject.Find("EnemyRload");
+        }
+        foreach (Transform child in player.transform)
+        {
+            load.Add(child);
+        }
     }
 
     public GameObject GetObject()
@@ -45,23 +62,18 @@ public class StayVehicle : MonoBehaviour {
         return "StayVehicle";
     }
 
-    public void Stay(string side)
+    public void Stay()
     {
-        cSide = side;
         //Stop completely when next to spot
-        cEnemy.autoBraking = true;
-
+        //cEnemy.autoBraking = true;
+        if (load.Count == 0)
+            return;
         //Randomly choose to load left or right side
-        if (side.Equals("left"))
-        {
-            player = GameObject.FindGameObjectWithTag("EnemyL").transform;
-        }
-        else
-        {
-            player = GameObject.FindGameObjectWithTag("EnemyR").transform;
-        }
+
         //Go to loading area
-        cEnemy.SetDestination(player.transform.position);
+        cEnemy.SetDestination(load[loadPoints].position);
+
+        loadPoints = Random.Range(0, load.Count);
 
         bool leave = false;
         int extantEnemies = GameObject.FindGameObjectsWithTag("Enemy").Length;
@@ -95,7 +107,15 @@ public class StayVehicle : MonoBehaviour {
             {
                 Radio.GetRadio().EvacLeaving(this);
             }
-            cObject.GetComponent<VehicleAI>().EnterLeave();
+            StartCoroutine(waitToLeave());
         }
+    }
+
+    IEnumerator waitToLeave()
+    {
+        cObject.GetComponent<VehicleAI>().EnterWander();
+        yield return new WaitForSeconds(5);
+        cObject.GetComponent<VehicleAI>().EnterLeave();
+
     }
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Chassis : Part {
+public abstract class Chassis : MonoBehaviour {
 
 	public GameObject cabNode;
 	public List<GameObject> wheelNodes;
@@ -10,7 +10,7 @@ public abstract class Chassis : Part {
 	public float baseHealth;
 	public float baseRamDamage;
 	public float baseSpeed;
-	public float baseThreat;
+	public int baseThreat;
 
 
 	// ---------- Getters and Setters ----------
