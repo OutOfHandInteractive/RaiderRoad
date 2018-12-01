@@ -14,6 +14,8 @@ public class AttackVehicle : MonoBehaviour{
     private GameObject attackPosition;
     private int hitCount = 0;
     private float timer = 0f;
+    private Vector3 impact = Vector3.zero;
+    private float mass;
 
     //Initialize agent and attack points
     public void StartAttack(NavMeshAgent agent, GameObject enemy, Rigidbody rb, string side)
@@ -22,6 +24,7 @@ public class AttackVehicle : MonoBehaviour{
         cObject = enemy;
         attackList = new List<Transform>();
         cRb = rb;
+        mass = cRb.mass;
         //Find random attack point
         if (side.Equals("left"))
         {
@@ -53,26 +56,31 @@ public class AttackVehicle : MonoBehaviour{
         //Check if vehicle hit, add "knockback"
         if (cEnemy.remainingDistance < 1f)
         {
-            hitCount++;
-            cEnemy.SetDestination(attackPosition.transform.position);
+            //hitCount++;
+            //cEnemy.SetDestination(attackPosition.transform.position);
+            StartCoroutine(Knockback());
         }
-        //Increase time if state destination has not been reached
-        if (cEnemy.pathPending)
+        if (cObject.GetComponent<VehicleAI>().getState() == VehicleAI.State.Attack)
         {
-            timer += Time.deltaTime;
-        }
-        //Debug.Log(timer);
-        //Leave if you can't enter state destination
-        if (timer > 5)
-        {
-            StartCoroutine(waitToLeave());
+            //Increase time if state destination has not been reached
+            if (cEnemy.pathPending)
+            {
+                timer += Time.deltaTime;
+            }
+            //Debug.Log(timer);
+            //Leave if you can't enter state destination
+            if (timer > 5)
+            {
+                StartCoroutine(waitToLeave());
+            }
+
+            //If vehicle hit RV more than 5 times leave
+            if (hitCount >= 5)
+            {
+                StartCoroutine(waitToLeave());
+            }
         }
 
-        //If vehicle hit RV more than 5 times leave
-        if (hitCount >= 5)
-        {
-            StartCoroutine(waitToLeave());
-        }
 
     }
     IEnumerator waitToLeave()
@@ -82,7 +90,7 @@ public class AttackVehicle : MonoBehaviour{
         cObject.GetComponent<VehicleAI>().EnterLeave();
 
     }
-    IEnumerator Knockback(Vector3 source, Vector3 target, float overTime)
+    /*IEnumerator Knockback(Vector3 source, Vector3 target, float overTime)
     {
         float startTime = Time.time;
         while (Time.time < startTime + overTime)
@@ -91,7 +99,29 @@ public class AttackVehicle : MonoBehaviour{
             yield return null;
         }
         transform.position = target;
+    }*/
+
+    IEnumerator Knockback()
+    {
+        AddImpact(attackPosition.transform.position - cObject.transform.position, 5000f);
+        Debug.Log(impact);
+        if (impact.magnitude > 0.2F)
+            cEnemy.speed = 60;
+            cEnemy.destination = Vector3.Lerp(cObject.transform.position, impact, 1f); //Time.deltaTime);
+        // consumes the impact energy each cycle:
+        impact = Vector3.Lerp(impact, Vector3.zero, 5 * Time.deltaTime);
+        yield return new WaitForSeconds(1);
+        hitCount++;
+        cEnemy.speed = 20;
+        cEnemy.SetDestination(attackList[attackPoints].position);
+        //cObject.GetComponent<VehicleAI>().EnterWander();
     }
 
+    public void AddImpact(Vector3 dir, float force)
+    {
+        dir.Normalize();
+        if (dir.y < 0) dir.y = -dir.y; // reflect down force on the ground
+        impact += dir.normalized * force / mass;
+    }
 
 }

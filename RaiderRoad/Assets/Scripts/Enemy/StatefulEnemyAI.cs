@@ -92,7 +92,7 @@ public class StatefulEnemyAI : EnemyAI {
             gameObject.tag = "usingWeapon";
             transform.SetParent(interactable.transform, true);
             transform.position = interactable.transform.position;
-            transform.rotation = Quaternion.identity;
+            //transform.rotation = Quaternion.identity;
             transform.localScale = scale;
             weapon.StartWeapon(enemy, vehicle, munnitions, fire, side);
             GameObject weapons = weapon.getWeapon();
