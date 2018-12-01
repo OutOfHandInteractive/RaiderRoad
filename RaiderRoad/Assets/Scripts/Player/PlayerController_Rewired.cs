@@ -195,8 +195,8 @@ public class PlayerController_Rewired : MonoBehaviour {
     
     private void OnCollisionEnter(Collision collision)
     {
-        //Debug.Log(other.gameObject.name);
-        if (collision.gameObject.tag == "floor" || collision.gameObject.tag == "eVehicle")
+        Debug.Log(collision.gameObject.name);
+        if (collision.gameObject.tag == "RV" || collision.gameObject.tag == "eVehicle")
         {
             //Debug.Log("Can jump");
             transform.parent = collision.transform.root;

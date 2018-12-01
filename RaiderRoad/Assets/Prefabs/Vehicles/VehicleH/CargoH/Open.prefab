@@ -40,7 +40,7 @@ GameObject:
   - component: {fileID: 114562036878552852}
   m_Layer: 0
   m_Name: Open
-  m_TagString: Untagged
+  m_TagString: Destructable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -137,6 +137,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1d7439636c0a294988a8dffe6a670d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealth: 3
+  isIntact: 1
+  wallDrop: {fileID: 1412282026529114, guid: c4b78f547f7592d42867fc5a56f7cc72, type: 2}
   healthModifier: 0
   ramDamageModifier: 0
   speedModifier: 1
