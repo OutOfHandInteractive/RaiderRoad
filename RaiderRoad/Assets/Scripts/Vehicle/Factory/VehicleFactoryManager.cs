@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+
 public class VehicleFactoryManager : MonoBehaviour {
 
 	public enum vehicleTypes { light, medium, heavy };

@@ -36,6 +36,8 @@ public abstract class VehicleFactory_I : MonoBehaviour {
 		AttachPayload(cargo);
 		AttachWheels(chassis, vAI);
 
+		vehicle.GetComponent<eventObject>().setDifficulty(chassis.GetComponent<Chassis>().baseThreat);
+
         return vehicle;
 	}
 
