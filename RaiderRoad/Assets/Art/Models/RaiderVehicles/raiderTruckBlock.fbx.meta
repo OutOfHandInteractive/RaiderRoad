@@ -10,6 +10,10 @@ ModelImporter:
     100008: truck_chasis
     100010: truck_front1
     100012: truck_wheels
+    100014: wheelBLeft
+    100016: wheelBRight
+    100018: wheelFLeft
+    100020: wheelFRight
     400000: //RootNode
     400002: truck_back
     400004: truck_cabbottom
@@ -17,6 +21,10 @@ ModelImporter:
     400008: truck_chasis
     400010: truck_front1
     400012: truck_wheels
+    400014: wheelBLeft
+    400016: wheelBRight
+    400018: wheelFLeft
+    400020: wheelFRight
     2100000: lambert5
     2300000: truck_back
     2300002: truck_cabbottom
@@ -24,18 +32,30 @@ ModelImporter:
     2300006: truck_chasis
     2300008: truck_front1
     2300010: truck_wheels
+    2300012: wheelBLeft
+    2300014: wheelBRight
+    2300016: wheelFLeft
+    2300018: wheelFRight
     3300000: truck_back
     3300002: truck_cabbottom
     3300004: truck_cabtop
     3300006: truck_chasis
     3300008: truck_front1
     3300010: truck_wheels
+    3300012: wheelBLeft
+    3300014: wheelBRight
+    3300016: wheelFLeft
+    3300018: wheelFRight
     4300000: truck_wheels
     4300002: truck_front1
     4300004: truck_cabtop
     4300006: truck_cabbottom
     4300008: truck_back
     4300010: truck_chasis
+    4300012: wheelFLeft
+    4300014: wheelBLeft
+    4300016: wheelBRight
+    4300018: wheelFRight
   externalObjects: {}
   materials:
     importMaterials: 1
@@ -86,7 +106,7 @@ ModelImporter:
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
     secondaryUVPackMargin: 4
-    useFileScale: 1
+    useFileScale: 0
     previousCalculatedGlobalScale: 1
     hasPreviousCalculatedGlobalScale: 0
   tangentSpace:
