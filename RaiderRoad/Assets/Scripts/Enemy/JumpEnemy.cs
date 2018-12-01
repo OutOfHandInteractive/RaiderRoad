@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class JumpEnemy : AbstractEnemyAI
+public class JumpEnemy : EnemyAI
 {
     protected GameObject cObject;
     protected Rigidbody cRb;
@@ -19,16 +19,18 @@ public class JumpEnemy : AbstractEnemyAI
 
     protected void Jump(Vector3 pos, float zSign)
     {
-
-        //RV destination position
-        Vector3 planePos = new Vector3(cObject.transform.position.x, 0, cObject.transform.position.z);
-
+        //Execute jump only once
+        if (hasJumped)
+        {
+            return;
+        }
         //Get gravity
         float gravity = Physics.gravity.magnitude;
         //Selected angle in radians
         float angle = initialAngle * Mathf.Deg2Rad;
 
         //Positions of this object and the target on the same plane
+        Vector3 planePos = new Vector3(cObject.transform.position.x, 0, cObject.transform.position.z);
         Vector3 planeTar = new Vector3(pos.x, 0, pos.z);
 
         //Planar distance between objects
@@ -40,20 +42,15 @@ public class JumpEnemy : AbstractEnemyAI
         // vi = (1/cos(theta)) * sqrt((g * d^2 /2)/(d*tan(theta)+y))
         float initialVelocity = (1 / Mathf.Cos(angle)) * Mathf.Sqrt((0.5f * gravity * Mathf.Pow(distance, 2)) / (distance * Mathf.Tan(angle) + yOffset));
 
-
-        Vector3 velocity = new Vector3();
+        
         //Use positive velocity if vehicle is on left side, negative otherwise
-        velocity = new Vector3(0, initialVelocity * Mathf.Sin(angle), zSign * initialVelocity * Mathf.Cos(angle));
+        Vector3 velocity = new Vector3(0, initialVelocity * Mathf.Sin(angle), zSign * initialVelocity * Mathf.Cos(angle));
 
         //Rotate our velocity to match the direction between the two objects
         float angleBetweenObjects = Vector3.Angle(Vector3.forward, planeTar - planePos);
         Vector3 finalVelocity = Quaternion.AngleAxis(angleBetweenObjects, Vector3.up) * velocity;
 
-        //Execute jump only once
-        if (!hasJumped)
-        {
-            cRb.AddForce(finalVelocity * cRb.mass, ForceMode.Impulse);
-            hasJumped = true;
-        }
+        cRb.AddForce(finalVelocity * cRb.mass, ForceMode.Impulse);
+        hasJumped = true;
     }
 }

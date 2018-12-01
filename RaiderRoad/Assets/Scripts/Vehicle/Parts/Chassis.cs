@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Chassis : Part {
+public abstract class Chassis : MonoBehaviour {
 
 	public GameObject cabNode;
 	public List<GameObject> wheelNodes;

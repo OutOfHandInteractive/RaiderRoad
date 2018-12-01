@@ -6,8 +6,8 @@ public class PayloadH : Payload {
 	private const int PAYLOAD_SIZE = 6;
 
 	public GameObject enemyNode01, enemyNode02, enemyNode03, enemyNode04, enemyNode05, enemyNode06;
-	public List<EnemyAI> enemies;
-    public List<Interactable> weapons;
+	public List<StatefulEnemyAI> enemies;
+    public List<Weapon> weapons;
 
     private List<GameObject> payloadInstance = new List<GameObject>();
 	private System.Random rand = new System.Random();
@@ -15,7 +15,7 @@ public class PayloadH : Payload {
 	public override void populate() {
 		for (int i = 0; i < PAYLOAD_SIZE; i++) {
 			if (payloadCode[i] == payloadTypes.enemy)
-				payloadInstance.Add(Instantiate(SelectEnemies().gameObject));
+				payloadInstance.Add(Instantiate(SelectEnemies().GetEnemyObject()));
             if (payloadCode[i] == payloadTypes.weapon)
             {
                 payloadInstance.Add(Instantiate(SelectInteractable().gameObject));
@@ -41,11 +41,11 @@ public class PayloadH : Payload {
 		payloadInstance[5].transform.position = new Vector3(0, 1f, 0);
 	}
 
-	protected override EnemyAI SelectEnemies() {
+	protected override StatefulEnemyAI SelectEnemies() {
 		int selectedIndex = rand.Next(0, enemies.Count);
 		return enemies[selectedIndex];
 	}
-    protected override Interactable SelectInteractable()
+    protected override Weapon SelectInteractable()
     {
         int selectedIndex = rand.Next(0, weapons.Count);
         return weapons[selectedIndex];

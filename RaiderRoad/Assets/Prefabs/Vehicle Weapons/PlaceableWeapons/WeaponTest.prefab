@@ -22,7 +22,6 @@ GameObject:
   - component: {fileID: 33202511642614342}
   - component: {fileID: 23470837028184802}
   - component: {fileID: 65191722032657324}
-  - component: {fileID: 114979361214829206}
   - component: {fileID: 114860124110327914}
   m_Layer: 0
   m_Name: WeaponTest
@@ -109,24 +108,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2083709d58b99a4795fb84c8b4abe05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  drop: {fileID: 0}
+  drop: {fileID: 1372200723842344, guid: 81cfc744c231f00418c95b1452b9cb27, type: 2}
   hits: 3
   health: 100
   isHolo: 0
   myNode: {fileID: 0}
---- !u!114 &114979361214829206
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1995987925131286}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7241cb8bd5bfcc54fa7f7a9cb8cf0e25, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  drop: {fileID: 1995987925131286}
-  hits: 3
-  health: 100
-  isHolo: 0
-  myNode: {fileID: 0}
+  disabledNodes: []

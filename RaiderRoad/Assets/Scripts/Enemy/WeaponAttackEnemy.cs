@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WeaponAttackEnemy : AbstractEnemyAI
-{
+public class WeaponAttackEnemy : EnemyAI {
 
     private GameObject fireFX;
     private GameObject cMunnitions;
@@ -38,7 +37,7 @@ public class WeaponAttackEnemy : AbstractEnemyAI
             {
                 if (side.Equals("right"))
                 {
-                    fireInstance = Instantiate(fireFX, barrel.transform.position, fireFX.transform.rotation, barrel.transform).GetComponent<ParticleSystem>();
+                    fireInstance = Object.Instantiate(fireFX, barrel.transform.position, fireFX.transform.rotation, barrel.transform).GetComponent<ParticleSystem>();
                 }
                 else
                 {
@@ -64,13 +63,12 @@ public class WeaponAttackEnemy : AbstractEnemyAI
         {
             if (!fired)
             {
-                CannonShoot();
+                StartCoroutine(WaitToShoot());
                 fired = true;
             }
         }
         else if (cObject.transform.parent.tag == "Fire")
         {
-            flamethrower.transform.LookAt(player.transform.position);
             Flames();
         }
 
@@ -81,9 +79,16 @@ public class WeaponAttackEnemy : AbstractEnemyAI
     {
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
         GameObject player = Closest(cObject.transform.position, players);
-        proj = Instantiate(cMunnitions.gameObject, barrel.transform.position, Quaternion.identity);
+        proj = Object.Instantiate(cMunnitions.gameObject, barrel.transform.position, Quaternion.identity);
         proj.GetComponent<Rigidbody>().velocity = CannonVelocity(player, 75f);
-        Destroy(proj, 3f);
+        Object.Destroy(proj, 3f);
+    }
+
+    IEnumerator WaitToShoot()
+    {
+        CannonShoot();
+        yield return new WaitForSeconds(3f);
+        fired = false;
     }
 
     Vector3 CannonVelocity(GameObject player, float angle)
@@ -124,6 +129,8 @@ public class WeaponAttackEnemy : AbstractEnemyAI
     {
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
         GameObject player = Closest(cObject.transform.position, players);
+        Vector3 targetPosition = new Vector3(player.transform.position.x, weapons.transform.position.y, player.transform.position.z);
+        cObject.transform.LookAt(targetPosition);
         weapons.transform.LookAt(player.transform.position);
     }
 }

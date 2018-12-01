@@ -93,7 +93,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1376513591039416
 GameObject:
   m_ObjectHideFlags: 0
@@ -110,7 +110,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1394218853106554
 GameObject:
   m_ObjectHideFlags: 1
@@ -533,8 +533,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.4, y: 1.1330967, z: 0.4}
-  m_Center: {x: 0, y: 0.55650127, z: 0}
+  m_Size: {x: 0.4, y: 1.4143302, z: 0.4}
+  m_Center: {x: 0, y: 0.4158845, z: 0}
 --- !u!114 &114011964347098732
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -589,8 +589,10 @@ MonoBehaviour:
   health_bar: {fileID: 114260729714339900}
   backdrop: {fileID: 114843534734218496}
   player: {fileID: 114904637472767522}
+  reviving: 0
   backdropSprite: {fileID: 21300000, guid: a7e88fdf3b7ff2f4baa6c0b6abd19756, type: 3}
   healthSprite: {fileID: 21300000, guid: 058873bfb8874c844a9d232898e6533f, type: 3}
+  reviveSprite: {fileID: 21300000, guid: 7bdef9685d1ab0d4691b165921315ef6, type: 3}
 --- !u!114 &114392116971487352
 MonoBehaviour:
   m_ObjectHideFlags: 1

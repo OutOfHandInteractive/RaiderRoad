@@ -1,0 +1,19 @@
+﻿@startuml
+'' SimpleArch
+
+actor Player
+
+rectangle RaiderRoad {
+	rectangle Unity
+	rectangle Game {
+		rectangle Build
+		rectangle Fight
+		rectangle Drive
+		rectangle Steal
+	}
+}
+
+Player <--> RaiderRoad
+Unity <--> Game
+
+@enduml

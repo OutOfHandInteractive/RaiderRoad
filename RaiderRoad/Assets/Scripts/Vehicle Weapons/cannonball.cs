@@ -42,7 +42,7 @@ public class cannonball : MonoBehaviour {
 			directTarget.GetComponentInParent<VehicleAI>().takeDamage(damage);
 		}
 		else if (directTarget.CompareTag("Enemy")) {
-			directTarget.GetComponent<EnemyAI>().takeDamage(damage);
+			directTarget.GetComponent<StatefulEnemyAI>().takeDamage(damage);
 		}
 
 		Collider[] splashTargets = Physics.OverlapSphere(transform.position, splashRadius);
@@ -52,7 +52,7 @@ public class cannonball : MonoBehaviour {
 				other.gameObject.GetComponentInParent<VehicleAI>().takeDamage(splashDamage);
 			}
 			else if (splashTargets[i].gameObject.CompareTag("Enemy") && splashTargets[i] != other) {
-				other.gameObject.GetComponent<EnemyAI>().takeDamage(splashDamage);
+				other.gameObject.GetComponent<StatefulEnemyAI>().takeDamage(splashDamage);
 			}
 		}
 

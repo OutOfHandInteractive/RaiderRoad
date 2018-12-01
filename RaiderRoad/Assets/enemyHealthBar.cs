@@ -8,7 +8,7 @@ public class enemyHealthBar : MonoBehaviour {
 	public float heightAbove;
 	public UnityEngine.UI.Image health_bar;
 	public UnityEngine.UI.Image backdrop;
-	public EnemyAI enemy; //This lets us call the unit's health each frame
+	public StatefulEnemyAI enemy; //This lets us call the unit's health each frame
 
 	float maxHealth;
 

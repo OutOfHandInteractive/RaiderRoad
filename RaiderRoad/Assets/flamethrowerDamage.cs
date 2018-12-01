@@ -8,7 +8,7 @@ public class flamethrowerDamage : MonoBehaviour {
 	private float tickTime; // time in seconds between damage ticks
 	private float tickTimeCountdown;
 
-	private List<EnemyAI> enemyTargets = new List<EnemyAI>();
+	private List<StatefulEnemyAI> enemyTargets = new List<StatefulEnemyAI>();
 	private List<VehicleAI> vehicleTargets = new List<VehicleAI>();
 
 	// Update is called once per frame
@@ -27,7 +27,7 @@ public class flamethrowerDamage : MonoBehaviour {
 			}
 
 			for (int i = 0; i < enemyTargets.Count; i++) {
-				if (!enemyTargets[i])
+				if (enemyTargets[i] == null)
 					enemyTargets.RemoveAt(i);
 				else {
 					enemyTargets[i].takeDamage(tickDamage);
@@ -43,7 +43,7 @@ public class flamethrowerDamage : MonoBehaviour {
 			vehicleTargets.Add(directTarget.GetComponentInParent<VehicleAI>());
 		}
 		else if (directTarget.CompareTag("Enemy")) {
-			enemyTargets.Add(directTarget.GetComponent<EnemyAI>());
+			enemyTargets.Add(directTarget.GetComponent<StatefulEnemyAI>());
 		}
 	}
 
@@ -53,7 +53,7 @@ public class flamethrowerDamage : MonoBehaviour {
 			vehicleTargets.Remove(directTarget.GetComponentInParent<VehicleAI>());
 		}
 		else if (directTarget.CompareTag("Enemy")) {
-			enemyTargets.Remove(directTarget.GetComponent<EnemyAI>());
+			enemyTargets.Remove(directTarget.GetComponent<StatefulEnemyAI>());
 		}
 	}
 

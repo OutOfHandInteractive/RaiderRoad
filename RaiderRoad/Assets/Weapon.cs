@@ -19,7 +19,7 @@ public class Weapon : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-        myMat = gameObject.GetComponent<Renderer>().material;
+        myMat = gameObject.GetComponentInChildren<Renderer>().material;
         if (isHolo) MakeHolo();
     }
 
@@ -71,6 +71,13 @@ public class Weapon : MonoBehaviour {
         //Debug.Log("count: " + disabledNodes.Count);
     }
 
+    private void OnDestroy()
+    {
+        foreach(GameObject node in disabledNodes)
+        {
+            node.GetComponent<BuildNode>().canPlaceWeapon = true;
+        }
+    }
     /*
     private void OnDrawGizmosSelected()
     {

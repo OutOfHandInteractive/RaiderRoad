@@ -21,6 +21,7 @@ public class VehicleAI : MonoBehaviour {
     private Rigidbody rb;
 
     private string side;
+    private bool hasWeapon;
 
 	//Statistics
 	public float maxHealth;
@@ -32,15 +33,15 @@ public class VehicleAI : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		currentHealth = maxHealth;
-
+        hasWeapon = false;
         //Initialize all the classes
         enemy = gameObject;
         agent = GetComponent<NavMeshAgent>();
-        wander = new WanderVehicle();
-        chase = new ChaseVehicle();
-        stay = new StayVehicle();
-        attack = new AttackVehicle();
-        leave = new LeaveVehicle();
+        wander = enemy.AddComponent<WanderVehicle>();
+        chase = enemy.AddComponent<ChaseVehicle>();
+        stay = enemy.AddComponent<StayVehicle>();
+        attack = enemy.AddComponent<AttackVehicle>();
+        leave = enemy.AddComponent<LeaveVehicle>();
         rb = GetComponent<Rigidbody>();
         /*int action = Random.Range(0, 100);
         if (action < 50)
@@ -51,14 +52,22 @@ public class VehicleAI : MonoBehaviour {
         {
             side = "right";
         }*/
+        if(GetComponentInChildren<HasWeapon>() != null)
+        {
+            hasWeapon = true;
+        }
         Debug.Log(side);
         //Start wander state
-        wander.StartWander(agent, enemy, side);
+        EnterWander();
     }
 
     // Update is called once per frame
     void Update () {
         //Debug.Log(currentState);
+        if(transform.GetComponentInChildren<PlayerController_Rewired>())
+        {
+            EnterWander();
+        }
         switch (currentState)
         {
             case State.Wander:
@@ -66,19 +75,17 @@ public class VehicleAI : MonoBehaviour {
                     wander.Wander();
                 break;
             case State.Chase:
-                chase.StartChase(agent, enemy);
                 chase.Chase(side);
                 break;
             case State.Stay:
-                stay.StartStay(agent, enemy);
-                stay.Stay(side);
+                if (!agent.pathPending && agent.remainingDistance < 0.5f)
+                    stay.Stay();
                 break;
             case State.Attack:
-                attack.StartAttack(agent, enemy, rb, side);
-                attack.Attack();
+                if (!agent.pathPending && agent.remainingDistance < 0.5f)
+                    attack.Attack();
                 break;
             case State.Leave:
-                leave.StartLeave(agent);
                 leave.Leave();
                 break;
         }
@@ -96,23 +103,31 @@ public class VehicleAI : MonoBehaviour {
 	}
 
     //Used to change state from different classes
+    public void EnterWander()
+    {
+        wander.StartWander(agent, enemy, side, hasWeapon);
+        currentState = State.Wander;
+    }
     public void EnterChase()
     {
+        chase.StartChase(agent, enemy);
         currentState = State.Chase;
     }
     public void EnterStay()
     {
+        stay.StartStay(agent, enemy, side);
         currentState = State.Stay;
     }
     public void EnterAttack()
     {
+        attack.StartAttack(agent, enemy, rb, side);
         currentState = State.Attack;
     }
     public void EnterLeave()
     {
+        leave.StartLeave(agent);
         currentState = State.Leave;
     }
-
     private void OnTriggerEnter(Collider other)
     {
         //Destroy this when it goes off screen
