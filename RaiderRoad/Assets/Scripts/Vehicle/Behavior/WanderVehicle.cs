@@ -10,7 +10,7 @@ public class WanderVehicle : MonoBehaviour {
     private int wanderPoints = 0;
     private NavMeshAgent cEnemy;
     private GameObject cObject;
-    private int action = Random.Range(0, 100);
+    private int action;
     private bool hasWeapon;
     public void StartWander(NavMeshAgent agent, GameObject enemy, string side, bool weapon)
     {
@@ -19,6 +19,7 @@ public class WanderVehicle : MonoBehaviour {
         cObject = enemy;
         cEnemy.speed = 20;
         hasWeapon = weapon;
+        action = Random.Range(0, 100);
         patrols = new List<Transform>();
 
         //Choose to patrol left or right, random chance

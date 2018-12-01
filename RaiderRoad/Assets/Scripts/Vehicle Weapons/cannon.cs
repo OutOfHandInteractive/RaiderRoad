@@ -48,13 +48,13 @@ public class cannon : Interactable {
 		cooldownTimer = cooldown;
 		firingCooldownTimer = firingCooldown;
 
-		forwardDir = transform.forward;
+		//forwardDir = transform.forward;
 		maxRange = getMaxRange();
 	}
 
 	// Update is called once per frame
 	void Update () {
-		weapon.transform.LookAt(reticule.transform);
+		//weapon.transform.LookAt(reticule.transform);
 		if (isOnCooldown()) {
 			cooldownTimer -= Time.deltaTime;
 		}
@@ -93,7 +93,8 @@ public class cannon : Interactable {
 
 			if (reticule.activeSelf == true) {
 				interacting = true;
-			}
+                weapon.transform.LookAt(reticule.transform);
+            }
 		}
 	}
 
