@@ -83,7 +83,7 @@ public class cannon : Interactable {
 				proj = Instantiate(munitions.gameObject, barrel.transform.position, Quaternion.identity);
 
 				// Fire the cannon
-				proj.GetComponent<cannonball>().launch(reticule.transform.position, barrel.transform.position);
+				proj.GetComponent<cannonball>().launch(reticule.transform.position, barrel.transform.position, weapon.transform.forward);
 				GameObject tempFx = Instantiate(smokeBurst, barrel.transform.position, Quaternion.identity);
 				tempFx.gameObject.transform.LookAt(reticule.transform);
 				StartCoroutine(particleDestroy(tempFx));
