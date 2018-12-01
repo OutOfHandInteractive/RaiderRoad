@@ -76,7 +76,8 @@ public class cannon : Interactable {
 
 			if (player.GetButtonDown("Exit Interactable") && interacting) {
 				Leave();
-				interacting = false;
+                playerUsing.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+                interacting = false;
 			}
 
 			if (player.GetButtonDown("Shoot Weapon") && !isOnFiringCooldown()) {
@@ -93,6 +94,7 @@ public class cannon : Interactable {
 
 			if (reticule.activeSelf == true) {
 				interacting = true;
+                playerUsing.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePosition;
                 weapon.transform.LookAt(reticule.transform);
             }
 		}
@@ -124,6 +126,7 @@ public class cannon : Interactable {
 		user = pController;
 		player = user.GetPlayer();
 		userPlayerId = user.playerId;
+        playerUsing = user.gameObject;
 		user.setInteractingFlag();
 
 		inUse = true;

@@ -5,6 +5,7 @@ using UnityEngine;
 public abstract class Interactable : MonoBehaviour {
 	// user variables
 	public int userPlayerId;
+    protected GameObject playerUsing;
 	protected PlayerController_Rewired user;
 
 	protected bool inUse;
