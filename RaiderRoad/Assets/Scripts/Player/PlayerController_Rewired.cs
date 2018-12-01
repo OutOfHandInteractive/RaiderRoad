@@ -228,7 +228,11 @@ public class PlayerController_Rewired : MonoBehaviour {
 		reviving = true;
 		reviveCountdown = reviveTime;
 		p.GetComponentInChildren<healthBar>().startRevive(reviveTime);
-	}
+
+        moveVector.x = 0f;  //zero movement so you don't keep walking while revive
+        moveVector.y = 0f;
+        myAni.SetFloat("speed", moveVector.magnitude);
+    }
 
 	public void stopRevive(PlayerController_Rewired p) {
 		reviving = false;
@@ -303,6 +307,12 @@ public class PlayerController_Rewired : MonoBehaviour {
     public void removeInteractable(GameObject i) {
         Debug.Log("removed weapon");
         interactables.Remove(i);
+    }
+
+    public void clearInteractable()
+    {
+        interactables.Clear();
+        Debug.Log("AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH" + interactables.Count);
     }
 
 	public void addDownedPlayer(GameObject p) {
