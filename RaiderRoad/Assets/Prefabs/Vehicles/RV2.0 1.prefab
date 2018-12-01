@@ -7542,6 +7542,8 @@ GameObject:
   - component: {fileID: 114911610260157444}
   - component: {fileID: 208411186769148550}
   - component: {fileID: 54409552744570988}
+  - component: {fileID: 65879854558768282}
+  - component: {fileID: 114326428165798584}
   m_Layer: 10
   m_Name: RV2.0 1
   m_TagString: RV
@@ -40367,6 +40369,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!65 &65879854558768282
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1636722948722512}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 7.418957, y: 4.158998, z: 13.745068}
+  m_Center: {x: -2.427704e-12, y: -0.92520285, z: 0.12810135}
 --- !u!65 &65887838093328662
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -43456,6 +43470,21 @@ MonoBehaviour:
   occupied: 0
   isHorizontal: 0
   canPlaceWeapon: 0
+--- !u!114 &114326428165798584
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1636722948722512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a32166e648f45b4d9173f8a74302600, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  collision: {fileID: 198301596306357704, guid: cc906a23251370445ad2fecbd813a666,
+    type: 2}
+  maxHealth: 3
+  currentHealth: 0
 --- !u!114 &114332744860438340
 MonoBehaviour:
   m_ObjectHideFlags: 1
