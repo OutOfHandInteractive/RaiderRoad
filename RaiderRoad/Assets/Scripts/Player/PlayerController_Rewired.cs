@@ -30,6 +30,7 @@ public class PlayerController_Rewired : MonoBehaviour {
     private Vector3 rotateVector;
     
     private Rigidbody rb;
+    private Animator myAni;
 
 	public float currentHealth;
     private float baseJumpInidicatorScale;
@@ -68,9 +69,11 @@ public class PlayerController_Rewired : MonoBehaviour {
         baseJumpInidicatorScale = jumpIndicator.transform.localScale.x;
         baseJumpIndicatorDist = Vector3.Distance(transform.position, jumpIndicator.transform.position);
 
-        //setting material
-        //myMat = gameObject.GetComponentInChildren<Renderer>().material;
-        myOrigColor = myMat.color;
+        //find current color of player
+        if(myMat != null) myOrigColor = myMat.color;
+
+        //find animator
+        myAni = gameObject.GetComponentInChildren<Animator>();
     }
     
     void Initialize()
@@ -104,6 +107,9 @@ public class PlayerController_Rewired : MonoBehaviour {
 		if (!paused && !interacting && !reviving) {
 			moveVector.x = player.GetAxis("Move Horizontal") * Time.deltaTime * moveSpeed;
 			moveVector.y = player.GetAxis("Move Vertical") * Time.deltaTime * moveSpeed;
+
+            myAni.SetFloat("speed", moveVector.magnitude);
+            //Debug.Log(moveVector.magnitude);
 
 			//Twin Stick Rotation
 			//rotateVector = Vector3.right * player.GetAxis("Rotate Horizontal") + Vector3.forward * player.GetAxis("Rotate Vertical");
