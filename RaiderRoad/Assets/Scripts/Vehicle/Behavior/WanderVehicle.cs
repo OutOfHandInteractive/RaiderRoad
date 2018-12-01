@@ -46,7 +46,7 @@ public class WanderVehicle : MonoBehaviour {
         //Have agent go to different points
         cEnemy.SetDestination(patrols[wanderPoints].position);
         //Choose random patrol point
-        wanderPoints = Random.Range(1, patrols.Count);
+        wanderPoints = Random.Range(0, patrols.Count);
 
         //Chance to attack or chase the RV
         if (hasWeapon)
@@ -55,7 +55,7 @@ public class WanderVehicle : MonoBehaviour {
         }
         else
         {
-            if (action < 0)
+            if (action < 50)
             {
                 cObject.GetComponent<VehicleAI>().Invoke("EnterChase", 10f);
             }

@@ -23,5 +23,9 @@ public class enemyCannonball : MonoBehaviour {
             collision.gameObject.GetComponent<PlayerController_Rewired>().takeDamage(cannonDamage);
             Destroy(gameObject);
         }
+        if(collision.gameObject.tag == "road" || collision.gameObject.tag == "RV")
+        {
+            Destroy(gameObject);
+        }
     }
 }

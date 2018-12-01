@@ -3,13 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class cannonball : MonoBehaviour {
-	
+	// ------------------- public variables --------------------
+	// references
+	public ParticleSystem explosion;
+
+	// gameplay variables
 	public float damage;
 	public float splashDamage;
 	public float splashRadius;
 	public float travelTime;
 	public float muzzleVelocity;
 
+	// ------------------- private variables --------------------
 	private Vector3 target;
 	private Vector3 source;
 	private Vector3 dir;
@@ -17,11 +22,11 @@ public class cannonball : MonoBehaviour {
 	private float timeRemaining;
 
 	// Projectile motion
-	public float angle;
+	private float angle;
 	private const float G = -9.81f;
 	private float timeElapsed;
-	public float xVel, yVel, zVel, xzVel;
-	public float xzAng;
+	private float xVel, yVel, zVel, xzVel;
+	private float xzAng;
 	private float oldY;
 
 	// Update is called once per frame
@@ -45,6 +50,7 @@ public class cannonball : MonoBehaviour {
 			directTarget.GetComponent<StatefulEnemyAI>().takeDamage(damage);
 		}
 
+		Instantiate(explosion, transform.position, Quaternion.identity);
 		Collider[] splashTargets = Physics.OverlapSphere(transform.position, splashRadius);
 
 		for (int i = 0; i<splashTargets.Length; i++) {

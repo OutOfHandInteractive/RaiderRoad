@@ -34,17 +34,20 @@ public class ChaseVehicle : MonoBehaviour {
         cEnemy.SetDestination(player.transform.position);
 
         //Increase time if state destination has not been reached
-        /*
-        if(cEnemy.remainingDistance > .1f)
+        
+        if(cObject.GetComponent<VehicleAI>().getState() == VehicleAI.State.Chase)
         {
-            timer += Time.deltaTime;
+            if (cEnemy.remainingDistance > .1f)
+            {
+                timer += Time.deltaTime;
+            }
+            //Debug.Log(timer);
+            //Leave if you can't enter state destination
+            if (timer > 5)
+            {
+                cObject.GetComponent<VehicleAI>().EnterLeave();
+            }
         }
-        //Debug.Log(timer);
-        //Leave if you can't enter state destination
-        if (timer > 5)
-        {
-            cObject.GetComponent<VehicleAI>().EnterLeave();
-        }*/
 
         //Enter stay if you get to the loading position
         if(!cEnemy.pathPending && cEnemy.remainingDistance < .01f)

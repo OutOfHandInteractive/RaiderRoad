@@ -54,8 +54,16 @@ public class EscapeEnemy : JumpEnemy {
 
         if(cObject.transform.root.tag == "eVehicle" && cObject.transform.parent != null && cObject.GetComponent<StatefulEnemyAI>().GetState() != StatefulEnemyAI.State.Weapon)
         {
-            eVehicle.GetComponent<VehicleAI>().EnterLeave();
+            StartCoroutine(waitToLeave());
         }
         //cObject.GetComponent<EnemyAI>().EnterWait();
+    }
+
+    IEnumerator waitToLeave()
+    {
+        eVehicle.GetComponent<VehicleAI>().EnterWander();
+        yield return new WaitForSeconds(5);
+        eVehicle.GetComponent<VehicleAI>().EnterLeave();
+
     }
 }

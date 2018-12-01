@@ -81,7 +81,6 @@ public class WeaponAttackEnemy : EnemyAI {
         GameObject player = Closest(cObject.transform.position, players);
         proj = Object.Instantiate(cMunnitions.gameObject, barrel.transform.position, Quaternion.identity);
         proj.GetComponent<Rigidbody>().velocity = CannonVelocity(player, 75f);
-        Object.Destroy(proj, 3f);
     }
 
     IEnumerator WaitToShoot()
