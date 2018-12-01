@@ -16,6 +16,8 @@ public class Weapon : MonoBehaviour {
 
     public List<GameObject> disabledNodes = new List<GameObject>();
 
+    private GameObject myAttacker = null;
+
     // Use this for initialization
     void Start()
     {
@@ -28,6 +30,11 @@ public class Weapon : MonoBehaviour {
     {
         if (hits <= 0 || health <= 0)
         {
+            //Debug.Log(myAttacker.GetComponent<PlayerController_Rewired>() + "jdsfijdfidsfjdiofjdsifds");
+            if(myAttacker.GetComponent<PlayerController_Rewired>() != null)
+            {
+                myAttacker.GetComponent<PlayerController_Rewired>().clearInteractable();
+            }
             spawnDrop();
         }
     }
@@ -43,9 +50,10 @@ public class Weapon : MonoBehaviour {
         Destroy(this.gameObject);
     }
 
-    public void Damage(float damage)
+    public void Damage(float damage, GameObject attackingObj)
     {
         health -= damage;
+        myAttacker = attackingObj;
     }
 
     void MakeHolo() // a function for making wall material holographic

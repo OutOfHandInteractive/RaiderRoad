@@ -232,7 +232,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
                             }
                             else if (item.CompareTag("Weapon"))
                             {
-                                item.GetComponent<Weapon>().Damage(damage);
+                                item.GetComponent<Weapon>().Damage(damage, gameObject.transform.parent.gameObject);
                             }
                             else if (item.CompareTag("Enemy"))
                             {
