@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4530682344224878}
   - component: {fileID: 198963103378272080}
   - component: {fileID: 199744305084743192}
+  - component: {fileID: 114608153445299478}
   m_Layer: 0
   m_Name: Beams
   m_TagString: Untagged
@@ -38,6 +39,7 @@ GameObject:
   - component: {fileID: 4923909582355260}
   - component: {fileID: 198676764980363740}
   - component: {fileID: 199800163150503340}
+  - component: {fileID: 114868854345928322}
   m_Layer: 0
   m_Name: Smoke
   m_TagString: Untagged
@@ -55,6 +57,7 @@ GameObject:
   - component: {fileID: 4333706857318576}
   - component: {fileID: 198301596306357704}
   - component: {fileID: 199795064699561548}
+  - component: {fileID: 114603589651581196}
   m_Layer: 0
   m_Name: Explosion
   m_TagString: Untagged
@@ -72,6 +75,7 @@ GameObject:
   - component: {fileID: 4777165642266712}
   - component: {fileID: 198554023871598632}
   - component: {fileID: 199617251770107380}
+  - component: {fileID: 114852550168782190}
   m_Layer: 0
   m_Name: Explosion (1)
   m_TagString: Untagged
@@ -134,6 +138,54 @@ Transform:
   m_Father: {fileID: 4333706857318576}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+--- !u!114 &114603589651581196
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1778571778039240}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1438f612fc14f874b8f45dfb53c137ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fx: {fileID: 198301596306357704}
+--- !u!114 &114608153445299478
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1195702075326052}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1438f612fc14f874b8f45dfb53c137ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fx: {fileID: 198963103378272080}
+--- !u!114 &114852550168782190
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1919420267944734}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1438f612fc14f874b8f45dfb53c137ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fx: {fileID: 198554023871598632}
+--- !u!114 &114868854345928322
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1212258609003838}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1438f612fc14f874b8f45dfb53c137ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fx: {fileID: 198676764980363740}
 --- !u!198 &198301596306357704
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -144,7 +196,7 @@ ParticleSystem:
   lengthInSec: 1
   simulationSpeed: 1
   stopAction: 0
-  looping: 1
+  looping: 0
   prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0
@@ -4734,7 +4786,7 @@ ParticleSystem:
   lengthInSec: 1
   simulationSpeed: 1
   stopAction: 0
-  looping: 1
+  looping: 0
   prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0
@@ -9324,7 +9376,7 @@ ParticleSystem:
   lengthInSec: 1
   simulationSpeed: 1
   stopAction: 0
-  looping: 1
+  looping: 0
   prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0
@@ -13923,7 +13975,7 @@ ParticleSystem:
   lengthInSec: 1
   simulationSpeed: 1
   stopAction: 0
-  looping: 1
+  looping: 0
   prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0

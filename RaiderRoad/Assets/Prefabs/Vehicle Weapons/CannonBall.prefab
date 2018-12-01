@@ -37,7 +37,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1624235888426134}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -10.261261, y: 6.558402, z: 2.6920109}
+  m_LocalPosition: {x: 20.893887, y: 2.6401649, z: 1.3447313}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children: []
   m_Father: {fileID: 0}
@@ -96,17 +96,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86d63da807f00e245b7ca5223d3a2a49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  explosion: {fileID: 198301596306357704, guid: cc906a23251370445ad2fecbd813a666,
+    type: 2}
   damage: 5
   splashDamage: 2
   splashRadius: 3
   travelTime: 2
   muzzleVelocity: 8
-  angle: 0
-  xVel: 0
-  yVel: 0
-  zVel: 0
-  xzVel: 0
-  xzAng: 0
 --- !u!135 &135081626594855348
 SphereCollider:
   m_ObjectHideFlags: 1
