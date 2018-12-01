@@ -25,8 +25,13 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: maxHealth
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: collision
+      value: 
+      objectReference: {fileID: 198301596306357704, guid: cc906a23251370445ad2fecbd813a666,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 0}
   m_RootGameObject: {fileID: 1385481512942962}
@@ -90,7 +95,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: 0
-  maxHealth: 2
+  collision: {fileID: 198301596306357704, guid: cc906a23251370445ad2fecbd813a666,
+    type: 2}
+  maxHealth: 1
   ramDamage: 0
   speed: 0
   threat: 0

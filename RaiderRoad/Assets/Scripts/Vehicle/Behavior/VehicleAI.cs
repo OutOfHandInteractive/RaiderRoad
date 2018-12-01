@@ -22,9 +22,10 @@ public class VehicleAI : MonoBehaviour {
 
     private string side;
     private bool hasWeapon;
+    public ParticleSystem collision;
 
-	//Statistics
-	public float maxHealth;
+    //Statistics
+    public float maxHealth;
 	public float ramDamage;
 	public float speed;
 	public int threat;
@@ -134,7 +135,23 @@ public class VehicleAI : MonoBehaviour {
         //Destroy this when it goes off screen
         if (other.tag == "Exit")
             Destroy(this.gameObject);
+        if (other.gameObject.tag.Equals("Obstacle"))
+        {
+            Debug.Log("You Hit an Obstacle");
+            ParticleSystem explosion = Instantiate(collision, other.gameObject.transform.position, Quaternion.identity, gameObject.transform);
+            explosion.gameObject.transform.localScale *= 10;
+            //Destroy(other.gameObject);
+            StartCoroutine(WaitToDie(other));
+        }
 
+    }
+
+    IEnumerator WaitToDie(Collider other)
+    {
+        agent.enabled = false;
+        transform.parent = other.transform;
+        yield return new WaitForSeconds(5);
+        Destroy(gameObject);
     }
 
 	// ---------- Getters and Setters ----------
