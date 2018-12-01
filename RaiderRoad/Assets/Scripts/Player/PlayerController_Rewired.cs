@@ -119,7 +119,7 @@ public class PlayerController_Rewired : MonoBehaviour {
 
 			if (player.GetButtonDown("Use")) {
 				Debug.Log("pressing button");
-				if (downedPlayers.Count > 0) {
+                if (downedPlayers.Count > 0) {
 					startRevive(downedPlayers[0].GetComponent<PlayerController_Rewired>());
 				}
 				else if (interactables.Count > 0 && !interactables[0].GetComponent<Interactable>().isOnCooldown()) {

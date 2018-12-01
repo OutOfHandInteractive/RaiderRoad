@@ -10,6 +10,8 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
     //--------------------
     // Public Variables
     //--------------------
+    public Animator myAni;
+
     public int playerId = 0;
     public GameObject wall;
     public int wallInventory;
@@ -52,7 +54,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
     private bool initialized;
 
 	private void Start() {
-		pController = GetComponentInParent<PlayerController_Rewired>();
+        pController = GetComponentInParent<PlayerController_Rewired>();
 	}
 
 	void Initialize()
@@ -130,7 +132,8 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
                         {
                             Debug.Log("Occupied >:(");
                         }
-                    }else if (heldItem.tag == "Weapon") //to change later?
+                    }
+                    else if (heldItem.tag == "Weapon") //to change later?
                     {
                         GameObject toBuild = (GameObject)nodes[0];
                         if (!toBuild.GetComponent<BuildNode>().occupied)
@@ -158,7 +161,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
                         if (heldItem.tag == "Trap") dropItem = heldItem.GetComponent<Trap>().drop; //get the drop prefab item from item's script
                         if (heldItem.tag == "Engine") dropItem = heldItem.GetComponent<Engine>().drop;
                         // more ifs for other items
-                        GameObject item = Instantiate(dropItem, new Vector3(transform.position.x, transform.position.y, transform.position.z +1f), Quaternion.identity);    //create drop item
+                        GameObject item = Instantiate(dropItem, new Vector3(transform.position.x, transform.position.y, transform.position.z + 1f), Quaternion.identity);    //create drop item
                         item.name = heldItem.name + " Drop";
 
                         heldItem = null;
@@ -198,45 +201,60 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
                 }
                 else if (player.GetButtonDown("Attack") && canAttack)
                 {
+                    myAni.SetBool("isAttacking", true);
                     canAttack = false;
                     attackCount = attack_cooldown;
-					if (destructableParts.Count == 0) {
-						foreach (GameObject item in attackRange) {
-							//Debug.Log(item);
-							if (item == null) {
-								attackRange.Remove(item);
-							}
-							else if (item.CompareTag("Wall")) {
-								item.GetComponent<Wall>().Damage(damage);
-							}
-							else if (item.CompareTag("Trap")) {
-								item.GetComponent<Trap>().Damage(damage);
-							}
-							else if (item.CompareTag("Engine")) {
-								item.GetComponent<Engine>().Damage(damage);
-							}
-							else if (item.CompareTag("Weapon")) {
-								item.GetComponent<Weapon>().Damage(damage);
-							}
-							else if (item.CompareTag("Enemy")) {
-								Vector3 dir = item.transform.position - transform.parent.position;
-								dir = Vector3.Normalize(new Vector3(dir.x, 0.0f, dir.z));
-								item.GetComponent<Rigidbody>().AddForce(dir * knockback_force);
-								item.GetComponent<StatefulEnemyAI>().takeDamage(damage);
-								//Debug.Log(dir);
-							}
-						}
-					}
-					else {
-						if (destructableParts[0].GetComponent<DestructiblePart>().takeDamage(1) <= 0) {
-							destructableParts.RemoveAt(0);
-						}
-					}
+                    //myAni.SetBool("isAttacking", false);
+                    if (destructableParts.Count == 0)
+                    {
+                        foreach (GameObject item in attackRange)
+                        {
+                            //Debug.Log(item);
+                            if (item == null)
+                            {
+                                attackRange.Remove(item);
+                            }
+                            else if (item.CompareTag("Wall"))
+                            {
+                                item.GetComponent<Wall>().Damage(damage);
+                            }
+                            else if (item.CompareTag("Trap"))
+                            {
+                                item.GetComponent<Trap>().Damage(damage);
+                            }
+                            else if (item.CompareTag("Engine"))
+                            {
+                                item.GetComponent<Engine>().Damage(damage);
+                            }
+                            else if (item.CompareTag("Weapon"))
+                            {
+                                item.GetComponent<Weapon>().Damage(damage);
+                            }
+                            else if (item.CompareTag("Enemy"))
+                            {
+                                Vector3 dir = item.transform.position - transform.parent.position;
+                                dir = Vector3.Normalize(new Vector3(dir.x, 0.0f, dir.z));
+                                item.GetComponent<Rigidbody>().AddForce(dir * knockback_force);
+                                item.GetComponent<StatefulEnemyAI>().takeDamage(damage);
+                                //Debug.Log(dir);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (destructableParts[0].GetComponent<DestructiblePart>().takeDamage(1) <= 0)
+                        {
+                            destructableParts.RemoveAt(0);
+                        }
+                    }
 
                     currentAttColor.a = 0.5f; //setting attack model's mat to 1/2 visible
 
                 }
-            
+                else if (player.GetButtonUp("Attack") && myAni.GetBool("isAttacking"))
+                {
+                    myAni.SetBool("isAttacking", false);
+                }
             }
         
             if (currentAttColor.a > 0) {
