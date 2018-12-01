@@ -36,7 +36,7 @@ public class Weapon : MonoBehaviour {
     {
         GameObject item = Instantiate(drop, new Vector3(transform.position.x, transform.position.y - .5f, transform.position.z), Quaternion.identity);
         item.name = drop.name;
-        if(myNode.GetComponent<BuildNode>().occupied == true)
+        if(myNode)
         {
             myNode.GetComponent<BuildNode>().occupied = false; // set node to unoccupied again
         }
