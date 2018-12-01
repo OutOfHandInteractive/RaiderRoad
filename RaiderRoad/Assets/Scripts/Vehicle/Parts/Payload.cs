@@ -7,6 +7,6 @@ public abstract class Payload : MonoBehaviour {
 	public abstract void populate();
 	public List<payloadTypes> payloadCode;
 
-	protected abstract EnemyAI SelectEnemies();
-    protected abstract Interactable SelectInteractable();
+	protected abstract StatefulEnemyAI SelectEnemies();
+    protected abstract Weapon SelectInteractable();
 }

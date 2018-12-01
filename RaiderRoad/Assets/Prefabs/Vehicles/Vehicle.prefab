@@ -42,6 +42,7 @@ GameObject:
   - component: {fileID: 114724566488716660}
   - component: {fileID: 195580747568780906}
   - component: {fileID: 54650494297534988}
+  - component: {fileID: 114854167456411608}
   m_Layer: 0
   m_Name: Vehicle
   m_TagString: eVehicle
@@ -92,7 +93,19 @@ MonoBehaviour:
   maxHealth: 2
   ramDamage: 0
   speed: 0
+  threat: 0
   currentHealth: 0
+--- !u!114 &114854167456411608
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1385481512942962}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3abba137eb8c4334fa5d737d18289387, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!195 &195580747568780906
 NavMeshAgent:
   m_ObjectHideFlags: 1

@@ -33,7 +33,7 @@ public class BoardEnemy : JumpEnemy {
 
         //50% chance to go into Destroy State or Fight State
         string actionStr = (action < 50) ? "EnterDestroy" : "EnterFight";
-        EnemyAI ai = cObject.GetComponent<EnemyAI>();
+        StatefulEnemyAI ai = cObject.GetComponent<StatefulEnemyAI>();
         if(action < 50)
         {
             ai.EnterDestroy();

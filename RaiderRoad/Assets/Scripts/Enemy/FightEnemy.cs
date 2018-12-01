@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FightEnemy : AbstractEnemyAI {
+public class FightEnemy : EnemyAI {
 
     //Enemy and enemy speed
     private GameObject cObject;
@@ -12,46 +12,48 @@ public class FightEnemy : AbstractEnemyAI {
     private bool chasing = true;
     private float damagePower = 2f;
     private float knockback_force = 2000f;
-    public void StartFight(GameObject enemy)
+    private GameObject _target;
+    private int playerHit = 0;
+    public void StartFight(GameObject enemy, GameObject target = null)
     {
         //Initialized enemy
         cObject = enemy;
+        _target = target;
         fightRange = cObject.transform.Find("EnemyAttack").gameObject;
+    }
+
+    private GameObject GetTarget()
+    {
+        if(_target == null)
+        {
+            GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+            _target = Closest(cObject.transform.position, players);
+        }
+        return _target;
     }
 
     public void Fight()
     {
         //Get player object
-        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
-        GameObject player = Closest(cObject.transform.position, players);
+        GameObject player = GetTarget();
+        //Get enemy speed
+        
 
         GameObject[] vehicles = GameObject.FindGameObjectsWithTag("eVehicle");
-        //Get enemy speed
         float movement = speed * Time.deltaTime;
-
         //If doesnt exist or if player has been hit go into escape state
-        if (!player || playerDamage >= 4f || cObject.GetComponent<EnemyAI>().currentHealth <= 25f)
+        if (!player || playerDamage >= 4f || cObject.GetComponent<StatefulEnemyAI>().currentHealth <= 25f)
         {
-
-            //Find vehicle to escape to
-            GameObject vehicle = Closest(cObject.transform.position, vehicles);
-            if (vehicle == null)
-                cObject.GetComponent<EnemyAI>().EnterFight();
-            cObject.transform.LookAt(vehicle.transform);
-            cObject.transform.position = Vector3.MoveTowards(cObject.transform.position, vehicle.transform.position, movement);
-            //If a reasonable jumping distance to vehicle, escape
-            if (Vector3.Distance(cObject.transform.position, vehicle.transform.position) < 5f)
-                cObject.GetComponent<EnemyAI>().EnterEscape();
+            cObject.GetComponent<StatefulEnemyAI>().EnterEscape();
         }
         else if(chasing)
         {
             //Look at player and move towards them
-            cObject.transform.LookAt(player.transform);
+            Vector3 targetPosition = new Vector3(player.transform.position.x, cObject.transform.position.y, player.transform.position.z);
+            cObject.transform.LookAt(targetPosition);
             cObject.transform.position = Vector3.MoveTowards(cObject.transform.position, player.transform.position, movement);
 
         }
-
-
     }
 
     public void WindupAttack()

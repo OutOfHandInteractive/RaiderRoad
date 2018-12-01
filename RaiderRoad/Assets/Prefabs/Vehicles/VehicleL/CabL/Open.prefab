@@ -25,7 +25,7 @@ GameObject:
   - component: {fileID: 114356336507934898}
   m_Layer: 0
   m_Name: Open
-  m_TagString: Untagged
+  m_TagString: Destructable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -168,6 +168,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cargoNode: {fileID: 1601855160930520}
   front_attachmentNode: {fileID: 1799530707542830}
+  maxHealth: 0
   healthModifier: 0
   ramDamageModifier: 0
   speedModifier: 0
