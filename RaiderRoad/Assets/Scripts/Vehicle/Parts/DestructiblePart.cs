@@ -4,12 +4,34 @@ using UnityEngine;
 
 public abstract class DestructiblePart : MonoBehaviour {
 
+	// ---------------------- public variables -----------------------
+	// references
+	public GameObject wallDrop;
+	public List<GameObject> objWithMat;
+
+	// gameplay values
 	public float maxHealth;
 	public bool isIntact = true;
-	public GameObject wallDrop;
 
+	// ---------------------- private variables ----------------------
+	// references
+	private List<Material> myMat = new List<Material>();
+	private Color myOrigColor;
+	private Color destroyedColor;
+
+	// attributes
 	private float currentHealth;
 
+	private void Start() {
+		for (int i = 0; i<objWithMat.Count; i++) {
+			myMat.Add(objWithMat[i].GetComponent<Renderer>().material);
+		}
+		if (myMat.Count != 0) {
+			Debug.Log("got here");
+			myOrigColor = myMat[0].color;
+			destroyedColor = myOrigColor * 0.5f;
+		}
+	}
 
 	// ---------- Modifiers ----------
 	public float takeDamage(float damageDone) {
@@ -18,6 +40,11 @@ public abstract class DestructiblePart : MonoBehaviour {
 			isIntact = false;
 			GameObject item = Instantiate(wallDrop, transform.position + new Vector3(0, 2f, 0), Quaternion.identity, transform);
 			item.name = "Wall Drop";
+
+			// change texture to show destroyed
+			for (int i = 0; i<myMat.Count; i++) {
+				myMat[i].color = destroyedColor;
+			}
 		}
 
 		return currentHealth;

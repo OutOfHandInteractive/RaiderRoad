@@ -195,9 +195,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7eff8a2b532aacf419a432d8b9c15738, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  wallDrop: {fileID: 1412282026529114, guid: c4b78f547f7592d42867fc5a56f7cc72, type: 2}
+  objWithMat:
+  - {fileID: 1317835016783122}
   maxHealth: 3
   isIntact: 1
-  wallDrop: {fileID: 1412282026529114, guid: c4b78f547f7592d42867fc5a56f7cc72, type: 2}
+  myOrigColor: {r: 0, g: 0, b: 0, a: 0}
+  destroyedColor: {r: 0, g: 0, b: 0, a: 0}
   healthModifier: 1
   ramDamageModifier: 0
   speedModifier: 0
