@@ -10,9 +10,9 @@ public class carscript2 : MonoBehaviour {
 
 	public float moveSpeed = 10f;
 
-	//--------------------
-	// Private Variables
-	//--------------------
+    //--------------------
+    // Private Variables
+    //--------------------
 	private Player player;
 	private Vector2 moveVector;
 

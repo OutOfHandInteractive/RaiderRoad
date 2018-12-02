@@ -16,6 +16,7 @@ public class playerChange : MonoBehaviour {
 		if (other.CompareTag ("Player") && count <= 0.0f) 
 		{
             player = other.gameObject;
+            player.GetComponentInChildren<PlayerController_Rewired>().myAni.SetFloat("speed", 0);
             int id = player.GetComponent<PlayerController_Rewired>().GetId();
             transform.parent.gameObject.GetComponent<carscript2>().SetId(id);
             player.transform.position = transform.position;

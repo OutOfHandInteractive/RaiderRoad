@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 23500556188228792}
   - component: {fileID: 114789706557066776}
   - component: {fileID: 65341695742012810}
+  - component: {fileID: 114911391362143002}
   m_Layer: 0
   m_Name: Wall Drop
   m_TagString: Drops
@@ -109,3 +110,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 50
+--- !u!114 &114911391362143002
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1412282026529114}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21e75019525a9e4489e70f27957f976a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  item: {fileID: 1412282026529114}

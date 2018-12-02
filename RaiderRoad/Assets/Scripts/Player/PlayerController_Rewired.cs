@@ -30,7 +30,8 @@ public class PlayerController_Rewired : MonoBehaviour {
     private Vector3 rotateVector;
     
     private Rigidbody rb;
-    private Animator myAni;
+    //Animator
+    public Animator myAni;
 
 	public float currentHealth;
     private float baseJumpInidicatorScale;
