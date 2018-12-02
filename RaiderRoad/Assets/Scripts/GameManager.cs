@@ -80,7 +80,11 @@ public class GameManager : MonoBehaviour {
         }
     }
 
-
+    public void updateRVHealth(float newHealth)
+    {
+        if (newHealth <= 0f) newHealth = 0;
+        RVHealthText.GetComponent<Text>().text = "RV Health: " + Mathf.Ceil(newHealth);
+    }
 
     public void LossGame()
     {
@@ -106,5 +110,6 @@ public class GameManager : MonoBehaviour {
         RestartButton.SetActive(false);
         EndGameText.SetActive(false);
         myTimer = FinishTime;
+        RVHealthText.GetComponent<Text>().text = "RV Health: 6";
     }
 }

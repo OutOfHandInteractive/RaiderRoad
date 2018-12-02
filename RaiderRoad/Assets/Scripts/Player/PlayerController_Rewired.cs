@@ -32,7 +32,6 @@ public class PlayerController_Rewired : MonoBehaviour {
     private Rigidbody rb;
     //Animator
     public Animator myAni;
-    private Animator myAni;
     private GameManager g;
 
     public float currentHealth;
