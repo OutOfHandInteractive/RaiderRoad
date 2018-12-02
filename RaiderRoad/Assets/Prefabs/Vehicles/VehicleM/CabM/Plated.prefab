@@ -297,9 +297,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34b7badb19b3e7a40987378c024f1d73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  wallDrop: {fileID: 1412282026529114, guid: c4b78f547f7592d42867fc5a56f7cc72, type: 2}
+  objWithMat:
+  - {fileID: 1583686699898274}
+  - {fileID: 1710651787326806}
   maxHealth: 3
   isIntact: 1
-  wallDrop: {fileID: 1412282026529114, guid: c4b78f547f7592d42867fc5a56f7cc72, type: 2}
+  myOrigColor: {r: 0, g: 0, b: 0, a: 0}
+  destroyedColor: {r: 0, g: 0, b: 0, a: 0}
   cargoNode: {fileID: 1058516650690088}
   front_attachmentNode: {fileID: 1262892769104330}
   healthModifier: 2

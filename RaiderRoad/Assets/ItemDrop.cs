@@ -9,9 +9,9 @@ public class ItemDrop : MonoBehaviour {
     private void OnTriggerEnter(Collider other)
     {
         Debug.Log(other.gameObject.tag);
-        if(other.gameObject.tag == "floor")
+        if (other.gameObject.tag == "floor")
         {
-            transform.parent = other.transform;
+            transform.SetParent(other.transform, true);
             transform.localPosition = new Vector3(0, 0, 0);
         }
         if(other.gameObject.tag == "Destructable")
