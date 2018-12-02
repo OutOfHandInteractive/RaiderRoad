@@ -31,8 +31,9 @@ public class PlayerController_Rewired : MonoBehaviour {
     
     private Rigidbody rb;
     private Animator myAni;
+    private GameManager g;
 
-	public float currentHealth;
+    public float currentHealth;
     private float baseJumpInidicatorScale;
     private float baseJumpIndicatorDist;
 	public float reviveCountdown;
@@ -74,6 +75,9 @@ public class PlayerController_Rewired : MonoBehaviour {
 
         //find animator
         myAni = gameObject.GetComponentInChildren<Animator>();
+
+        //Get game manager for reference
+        g = GameManager.GameManagerInstance;
     }
     
     void Initialize()
@@ -253,8 +257,9 @@ public class PlayerController_Rewired : MonoBehaviour {
             Color deathColor = myOrigColor * 0.5f;        //Replace with proper death feedback
             myMat.color = deathColor;
 
-			state = playerStates.down;
-		}
+            state = playerStates.down;
+            g.playerDowned();
+        }
 	}
     
     // --------------------- Getters / Setters ----------------------
@@ -312,7 +317,7 @@ public class PlayerController_Rewired : MonoBehaviour {
     public void clearInteractable()
     {
         interactables.Clear();
-        Debug.Log("AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH" + interactables.Count);
+        //Debug.Log("AHHHHHHHHHHHHHHH" + interactables.Count);
     }
 
 	public void addDownedPlayer(GameObject p) {

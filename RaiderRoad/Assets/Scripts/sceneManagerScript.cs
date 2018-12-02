@@ -23,6 +23,8 @@ public class sceneManagerScript : MonoBehaviour {
     public Material[] charaMatArray = new Material[4];
     private Transform rv; //rv is reference to RV obj in scene
 
+    public List<Transform> playersInScene;
+
     void Awake() {
 		// Have playlist persist across scenes.
 		if (Instance == null) {
@@ -80,10 +82,10 @@ public class sceneManagerScript : MonoBehaviour {
         SceneManager.LoadScene(nextScene, LoadSceneMode.Single);
     }
 
-
     //Load Main Game Scene Functions
     public void SpawnPlayers(GameObject myRv, Transform[] SpawnPoints)
     {
+        GameManager g = GameManager.GameManagerInstance;
         //Debug.Log("Players are Spawned");
         //finding RV
         rv = myRv.transform;
@@ -96,6 +98,7 @@ public class sceneManagerScript : MonoBehaviour {
         spawnChar4();
 
         //gameObject.SetActive(false);
+        g.getPlayers(playersInScene);
     }
 
     void spawnChar1()
@@ -112,6 +115,7 @@ public class sceneManagerScript : MonoBehaviour {
 
                 AssignPlayMat(player[i].gameObject, playId);  //passing player gameObject and player id
                 //Debug.Log(player[i]);
+                playersInScene.Add(player[i]);
             }
         }
     }
@@ -129,6 +133,8 @@ public class sceneManagerScript : MonoBehaviour {
                 player[i].Find("View").gameObject.GetComponent<PlayerPlacement_Rewired>().SetId(playId);
 
                 AssignPlayMat(player[i].gameObject, playId);
+
+                playersInScene.Add(player[i]);
             }
         }
     }
@@ -146,6 +152,8 @@ public class sceneManagerScript : MonoBehaviour {
                 player[i].Find("View").gameObject.GetComponent<PlayerPlacement_Rewired>().SetId(playId);
 
                 AssignPlayMat(player[i].gameObject, playId);
+
+                playersInScene.Add(player[i]);
             }
         }
     }
@@ -163,7 +171,9 @@ public class sceneManagerScript : MonoBehaviour {
                 player[i].Find("View").gameObject.GetComponent<PlayerPlacement_Rewired>().SetId(playId);
 
                 AssignPlayMat(player[i].gameObject, playId);
-        }
+
+                playersInScene.Add(player[i]);
+            }
         }
     }
 
