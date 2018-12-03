@@ -63,10 +63,12 @@ public class BuildNode : MonoBehaviour {
             if (this.isHorizontal)
             {
                 holo = Instantiate(makeHolo, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
+                holo.transform.parent = this.gameObject.transform;
             }
             else
             {
                 holo = Instantiate(makeHolo, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.Euler(new Vector3(0, 90, 0)));
+                holo.transform.parent = this.gameObject.transform;
             }
             holo.GetComponent<Wall>().isHolo = true;
         }else{
