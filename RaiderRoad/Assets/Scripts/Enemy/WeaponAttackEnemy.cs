@@ -72,14 +72,6 @@ public class WeaponAttackEnemy : EnemyAI {
         }
         else if (cObject.transform.parent.tag == "Fire")
         {
-            /*
-            if (!fired)
-            {
-                StartCoroutine(FlameCycle());
-                fired = true;
-                firing = true;
-            }
-            */
             Flames();
         }
 
@@ -114,16 +106,6 @@ public class WeaponAttackEnemy : EnemyAI {
                                    // calculate the velocity magnitude
         var vel = Mathf.Sqrt(dist * Physics.gravity.magnitude / Mathf.Sin(2 * a));
         return vel * dir.normalized;
-    }
-
-    IEnumerator FlameCycle()
-    {
-        Debug.Log("BUUUUUUURRRRNNNN!!!!");
-        yield return new WaitForSeconds(flamer.overheatTime);
-        Debug.Log("BARREL'S TOO HOT!!");
-        firing = false;
-        yield return new WaitForSeconds(flamer.overheatCooldown);
-        fired = false;
     }
 
     void Flames()
