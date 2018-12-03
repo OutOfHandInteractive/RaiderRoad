@@ -76,7 +76,7 @@ public class cannon : Interactable {
 
 			if (player.GetButtonDown("Exit Interactable") && interacting) {
 				Leave();
-                playerUsing.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+                playerUsing.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
                 interacting = false;
 			}
 
