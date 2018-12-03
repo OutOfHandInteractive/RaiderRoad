@@ -1,0 +1,96 @@
+﻿@startuml
+
+hide members
+
+class EnemyRadio << (S,#FF7700) Singleton >> {
+
+}
+
+abstract class Enemy {
+	-EnemyRadio _radioFoo
+	-EnemyAI _ai
+	
+	+EnemyRadio getRadio()
+	+EnemyAI getAI()
+}
+EnemyRadio <- Enemy
+Enemy -> EnemyAI
+UnityEngine.MonoBehavior <|-- Enemy
+
+abstract class Vehicle{
+
+}
+Enemy <|-- Vehicle
+abstract class Mook{
+
+}
+Enemy <|-- Mook
+
+Vehicle <|-- LightVehicle
+Vehicle <|-- MediumVehicle
+Vehicle <|-- HeavyVehicle 
+
+Mook <|-- Thief
+Mook <|-- Hooligan
+Mook <|-- Bruiser
+
+abstract class EnemyAI{
+	+EnemyAI(Enemy parent)
+	+Enemy getParent()
+	{abstract} +void start()
+	{abstract} +void update()
+	{abstract} +void end()
+}
+UnityEngine.MonoBehavior <|-- EnemyAI
+abstract class EnemyAIState{
+	+void update()
+	+void start()
+	{abstract} +void start(Intent)
+	{abstract} +Intent updateState()
+}
+EnemyAI <|-- EnemyAIState
+abstract class VehicleAI {
+	+VehicleAI(Vehicle parent)
+	+Vehicle getParent()
+}
+EnemyAIState <|-- VehicleAI
+abstract class MookAI {
+	+MookAI(Mook parent)
+	+Mook getParent()
+}
+EnemyAIState <|-- MookAI
+
+class StatefulAI {
+	+void addState(StateID, EnemyAIState)
+	+void setInitialState(StateID)
+	+EnemyAIState currState()
+	-void switchTo(StateID)
+}
+EnemyAIState o- StatefulAI
+EnemyAI <|-- StatefulAI
+
+MookAI <|-- FightState
+MookAI <|-- WaitState
+
+enum StateID {
+	FIGHT
+	WAIT
+	...
+}
+StatefulAI -> StateID
+class Intent {
+	+Intent(Object,StateID)
+	+Object getPayload()
+	+StateID getAction()
+}
+StatefulAI -> Intent
+EnemyAIState -> Intent
+Intent -> StateID
+
+class FightIntent {
+	+FightIntent(Player)
+	+Player getPayload()
+}
+Intent <|-- FightIntent
+
+@enduml

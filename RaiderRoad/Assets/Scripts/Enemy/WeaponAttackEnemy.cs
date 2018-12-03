@@ -11,8 +11,10 @@ public class WeaponAttackEnemy : EnemyAI {
     private VehicleAI eVehicle;
     private GameObject cannon;
     private GameObject barrel;
-    private GameObject flamethrower;
+    private flamethrower flamer;
+    private GameObject flamethrowerBody;
     private bool fired = false;
+    private bool firing = false;
     private ParticleSystem fireInstance;
     private bool created = false;
     public void StartWeapon(GameObject enemy, VehicleAI vehicle, GameObject munnitions, GameObject fire, string side)
@@ -29,9 +31,10 @@ public class WeaponAttackEnemy : EnemyAI {
         }
         else if (cObject.transform.parent.tag == "Fire")
         {
-            Transform flameBody = eVehicle.GetComponentInChildren<flamethrower>().transform.Find("FlamethrowerBodyWrapper");
+            flamer = eVehicle.GetComponentInChildren<flamethrower>();
+            Transform flameBody = flamer.transform.Find("FlamethrowerBodyWrapper");
             Debug.Log(flameBody);
-            flamethrower = flameBody.Find("FlameThrower_Body").gameObject;
+            flamethrowerBody = flameBody.Find("FlameThrower_Body").gameObject;
             barrel = flameBody.Find("FlameThrower_Body").gameObject.transform.Find("Barrel").gameObject;
             if (!created)
             {
@@ -69,6 +72,14 @@ public class WeaponAttackEnemy : EnemyAI {
         }
         else if (cObject.transform.parent.tag == "Fire")
         {
+            /*
+            if (!fired)
+            {
+                StartCoroutine(FlameCycle());
+                fired = true;
+                firing = true;
+            }
+            */
             Flames();
         }
 
@@ -105,10 +116,25 @@ public class WeaponAttackEnemy : EnemyAI {
         return vel * dir.normalized;
     }
 
+    IEnumerator FlameCycle()
+    {
+        Debug.Log("BUUUUUUURRRRNNNN!!!!");
+        yield return new WaitForSeconds(flamer.overheatTime);
+        Debug.Log("BARREL'S TOO HOT!!");
+        firing = false;
+        yield return new WaitForSeconds(flamer.overheatCooldown);
+        fired = false;
+    }
+
     void Flames()
     {
-        fireInstance.gameObject.transform.rotation = barrel.transform.rotation;
-        fireInstance.Play();
+        //fireInstance.gameObject.transform.rotation = barrel.transform.rotation;
+        flamer.SetRotation(barrel.transform.rotation);
+        flamer.CheckOverheat();
+        if (!flamer.isOverheated())
+        {
+            flamer.StartFiring();
+        }
     }
 
     public GameObject getWeapon()
@@ -117,9 +143,9 @@ public class WeaponAttackEnemy : EnemyAI {
         {
             return cannon;
         }
-        else if (flamethrower != null)
+        else if (flamethrowerBody != null)
         {
-            return flamethrower;
+            return flamethrowerBody;
         }
         return null;
     }
