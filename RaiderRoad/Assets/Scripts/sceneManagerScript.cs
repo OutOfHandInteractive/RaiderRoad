@@ -53,12 +53,18 @@ public class sceneManagerScript : MonoBehaviour {
     void Update () {
         if (Input.GetKey("escape"))     //Set all variables back to null and send player to Scene menu
         {
-            nextScene = null;
+            if(GameManager.GameManagerInstance != null) // make sure we have a game manager
+            {
+                GameManager g = GameManager.GameManagerInstance;
+                g.clearMenu();
+            }
+
+            nextScene = NeedPlaySelScene[0];
             char1Players = null;
             char1Players = null;
             char1Players = null;
             char1Players = null;
-            SceneManager.LoadScene("SceneMenu", LoadSceneMode.Single);
+            SceneManager.LoadScene("PlayerSelect", LoadSceneMode.Single);
         }
 	}
 
@@ -86,6 +92,7 @@ public class sceneManagerScript : MonoBehaviour {
     public void SpawnPlayers(GameObject myRv, Transform[] SpawnPoints)
     {
         GameManager g = GameManager.GameManagerInstance;
+        playersInScene = new List<Transform>(); //Empty players list
         //Debug.Log("Players are Spawned");
         //finding RV
         rv = myRv.transform;
@@ -99,6 +106,7 @@ public class sceneManagerScript : MonoBehaviour {
 
         //gameObject.SetActive(false);
         g.getPlayers(playersInScene);
+        g.restartMenu();
     }
 
     void spawnChar1()

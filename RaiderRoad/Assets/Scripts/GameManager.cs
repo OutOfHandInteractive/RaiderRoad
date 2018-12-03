@@ -68,6 +68,7 @@ public class GameManager : MonoBehaviour {
         int downedPlayers = 0;
         foreach (Transform i in playersInScene)
         {
+            Debug.Log("AAAAAAAAAAAAAAAAAAAA" + i.name);
             if(i.GetComponent<PlayerController_Rewired>().state == PlayerController_Rewired.playerStates.down)
             {
                 downedPlayers++;
@@ -106,10 +107,23 @@ public class GameManager : MonoBehaviour {
 
     public void restartMenu()
     {
+        GameTimer.SetActive(true);  //make sure UI is on
+        RVHealthText.SetActive(true);
+
         gameOver = false;
         RestartButton.SetActive(false);
         EndGameText.SetActive(false);
         myTimer = FinishTime;
         RVHealthText.GetComponent<Text>().text = "RV Health: 6";
+    }
+
+    public void clearMenu()
+    {
+        gameOver = false;
+        RestartButton.SetActive(false);
+        EndGameText.SetActive(false);
+        myTimer = FinishTime;
+        GameTimer.SetActive(false);
+        RVHealthText.SetActive(false);
     }
 }
