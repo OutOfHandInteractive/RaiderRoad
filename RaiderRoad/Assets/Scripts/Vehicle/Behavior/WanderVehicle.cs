@@ -17,7 +17,7 @@ public class WanderVehicle : MonoBehaviour {
         //Set it to the VehicleAI
         cEnemy = agent;
         cObject = enemy;
-        cEnemy.speed = 20;
+        cEnemy.speed = 15;
         hasWeapon = weapon;
         action = Random.Range(0, 100);
         patrols = new List<Transform>();
