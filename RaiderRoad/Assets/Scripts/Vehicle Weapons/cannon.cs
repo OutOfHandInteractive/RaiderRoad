@@ -12,6 +12,7 @@ public class cannon : Interactable {
 	public GameObject barrel;
 	public GameObject weapon;
 	public GameObject smokeBurst;
+	public Animator myAni;
 
 	// gameplay values
 	public float reticuleMoveSpeed;
@@ -81,13 +82,8 @@ public class cannon : Interactable {
 			}
 
 			if (player.GetButtonDown("Shoot Weapon") && !isOnFiringCooldown()) {
-				proj = Instantiate(munitions.gameObject, barrel.transform.position, Quaternion.identity);
-
 				// Fire the cannon
-				proj.GetComponent<cannonball>().launch(reticule.transform.position, barrel.transform.position, weapon.transform.forward);
-				GameObject tempFx = Instantiate(smokeBurst, barrel.transform.position, Quaternion.identity);
-				tempFx.gameObject.transform.LookAt(reticule.transform);
-				StartCoroutine(particleDestroy(tempFx));
+				StartCoroutine(fireCannon());				
 
 				firingCooldownTimer = firingCooldown;
 			}
@@ -147,9 +143,18 @@ public class cannon : Interactable {
 			return false;
 	}
 
-	IEnumerator particleDestroy(GameObject fx) {
-		yield return new WaitUntil(delegate { return !fx.GetComponentInChildren<ParticleSystem>().IsAlive(); });
+	IEnumerator fireCannon() {
+		myAni.SetTrigger("Fire");
 
-		Destroy(fx);
+		yield return new WaitForSecondsRealtime(7 / 24);
+
+		proj = Instantiate(munitions.gameObject, barrel.transform.position, Quaternion.identity);
+		proj.GetComponent<cannonball>().launch(reticule.transform.position, barrel.transform.position, weapon.transform.forward);
+		GameObject tempFx = Instantiate(smokeBurst, barrel.transform.position, Quaternion.identity);
+		tempFx.gameObject.transform.LookAt(reticule.transform);
+
+		yield return new WaitUntil(delegate { return !tempFx.GetComponentInChildren<ParticleSystem>().IsAlive(); });
+
+		Destroy(tempFx);
 	}
 }
