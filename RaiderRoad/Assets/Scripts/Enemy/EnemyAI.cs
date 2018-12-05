@@ -9,10 +9,11 @@ public abstract class EnemyAI : MonoBehaviour
     {
         float minDist = 1 / 0f;
         GameObject closest = null;
+        PlayerController_Rewired.playerStates deadPlayer = closest.GetComponent<PlayerController_Rewired>().state;
         foreach (GameObject wall in objects)
         {
             float dist = Vector3.Distance(wall.transform.position, myPos);
-            if (closest == null || dist < minDist)
+            if (closest == null || dist < minDist || deadPlayer != PlayerController_Rewired.playerStates.down)
             {
                 closest = wall;
                 minDist = dist;

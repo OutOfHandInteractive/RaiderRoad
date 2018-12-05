@@ -46,7 +46,7 @@ public class FightEnemy : EnemyAI {
         {
             cObject.GetComponent<StatefulEnemyAI>().EnterEscape();
         }
-        else if(chasing || player.tag != "PlayerDown")
+        else if(chasing)
         {
             //Look at player and move towards them
             Vector3 targetPosition = new Vector3(player.transform.position.x, cObject.transform.position.y, player.transform.position.z);

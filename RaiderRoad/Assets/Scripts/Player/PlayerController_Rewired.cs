@@ -94,12 +94,7 @@ public class PlayerController_Rewired : MonoBehaviour {
     {
 		if (currentHealth <= 0) {
 			state = playerStates.down;
-            tag = "PlayerDown";
 		}
-        else
-        {
-            tag = "Player";
-        }
         if (!ReInput.isReady) return; // Exit if Rewired isn't ready. This would only happen during a script recompile in the editor.
         if (!initialized) Initialize(); // Reinitialize after a recompile in the editor
         
