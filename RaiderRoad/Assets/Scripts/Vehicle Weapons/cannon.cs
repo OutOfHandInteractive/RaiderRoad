@@ -91,6 +91,7 @@ public class cannon : Interactable {
 			if (reticule.activeSelf == true) {
 				interacting = true;
                 playerUsing.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePosition;
+
                 weapon.transform.LookAt(reticule.transform);
             }
 		}
