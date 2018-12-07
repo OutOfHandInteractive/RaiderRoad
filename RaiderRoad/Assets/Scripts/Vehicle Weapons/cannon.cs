@@ -146,7 +146,8 @@ public class cannon : Interactable {
 	IEnumerator fireCannon() {
 		myAni.SetTrigger("Fire");
 
-		yield return new WaitForSecondsRealtime(7 / 24);
+		// wait time so shot happens at right point in animation
+		yield return new WaitForSecondsRealtime(7f / 24f);
 
 		proj = Instantiate(munitions.gameObject, barrel.transform.position, Quaternion.identity);
 		proj.GetComponent<cannonball>().launch(reticule.transform.position, barrel.transform.position, weapon.transform.forward);
