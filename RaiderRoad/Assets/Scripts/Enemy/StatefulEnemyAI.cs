@@ -11,6 +11,7 @@ public class StatefulEnemyAI : EnemyAI {
     private BoardEnemy board;
     private WeaponAttackEnemy weapon;
     private DestroyEnemy destroy;
+    private StealEnemy steal;
     private FightEnemy fight;
     private EscapeEnemy escape;
     private DeathEnemy death;
@@ -50,6 +51,7 @@ public class StatefulEnemyAI : EnemyAI {
         board = enemy.AddComponent<BoardEnemy>();
         weapon = enemy.AddComponent<WeaponAttackEnemy>();
         destroy = enemy.AddComponent<DestroyEnemy>();
+        steal = enemy.AddComponent<StealEnemy>();
         fight = enemy.AddComponent<FightEnemy>();
         escape = enemy.AddComponent<EscapeEnemy>();
         death = enemy.AddComponent<DeathEnemy>();
@@ -119,6 +121,9 @@ public class StatefulEnemyAI : EnemyAI {
                 case State.Destroy:
                     destroy.Destroy();
                     break;
+                case State.Steal:
+                    steal.Steal();
+                    break;
                 case State.Fight:
                     fight.Fight();
                     break;
@@ -167,6 +172,8 @@ public class StatefulEnemyAI : EnemyAI {
     public void EnterSteal()
     {
         currentState = State.Steal;
+        steal.StartSteal(enemy);
+        enemy.GetComponent<Renderer>().material.color = Color.magenta;
     }
 
     public void EnterDestroy()
@@ -275,6 +282,20 @@ public class StatefulEnemyAI : EnemyAI {
         {
             //Debug.Log("HIT");
             other.gameObject.GetComponent<Wall>().Damage(25f);
+        }
+        if (other.gameObject.tag == "Engine" && currentState == State.Destroy)
+        {
+            other.gameObject.GetComponent<Engine>().Damage(25f);
+            if(other.gameObject.GetComponent<Engine>().health <= 0)
+            {
+                destroy.engineKill = true;
+            }
+        }
+        if (other.gameObject.tag == "Drops" && currentState == State.Steal)
+        {
+            //Debug.Log("HIT");
+            Destroy(other.gameObject);
+            steal.hasStolen = true;
         }
     }
 

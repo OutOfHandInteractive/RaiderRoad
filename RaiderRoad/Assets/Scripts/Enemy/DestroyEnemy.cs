@@ -5,17 +5,19 @@ using UnityEngine;
 public class DestroyEnemy : EnemyAI {
     //enemy, speed
     private GameObject cObject;
-
+    private int action;
+    public bool engineKill = false;
     public void StartDestroy(GameObject enemy)
     {
         cObject = enemy;
+        action = Random.Range(0, 100);
     }
 
     public void Destroy()
     {
         //Set wall gameobject
         GameObject[] walls = GameObject.FindGameObjectsWithTag("Wall");
-        GameObject[] vehicles = GameObject.FindGameObjectsWithTag("eVehicle");
+        GameObject[] engines = GameObject.FindGameObjectsWithTag("Engine");
         //Set movement speed of enemy
         float movement = speed * Time.deltaTime;
 
@@ -25,21 +27,33 @@ public class DestroyEnemy : EnemyAI {
         }
 
         //If there are no more walls, go to Fight state, else keep going for walls
-        if (walls.Length <= 0 && cObject.transform.parent != null)
+        if (engineKill && cObject.transform.parent != null)
         {
-            /*GameObject vehicle = Closest(cObject.transform.position, vehicles);
-            cObject.transform.LookAt(vehicle.transform);
-            cObject.transform.position = Vector3.MoveTowards(cObject.transform.position, vehicle.transform.position, movement);
-            if (Vector3.Distance(cObject.transform.position, vehicle.transform.position) < 5f || vehicle == null)
-                cObject.GetComponent<EnemyAI>().EnterEscape();*/
             cObject.GetComponent<StatefulEnemyAI>().EnterFight();
-            //cObject.GetComponent<EnemyAI>().EnterEscape();
         }else
         {
-            //Find wall and go to it
+            //Find destroyable and go to it
+            ChanceDestroy(walls, engines, movement);
+        }
+    }
+
+    public void ChanceDestroy(GameObject[] walls, GameObject[] engines, float movement)
+    {
+        if(action < 90)
+        {
             GameObject wall = Closest(cObject.transform.position, walls);
+            if(walls.Length <= 0)
+            {
+                cObject.GetComponent<StatefulEnemyAI>().EnterFight();
+            }
             cObject.transform.LookAt(wall.transform);
             cObject.transform.position = Vector3.MoveTowards(cObject.transform.position, wall.transform.position, movement);
+        }
+        else
+        {
+            GameObject engine = Closest(cObject.transform.position, engines);
+            cObject.transform.LookAt(engine.transform);
+            cObject.transform.position = Vector3.MoveTowards(cObject.transform.position, engine.transform.position, movement);
         }
     }
 }
