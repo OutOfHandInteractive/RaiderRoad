@@ -38,6 +38,7 @@ public class GameManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        EngineLoss();
         if (!gameOver)
         {
             if (myTimer > 0f)
@@ -86,7 +87,14 @@ public class GameManager : MonoBehaviour {
         if (newHealth <= 0f) newHealth = 0;
         RVHealthText.GetComponent<Text>().text = "RV Health: " + Mathf.Ceil(newHealth);
     }
-
+    public void EngineLoss()
+    {
+        GameObject[] engines = GameObject.FindGameObjectsWithTag("Engine");
+        if(engines.Length <= 0)
+        {
+            LossGame();
+        }
+    }
     public void LossGame()
     {
         RestartButton.SetActive(true);

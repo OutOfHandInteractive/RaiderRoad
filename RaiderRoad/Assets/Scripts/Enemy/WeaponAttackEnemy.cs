@@ -25,9 +25,9 @@ public class WeaponAttackEnemy : EnemyAI {
         fireFX = fire;
         if (cObject.transform.parent.tag == "Cannon")
         {
-            Transform cannonBody = eVehicle.GetComponentInChildren<cannon>().transform.Find("Cannon_Body");
+            Transform cannonBody = eVehicle.GetComponentInChildren<cannon>().transform.Find("Cannon_Fire");
             cannon = cannonBody.gameObject;
-            barrel = cannonBody.Find("Barrel").gameObject;
+            barrel = cannonBody.Find("cannonMount").Find("Barrel").gameObject;
         }
         else if (cObject.transform.parent.tag == "Fire")
         {

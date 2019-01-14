@@ -28,6 +28,8 @@ public class FightEnemy : EnemyAI {
         {
             GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
             _target = Closest(cObject.transform.position, players);
+            //PlayerController_Rewired.playerStates deadPlayer = _target.GetComponent<PlayerController_Rewired>().state;
+            //if(deadPlayer != PlayerController_Rewired.playerStates.down)
         }
         return _target;
     }
