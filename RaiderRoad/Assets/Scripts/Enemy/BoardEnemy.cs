@@ -32,17 +32,25 @@ public class BoardEnemy : JumpEnemy {
 
         Jump(pos, zSign);
 
-        //50% chance to go into Destroy State or Fight State
+        //40% chance to go into Destroy State or Fight State, 20% to go into steal
         string actionStr = (action < 50) ? "EnterDestroy" : "EnterFight";
         StatefulEnemyAI ai = cObject.GetComponent<StatefulEnemyAI>();
-        if(action < 50)
+        if(cObject.transform.parent.tag == "RV")
         {
-            ai.EnterDestroy();
+            if (action < 40)
+            {
+                ai.EnterDestroy();
+            }
+            else if (action > 40 && action < 80)
+            {
+                ai.EnterFight();
+            }
+            else
+            {
+                ai.EnterSteal();
+            }
         }
-        else
-        {
-            ai.EnterFight();
-        }
+
         
     }
 }
