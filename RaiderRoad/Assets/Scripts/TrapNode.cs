@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TrapNode : MonoBehaviour {
+public class TrapNode : AbstractBuildNode {
     //Michael
 
     //--------------------
     //  Public Variables
     //--------------------
-    public bool occupied = false;
     public bool isFloor; //to determine how to place if its on a floor or wall
 
     //--------------------

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BuildNode : MonoBehaviour {
+public class BuildNode : AbstractBuildNode {
     //Michael
 
     //--------------------
@@ -10,7 +10,6 @@ public class BuildNode : MonoBehaviour {
     //--------------------
 
     public GameObject wall;
-    public bool occupied = false;
     public bool isHorizontal;
     public bool canPlaceWeapon = false;
     //public float height = 1f;
