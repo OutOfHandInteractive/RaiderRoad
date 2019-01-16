@@ -31,6 +31,7 @@ public class TrapNode : AbstractBuildNode {
         }
         
         occupied = true;
+        item.transform.parent = transform;
         item.GetComponent<Trap>().myNode = gameObject;
     }
 

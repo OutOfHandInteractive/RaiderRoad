@@ -33,15 +33,16 @@ public class Trap : Constructable<TrapNode>
             return;
         }
         Debug.Log("Checking " + colliders.Count + " colliders");
-        foreach(Collider other in colliders)
+        foreach (Collider other in colliders)
         {
-            if(other == null)
+            if (other == null)
             {
                 colliders.Remove(other);
                 continue;
             }
             GameObject target = other.gameObject;
-            if (target.tag == "Enemy")
+            Debug.Log("Collider object tag: " + target.tag);
+            if (target.tag == "Enemy" || target.tag == "Player")
             {
                 SpringTrap(target);
                 cooldownRemaining = cooldownTime;
@@ -59,7 +60,8 @@ public class Trap : Constructable<TrapNode>
         float angle = Mathf.Deg2Rad * launchAngle;
         float y = Mathf.Sin(angle) * launchMag;
         float z = Mathf.Cos(angle) * launchMag;
-        victim.GetComponent<Rigidbody>().AddForce(new Vector3(0, y, z));
+        victim.GetComponent<Rigidbody>().AddForce(new Vector3(0, y, -z));
+        //victim.GetComponent<Rigidbody>().AddForce(Vector3.forward*1000000000f);
     }
 
     private void OnTriggerEnter(Collider other)
