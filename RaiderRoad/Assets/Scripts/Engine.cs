@@ -8,7 +8,10 @@ public class Engine : MonoBehaviour {
     //hits is for destroying by hand to remove an ill placed wall
     //health is the durability from attacks by raiders
     public int hits;
-    public float health;
+    public float breakHealth;
+
+    //Health for obstacles/raider vehicles on the RV
+    public float durability;
 
     public bool isHolo = false;
     private Material myMat; //reference material of gameObject
@@ -24,7 +27,7 @@ public class Engine : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        if (hits <= 0 || health <= 0) //can probably move this outside update
+        if (hits <= 0 || breakHealth <= 0) //can probably move this outside update
         {
             spawnDrop();
         }
@@ -40,7 +43,7 @@ public class Engine : MonoBehaviour {
 
     public void Damage(float damage)
     {
-        health -= damage;
+        breakHealth -= damage;
     }
 
     void MakeHolo() // a function for making wall material holographic
