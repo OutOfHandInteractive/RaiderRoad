@@ -37,7 +37,7 @@ Shader "Outlined/Uniform"
 		Pass //Outline
 		{
 			ZWrite Off
-			ZTest Always
+			//ZTest Always
 			Cull Back
 			CGPROGRAM
 
