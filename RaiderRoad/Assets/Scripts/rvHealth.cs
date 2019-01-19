@@ -23,11 +23,15 @@ public class rvHealth : MonoBehaviour {
 
 	void OnTriggerEnter(Collider other) {
 		if (other.gameObject.tag.Equals("Obstacle")) {
-			Debug.Log("You Hit an Obstacle");
+            damagePOI(20f);
+            Instantiate(collision, other.gameObject.transform.position, Quaternion.identity, gameObject.transform);
+            Destroy(other.gameObject);
+
+            /*Debug.Log("You Hit an Obstacle");
 			takeDamage(1);
 			Instantiate(collision, other.gameObject.transform.position, Quaternion.identity, gameObject.transform);
-			Destroy(other.gameObject);
-		}
+			Destroy(other.gameObject);*/
+        }
 	}
 
 	// -------------------- Getters and Setters --------------------
@@ -48,15 +52,18 @@ public class rvHealth : MonoBehaviour {
     private void damagePOI(float damage)
     {
         GameObject[] engines = GameObject.FindGameObjectsWithTag("Engine");
+        Debug.Log("Loop Start");
 
-        for (int i = 0; i > 2; i++)
+        for (int i = 0; i <= 2; i++)
         {
-            for (int j = 0; j > engines.Length; j++)
+            for (int j = 0; j < engines.Length; j++)
             {
                 Engine POIscript = engines[j].GetComponent<Engine>();
                 if (POIscript.myNode == poiNode[i])
                 {
-                    POIscript.durability -= damage;
+                    //Debug.Log("You Hit an Obstacle");
+                    POIscript.TakeRVDamage(damage);
+                    i = 2; //break out of first loop
                     break;
                 }
             } 
@@ -81,6 +88,7 @@ public class rvHealth : MonoBehaviour {
  *  - after taking damage, check status of each engine (likely just checking if its still there); need to do same thing when it's broken by enemies or players (so make it public function)\
  *  - Give components internal HP
  *  - Display HP on parts
- *  -
+ *  - Pass durabiltiy to drop, then back to item when placed
  *  
+ *  Assignment to new placable isn't working.
  */

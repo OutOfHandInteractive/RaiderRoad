@@ -5,6 +5,7 @@ using UnityEngine;
 public class ItemDrop : MonoBehaviour {
     //contains a reference to the item it will bestow the player
     public GameObject item;
+    public float myItemDur = 100f;
 
     private void OnTriggerEnter(Collider other)
     {
