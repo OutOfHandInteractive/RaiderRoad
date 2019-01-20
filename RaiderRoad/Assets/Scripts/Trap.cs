@@ -2,25 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Trap : Constructable<TrapNode>
+public abstract class Trap : DurableConstruct<TrapNode>
 {
     public float cooldownTime;
 
     private List<Collider> colliders = new List<Collider>();
     private float cooldownRemaining = 0;
 
-    public override void OnBreak()
-    {
-        // Do nothing
-    }
-
     public override void OnStart()
     {
-        
+        base.OnStart();
     }
 
     public override void OnUpdate()
     {
+        base.OnUpdate();
         cooldownRemaining = Mathf.Max(0, cooldownRemaining - Time.deltaTime);
     }
 
@@ -53,7 +49,7 @@ public abstract class Trap : Constructable<TrapNode>
         }
         if (activated)
         {
-            //TODO
+            DurabilityDamage(1.0f);
             cooldownRemaining = cooldownTime;
         }
     }

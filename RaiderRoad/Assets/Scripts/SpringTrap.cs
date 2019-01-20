@@ -6,6 +6,11 @@ public class SpringTrap : Trap
     public float launchAngle;
     public float launchMag;
 
+    public override void OnBreak()
+    {
+        // Do nothing
+    }
+
     public override void Activate(GameObject victim)
     {
         Debug.Log("Flinging enemy...");

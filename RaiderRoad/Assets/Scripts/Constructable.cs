@@ -38,15 +38,21 @@ public abstract class Constructable<N> : MonoBehaviour where N : AbstractBuildNo
 
     public abstract void OnBreak();
 
-    public void Damage(float damage)
+    public virtual void Damage(float damage)
     {
         health -= damage;
+    }
+
+    public virtual void OnDrop(GameObject item)
+    {
+        // Do nothing by default
     }
 
     private void spawnDrop()
     {
         GameObject item = Instantiate(drop, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
         item.name = drop.name;
+        OnDrop(item);
         myNode.GetComponent<N>().occupied = false; // set node to unoccupied again
         Destroy(this.gameObject);
     }
