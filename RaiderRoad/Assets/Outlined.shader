@@ -11,7 +11,7 @@ Shader "Outlined/Silhouetted Diffuse" {
 		CGINCLUDE
 #include "UnityCG.cginc"
 
-		struct appdata {
+	struct appdata {
 		float4 vertex : POSITION;
 		float3 normal : NORMAL;
 	};
@@ -51,11 +51,11 @@ Shader "Outlined/Silhouetted Diffuse" {
 		ColorMask RGB // alpha not used
 
 					  // you can choose what kind of blending mode you want for the outline
-		Blend SrcAlpha OneMinusSrcAlpha // Normal
-										//Blend One One // Additive
-										//Blend One OneMinusDstColor // Soft Additive
-										//Blend DstColor Zero // Multiplicative
-										//Blend DstColor SrcColor // 2x Multiplicative
+		//Blend SrcAlpha OneMinusSrcAlpha // Normal
+		Blend One One // Additive
+		//Blend One OneMinusDstColor // Soft Additive
+		//Blend DstColor Zero // Multiplicative
+		//Blend DstColor SrcColor // 2x Multiplicative
 
 		CGPROGRAM
 #pragma vertex vert
