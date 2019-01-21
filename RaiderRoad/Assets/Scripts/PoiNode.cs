@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PoiNode : MonoBehaviour {
+public class PoiNode : AbstractBuildNode {
 
     //--------------------
     //  Public Variables
     //--------------------
-    public bool occupied = false;
     public bool isFloor; //to determine how to place if its on a floor or wall
 
     //--------------------
