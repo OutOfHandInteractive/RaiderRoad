@@ -21,18 +21,18 @@ abstract class Vehicle{
 
 }
 Enemy <|-- Vehicle
-abstract class Mook{
+abstract class Raider{
 
 }
-Enemy <|-- Mook
+Enemy <|-- Raider
 
 Vehicle <|-- LightVehicle
 Vehicle <|-- MediumVehicle
 Vehicle <|-- HeavyVehicle 
 
-Mook <|-- Thief
-Mook <|-- Hooligan
-Mook <|-- Bruiser
+Raider <|-- Thief
+Raider <|-- Hooligan
+Raider <|-- Bruiser
 
 abstract class EnemyAI{
 	+EnemyAI(Enemy parent)
@@ -54,11 +54,11 @@ abstract class VehicleAI {
 	+Vehicle getParent()
 }
 EnemyAIState <|-- VehicleAI
-abstract class MookAI {
-	+MookAI(Mook parent)
-	+Mook getParent()
+abstract class RaiderAI {
+	+RaiderAI(Raider parent)
+	+Raider getParent()
 }
-EnemyAIState <|-- MookAI
+EnemyAIState <|-- RaiderAI
 
 class StatefulAI {
 	+void addState(StateID, EnemyAIState)
@@ -69,8 +69,8 @@ class StatefulAI {
 EnemyAIState o- StatefulAI
 EnemyAI <|-- StatefulAI
 
-MookAI <|-- FightState
-MookAI <|-- WaitState
+RaiderAI <|-- FightState
+RaiderAI <|-- WaitState
 
 enum StateID {
 	FIGHT
