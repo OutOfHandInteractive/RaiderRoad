@@ -1,11 +1,21 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1912559895185384}
+  m_IsPrefabAsset: 1
 --- !u!1 &1912559895185384
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4339347909671162}
@@ -13,7 +23,7 @@ GameObject:
   - component: {fileID: 54783569267135524}
   - component: {fileID: 65677783782047942}
   m_Layer: 0
-  m_Name: ChunkSpawner
+  m_Name: RoadSpawner
   m_TagString: Road Spawner
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -21,10 +31,9 @@ GameObject:
   m_IsActive: 1
 --- !u!4 &4339347909671162
 Transform:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1912559895185384}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -2.1, z: 27.9}
@@ -33,31 +42,11 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114926823874260802
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1912559895185384}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b6d890c729807f04c9551eb96bbe4a09, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  roadChunks: []
-  randomChunk: 0
-  speed: -35
-  warningSprite: {fileID: 1962474547711424, guid: f179877d65f8ff249b5dca5a30158e93,
-    type: 3}
-  rv: {fileID: 0}
-  spawnDespawnZDistance: 100
 --- !u!54 &54783569267135524
 Rigidbody:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1912559895185384}
   serializedVersion: 2
   m_Mass: 1
@@ -70,10 +59,9 @@ Rigidbody:
   m_CollisionDetection: 0
 --- !u!65 &65677783782047942
 BoxCollider:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1912559895185384}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
@@ -81,3 +69,21 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 50, y: 10, z: 50}
   m_Center: {x: 0, y: 5, z: 25}
+--- !u!114 &114926823874260802
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1912559895185384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6d890c729807f04c9551eb96bbe4a09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  roadSegments:
+  - {fileID: 1000314907498318, guid: 1b06a305bdd56ca46af398cbebe2ab26, type: 2}
+  speed: -35
+  FirstSpawnOffset: 650
+  warningSprite: {fileID: 1962474547711424, guid: f179877d65f8ff249b5dca5a30158e93,
+    type: 2}
+  rv: {fileID: 0}

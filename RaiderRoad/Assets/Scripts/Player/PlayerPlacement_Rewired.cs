@@ -124,9 +124,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
                         if (!EngineBuild.GetComponent<PoiNode>().occupied)
                         {
 							myAni.SetTrigger("do_build");
-							EngineBuild.GetComponent<PoiNode>().BuildPoi(heldItem, floatingItem.GetComponent<Engine>().GetDurability()); //building floating item, because it has correct durability value (was held item)
-                            //this is issue, not correct on build. Likely instatiating object and not carrying over value, gonna need to edit fuction to carry dur
-                            //---------------------------------------------
+							EngineBuild.GetComponent<PoiNode>().BuildPoi(heldItem);
                             heldItem = null;
                             hasItem = false;
                             Destroy(floatingItem);
@@ -369,13 +367,6 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         else if(other.tag == "Drops" && !heldItem)
         {
             heldItem = other.GetComponent<ItemDrop>().item;
-            floatItem();
-            //pass durabilty if needed (POI)
-            if (heldItem.tag == "Engine")
-            {
-                floatingItem.GetComponent<Engine>().SetDurability(other.GetComponent<ItemDrop>().myItemDur);
-            }
-
             Destroy(other.gameObject);
             buildMode = true;
         }

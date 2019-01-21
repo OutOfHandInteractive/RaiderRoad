@@ -87,7 +87,6 @@ public class GameManager : MonoBehaviour {
         if (newHealth <= 0f) newHealth = 0;
         RVHealthText.GetComponent<Text>().text = "RV Health: " + Mathf.Ceil(newHealth);
     }
-
     public void EngineLoss()
     {
         GameObject[] engines = GameObject.FindGameObjectsWithTag("Engine");
