@@ -26,7 +26,7 @@ public abstract class DurableConstruct<N> : Constructable<N> where N : AbstractB
     {
         if (currDur <= 0f)
         {
-            myNode.GetComponent<PoiNode>().occupied = false; // set node to unoccupied again
+            myNode.GetComponent<N>().occupied = false; // set node to unoccupied again
             Destroy(gameObject);
         }
     }
