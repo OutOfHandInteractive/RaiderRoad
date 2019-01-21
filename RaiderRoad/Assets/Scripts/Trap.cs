@@ -2,53 +2,86 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Trap : MonoBehaviour
+public class Trap : Constructable<TrapNode>
 {
+    public float cooldownTime;
+    public float launchAngle;
+    public float launchMag;
 
-    public GameObject drop;
-    //hits is for destroying by hand to remove an ill placed wall
-    //health is the durability from attacks by raiders
-    public int hits;
-    public float health;
+    private List<Collider> colliders = new List<Collider>();
+    private float cooldownRemaining = 0;
 
-    public bool isHolo = false;
-    private Material myMat; //reference material of gameObject
-    public GameObject myNode; //node it spawned from
-
-    // Use this for initialization
-    void Start()
+    public override void OnBreak()
     {
-        myMat = gameObject.GetComponent<Renderer>().material;
-        if (isHolo) MakeHolo();
+        // Do nothing
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void OnStart()
     {
-        if (hits <= 0 || health <= 0) //can probably move this outside update
+        
+    }
+
+    public override void OnUpdate()
+    {
+        cooldownRemaining = Mathf.Max(0, cooldownRemaining - Time.deltaTime);
+    }
+
+    private void CheckTrap()
+    {
+        if(cooldownRemaining > 0 || isHolo)
         {
-            spawnDrop();
+            return;
+        }
+        Debug.Log("Checking " + colliders.Count + " colliders");
+        foreach (Collider other in colliders)
+        {
+            if (other == null)
+            {
+                colliders.Remove(other);
+                continue;
+            }
+            GameObject target = other.gameObject;
+            Debug.Log("Collider object tag: " + target.tag);
+            if (target.tag == "Enemy" || target.tag == "Player")
+            {
+                SpringTrap(target);
+                cooldownRemaining = cooldownTime;
+            }
+            else
+            {
+                colliders.Remove(other);
+            }
         }
     }
 
-    void spawnDrop()
+    private void SpringTrap(GameObject victim)
     {
-        GameObject item = Instantiate(drop, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
-        item.name = drop.name;
-        myNode.GetComponent<TrapNode>().occupied = false; // set node to unoccupied again
-        Destroy(this.gameObject);
+        Debug.Log("Flinging enemy...");
+        float angle = Mathf.Deg2Rad * launchAngle;
+        float y = Mathf.Sin(angle) * launchMag;
+        float z = Mathf.Cos(angle) * launchMag;
+        victim.GetComponent<Rigidbody>().AddForce(new Vector3(0, y, -z));
+        //victim.GetComponent<Rigidbody>().AddForce(Vector3.forward*1000000000f);
     }
 
-    public void Damage(float damage)
+    private void OnTriggerEnter(Collider other)
     {
-        health -= damage;
+        Debug.Log("Collider Entered");
+        if (!isHolo)
+        {
+            colliders.Add(other);
+            CheckTrap();
+        }
     }
 
-    void MakeHolo() // a function for making wall material holographic
+    private void OnTriggerStay(Collider other)
     {
-        gameObject.GetComponent<BoxCollider>().enabled = false;
-        Color tempColor = myMat.color;
-        tempColor.a = 0.4f;
-        myMat.color = tempColor;
+        CheckTrap();
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        Debug.Log("Collider Exited");
+        colliders.Remove(other);
     }
 }

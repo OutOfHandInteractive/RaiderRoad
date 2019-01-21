@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BuildNode : MonoBehaviour {
+public class BuildNode : AbstractBuildNode {
     //Michael
 
     //--------------------
@@ -10,9 +10,9 @@ public class BuildNode : MonoBehaviour {
     //--------------------
 
     public GameObject wall;
-    public bool occupied = false;
     public bool isHorizontal;
     public bool canPlaceWeapon = false;
+    private Material outline;
     //public float height = 1f;
 
     //--------------------
@@ -39,6 +39,11 @@ public class BuildNode : MonoBehaviour {
                 item.transform.parent = spawnNode.transform;
                 occupied = true;
             }
+            Material tempMat = item.GetComponent<Renderer>().material;
+            outline = Instantiate(tempMat);
+            item.GetComponent<Renderer>().material = outline;
+            outline.SetFloat("_Active", 0.0f);
+
             item.GetComponent<Wall>().myNode = gameObject;
         }
         else if(objectToPlace.tag == "Weapon" && canPlaceWeapon)
