@@ -14,10 +14,10 @@ public class PlayerSpawner : MonoBehaviour {
 
         //Debug.Log(SceneRV.name);
         Transform[] SpawnArray = new Transform[4];
-        SpawnArray[0] = SceneRV.transform.Find("player1Spawn");
-        SpawnArray[1] = SceneRV.transform.Find("player2Spawn");
-        SpawnArray[2] = SceneRV.transform.Find("player3Spawn");
-        SpawnArray[3] = SceneRV.transform.Find("player4Spawn");
+        SpawnArray[0] = SceneRV.transform.Find("SpawnPoints").Find("player1Spawn");
+        SpawnArray[1] = SceneRV.transform.Find("SpawnPoints").Find("player2Spawn");
+        SpawnArray[2] = SceneRV.transform.Find("SpawnPoints").Find("player3Spawn");
+        SpawnArray[3] = SceneRV.transform.Find("SpawnPoints").Find("player4Spawn");
         sceneManage.SpawnPlayers(SceneRV, SpawnArray);
 
     }
