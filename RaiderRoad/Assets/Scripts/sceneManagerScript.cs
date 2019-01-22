@@ -117,6 +117,7 @@ public class sceneManagerScript : MonoBehaviour {
             for (int i = 0; i < char1Players.Length; i++)       //for loop in case multiples of character
             {
                 int playId = char1Players[i];
+                Debug.Log("HEY" + playId);
                 player[i] = Instantiate(character1, playerPos[playId].position, character1.rotation, rv);    //create character, set them to player spawn position
                 player[i].gameObject.GetComponent<PlayerController_Rewired>().SetId(playId);
                 player[i].Find("View").gameObject.GetComponent<PlayerPlacement_Rewired>().SetId(playId);
