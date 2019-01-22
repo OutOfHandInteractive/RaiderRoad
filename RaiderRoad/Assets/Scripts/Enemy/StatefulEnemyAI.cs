@@ -286,7 +286,7 @@ public class StatefulEnemyAI : EnemyAI {
         if (other.gameObject.tag == "Engine" && currentState == State.Destroy)
         {
             other.gameObject.GetComponent<Engine>().Damage(25f);
-            if(other.gameObject.GetComponent<Engine>().breakHealth <= 0)
+            if(other.gameObject.GetComponent<Engine>().health <= 0)
             {
                 destroy.engineKill = true;
             }

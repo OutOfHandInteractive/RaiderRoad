@@ -2,66 +2,35 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Weapon : MonoBehaviour {
-
-    public GameObject drop;
-    //hits is for destroying by hand to remove an ill placed wall
-    //health is the durability from attacks by raiders
-    public int hits;
-    public float health;
-
-    public bool isHolo = false;
-    private Material myMat; //reference material of gameObject
-    public GameObject myNode; //node it spawned from
+public class Weapon : Constructable<BuildNode> {
 
     public List<GameObject> disabledNodes = new List<GameObject>();
 
     private GameObject myAttacker = null;
 
-    // Use this for initialization
-    void Start()
+    public override void OnStart()
     {
-        myMat = gameObject.GetComponentInChildren<Renderer>().material;
-        if (isHolo) MakeHolo();
+        // Do nothing
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void OnUpdate()
     {
-        if (hits <= 0 || health <= 0)
-        {
-            //Debug.Log(myAttacker.GetComponent<PlayerController_Rewired>() + "jdsfijdfidsfjdiofjdsifds");
-            if(myAttacker.GetComponent<PlayerController_Rewired>() != null)
-            {
-                myAttacker.GetComponent<PlayerController_Rewired>().clearInteractable();
-            }
-            spawnDrop();
-        }
+        // Do nothing
     }
 
-    void spawnDrop()
+    public override void OnBreak()
     {
-        GameObject item = Instantiate(drop, new Vector3(transform.position.x, transform.position.y - .5f, transform.position.z), Quaternion.identity);
-        item.name = drop.name;
-        if(myNode)
+        //Debug.Log(myAttacker.GetComponent<PlayerController_Rewired>() + "jdsfijdfidsfjdiofjdsifds");
+        if (myAttacker.GetComponent<PlayerController_Rewired>() != null)
         {
-            myNode.GetComponent<BuildNode>().occupied = false; // set node to unoccupied again
+            myAttacker.GetComponent<PlayerController_Rewired>().clearInteractable();
         }
-        Destroy(this.gameObject);
     }
 
     public void Damage(float damage, GameObject attackingObj)
     {
-        health -= damage;
+        Damage(damage);
         myAttacker = attackingObj;
-    }
-
-    void MakeHolo() // a function for making wall material holographic
-    {
-        gameObject.GetComponent<BoxCollider>().enabled = false;
-        Color tempColor = myMat.color;
-        tempColor.a = 0.4f;
-        myMat.color = tempColor;
     }
 
     public void DisableNear(){
@@ -90,10 +59,10 @@ public class Weapon : MonoBehaviour {
         }
     }
     /*
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(transform.position, transform.localScale);
-    }
-    */
+private void OnDrawGizmosSelected()
+{
+   Gizmos.color = Color.red;
+   Gizmos.DrawWireCube(transform.position, transform.localScale);
+}
+*/
 }
