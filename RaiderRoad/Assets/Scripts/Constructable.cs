@@ -1,6 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/// <summary>
+/// Non-generic superclass for all "Constructable" game objects (walls, traps, weapons, etc.).
+/// Implementers should use the genericized Constructable<> subclass, passing in the specific BuildNode type for the object.
+/// This class exists for purposes of fetching constructables with GameObject.GetComponent<>() due to C#'s retarded Generics system that doesn't allow Java style Wildcards.
+/// </summary>
 public abstract class Constructable : MonoBehaviour
 {
     public GameObject drop;

@@ -71,11 +71,6 @@ public abstract class Trap : DurableConstruct<TrapNode>
         }
     }
 
-    private void OnTriggerStay(Collider other)
-    {
-        CheckTrap();
-    }
-
     private void OnTriggerExit(Collider other)
     {
         Debug.Log("Collider Exited");
