@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 public class StatefulEnemyAI : EnemyAI {
     //States
-    public enum State { Wait, Board, Weapon, Steal, Destroy, Fight, Escape, Death };
+    public enum State { Wait, Board, Weapon, Steal, Destroy, Fight, Escape, Death, Lure };
     //State Classes
     private WaitEnemy wait;
     private BoardEnemy board;
@@ -15,6 +15,7 @@ public class StatefulEnemyAI : EnemyAI {
     private FightEnemy fight;
     private EscapeEnemy escape;
     private DeathEnemy death;
+    private LureEnemy lure;
 
     //Enemy variables
     private GameObject enemy;
@@ -55,6 +56,7 @@ public class StatefulEnemyAI : EnemyAI {
         fight = enemy.AddComponent<FightEnemy>();
         escape = enemy.AddComponent<EscapeEnemy>();
         death = enemy.AddComponent<DeathEnemy>();
+        lure = enemy.AddComponent<LureEnemy>();
 
         //Get vehicle information, side
         vehicle = gameObject.GetComponentInParent<VehicleAI>();
@@ -133,6 +135,9 @@ public class StatefulEnemyAI : EnemyAI {
                 case State.Death:
                     death.Death(enemy, dropOnDeath);
                     break;
+                case State.Lure:
+                    lure.Lure();
+                    break;
             }
         }
 
@@ -149,6 +154,46 @@ public class StatefulEnemyAI : EnemyAI {
     }
 
     //Methods to enter states, change color based on states
+    public void EnterStateIfNotAlready(State state)
+    {
+        if(currentState != state)
+        {
+            EnterState(state);
+        }
+    }
+    public void EnterState(State state)
+    {
+        switch (state)
+        {
+            case State.Wait:
+                EnterWait();
+                break;
+            case State.Board:
+                EnterBoard();
+                break;
+            case State.Weapon:
+                EnterWeapon();
+                break;
+            case State.Steal:
+                EnterSteal();
+                break;
+            case State.Destroy:
+                EnterDestroy();
+                break;
+            case State.Fight:
+                EnterFight();
+                break;
+            case State.Escape:
+                EnterEscape();
+                break;
+            case State.Death:
+                EnterDeath();
+                break;
+            case State.Lure:
+                EnterLure();
+                break;
+        }
+    }
     public void EnterWait()
     {
         currentState = State.Wait;
@@ -200,6 +245,14 @@ public class StatefulEnemyAI : EnemyAI {
     public void EnterDeath()
     {
         currentState = State.Death;
+    }
+
+    public void EnterLure()
+    {
+        State prev = currentState;
+        currentState = State.Lure;
+        lure.StartLure(prev);
+        enemy.GetComponent<Renderer>().material.color = Color.cyan;
     }
 
     /*public void Damage(float damage)

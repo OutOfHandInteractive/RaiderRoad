@@ -37,7 +37,7 @@ public abstract class Trap : DurableConstruct<TrapNode>
             }
             GameObject target = other.gameObject;
             Debug.Log("Collider object tag: " + target.tag);
-            if (target.tag == "Enemy" || target.tag == "Player")
+            if (CanTarget(target))
             {
                 Activate(target);
                 activated = true;
@@ -52,6 +52,11 @@ public abstract class Trap : DurableConstruct<TrapNode>
             DurabilityDamage(1.0f);
             cooldownRemaining = cooldownTime;
         }
+    }
+
+    public virtual bool CanTarget(GameObject target)
+    {
+        return Util.isEnemy(target) || Util.isPlayer(target);
     }
 
     public abstract void Activate(GameObject victim);
