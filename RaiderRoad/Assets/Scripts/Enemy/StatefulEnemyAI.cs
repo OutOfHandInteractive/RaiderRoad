@@ -36,11 +36,13 @@ public class StatefulEnemyAI : EnemyAI {
     public float maxHealth;
     public float damagePower;
     public float currentHealth;
+    public float damageMeter;
     private bool inRange;
 
     // Use this for initialization
     void Start () {
         currentHealth = maxHealth;
+        damageMeter = 0;
         inRange = false;
         scale = transform.localScale;
         damaged = false;
@@ -58,7 +60,7 @@ public class StatefulEnemyAI : EnemyAI {
 
         //Get vehicle information, side
         vehicle = gameObject.GetComponentInParent<VehicleAI>();
-        Debug.Log(vehicle.getSide());
+        //Debug.Log(vehicle.getSide());
         side = vehicle.getSide();
         parent = transform.parent.gameObject;
         if(vehicle.GetComponentInChildren<HasWeapon>() != null)
@@ -255,6 +257,12 @@ public class StatefulEnemyAI : EnemyAI {
         {
             transform.parent = other.transform;
         }
+        if(other.gameObject.tag == "Drops")
+        {
+            other.transform.parent = null;
+            other.transform.parent = transform;
+            steal.hasStolen = true;
+        }
     }
     IEnumerator WindUp(Collider other)
     {
@@ -281,11 +289,22 @@ public class StatefulEnemyAI : EnemyAI {
         if (other.gameObject.tag == "Wall" && currentState == State.Destroy)
         {
             //Debug.Log("HIT");
-            other.gameObject.GetComponent<Wall>().Damage(25f);
+            damageMeter = damageMeter + (100 * Time.deltaTime);
+            if(damageMeter >= 100)
+            {
+                other.gameObject.GetComponent<Wall>().Damage(100f);
+                damageMeter = 0;
+            }
+
         }
         if (other.gameObject.tag == "Engine" && currentState == State.Destroy)
         {
-            other.gameObject.GetComponent<Engine>().Damage(25f);
+            damageMeter = damageMeter + (100 * Time.deltaTime);
+            if (damageMeter >= 100)
+            {
+                other.gameObject.GetComponent<Engine>().Damage(100f);
+                damageMeter = 0;
+            }
             if(other.gameObject.GetComponent<Engine>().breakHealth <= 0)
             {
                 destroy.engineKill = true;
@@ -294,8 +313,8 @@ public class StatefulEnemyAI : EnemyAI {
         if (other.gameObject.tag == "Drops" && currentState == State.Steal)
         {
             //Debug.Log("HIT");
-            Destroy(other.gameObject);
-            steal.hasStolen = true;
+            //Destroy(other.gameObject);
+            
         }
     }
 
