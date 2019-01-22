@@ -371,9 +371,10 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
             heldItem = other.GetComponent<ItemDrop>().item;
             floatItem();
             //pass durabilty if needed (POI)
-            if (heldItem.tag == "Engine")
+            DurableConstruct construct = floatingItem.GetComponent<DurableConstruct>();
+            if (construct != null)
             {
-                floatingItem.GetComponent<Engine>().SetDurability(other.GetComponent<ItemDrop>().myItemDur);
+                construct.SetDurability(other.GetComponent<ItemDrop>().myItemDur);
             }
 
             Destroy(other.gameObject);
