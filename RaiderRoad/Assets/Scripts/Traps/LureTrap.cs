@@ -12,7 +12,12 @@ public class LureTrap : Trap
 
     public override bool CanTarget(GameObject target)
     {
-        return Util.isEnemy(target);
+        if (Util.isEnemy(target))
+        {
+            StatefulEnemyAI.State state = target.GetComponent<StatefulEnemyAI>().GetState();
+            return state != StatefulEnemyAI.State.Wait && state != StatefulEnemyAI.State.Weapon;
+        }
+        return false;
     }
 
     public override void Activate(GameObject victim)
