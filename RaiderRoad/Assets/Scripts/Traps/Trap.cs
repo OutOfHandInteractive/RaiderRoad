@@ -26,7 +26,7 @@ public abstract class Trap : DurableConstruct<TrapNode>
         {
             return;
         }
-        Debug.Log("Checking " + colliders.Count + " colliders");
+        //Debug.Log("Checking " + colliders.Count + " colliders");
         bool activated = false;
         foreach (Collider other in colliders)
         {
@@ -36,7 +36,7 @@ public abstract class Trap : DurableConstruct<TrapNode>
                 continue;
             }
             GameObject target = other.gameObject;
-            Debug.Log("Collider object tag: " + target.tag);
+            //Debug.Log("Collider object tag: " + target.tag);
             if (CanTarget(target))
             {
                 Activate(target);
