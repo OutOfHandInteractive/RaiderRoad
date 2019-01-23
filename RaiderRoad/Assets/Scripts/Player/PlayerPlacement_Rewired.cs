@@ -95,6 +95,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         //checking that player isn't "interacting" (driving, piloting weapon, etc)
         if (myInteracting)
         {
+            // Early exit
             return;
         }
 
@@ -144,9 +145,9 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
             holdTime += Time.deltaTime;
             if (holdTime > timeToDrop)
             {
-                GameObject dropItem = null;
-                if (heldItem.tag == "Trap") dropItem = heldItem.GetComponent<Trap>().drop; //get the drop prefab item from item's script
-                if (heldItem.tag == "Engine") dropItem = heldItem.GetComponent<Engine>().drop;
+                GameObject dropItem = heldItem.GetComponent<Constructable>().drop;
+                //if (heldItem.tag == "Trap") dropItem = heldItem.GetComponent<Trap>().drop; //get the drop prefab item from item's script
+                //if (heldItem.tag == "Engine") dropItem = heldItem.GetComponent<Engine>().drop;
                 // more ifs for other items
                 GameObject item = Instantiate(dropItem, new Vector3(transform.position.x, transform.position.y, transform.position.z + 1f), Quaternion.identity);    //create drop item
                 item.name = heldItem.name + " Drop";
@@ -231,19 +232,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         {
             if (wallInventory > 0 && player.GetButtonDown("Place Object") && nodes.Count > 0)
             {
-                GameObject toBuild = (GameObject)nodes[0];
-                if (!toBuild.GetComponent<BuildNode>().occupied)
-                {
-                    myAni.SetTrigger("do_build");
-                    toBuild.GetComponent<BuildNode>().Build(wall, toBuild);
-                    wallInventory--;
-                    changeInventory();
-                    //other.gameObject.SetActive (false);
-                }
-                else
-                {
-                    Debug.Log("Occupied >:(");
-                }
+                BuildWall();
             }
             if (wallInventory <= 0) buildMode = false; //leave wall build mode if you have no wall (needs more feedback)
         }
@@ -254,6 +243,23 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         else if (player.GetButtonUp("Attack") && myAni.GetBool("isAttacking"))
         {
             myAni.SetBool("isAttacking", false);
+        }
+    }
+
+    private void BuildWall()
+    {
+        GameObject toBuild = (GameObject)nodes[0];
+        if (!toBuild.GetComponent<BuildNode>().occupied)
+        {
+            myAni.SetTrigger("do_build");
+            toBuild.GetComponent<BuildNode>().Build(wall, toBuild);
+            wallInventory--;
+            changeInventory();
+            //other.gameObject.SetActive (false);
+        }
+        else
+        {
+            Debug.Log("Occupied >:(");
         }
     }
 
