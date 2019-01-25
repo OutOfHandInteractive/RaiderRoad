@@ -255,6 +255,11 @@ public class StatefulEnemyAI : EnemyAI {
         enemy.GetComponent<Renderer>().material.color = Color.cyan;
     }
 
+    public void Stunned()
+    {
+        
+    }
+
     /*public void Damage(float damage)
     {
         currentHealth -= damage;
