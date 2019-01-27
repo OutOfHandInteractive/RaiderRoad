@@ -161,14 +161,12 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         }
     }
 
-    private void BuildTrap()
+    private void BuildDurableConstruct(DurabilityBuildNode node)
     {
-        GameObject trapBuild = (GameObject)trapNodes[0];
-        //Debug.Log(trapBuild);
-        if (!trapBuild.GetComponent<TrapNode>().occupied)
+        if (!node.occupied)
         {
             myAni.SetTrigger("do_build");
-            trapBuild.GetComponent<TrapNode>().BuildTrap(heldItem);
+            node.Build(heldItem, floatingItem.GetComponent<DurableConstruct>().GetDurability());
             heldItem = null;
             hasItem = false;
             Destroy(floatingItem);
@@ -180,25 +178,17 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         }
     }
 
+    private void BuildTrap()
+    {
+        GameObject trapBuild = (GameObject)trapNodes[0];
+        //Debug.Log(trapBuild);
+        BuildDurableConstruct(trapBuild.GetComponent<TrapNode>());
+    }
+
     private void BuildEngine()
     {
         GameObject EngineBuild = (GameObject)engineNodes[0];
-        if (!EngineBuild.GetComponent<PoiNode>().occupied)
-        {
-            myAni.SetTrigger("do_build");
-            //building floating item, because it has correct durability value (was held item)
-            //this is issue, not correct on build. Likely instatiating object and not carrying over value, gonna need to edit fuction to carry dur
-            //---------------------------------------------
-            EngineBuild.GetComponent<PoiNode>().BuildPoi(heldItem, floatingItem.GetComponent<Engine>().GetDurability());
-            heldItem = null;
-            hasItem = false;
-            Destroy(floatingItem);
-            buildMode = false;
-        }
-        else
-        {
-            Debug.Log("Occupied >:(");
-        }
+        BuildDurableConstruct(EngineBuild.GetComponent<PoiNode>());
     }
 
     private void BuildWeapon()
