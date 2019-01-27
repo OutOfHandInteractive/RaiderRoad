@@ -37,7 +37,7 @@ public class BoardEnemy : JumpEnemy {
         StatefulEnemyAI ai = cObject.GetComponent<StatefulEnemyAI>();
         if(cObject.transform.parent.tag == "RV")
         {
-            if (action < 40)
+            if (action < 100)
             {
                 ai.EnterDestroy();
             }

@@ -337,7 +337,7 @@ public class StatefulEnemyAI : EnemyAI {
         {
             transform.parent = other.transform;
         }
-        if (other.gameObject.tag == "Drops")
+        if (other.gameObject.tag == "Drops" && currentState == State.Steal)
         {
             other.transform.parent = null;
             other.transform.parent = transform;
@@ -370,8 +370,10 @@ public class StatefulEnemyAI : EnemyAI {
         {
             //Debug.Log("HIT");
             damageMeter = damageMeter + (100 * Time.deltaTime);
+            other.gameObject.GetComponent<Constructable>().isOccupied = true;
             if (damageMeter >= 100)
             {
+                other.gameObject.GetComponent<Constructable>().isOccupied = false;
                 other.gameObject.GetComponent<Wall>().Damage(100f);
                 damageMeter = 0;
             }
@@ -392,8 +394,8 @@ public class StatefulEnemyAI : EnemyAI {
         if (other.gameObject.tag == "Drops" && currentState == State.Steal)
         {
             //Debug.Log("HIT");
-            Destroy(other.gameObject);
-            steal.hasStolen = true;
+            //Destroy(other.gameObject);
+            //steal.hasStolen = true;
         }
     }
 

@@ -15,6 +15,7 @@ public abstract class Constructable : MonoBehaviour
     public float health;
 
     public bool isHolo = false;
+    public bool isOccupied = false;
     private Material myMat; //reference material of gameObject
     public GameObject myNode; //node it spawned from
 
