@@ -21,6 +21,23 @@ public abstract class EnemyAI : MonoBehaviour
         return closest;
     }
 
+    public GameObject Closest(GameObject[] objects)
+    {
+        return Closest(gameObject.transform.position, objects);
+    }
+
+    public void MoveToward(GameObject target)
+    {
+        MoveToward(target.transform);
+    }
+
+    public void MoveToward(Transform target)
+    {
+        float movement = speed * Time.deltaTime;
+        gameObject.transform.LookAt(target);
+        gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, target.position, movement);
+    }
+
     /// <summary>
     /// This Method is for checking if an object TRULY IS null. Not Unity's stupid "fake null" that it looks for with it's overloaded == operator.
     /// </summary>

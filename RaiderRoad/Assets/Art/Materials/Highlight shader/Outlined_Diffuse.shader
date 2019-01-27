@@ -1,13 +1,12 @@
-﻿//Minor modifications made in accordance with provided license
-
-Shader "Outlined/Uniform"
+﻿Shader "Outlined/Uniform"
 {
 	Properties
 	{
 		_Color("Main Color", Color) = (0.5,0.5,0.5,1)
 		_MainTex ("Texture", 2D) = "white" {}
-		_OutlineColor ("Outline color", Color) = (0,0,0,1)
-		_OutlineWidth ("Outlines width", Range (0.0, 2.0)) = 1.1
+		_OutlineColor("Outline color", Color) = (0,0,0,.5)
+		_OutlineWidth("Outlines width", Range(0.0, 2.0)) = 1.1
+		_Active("Active", Range(0.0, 1.0)) = 1.0 //1 for hologram show
 	}
 
 	CGINCLUDE
@@ -27,6 +26,7 @@ Shader "Outlined/Uniform"
 	uniform float4 _OutlineColor;
 	uniform sampler2D _MainTex;
 	uniform float4 _Color;
+	uniform float _Active;
 
 	ENDCG
 
@@ -37,7 +37,7 @@ Shader "Outlined/Uniform"
 		Pass //Outline
 		{
 			ZWrite Off
-			ZTest Always
+			//ZTest Always
 			Cull Back
 			CGPROGRAM
 
@@ -47,7 +47,7 @@ Shader "Outlined/Uniform"
 			v2f vert(appdata v)
 			{
 				appdata original = v;
-				v.vertex.xyz += _OutlineWidth * normalize(v.vertex.xyz);
+				v.vertex.xyz += _OutlineWidth * normalize(v.vertex.xyz) * _Active;
 
 				v2f o;
 				o.pos = UnityObjectToClipPos(v.vertex);

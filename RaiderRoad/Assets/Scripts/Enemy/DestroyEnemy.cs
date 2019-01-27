@@ -46,14 +46,12 @@ public class DestroyEnemy : EnemyAI {
             {
                 cObject.GetComponent<StatefulEnemyAI>().EnterFight();
             }
-            cObject.transform.LookAt(wall.transform);
-            cObject.transform.position = Vector3.MoveTowards(cObject.transform.position, wall.transform.position, movement);
+            MoveToward(wall);
         }
         else
         {
             GameObject engine = Closest(cObject.transform.position, engines);
-            cObject.transform.LookAt(engine.transform);
-            cObject.transform.position = Vector3.MoveTowards(cObject.transform.position, engine.transform.position, movement);
+            MoveToward(engine);
         }
     }
 }

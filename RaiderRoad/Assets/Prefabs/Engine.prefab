@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 1961960362687784}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -6.99, y: 0.4, z: 0}
-  m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
+  m_LocalScale: {x: 0.6999999, y: 0.7, z: 0.70000005}
   m_Children:
   - {fileID: 161990232358420329}
   m_Father: {fileID: 0}
@@ -107,11 +107,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   drop: {fileID: 1099907924002084, guid: 85835a933eb86574a9eb24ab530c64d9, type: 3}
   hits: 3
-  breakHealth: 1
-  durability: 100
-  myHealthTrans: {fileID: 161990232358420329}
+  health: 3
   isHolo: 0
   myNode: {fileID: 0}
+  durability: 100
+  myHealthTrans: {fileID: 161990232358420329}
 --- !u!1001 &161990232358020585
 PrefabInstance:
   m_ObjectHideFlags: 0

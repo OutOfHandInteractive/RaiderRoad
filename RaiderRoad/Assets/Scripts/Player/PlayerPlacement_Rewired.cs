@@ -93,185 +93,219 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
 
         myInteracting = pController.interacting;
         //checking that player isn't "interacting" (driving, piloting weapon, etc)
-        if (!myInteracting) {
+        if (myInteracting)
+        {
+            // Early exit
+            return;
+        }
 
-            if (heldItem != null) //change this to tags later
+        if (heldItem != null) //change this to tags later
+        {
+            HoldingItem();
+        }
+        else
+        {
+            NotHoldingItem();
+        }
+
+        if (currentAttColor.a > 0)
+        {
+            currentAttColor.a -= 1f * Time.deltaTime; //transitioning color from visibile to invisible
+            TempAttMat.color = currentAttColor;
+        }
+        else if (currentAttColor.a < 0)
+        { // getting alpha to exactly 0, and after that won't check further
+            currentAttColor.a = 0;
+            TempAttMat.color = currentAttColor;
+        }
+
+    }
+
+    private void HoldingItem()
+    {
+        floatItem();
+        if (player.GetButtonDown("Place Object"))
+        {
+            if (heldItem.tag == "Trap" && trapNodes.Count > 0)
             {
-                floatItem();
-                if (player.GetButtonDown("Place Object"))
-                {
-                    if (heldItem.tag == "Trap" && trapNodes.Count > 0)
-                    {
-                        GameObject trapBuild = (GameObject)trapNodes[0];
-                        //Debug.Log(trapBuild);
-                        if (!trapBuild.GetComponent<TrapNode>().occupied)
-                        {
-							myAni.SetTrigger("do_build");
-							trapBuild.GetComponent<TrapNode>().BuildTrap(heldItem);
-                            heldItem = null;
-                            hasItem = false;
-                            Destroy(floatingItem);
-                            buildMode = false;
-                        }
-                        else
-                        {
-                            Debug.Log("Occupied >:(");
-                        }
-                    }
-                    else if (heldItem.tag == "Engine" && engineNodes.Count > 0)
-                    {
-                        GameObject EngineBuild = (GameObject)engineNodes[0];
-                        if (!EngineBuild.GetComponent<PoiNode>().occupied)
-                        {
-							myAni.SetTrigger("do_build");
-							EngineBuild.GetComponent<PoiNode>().BuildPoi(heldItem, floatingItem.GetComponent<Engine>().GetDurability()); //building floating item, because it has correct durability value (was held item)
-                            //this is issue, not correct on build. Likely instatiating object and not carrying over value, gonna need to edit fuction to carry dur
-                            //---------------------------------------------
-                            heldItem = null;
-                            hasItem = false;
-                            Destroy(floatingItem);
-                            buildMode = false;
-						}
-                        else
-                        {
-                            Debug.Log("Occupied >:(");
-                        }
-                    }
-                    else if (heldItem.tag == "Weapon") //to change later?
-                    {
-                        GameObject toBuild = (GameObject)nodes[0];
-                        if (!toBuild.GetComponent<BuildNode>().occupied)
-                        {
-							myAni.SetTrigger("do_build");
-							toBuild.GetComponent<BuildNode>().Build(heldItem, toBuild);
-                            heldItem = null;
-                            hasItem = false;
-                            Destroy(floatingItem);
-                            buildMode = false;
-							//other.gameObject.SetActive (false);
-						}
-                        else
-                        {
-                            Debug.Log("Occupied >:(");
-                        }
-                    }
-                }
-
-                if (player.GetButton("Use"))
-                {
-                    holdTime += Time.deltaTime;
-                    if (holdTime > timeToDrop)
-                    {
-                        GameObject dropItem = null;
-                        if (heldItem.tag == "Trap") dropItem = heldItem.GetComponent<Trap>().drop; //get the drop prefab item from item's script
-                        if (heldItem.tag == "Engine") dropItem = heldItem.GetComponent<Engine>().drop;
-                        // more ifs for other items
-                        GameObject item = Instantiate(dropItem, new Vector3(transform.position.x, transform.position.y, transform.position.z + 1f), Quaternion.identity);    //create drop item
-                        item.name = heldItem.name + " Drop";
-
-                        heldItem = null;
-                        hasItem = false;
-                        Destroy(floatingItem);
-                        buildMode = false;
-                        holdTime = 0f;
-                    }
-                }
+                BuildTrap();
             }
-            else
+            else if (heldItem.tag == "Engine" && engineNodes.Count > 0)
             {
-
-                if (player.GetButtonDown("Build Mode"))
-                {
-                    if (buildMode) attackRange = new ArrayList(); //When switching out of build mode, attack will get stuck in InvalidOperationException: List has changed. This helps
-                    buildMode = !buildMode;
-                }
-                if (buildMode)
-                {
-                    if (wallInventory > 0 && player.GetButtonDown("Place Object") && nodes.Count > 0)
-                    {
-                        GameObject toBuild = (GameObject)nodes[0];
-                        if (!toBuild.GetComponent<BuildNode>().occupied)
-                        {
-							myAni.SetTrigger("do_build");
-							toBuild.GetComponent<BuildNode>().Build(wall, toBuild);
-                            wallInventory--;
-                            changeInventory();
-                            //other.gameObject.SetActive (false);
-                        }
-                        else
-                        {
-                            Debug.Log("Occupied >:(");
-                        }
-                    }
-                    if (wallInventory <= 0) buildMode = false; //leave wall build mode if you have no wall (needs more feedback)
-                }
-                else if (player.GetButtonDown("Attack") && canAttack)
-                {
-                    myAni.SetBool("isAttacking", true);
-                    canAttack = false;
-                    attackCount = attack_cooldown;
-                    //myAni.SetBool("isAttacking", false);
-                    if (destructableParts.Count == 0)
-                    {
-                        foreach (GameObject item in attackRange)
-                        {
-                            //Debug.Log(item);
-                            if (item == null)
-                            {
-                                attackRange.Remove(item);
-                            }
-                            else if (item.CompareTag("Wall"))
-                            {
-                                item.GetComponent<Wall>().Damage(damage);
-                            }
-                            else if (item.CompareTag("Trap"))
-                            {
-                                item.GetComponent<Trap>().Damage(damage);
-                            }
-                            else if (item.CompareTag("Engine"))
-                            {
-                                item.GetComponent<Engine>().Damage(damage);
-                            }
-                            else if (item.CompareTag("Weapon"))
-                            {
-                                item.GetComponent<Weapon>().Damage(damage, gameObject.transform.parent.gameObject);
-                            }
-                            else if (item.CompareTag("Enemy"))
-                            {
-                                Vector3 dir = item.transform.position - transform.parent.position;
-                                dir = Vector3.Normalize(new Vector3(dir.x, 0.0f, dir.z));
-                                item.GetComponent<Rigidbody>().AddForce(dir * knockback_force);
-                                item.GetComponent<StatefulEnemyAI>().takeDamage(damage);
-                                //Debug.Log(dir);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        if (destructableParts[0].GetComponent<DestructiblePart>().takeDamage(1) <= 0)
-                        {
-                            destructableParts.RemoveAt(0);
-                        }
-                    }
-
-                    currentAttColor.a = 0.5f; //setting attack model's mat to 1/2 visible
-
-                }
-                else if (player.GetButtonUp("Attack") && myAni.GetBool("isAttacking"))
-                {
-                    myAni.SetBool("isAttacking", false);
-                }
+                BuildEngine();
             }
-        
-            if (currentAttColor.a > 0) {
-                currentAttColor.a -= 1f * Time.deltaTime; //transitioning color from visibile to invisible
-                TempAttMat.color = currentAttColor;
-            } else if (currentAttColor.a < 0) { // getting alpha to exactly 0, and after that won't check further
-                currentAttColor.a = 0;
-                TempAttMat.color = currentAttColor;
+            else if (heldItem.tag == "Weapon") //to change later?
+            {
+                BuildWeapon();
             }
         }
 
+        if (player.GetButton("Use"))
+        {
+            holdTime += Time.deltaTime;
+            if (holdTime > timeToDrop)
+            {
+                GameObject dropItem = heldItem.GetComponent<Constructable>().drop;
+                //if (heldItem.tag == "Trap") dropItem = heldItem.GetComponent<Trap>().drop; //get the drop prefab item from item's script
+                //if (heldItem.tag == "Engine") dropItem = heldItem.GetComponent<Engine>().drop;
+                // more ifs for other items
+                GameObject item = Instantiate(dropItem, new Vector3(transform.position.x, transform.position.y, transform.position.z + 1f), Quaternion.identity);    //create drop item
+                item.name = heldItem.name + " Drop";
+
+                heldItem = null;
+                hasItem = false;
+                Destroy(floatingItem);
+                buildMode = false;
+                holdTime = 0f;
+            }
+        }
+    }
+
+    private void BuildTrap()
+    {
+        GameObject trapBuild = (GameObject)trapNodes[0];
+        //Debug.Log(trapBuild);
+        if (!trapBuild.GetComponent<TrapNode>().occupied)
+        {
+            myAni.SetTrigger("do_build");
+            trapBuild.GetComponent<TrapNode>().BuildTrap(heldItem);
+            heldItem = null;
+            hasItem = false;
+            Destroy(floatingItem);
+            buildMode = false;
+        }
+        else
+        {
+            Debug.Log("Occupied >:(");
+        }
+    }
+
+    private void BuildEngine()
+    {
+        GameObject EngineBuild = (GameObject)engineNodes[0];
+        if (!EngineBuild.GetComponent<PoiNode>().occupied)
+        {
+            myAni.SetTrigger("do_build");
+            //building floating item, because it has correct durability value (was held item)
+            //this is issue, not correct on build. Likely instatiating object and not carrying over value, gonna need to edit fuction to carry dur
+            //---------------------------------------------
+            EngineBuild.GetComponent<PoiNode>().BuildPoi(heldItem, floatingItem.GetComponent<Engine>().GetDurability());
+            heldItem = null;
+            hasItem = false;
+            Destroy(floatingItem);
+            buildMode = false;
+        }
+        else
+        {
+            Debug.Log("Occupied >:(");
+        }
+    }
+
+    private void BuildWeapon()
+    {
+        GameObject toBuild = (GameObject)nodes[0];
+        if (!toBuild.GetComponent<BuildNode>().occupied)
+        {
+            myAni.SetTrigger("do_build");
+            toBuild.GetComponent<BuildNode>().Build(heldItem, toBuild);
+            heldItem = null;
+            hasItem = false;
+            Destroy(floatingItem);
+            buildMode = false;
+            //other.gameObject.SetActive (false);
+        }
+        else
+        {
+            Debug.Log("Occupied >:(");
+        }
+    }
+
+    private void NotHoldingItem()
+    {
+        if (player.GetButtonDown("Build Mode"))
+        {
+            //When switching out of build mode, attack will get stuck in InvalidOperationException: List has changed. This helps
+            if (buildMode) attackRange = new ArrayList();
+            buildMode = !buildMode;
+        }
+        if (buildMode)
+        {
+            if (wallInventory > 0 && player.GetButtonDown("Place Object") && nodes.Count > 0)
+            {
+                BuildWall();
+            }
+            if (wallInventory <= 0) buildMode = false; //leave wall build mode if you have no wall (needs more feedback)
+        }
+        else if (player.GetButtonDown("Attack") && canAttack)
+        {
+            Attack();
+        }
+        else if (player.GetButtonUp("Attack") && myAni.GetBool("isAttacking"))
+        {
+            myAni.SetBool("isAttacking", false);
+        }
+    }
+
+    private void BuildWall()
+    {
+        GameObject toBuild = (GameObject)nodes[0];
+        if (!toBuild.GetComponent<BuildNode>().occupied)
+        {
+            myAni.SetTrigger("do_build");
+            toBuild.GetComponent<BuildNode>().Build(wall, toBuild);
+            wallInventory--;
+            changeInventory();
+            //other.gameObject.SetActive (false);
+        }
+        else
+        {
+            Debug.Log("Occupied >:(");
+        }
+    }
+
+    private void Attack()
+    {
+        myAni.SetBool("isAttacking", true);
+        canAttack = false;
+        attackCount = attack_cooldown;
+        //myAni.SetBool("isAttacking", false);
+        if (destructableParts.Count == 0)
+        {
+            foreach (GameObject item in attackRange)
+            {
+                //Debug.Log(item);
+                Constructable construct;
+                if (item == null)
+                {
+                    attackRange.Remove(item);
+                }
+                else if (item.CompareTag("Weapon"))
+                {
+                    item.GetComponent<Weapon>().Damage(damage, gameObject.transform.parent.gameObject);
+                }
+                else if ((construct = item.GetComponent<Constructable>()) != null)
+                {
+                    construct.Damage(damage);
+                }
+                else if (item.CompareTag("Enemy"))
+                {
+                    Vector3 dir = item.transform.position - transform.parent.position;
+                    dir = Vector3.Normalize(new Vector3(dir.x, 0.0f, dir.z));
+                    item.GetComponent<Rigidbody>().AddForce(dir * knockback_force);
+                    item.GetComponent<StatefulEnemyAI>().takeDamage(damage);
+                    //Debug.Log(dir);
+                }
+            }
+        }
+        else
+        {
+            if (destructableParts[0].GetComponent<DestructiblePart>().takeDamage(1) <= 0)
+            {
+                destructableParts.RemoveAt(0);
+            }
+        }
+
+        currentAttColor.a = 0.5f; //setting attack model's mat to 1/2 visible
     }
 
     void OnTriggerEnter(Collider other)
@@ -371,9 +405,10 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
             heldItem = other.GetComponent<ItemDrop>().item;
             floatItem();
             //pass durabilty if needed (POI)
-            if (heldItem.tag == "Engine")
+            DurableConstruct construct = floatingItem.GetComponent<DurableConstruct>();
+            if (construct != null)
             {
-                floatingItem.GetComponent<Engine>().SetDurability(other.GetComponent<ItemDrop>().myItemDur);
+                construct.SetDurability(other.GetComponent<ItemDrop>().myItemDur);
             }
 
             Destroy(other.gameObject);
@@ -433,6 +468,8 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
             floatingItem = Instantiate(myFloat, //fix later for prettier
                 new Vector3(transform.parent.position.x, transform.parent.position.y + 1.5f, transform.parent.position.z), Quaternion.identity, transform.parent);
             hasItem = true;
+            floatingItem.tag = "Untagged";
+            floatingItem.GetComponentInChildren<BoxCollider>().enabled = false;
         }
 
     }
