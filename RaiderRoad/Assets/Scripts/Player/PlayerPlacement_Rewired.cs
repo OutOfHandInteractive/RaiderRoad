@@ -468,6 +468,8 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
             floatingItem = Instantiate(myFloat, //fix later for prettier
                 new Vector3(transform.parent.position.x, transform.parent.position.y + 1.5f, transform.parent.position.z), Quaternion.identity, transform.parent);
             hasItem = true;
+            floatingItem.tag = "Untagged";
+            floatingItem.GetComponentInChildren<BoxCollider>().enabled = false;
         }
 
     }
