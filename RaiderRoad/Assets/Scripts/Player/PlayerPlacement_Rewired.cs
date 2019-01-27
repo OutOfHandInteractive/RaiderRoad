@@ -293,6 +293,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
                     dir = Vector3.Normalize(new Vector3(dir.x, 0.0f, dir.z));
                     item.GetComponent<Rigidbody>().AddForce(dir * knockback_force);
                     item.GetComponent<StatefulEnemyAI>().takeDamage(damage);
+                    item.GetComponent<StatefulEnemyAI>().Stunned();
                     //Debug.Log(dir);
                 }
             }
