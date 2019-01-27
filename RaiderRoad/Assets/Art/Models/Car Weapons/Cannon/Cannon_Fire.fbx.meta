@@ -39,6 +39,14 @@ ModelImporter:
     100066: Cannon_Fire 1
     100068: cannon_front
     100070: Rig
+    100072: l_grip
+    100074: L_Handle2x4
+    100076: lGrip
+    100078: lGripBracket
+    100080: r_grip
+    100082: R_Handle2x4
+    100084: rGrip
+    100086: rGripBracket
     400000: Base
     400002: BaseCrossbar2x4
     400004: BaseMountPlank
@@ -75,7 +83,16 @@ ModelImporter:
     400066: Cannon_Fire 1
     400068: cannon_front
     400070: Rig
+    400072: l_grip
+    400074: L_Handle2x4
+    400076: lGrip
+    400078: lGripBracket
+    400080: r_grip
+    400082: R_Handle2x4
+    400084: rGrip
+    400086: rGripBracket
     2100000: lambert1
+    2100002: lambert2
     2300000: BaseCrossbar2x4
     2300002: BaseMountPlank
     2300004: BaseMountPlank1
@@ -101,6 +118,12 @@ ModelImporter:
     2300044: RMountScrew2
     2300046: RotatingBase
     2300048: ShellBase
+    2300050: L_Handle2x4
+    2300052: lGrip
+    2300054: lGripBracket
+    2300056: R_Handle2x4
+    2300058: rGrip
+    2300060: rGripBracket
     3300000: BaseCrossbar2x4
     3300002: BaseMountPlank
     3300004: BaseMountPlank1
@@ -126,6 +149,12 @@ ModelImporter:
     3300044: RMountScrew2
     3300046: RotatingBase
     3300048: ShellBase
+    3300050: L_Handle2x4
+    3300052: lGrip
+    3300054: lGripBracket
+    3300056: R_Handle2x4
+    3300058: rGrip
+    3300060: rGripBracket
     4300000: ShellBase
     4300002: BaseMountPlank
     4300004: R_Base2x4
@@ -151,6 +180,12 @@ ModelImporter:
     4300044: RotatingBase
     4300046: pipeHandle
     4300048: cannonBarrel
+    4300050: lGrip
+    4300052: L_Handle2x4
+    4300054: lGripBracket
+    4300056: rGripBracket
+    4300058: R_Handle2x4
+    4300060: rGrip
     7400000: Cannon_Fire
     9500000: //RootNode
     13700000: cannonBarrel
@@ -216,6 +251,7 @@ ModelImporter:
     globalScale: 1
     meshCompression: 0
     addColliders: 0
+    useSRGBMaterialColor: 1
     importVisibility: 1
     importBlendShapes: 1
     importCameras: 1
@@ -233,13 +269,16 @@ ModelImporter:
     secondaryUVHardAngle: 88
     secondaryUVPackMargin: 4
     useFileScale: 1
-    previousCalculatedGlobalScale: 1
+    previousCalculatedGlobalScale: 0.01
     hasPreviousCalculatedGlobalScale: 1
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
     tangentImportMode: 3
     normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
   importAnimation: 1
   copyAvatar: 0
   humanDescription:
@@ -254,7 +293,6 @@ ModelImporter:
     legStretch: 0.05
     feetSpacing: 0
     rootMotionBoneName: 
-    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
     hasTranslationDoF: 0
     hasExtraRoot: 0
     skeletonHasParents: 1

@@ -4,9 +4,8 @@ using UnityEngine;
 
 public class Cargo : DestructiblePart {
 
-	public float healthModifier;
-	public float ramDamageModifier;
-	public float speedModifier;
+	public int armorStacks;
+	public int speedStacks;
 	public float threatModifier;
 
 	public GameObject payloadNode;
