@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: a3e7ffe2eb6eb7c468a7c704962441ec
+guid: 58f7fcbe7ec6e2448bf0e1053b5aa73a
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
@@ -339,8 +339,9 @@ ModelImporter:
     400330: ThumbR1_c 1
     400332: ThumbR2_c
     400334: ThumbR2_c 1
-    2100000: DadTexNew
-    2100002: lambert1
+    2100000: Skin_R
+    2100002: NewTex
+    2100004: lambert1
     2300000: pPlane1
     3300000: pPlane1
     4300000: skull
@@ -350,7 +351,7 @@ ModelImporter:
     4300008: Hair2
     4300010: Body
     4300012: pPlane1
-    7400000: run
+    7400000: jump
     9500000: //RootNode
     13700000: Body
     13700002: Eyebrows
@@ -358,12 +359,7 @@ ModelImporter:
     13700006: Hair2
     13700008: Nose
     13700010: skull
-  externalObjects:
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: DadTexNew
-    second: {fileID: 2100000, guid: 3a3f5ceafac0aa147bbee084bfefc29c, type: 2}
+  externalObjects: {}
   materials:
     importMaterials: 1
     materialName: 0
@@ -392,17 +388,17 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: run
+      name: jump
       takeName: Take 001
       firstFrame: 0
-      lastFrame: 20
+      lastFrame: 56
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 1
+      loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
