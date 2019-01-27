@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Attachment : MonoBehaviour {
 
-	public float healthModifier;
-	public float ramDamageModifier;
-	public float speedModifier;
+	public float ramDamageStacks;
+	public int armorStacks;
+	public int speedStacks;
 	public float threatModifier;
 }

@@ -6,9 +6,6 @@ public abstract class VehicleFactory_I : MonoBehaviour {
 
 	public GameObject VehicleBase;
 	protected static System.Random rand;
-	private float vehicleHealth = 0f;
-	private float vehicleRamDamage = 0f;
-	private float vehicleSpeed = 0f;
 
 	public List<GameObject> Cab;
 	public List<GameObject> Cargo;
@@ -25,16 +22,27 @@ public abstract class VehicleFactory_I : MonoBehaviour {
 	}
 
 	public GameObject AssembleVehicle() {
+		float armorStacks = 0f;
+		float ramDamageStacks = 0f;
+		float speedStacks = 0f;
+
 		GameObject vehicle, chassis, cab, cargo;
 		vehicle = Instantiate(VehicleBase, new Vector3(0, 0, 0), Quaternion.identity);
 		VehicleAI vAI = vehicle.GetComponent<VehicleAI>();
 
 		chassis = AttachChassis(vehicle, vAI);
-		cab = AttachCab(chassis, vAI);
-		cargo = AttachCargo(cab, vAI);
-		AttachAttachment(cab, vAI);
+		cab = AttachCab(chassis, vAI, ref armorStacks, ref ramDamageStacks, ref speedStacks);
+		cargo = AttachCargo(cab, vAI, ref armorStacks, ref ramDamageStacks, ref speedStacks);
+		AttachAttachment(cab, vAI, ref armorStacks, ref ramDamageStacks, ref speedStacks);
 		AttachPayload(cargo);
 		AttachWheels(chassis, vAI);
+
+		Chassis chassisScript = chassis.GetComponent<Chassis>();
+
+		vAI.setMaxHealth(chassisScript.GetBaseHealth() * (1 + armorStacks * Constants.ARMOR_TOTALHEALTH_MODIFIER_PER_STACK));
+		vAI.setRamDamage(ramDamageStacks);
+		vAI.setSpeed(chassisScript.baseSpeed * (1 + speedStacks * Constants.SPEED_MOVEMENT_MODIFIER_PER_STACK));
+		vAI.movementChance += (speedStacks * Constants.SPEED_LOCATIONCHANGE_MODIFIER_PER_STACK);
 
 		vehicle.GetComponent<eventObject>().setDifficulty(chassis.GetComponent<Chassis>().baseThreat);
 
@@ -49,51 +57,48 @@ public abstract class VehicleFactory_I : MonoBehaviour {
 		chassis.transform.position = Vector3.zero;
 
 		Chassis chassisScript = chassis.GetComponent<Chassis>();
-		v.setMaxHealth(v.getMaxHealth() + chassisScript.baseHealth);
-		v.setRamDamage(v.getRamDamage() + chassisScript.baseRamDamage);
-		v.setSpeed(v.getSpeed() + chassisScript.baseSpeed);
+
+		//speedStacks += chassisScript.baseSpeed;
 
 		return chassis;
 	}
 
 	// attach cab to chassis
-	public GameObject AttachCab(GameObject chassis, VehicleAI v) {
+	public GameObject AttachCab(GameObject chassis, VehicleAI v, ref float armorStacks, ref float ramDamageStacks, ref float speedStacks) {
 		GameObject cab = Instantiate(selectCab());
 		cab.transform.SetParent(chassis.GetComponent<Chassis>().cabNode.transform);
 		cab.transform.position = cab.transform.parent.transform.position;
 		Cab cabScript = cab.GetComponent<Cab>();
 
-		v.setMaxHealth(v.getMaxHealth() + cabScript.healthModifier);
-		v.setRamDamage(v.getRamDamage() + cabScript.ramDamageModifier);
-		v.setSpeed(v.getSpeed() + cabScript.speedModifier);
+		armorStacks += cabScript.armorStacks;
+		speedStacks += cabScript.speedStacks;
 
 		return cab;
 	}
 
 	// attach cargo to cab
-	public GameObject AttachCargo(GameObject cab, VehicleAI v) {
+	public GameObject AttachCargo(GameObject cab, VehicleAI v, ref float armorStacks, ref float ramDamageStacks, ref float speedStacks) {
 		GameObject cargo = Instantiate(selectCargo());
 		cargo.transform.SetParent(cab.GetComponent<Cab>().cargoNode.transform);
 		cargo.transform.position = cargo.transform.parent.transform.position;
 		Cargo cargoScript = cargo.GetComponent<Cargo>();
 
-		v.setMaxHealth(v.getMaxHealth() + cargoScript.healthModifier);
-		v.setRamDamage(v.getRamDamage() + cargoScript.ramDamageModifier);
-		v.setSpeed(v.getSpeed() + cargoScript.speedModifier);
+		armorStacks += cargoScript.armorStacks;
+		speedStacks += cargoScript.speedStacks;
 
 		return cargo;
 	}
 
 	// attach attachment to cab
-	public void AttachAttachment(GameObject cab, VehicleAI v) {
+	public void AttachAttachment(GameObject cab, VehicleAI v, ref float armorStacks, ref float ramDamageStacks, ref float speedStacks) {
 		GameObject front_attachment = Instantiate(selectAttachment());
 		front_attachment.transform.SetParent(cab.GetComponent<Cab>().front_attachmentNode.transform);
 		front_attachment.transform.position = front_attachment.transform.parent.transform.position;
 		Attachment attachmentScript = front_attachment.GetComponent<Attachment>();
 
-		v.setMaxHealth(v.getMaxHealth() + attachmentScript.healthModifier);
-		v.setRamDamage(v.getRamDamage() + attachmentScript.ramDamageModifier);
-		v.setSpeed(v.getSpeed() + attachmentScript.speedModifier);
+		ramDamageStacks += attachmentScript.ramDamageStacks;
+		armorStacks += attachmentScript.armorStacks;
+		ramDamageStacks += attachmentScript.ramDamageStacks;
 	}
 
 	#region Component Selectors

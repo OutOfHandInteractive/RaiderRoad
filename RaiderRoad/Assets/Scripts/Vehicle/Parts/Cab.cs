@@ -10,8 +10,7 @@ public class Cab : DestructiblePart {
 	public GameObject cargoNode, front_attachmentNode;
 
 	// gameplay values
-	public float healthModifier;
-	public float ramDamageModifier;
-	public float speedModifier;
+	public int armorStacks;
+	public int speedStacks;
 	public float threatModifier;
 }
