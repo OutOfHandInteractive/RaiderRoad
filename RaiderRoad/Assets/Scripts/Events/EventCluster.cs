@@ -69,7 +69,14 @@ public class EventCluster : MonoBehaviour {
         
     //calls next event in cluster
     void callEvent(){
-        events[i].spawn(vFactory);
+        if (events[i]._etype == EventManager.eventTypes.obstacle)
+        {
+            events[i].oSpawn();
+        }
+        else if (events[i]._etype == EventManager.eventTypes.vehicle)
+        {
+            events[i].spawn(vFactory);
+        }
         i++;
     }
 }
