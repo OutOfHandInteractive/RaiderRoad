@@ -106,8 +106,9 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
                         //Debug.Log(trapBuild);
                         if (!trapBuild.GetComponent<TrapNode>().occupied)
                         {
-							myAni.SetTrigger("do_build");
-							trapBuild.GetComponent<TrapNode>().BuildTrap(heldItem);
+							myAni.SetTrigger("build");
+                            myAni.SetBool("isHolding", false);
+                            trapBuild.GetComponent<TrapNode>().BuildTrap(heldItem);
                             heldItem = null;
                             hasItem = false;
                             Destroy(floatingItem);
@@ -123,8 +124,9 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
                         GameObject EngineBuild = (GameObject)engineNodes[0];
                         if (!EngineBuild.GetComponent<PoiNode>().occupied)
                         {
-							myAni.SetTrigger("do_build");
-							EngineBuild.GetComponent<PoiNode>().BuildPoi(heldItem);
+							myAni.SetTrigger("build");
+                            myAni.SetBool("isHolding", false);
+                            EngineBuild.GetComponent<PoiNode>().BuildPoi(heldItem);
                             heldItem = null;
                             hasItem = false;
                             Destroy(floatingItem);
@@ -140,8 +142,9 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
                         GameObject toBuild = (GameObject)nodes[0];
                         if (!toBuild.GetComponent<BuildNode>().occupied)
                         {
-							myAni.SetTrigger("do_build");
-							toBuild.GetComponent<BuildNode>().Build(heldItem, toBuild);
+							myAni.SetTrigger("build");
+                            myAni.SetBool("isHolding", false);
+                            toBuild.GetComponent<BuildNode>().Build(heldItem, toBuild);
                             heldItem = null;
                             hasItem = false;
                             Destroy(floatingItem);
@@ -160,6 +163,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
                     holdTime += Time.deltaTime;
                     if (holdTime > timeToDrop)
                     {
+                        myAni.SetBool("isHolding", false);
                         GameObject dropItem = null;
                         if (heldItem.tag == "Trap") dropItem = heldItem.GetComponent<Trap>().drop; //get the drop prefab item from item's script
                         if (heldItem.tag == "Engine") dropItem = heldItem.GetComponent<Engine>().drop;
@@ -190,7 +194,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
                         GameObject toBuild = (GameObject)nodes[0];
                         if (!toBuild.GetComponent<BuildNode>().occupied)
                         {
-							myAni.SetTrigger("do_build");
+							myAni.SetTrigger("build");
 							toBuild.GetComponent<BuildNode>().Build(wall, toBuild);
                             wallInventory--;
                             changeInventory();
@@ -205,7 +209,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
                 }
                 else if (player.GetButtonDown("Attack") && canAttack)
                 {
-                    myAni.SetBool("isAttacking", true);
+                    myAni.SetTrigger("attack");
                     canAttack = false;
                     attackCount = attack_cooldown;
                     //myAni.SetBool("isAttacking", false);
@@ -255,10 +259,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
                     currentAttColor.a = 0.5f; //setting attack model's mat to 1/2 visible
 
                 }
-                else if (player.GetButtonUp("Attack") && myAni.GetBool("isAttacking"))
-                {
-                    myAni.SetBool("isAttacking", false);
-                }
+
             }
         
             if (currentAttColor.a > 0) {
@@ -364,6 +365,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         {
             heldItem = other.GetComponent<ItemDrop>().item;
             Destroy(other.gameObject);
+            myAni.SetBool("isHolding", true);
             buildMode = true;
         }
 
@@ -418,7 +420,10 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         {
             GameObject myFloat = heldItem;
             floatingItem = Instantiate(myFloat, //fix later for prettier
-                new Vector3(transform.parent.position.x, transform.parent.position.y + 1.5f, transform.parent.position.z), Quaternion.identity, transform.parent);
+                new Vector3(transform.parent.position.x, transform.parent.position.y, transform.parent.position.z), transform.parent.rotation, transform.parent);
+            //OLD - new Vector3(transform.parent.position.x, transform.parent.position.y + 1f, transform.parent.position.z + 0.5f), Quaternion.identity, transform.parent);
+            floatingItem.transform.localPosition = new Vector3(0f, 1.1f, 0.5f); //NEED SOLUTION FOR ALL CHARACTER SIZES
+
             hasItem = true;
         }
 
