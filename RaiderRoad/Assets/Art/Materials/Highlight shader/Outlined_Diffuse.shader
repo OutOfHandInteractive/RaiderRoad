@@ -75,7 +75,7 @@ Shader "Outlined/Uniform"
 		 
 		void surf (Input IN, inout SurfaceOutput o) {
 			fixed4 c = tex2D(_MainTex, IN.uv_MainTex);
-			o.Albedo = lerp(_Color.rgb, c.rgb, c.a);
+			o.Albedo = lerp(_Color, c.rgb, c.a);
 			o.Alpha = c.a;
 		}
 		ENDCG
