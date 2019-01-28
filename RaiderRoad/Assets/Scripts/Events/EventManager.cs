@@ -37,19 +37,26 @@ public class EventManager : MonoBehaviour {
     [SerializeField]
     private GameObject active;
     
-    //spawn points for vehicle events
+    //spawn points for events
     [SerializeField]
     private List<Transform> vspawnPoints;
+    public GameObject oSpawnsParent;
     [SerializeField]
     private List<Transform> ospawnPoints;
 
     void Start(){
         //StartCoroutine(difficultyManager());
         vspawnPoints = new List<Transform>();
-        foreach (Transform child in transform)      //get spawn points
+        foreach (Transform child in transform)      //get vehicle spawn points
         {
             Debug.Log(child);
             vspawnPoints.Add(child);
+        }
+        ospawnPoints = new List<Transform>();
+        foreach (Transform child in oSpawnsParent.transform)      //get obstacle spawn points
+        {
+            Debug.Log(child);
+            ospawnPoints.Add(child);
         }
         StartCoroutine(initialize());                   //initializes first cluster
     }
@@ -99,8 +106,13 @@ public class EventManager : MonoBehaviour {
             //------------------end temp
             if (etype == EventManager.eventTypes.vehicle)
             {
-                //determine vehicle type --- need to implement, for now just does medium
-                vtype = VehicleFactoryManager.vehicleTypes.medium;
+                //determine vehicle type --- need to implement, for now just does medium and light randomly
+                randNum = UnityEngine.Random.Range(1,3);
+                if(randNum == 3){
+                    vtype = VehicleFactoryManager.vehicleTypes.medium;
+                }else{
+                    vtype = VehicleFactoryManager.vehicleTypes.light;
+                }
                 sPoints = vspawnPoints;
             }
             else if (etype == EventManager.eventTypes.obstacle)

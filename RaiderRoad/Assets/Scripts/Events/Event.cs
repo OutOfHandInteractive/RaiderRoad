@@ -17,8 +17,6 @@ public class Event : MonoBehaviour {
     private GameObject e;
     [SerializeField]
     private List<Transform> spawnPoints;
-    [SerializeField]
-    private GameObject obstacle;
 
     /*public Event(int dif, VehicleFactoryManager.vehicleTypes type)       //add game object to constructor for spawning
     {
@@ -39,7 +37,7 @@ public class Event : MonoBehaviour {
         Debug.Log("Event Created");
     }
 
-    public void oSpawn()
+    public void oSpawn(GameObject obstacle)
     {
         int i = Random.Range(1, 6);
         Vector3 spawnPoint = spawnPoints[i].transform.position;
