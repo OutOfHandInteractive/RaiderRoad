@@ -34,7 +34,8 @@ Shader "Outlined/Uniform"
 	{
 		Tags{ "Queue" = "Transparent" "IgnoreProjector" = "True" }
 
-		Pass //Outline
+		//OUTLINE CURRENTLY BORKED
+		/*Pass //Outline
 		{
 			ZWrite Off
 			ZTest Always
@@ -61,7 +62,7 @@ Shader "Outlined/Uniform"
 			}
 
 			ENDCG
-		}
+		}*/
 
 		Tags{ "Queue" = "Geometry"}
 
@@ -73,8 +74,8 @@ Shader "Outlined/Uniform"
 		};
 		 
 		void surf (Input IN, inout SurfaceOutput o) {
-			fixed4 c = tex2D(_MainTex, IN.uv_MainTex) * _Color;
-			o.Albedo = c.rgb;
+			fixed4 c = tex2D(_MainTex, IN.uv_MainTex);
+			o.Albedo = lerp(_Color.rgb, c.rgb, c.a);
 			o.Alpha = c.a;
 		}
 		ENDCG
