@@ -35,7 +35,8 @@ public class BoardEnemy : JumpEnemy {
         //40% chance to go into Destroy State or Fight State, 20% to go into steal
         string actionStr = (action < 50) ? "EnterDestroy" : "EnterFight";
         StatefulEnemyAI ai = cObject.GetComponent<StatefulEnemyAI>();
-        if(cObject.transform.parent.tag == "RV")
+        Transform parent = gameObject.transform.parent;
+        if(parent != null && parent.tag == "RV")
         {
             if (action < 40)
             {

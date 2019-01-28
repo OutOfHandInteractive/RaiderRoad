@@ -3,4 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CargoL : Cargo {
+	protected override float GetMaxHealth() {
+		return Constants.VEHICLE_LIGHT_PART_BASE_HEALTH;
+	}
 }

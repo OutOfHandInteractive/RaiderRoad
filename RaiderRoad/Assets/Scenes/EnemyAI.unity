@@ -446,6 +446,19 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4366249322805534, guid: db5ed31c411315942b4614efcfa501d7, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4366249322805534, guid: db5ed31c411315942b4614efcfa501d7, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -26
+      objectReference: {fileID: 0}
+    - target: {fileID: 20782715022789068, guid: db5ed31c411315942b4614efcfa501d7,
+        type: 3}
+      propertyPath: field of view
+      value: 30
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: db5ed31c411315942b4614efcfa501d7, type: 3}
 --- !u!1 &280571511
@@ -811,6 +824,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4d70fc8a60afddb4990f3438a3751b13, type: 3}
+<<<<<<< HEAD
 --- !u!1 &700088557
 GameObject:
   m_ObjectHideFlags: 0
@@ -829,10 +843,21 @@ GameObject:
   m_IsActive: 1
 --- !u!4 &700088558
 Transform:
+=======
+--- !u!1 &671549409 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1631857899265614, guid: db5ed31c411315942b4614efcfa501d7,
+    type: 3}
+  m_PrefabInstance: {fileID: 172675758}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &671549410
+MonoBehaviour:
+>>>>>>> Dev
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+<<<<<<< HEAD
   m_GameObject: {fileID: 700088557}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1.1938057, y: 0.032123566, z: 49.9}
@@ -846,6 +871,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+=======
+  m_GameObject: {fileID: 671549409}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23de179b902396d4e8f088fa9b413aae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targets: []
+  enemies: []
+  reactToEnemies: 0
+  offset: {x: 0, y: 38.1, z: -26}
+  smoothTime: 0.5
+  minZoom: 22
+  maxZoom: 30
+  zoomLimiter: 50
+>>>>>>> Dev
 --- !u!1 &805757918 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1636722948722512, guid: db5ed31c411315942b4614efcfa501d7,
@@ -1972,7 +2013,7 @@ PrefabInstance:
     - target: {fileID: 114926823874260802, guid: 4fb8873ddb37cfb4f8b2e371a04d062c,
         type: 3}
       propertyPath: roadChunks.Array.size
-      value: 5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114926823874260802, guid: 4fb8873ddb37cfb4f8b2e371a04d062c,
         type: 3}
