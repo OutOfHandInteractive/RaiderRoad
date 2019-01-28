@@ -300,19 +300,29 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
 
     void OnTriggerEnter(Collider other)
     {
-        
+
         //Debug.Log(other.name);
         if ((other.tag == "WallNode") && wallInventory > 0)
         {
             //Debug.Log("Added");
-            nodes.Add(other.gameObject);
-            if (buildMode && heldItem == null)
+            if (!other.GetComponent<BuildNode>().occupied)
             {
-                other.GetComponent<BuildNode>().Show(wall);
-            }
-            else if (buildMode && heldItem.CompareTag("Weapon") && other.GetComponent<BuildNode>().canPlaceWeapon)
-            {
-                other.GetComponent<BuildNode>().Show(heldItem);
+                nodes.Add(other.gameObject);
+                GameObject first = (GameObject)nodes[0];
+                if (buildMode && heldItem == null)
+                {
+                    if (nodes.Count <= 1 && !first.GetComponent<BuildNode>().occupied)
+                    {
+                        first.GetComponent<BuildNode>().Show(wall);
+                    }
+                }
+                else if (buildMode && heldItem.CompareTag("Weapon") && other.GetComponent<BuildNode>().canPlaceWeapon)
+                {
+                    if (nodes.Count <= 1 && !first.GetComponent<BuildNode>().occupied)
+                    {
+                        other.GetComponent<BuildNode>().Show(heldItem);
+                    }
+                }
             }
             //if player is in build mode, activate show wall in the build node script
             //GameObject toRemove = (GameObject)nodes[0];
