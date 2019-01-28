@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Cargo : DestructiblePart {
+public class Cargo : DestructiblePart {
 
-	public int armorStacks;
-	public int speedStacks;
+	public float healthModifier;
+	public float ramDamageModifier;
+	public float speedModifier;
 	public float threatModifier;
 
 	public GameObject payloadNode;
-
-	protected abstract override float GetMaxHealth();
 }

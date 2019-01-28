@@ -7,10 +7,11 @@ public abstract class Chassis : MonoBehaviour {
 	public GameObject cabNode;
 	public List<GameObject> wheelNodes;
 
+	public float baseHealth;
+	public float baseRamDamage;
 	public float baseSpeed;
 	public int baseThreat;
 
-	public abstract float GetBaseHealth();
 
 	// ---------- Getters and Setters ----------
 	public int getNumWheels() {

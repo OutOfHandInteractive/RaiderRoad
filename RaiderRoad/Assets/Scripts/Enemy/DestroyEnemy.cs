@@ -41,15 +41,12 @@ public class DestroyEnemy : EnemyAI {
     {
         if(action < 90)
         {
+            GameObject wall = Closest(cObject.transform.position, walls);
             if(walls.Length <= 0)
             {
                 cObject.GetComponent<StatefulEnemyAI>().EnterFight();
             }
-            else
-            {
-                GameObject wall = Closest(cObject.transform.position, walls);
-                MoveToward(wall);
-            }
+            MoveToward(wall);
         }
         else
         {

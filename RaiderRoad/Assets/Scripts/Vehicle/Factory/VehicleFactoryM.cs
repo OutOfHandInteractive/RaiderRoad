@@ -10,7 +10,6 @@ public class VehicleFactoryM : VehicleFactory_I {
 
 	protected override GameObject selectChassis() {
 		int selectedIndex = rand.Next(0, Chassis.Count);
-
 		return Chassis[selectedIndex];
 	}
 
@@ -36,5 +35,8 @@ public class VehicleFactoryM : VehicleFactory_I {
 		}
 
 		Wheel wheelScript = wheelToUse.GetComponent<Wheel>();
+		v.setMaxHealth(v.getMaxHealth() + wheelScript.healthModifier);
+		v.setRamDamage(v.getRamDamage() + wheelScript.ramDamageModifier);
+		v.setSpeed(v.getSpeed() + wheelScript.speedModifier);
 	}
 }

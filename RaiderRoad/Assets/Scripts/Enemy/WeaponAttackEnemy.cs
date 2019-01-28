@@ -62,12 +62,7 @@ public class WeaponAttackEnemy : EnemyAI {
 
         //flamethrower.transform.LookAt(player.transform.position);
 
-        Transform parent = gameObject.transform.parent;
-        if(parent == null)
-        {
-            gameObject.GetComponent<StatefulEnemyAI>().EnterDeath();
-        }
-        else if (parent.tag == "Cannon")
+        if (cObject.transform.parent.tag == "Cannon")
         {
             if (!fired)
             {
@@ -75,7 +70,7 @@ public class WeaponAttackEnemy : EnemyAI {
                 fired = true;
             }
         }
-        else if (parent.tag == "Fire")
+        else if (cObject.transform.parent.tag == "Fire")
         {
             Flames();
         }

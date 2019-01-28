@@ -58,10 +58,11 @@ public abstract class Constructable : MonoBehaviour
         GameObject item = Instantiate(drop, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
         item.name = drop.name;
         OnDrop(item);
-        if(myNode != null)
+        AbstractBuildNode node = GetNodeComp(myNode);
+        if(node != null)
         {
             // set node to unoccupied again
-            GetNodeComp(myNode).occupied = false;
+            node.occupied = false;
         }
         Destroy(this.gameObject);
     }

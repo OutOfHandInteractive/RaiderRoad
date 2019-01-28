@@ -22,12 +22,7 @@ public abstract class DestructiblePart : MonoBehaviour {
 	// attributes
 	private float currentHealth;
 
-	// abstract methods
-	protected abstract float GetMaxHealth();
-
 	private void Start() {
-		maxHealth = GetMaxHealth();
-
 		for (int i = 0; i<objWithMat.Count; i++) {
 			myMat.Add(objWithMat[i].GetComponent<Renderer>().material);
 		}

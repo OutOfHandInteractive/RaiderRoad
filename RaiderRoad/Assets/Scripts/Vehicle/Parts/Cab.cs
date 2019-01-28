@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Cab : DestructiblePart {
+public class Cab : DestructiblePart {
 
 	// -------------------- public variables -----------------------
 
@@ -10,9 +10,8 @@ public abstract class Cab : DestructiblePart {
 	public GameObject cargoNode, front_attachmentNode;
 
 	// gameplay values
-	public int armorStacks;
-	public int speedStacks;
+	public float healthModifier;
+	public float ramDamageModifier;
+	public float speedModifier;
 	public float threatModifier;
-
-	protected abstract override float GetMaxHealth();
 }
