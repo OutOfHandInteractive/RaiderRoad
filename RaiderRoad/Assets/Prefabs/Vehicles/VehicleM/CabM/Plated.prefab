@@ -152,17 +152,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34b7badb19b3e7a40987378c024f1d73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wallDrop: {fileID: 1412282026529114, guid: c4b78f547f7592d42867fc5a56f7cc72, type: 3}
+  drop: {fileID: 1412282026529114, guid: c4b78f547f7592d42867fc5a56f7cc72, type: 3}
+  dropOffset: {x: 0, y: 0, z: -1}
   objWithMat:
   - {fileID: 1583686699898274}
   - {fileID: 1710651787326806}
   maxHealth: 3
-  isIntact: 1
-  cargoNode: {fileID: 1058516650690088}
-  front_attachmentNode: {fileID: 1262892769104330}
+  ramDamageStacks: 0
   armorStacks: 2
   speedStacks: -1
   threatModifier: 1
+  isIntact: 1
+  cargoNode: {fileID: 1058516650690088}
+  front_attachmentNode: {fileID: 1262892769104330}
 --- !u!1 &1583686699898274
 GameObject:
   m_ObjectHideFlags: 0

@@ -7,6 +7,7 @@ public abstract class DestructiblePart : MonoBehaviour {
 	// ---------------------- public variables -----------------------
 	// references
 	public GameObject drop;
+    public Vector3 dropOffset = new Vector3(0, 2, -1);
 	public List<GameObject> objWithMat;
 
 	// gameplay values
@@ -47,8 +48,8 @@ public abstract class DestructiblePart : MonoBehaviour {
 		currentHealth -= damageDone;
 		if (currentHealth <= 0) {
 			isIntact = false;
-			GameObject item = Instantiate(drop, transform.position + new Vector3(0, 2f, 0), Quaternion.identity, transform);
-			item.name = "Wall Drop";
+			GameObject item = Instantiate(drop, transform.position + dropOffset, Quaternion.identity, transform);
+			//item.name = "Wall Drop";
 
 			// change texture to show destroyed
 			for (int i = 0; i<myMat.Count; i++) {

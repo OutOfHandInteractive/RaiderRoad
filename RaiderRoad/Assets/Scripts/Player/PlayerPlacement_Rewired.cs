@@ -34,10 +34,10 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
     private Player player;
 	private PlayerController_Rewired pController;
     private GameObject rv;
-    private ArrayList nodes = new ArrayList();      //probably better way to do this, REVISIT!
-    private ArrayList trapNodes = new ArrayList();
-    private ArrayList engineNodes = new ArrayList();
-    private ArrayList attackRange = new ArrayList();
+    private List<GameObject> nodes = new List<GameObject>();      //probably better way to do this, REVISIT!
+    private List<GameObject> trapNodes = new List<GameObject>();
+    private List<GameObject> engineNodes = new List<GameObject>();
+    private List<GameObject> attackRange = new List<GameObject>();
 	private List<GameObject> destructableParts = new List<GameObject>();
 	private bool hasItem = false;
     private GameObject floatingItem;
@@ -214,7 +214,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         if (player.GetButtonDown("Build Mode"))
         {
             //When switching out of build mode, attack will get stuck in InvalidOperationException: List has changed. This helps
-            if (buildMode) attackRange = new ArrayList();
+            if (buildMode) attackRange = new List<GameObject>();
             buildMode = !buildMode;
         }
         if (buildMode)
@@ -252,23 +252,39 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         }
     }
 
+    private bool AttackVehicleParts()
+    {
+        Util.RemoveNulls(destructableParts);
+        if(destructableParts.Count > 0)
+        {
+            if (destructableParts[0].GetComponent<DestructiblePart>().takeDamage(1) <= 0)
+            {
+                destructableParts.RemoveAt(0);
+            }
+            return true;
+        }
+        return false;
+    }
+
     private void Attack()
     {
         myAni.SetBool("isAttacking", true);
         canAttack = false;
         attackCount = attack_cooldown;
         //myAni.SetBool("isAttacking", false);
-        if (destructableParts.Count == 0)
+        if (!AttackVehicleParts())
         {
+            Util.RemoveNulls(attackRange);
             foreach (GameObject item in attackRange)
             {
                 //Debug.Log(item);
                 Constructable construct;
-                if (item == null)
+                if(item == null)
                 {
-                    attackRange.Remove(item);
+                    // This should've been removed!!
+                    continue;
                 }
-                else if (item.CompareTag("Weapon"))
+                if (item.CompareTag("Weapon"))
                 {
                     item.GetComponent<Weapon>().Damage(damage, gameObject.transform.parent.gameObject);
                 }
@@ -284,13 +300,6 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
                     item.GetComponent<StatefulEnemyAI>().takeDamage(damage);
                     //Debug.Log(dir);
                 }
-            }
-        }
-        else
-        {
-            if (destructableParts[0].GetComponent<DestructiblePart>().takeDamage(1) <= 0)
-            {
-                destructableParts.RemoveAt(0);
             }
         }
 
