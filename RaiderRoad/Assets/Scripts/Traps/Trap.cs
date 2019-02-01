@@ -56,7 +56,7 @@ public abstract class Trap : DurableConstruct<TrapNode>
 
     public virtual bool CanTarget(GameObject target)
     {
-        return Util.isEnemy(target) || Util.isPlayer(target);
+        return Util.isEnemy(target);
     }
 
     public abstract void Activate(GameObject victim);

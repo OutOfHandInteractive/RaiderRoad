@@ -101,7 +101,6 @@ public class VehicleAI : MonoBehaviour {
 		Debug.Log("took " + damage + " damage");
 
 		if (currentHealth <= 0) {
-            DropSpawner.GetSpawn().SpawnSpringTrap();
 			Destroy(gameObject);
 		}
 	}

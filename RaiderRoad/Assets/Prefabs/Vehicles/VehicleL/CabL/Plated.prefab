@@ -60,15 +60,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 632f030a5ac55dd42946d82edb628666, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wallDrop: {fileID: 0}
+  drop: {fileID: 1918633486051878, guid: 740fa457042f4034baa6f037e58c1363, type: 3}
   objWithMat: []
   maxHealth: 0
-  isIntact: 1
-  cargoNode: {fileID: 1964639205622852}
-  front_attachmentNode: {fileID: 1690896798287864}
+  ramDamageStacks: 0
   armorStacks: 2
   speedStacks: -1
   threatModifier: 1
+  isIntact: 1
+  cargoNode: {fileID: 1964639205622852}
+  front_attachmentNode: {fileID: 1690896798287864}
 --- !u!1 &1690896798287864
 GameObject:
   m_ObjectHideFlags: 0
