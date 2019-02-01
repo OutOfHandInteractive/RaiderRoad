@@ -50,10 +50,12 @@ public class BuildNode : AbstractBuildNode {
         {
             Vector3 dir = gameObject.transform.forward;
             item = Instantiate(objectToPlace, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.LookRotation(dir));
-            item.transform.localScale = new Vector3(1.5f, 0.7f, 0.7f);
+			item.transform.localScale = new Vector3(1.5f, 0.7f, 0.7f);
             item.transform.parent = spawnNode.transform;
 
-            BoxCollider coll = item.GetComponentsInChildren<BoxCollider>()[1];
+			RemoveShow();	// get rid of holo when item is placed
+
+			BoxCollider coll = item.GetComponentsInChildren<BoxCollider>()[1];
             coll.enabled = true;
 
             item.GetComponent<Weapon>().DisableNear();
