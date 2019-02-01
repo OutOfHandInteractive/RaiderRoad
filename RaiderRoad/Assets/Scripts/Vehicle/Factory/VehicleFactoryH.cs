@@ -35,8 +35,5 @@ public class VehicleFactoryH : VehicleFactory_I {
 		}
 
 		Wheel wheelScript = wheelToUse.GetComponent<Wheel>();
-		v.setMaxHealth(v.getMaxHealth() + wheelScript.healthModifier);
-		v.setRamDamage(v.getRamDamage() + wheelScript.ramDamageModifier);
-		v.setSpeed(v.getSpeed() + wheelScript.speedModifier);
 	}
 }
