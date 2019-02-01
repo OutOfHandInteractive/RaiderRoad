@@ -118,7 +118,6 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
             currentAttColor.a = 0;
             TempAttMat.color = currentAttColor;
         }
-
     }
 
     private void HoldingItem()
@@ -431,7 +430,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         engineNodes.Remove(other.gameObject);
         attackRange.Remove(other.gameObject);
 
-		if (other.gameObject.CompareTag("Interactable")) {
+        if (other.gameObject.CompareTag("Interactable")) {
 			pController.removeInteractable(other.gameObject);
 		}
 		if (other.gameObject.CompareTag("Player")) {
@@ -451,6 +450,21 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
     public void changeInventory() //change inventory in text only after building wall, saves overhead
     {
         inventoryText.text = wallInventory.ToString();
+    }
+
+    private void checkHologram()
+    {
+        if(nodes.Count <= 1)
+        {
+            GameObject first = (GameObject)nodes[0];
+            if (buildMode && heldItem == null)
+            {
+                if (nodes.Count <= 1 && !first.GetComponent<BuildNode>().occupied)
+                {
+                    first.GetComponent<BuildNode>().Show(wall);
+                }
+            }
+        }
     }
 
     void displayMode()
