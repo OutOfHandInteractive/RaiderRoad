@@ -11,6 +11,10 @@ public abstract class DestructiblePart : MonoBehaviour {
 
 	// gameplay values
 	public float maxHealth;
+	public float ramDamageStacks;
+	public int armorStacks;
+	public int speedStacks;
+	public float threatModifier;
 	public bool isIntact = true;
 
 	// ---------------------- private variables ----------------------
@@ -22,7 +26,12 @@ public abstract class DestructiblePart : MonoBehaviour {
 	// attributes
 	private float currentHealth;
 
+	// abstract methods
+	protected abstract float GetMaxHealth();
+
 	private void Start() {
+		maxHealth = GetMaxHealth() * (1 + armorStacks * Constants.ARMOR_PARTHEALTH_MODIFIER_PER_STACK);
+
 		for (int i = 0; i<objWithMat.Count; i++) {
 			myMat.Add(objWithMat[i].GetComponent<Renderer>().material);
 		}

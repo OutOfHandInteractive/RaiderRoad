@@ -28,6 +28,7 @@ public class VehicleAI : MonoBehaviour {
     public float maxHealth;
 	public float ramDamage;
 	public float speed;
+	public float movementChance;
 	public int threat;
 
 	public float currentHealth;
