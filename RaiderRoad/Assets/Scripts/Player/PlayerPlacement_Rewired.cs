@@ -118,7 +118,6 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
             currentAttColor.a = 0;
             TempAttMat.color = currentAttColor;
         }
-
     }
 
     private void HoldingItem()
@@ -300,19 +299,29 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
 
     void OnTriggerEnter(Collider other)
     {
-        
+
         //Debug.Log(other.name);
         if ((other.tag == "WallNode") && wallInventory > 0)
         {
             //Debug.Log("Added");
-            nodes.Add(other.gameObject);
-            if (buildMode && heldItem == null)
+            if (!other.GetComponent<BuildNode>().occupied)
             {
-                other.GetComponent<BuildNode>().Show(wall);
-            }
-            else if (buildMode && heldItem.CompareTag("Weapon") && other.GetComponent<BuildNode>().canPlaceWeapon)
-            {
-                other.GetComponent<BuildNode>().Show(heldItem);
+                nodes.Add(other.gameObject);
+                GameObject first = (GameObject)nodes[0];
+                if (buildMode && heldItem == null)
+                {
+                    if (nodes.Count <= 1 && !first.GetComponent<BuildNode>().occupied)
+                    {
+                        first.GetComponent<BuildNode>().Show(wall);
+                    }
+                }
+                else if (buildMode && heldItem.CompareTag("Weapon") && other.GetComponent<BuildNode>().canPlaceWeapon)
+                {
+                    if (nodes.Count <= 1 && !first.GetComponent<BuildNode>().occupied)
+                    {
+                        other.GetComponent<BuildNode>().Show(heldItem);
+                    }
+                }
             }
             //if player is in build mode, activate show wall in the build node script
             //GameObject toRemove = (GameObject)nodes[0];
@@ -421,7 +430,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         engineNodes.Remove(other.gameObject);
         attackRange.Remove(other.gameObject);
 
-		if (other.gameObject.CompareTag("Interactable")) {
+        if (other.gameObject.CompareTag("Interactable")) {
 			pController.removeInteractable(other.gameObject);
 		}
 		if (other.gameObject.CompareTag("Player")) {
@@ -441,6 +450,21 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
     public void changeInventory() //change inventory in text only after building wall, saves overhead
     {
         inventoryText.text = wallInventory.ToString();
+    }
+
+    private void checkHologram()
+    {
+        if(nodes.Count <= 1)
+        {
+            GameObject first = (GameObject)nodes[0];
+            if (buildMode && heldItem == null)
+            {
+                if (nodes.Count <= 1 && !first.GetComponent<BuildNode>().occupied)
+                {
+                    first.GetComponent<BuildNode>().Show(wall);
+                }
+            }
+        }
     }
 
     void displayMode()
