@@ -39,7 +39,7 @@ public class sceneManagerScript : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-        if (SceneManager.GetActiveScene() != SceneManager.GetSceneByName("PlayerSelect"))
+        if (SceneManager.GetActiveScene() != SceneManager.GetSceneByName("PlayerSelect") || SceneManager.GetActiveScene() != SceneManager.GetSceneByName("playerLobby")) //once switched over, only use lobby
         {   
             nextScene = null;
         }
@@ -64,7 +64,7 @@ public class sceneManagerScript : MonoBehaviour {
             char1Players = null;
             char1Players = null;
             char1Players = null;
-            SceneManager.LoadScene("PlayerSelect", LoadSceneMode.Single);
+            SceneManager.LoadScene("playerLobby", LoadSceneMode.Single); //was PlayerSelect
         }
 	}
 
@@ -77,6 +77,11 @@ public class sceneManagerScript : MonoBehaviour {
         {
             SceneManager.LoadScene(myScene, LoadSceneMode.Single);
         }
+    }
+
+    public void OverrideNextScene(string myScene)
+    {
+        nextScene = myScene;
     }
 
     public void PlaySelDone(int[] c1Array, int[] c2Array, int[] c3Array, int[] c4Array) {
@@ -186,7 +191,7 @@ public class sceneManagerScript : MonoBehaviour {
         }
     }
 
-    void AssignPlayMat(GameObject PlayerParent, int playerNum)
+    public void AssignPlayMat(GameObject PlayerParent, int playerNum)
     {
         Renderer[] myMats = PlayerParent.GetComponentsInChildren<Renderer>();   //assign materials of child objects
 
