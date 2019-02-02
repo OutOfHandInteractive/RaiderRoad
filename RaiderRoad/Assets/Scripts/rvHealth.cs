@@ -49,7 +49,7 @@ public class rvHealth : MonoBehaviour {
 		return currentHealth;
 	}
 
-    private void damagePOI(float damage)
+    public void damagePOI(float damage)
     {
         GameObject[] engines = GameObject.FindGameObjectsWithTag("Engine");
         Debug.Log("Loop Start");
