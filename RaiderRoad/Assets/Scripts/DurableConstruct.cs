@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public abstract class DurableConstruct<N> : Constructable<N> where N : AbstractBuildNode
+public abstract class DurableConstruct : Constructable
 {
     public float durability; //original amount
-    public float currDur = -1f; //current durability
+    protected float currDur = -1f; //current durability
 
     public override void OnStart()
     {
@@ -26,7 +26,7 @@ public abstract class DurableConstruct<N> : Constructable<N> where N : AbstractB
     {
         if (currDur <= 0f)
         {
-            myNode.GetComponent<N>().occupied = false; // set node to unoccupied again
+            GetNodeComp(myNode).occupied = false; // set node to unoccupied again
             Destroy(gameObject);
         }
     }
@@ -46,5 +46,13 @@ public abstract class DurableConstruct<N> : Constructable<N> where N : AbstractB
     public float GetDurability()
     {
         return currDur;
+    }
+}
+
+public abstract class DurableConstruct<N> : DurableConstruct where N : AbstractBuildNode
+{
+    protected override AbstractBuildNode GetNodeComp(GameObject myNode)
+    {
+        return myNode.GetComponent<N>();
     }
 }

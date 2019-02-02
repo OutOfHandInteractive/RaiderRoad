@@ -1,7 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public abstract class Constructable<N> : MonoBehaviour where N : AbstractBuildNode
+/// <summary>
+/// Non-generic superclass for all "Constructable" game objects (walls, traps, weapons, etc.).
+/// Implementers should use the genericized Constructable<> subclass, passing in the specific BuildNode type for the object.
+/// This class exists for purposes of fetching constructables with GameObject.GetComponent<>() due to C#'s retarded Generics system that doesn't allow Java style Wildcards.
+/// </summary>
+public abstract class Constructable : MonoBehaviour
 {
     public GameObject drop;
     //hits is for destroying by hand to remove an ill placed wall
@@ -53,9 +58,15 @@ public abstract class Constructable<N> : MonoBehaviour where N : AbstractBuildNo
         GameObject item = Instantiate(drop, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
         item.name = drop.name;
         OnDrop(item);
-        myNode.GetComponent<N>().occupied = false; // set node to unoccupied again
+        if(myNode != null)
+        {
+            // set node to unoccupied again
+            GetNodeComp(myNode).occupied = false;
+        }
         Destroy(this.gameObject);
     }
+
+    protected abstract AbstractBuildNode GetNodeComp(GameObject myNode);
 
     private void MakeHolo() // a function for making material holographic
     {
@@ -63,5 +74,13 @@ public abstract class Constructable<N> : MonoBehaviour where N : AbstractBuildNo
         Color tempColor = myMat.color;
         tempColor.a = 0.4f;
         myMat.color = tempColor;
+    }
+}
+
+public abstract class Constructable<N> : Constructable where N : AbstractBuildNode
+{
+    protected override AbstractBuildNode GetNodeComp(GameObject myNode)
+    {
+        return myNode.GetComponent<N>();
     }
 }

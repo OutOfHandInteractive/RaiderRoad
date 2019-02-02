@@ -41,19 +41,20 @@ public class DestroyEnemy : EnemyAI {
     {
         if(action < 90)
         {
-            GameObject wall = Closest(cObject.transform.position, walls);
             if(walls.Length <= 0)
             {
                 cObject.GetComponent<StatefulEnemyAI>().EnterFight();
             }
-            cObject.transform.LookAt(wall.transform);
-            cObject.transform.position = Vector3.MoveTowards(cObject.transform.position, wall.transform.position, movement);
+            else
+            {
+                GameObject wall = Closest(cObject.transform.position, walls);
+                MoveToward(wall);
+            }
         }
         else
         {
             GameObject engine = Closest(cObject.transform.position, engines);
-            cObject.transform.LookAt(engine.transform);
-            cObject.transform.position = Vector3.MoveTowards(cObject.transform.position, engine.transform.position, movement);
+            MoveToward(engine);
         }
     }
 }

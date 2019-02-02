@@ -26,7 +26,7 @@ public abstract class Trap : DurableConstruct<TrapNode>
         {
             return;
         }
-        Debug.Log("Checking " + colliders.Count + " colliders");
+        //Debug.Log("Checking " + colliders.Count + " colliders");
         bool activated = false;
         foreach (Collider other in colliders)
         {
@@ -36,8 +36,8 @@ public abstract class Trap : DurableConstruct<TrapNode>
                 continue;
             }
             GameObject target = other.gameObject;
-            Debug.Log("Collider object tag: " + target.tag);
-            if (target.tag == "Enemy" || target.tag == "Player")
+            //Debug.Log("Collider object tag: " + target.tag);
+            if (CanTarget(target))
             {
                 Activate(target);
                 activated = true;
@@ -54,6 +54,11 @@ public abstract class Trap : DurableConstruct<TrapNode>
         }
     }
 
+    public virtual bool CanTarget(GameObject target)
+    {
+        return Util.isEnemy(target);
+    }
+
     public abstract void Activate(GameObject victim);
 
     private void OnTriggerEnter(Collider other)
@@ -64,11 +69,6 @@ public abstract class Trap : DurableConstruct<TrapNode>
             colliders.Add(other);
             CheckTrap();
         }
-    }
-
-    private void OnTriggerStay(Collider other)
-    {
-        CheckTrap();
     }
 
     private void OnTriggerExit(Collider other)
