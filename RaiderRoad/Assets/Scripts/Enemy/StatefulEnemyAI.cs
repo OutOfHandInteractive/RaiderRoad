@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 public class StatefulEnemyAI : EnemyAI {
     //States
-    public enum State { Wait, Board, Weapon, Steal, Destroy, Fight, Escape, Death, Lure };
+    public enum State { Wait, Board, Weapon, Steal, Destroy, Fight, Escape, Death, Lure, Stunned };
     //State Classes
     private WaitEnemy wait;
     private BoardEnemy board;
@@ -16,6 +16,7 @@ public class StatefulEnemyAI : EnemyAI {
     private EscapeEnemy escape;
     private DeathEnemy death;
     private LureEnemy lure;
+    private StunnedEnemy stun;
 
     //Enemy variables
     private GameObject enemy;
@@ -37,6 +38,7 @@ public class StatefulEnemyAI : EnemyAI {
     public float maxHealth;
     public float damagePower;
     public float currentHealth;
+    public float damageMeter;
     private bool inRange;
 
     // Use this for initialization
@@ -57,6 +59,7 @@ public class StatefulEnemyAI : EnemyAI {
         escape = enemy.AddComponent<EscapeEnemy>();
         death = enemy.AddComponent<DeathEnemy>();
         lure = enemy.AddComponent<LureEnemy>();
+        stun = enemy.AddComponent<StunnedEnemy>();
 
         //Get vehicle information, side
         vehicle = gameObject.GetComponentInParent<VehicleAI>();
@@ -86,6 +89,15 @@ public class StatefulEnemyAI : EnemyAI {
     
     // Update is called once per frame
     void Update () {
+        if (currentHealth <= 0)
+        {
+            EnterDeath();
+        }
+
+        if (GetState() != State.Weapon && transform.root.GetComponentInChildren<PlayerController_Rewired>() && transform.root.tag == "eVehicle")
+        {
+            EnterFight();
+        }
         //Debug.Log(currentState);
         //Go to weapon state when vehicle is ramming
 
@@ -105,6 +117,7 @@ public class StatefulEnemyAI : EnemyAI {
         if (transform.parent != null && transform.parent.name == "EnemyInt" && vehicle.getState() == VehicleAI.State.Chase)
         {
             EnterWeapon();
+            weapon.Weapon();
 
         }
         else
@@ -137,6 +150,9 @@ public class StatefulEnemyAI : EnemyAI {
                     break;
                 case State.Lure:
                     lure.Lure();
+                    break;
+                case State.Stunned:
+                    stun.StartStun();
                     break;
             }
         }
@@ -191,6 +207,9 @@ public class StatefulEnemyAI : EnemyAI {
                 break;
             case State.Lure:
                 EnterLure();
+                break;
+            case State.Stunned:
+                EnterStun();
                 break;
         }
     }
@@ -254,7 +273,23 @@ public class StatefulEnemyAI : EnemyAI {
         lure.StartLure(prev);
         enemy.GetComponent<Renderer>().material.color = Color.cyan;
     }
+    public void EnterStun()
+    {
+        currentState = State.Stunned;
+        stun.StartStun();
+        enemy.GetComponent<Renderer>().material.color = Color.black;
+    }
+    public void Stunned()
+    {
+        StartCoroutine(waitStun());
+    }
 
+    IEnumerator waitStun()
+    {
+        EnterStun();
+        yield return new WaitForSeconds(1);
+        EnterFight();
+    }
     /*public void Damage(float damage)
     {
         currentHealth -= damage;
@@ -308,6 +343,12 @@ public class StatefulEnemyAI : EnemyAI {
         {
             transform.parent = other.transform;
         }
+        if (other.gameObject.tag == "Drops" && currentState == State.Steal)
+        {
+            other.transform.parent = null;
+            other.transform.parent = transform;
+            steal.hasStolen = true;
+        }
     }
     IEnumerator WindUp(Collider other)
     {
@@ -334,12 +375,24 @@ public class StatefulEnemyAI : EnemyAI {
         if (other.gameObject.tag == "Wall" && currentState == State.Destroy)
         {
             //Debug.Log("HIT");
-            other.gameObject.GetComponent<Wall>().Damage(25f);
+            damageMeter = damageMeter + (100 * Time.deltaTime);
+            other.gameObject.GetComponent<Constructable>().isOccupied = true;
+            if (damageMeter >= 100)
+            {
+                other.gameObject.GetComponent<Constructable>().isOccupied = false;
+                other.gameObject.GetComponent<Wall>().Damage(100f);
+                damageMeter = 0;
+            }
         }
         if (other.gameObject.tag == "Engine" && currentState == State.Destroy)
         {
-            other.gameObject.GetComponent<Engine>().Damage(25f);
-            if(other.gameObject.GetComponent<Engine>().health <= 0)
+            damageMeter = damageMeter + (100 * Time.deltaTime);
+            if (damageMeter >= 100)
+            {
+                other.gameObject.GetComponent<Engine>().Damage(100f);
+                damageMeter = 0;
+            }
+            if (other.gameObject.GetComponent<Engine>().health <= 0)
             {
                 destroy.engineKill = true;
             }
@@ -347,8 +400,8 @@ public class StatefulEnemyAI : EnemyAI {
         if (other.gameObject.tag == "Drops" && currentState == State.Steal)
         {
             //Debug.Log("HIT");
-            Destroy(other.gameObject);
-            steal.hasStolen = true;
+            //Destroy(other.gameObject);
+            //steal.hasStolen = true;
         }
     }
 

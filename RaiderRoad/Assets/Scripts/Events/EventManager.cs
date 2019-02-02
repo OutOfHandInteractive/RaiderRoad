@@ -95,6 +95,7 @@ public class EventManager : MonoBehaviour {
         for (int i = 0; i < clusterSize; i++)
         {
             Debug.Log("creating event " + i);
+<<<<<<< HEAD
             //determine etype - temporary
             randNum = UnityEngine.Random.Range(1,6);
             if(randNum % 5 == 0){
@@ -121,6 +122,10 @@ public class EventManager : MonoBehaviour {
                 sPoints = ospawnPoints;
             }
             Debug.Log(vtype);
+=======
+            type = (VehicleFactoryManager.vehicleTypes)UnityEngine.Random.Range(0, 2);
+            //type = VehicleFactoryManager.vehicleTypes.medium;
+>>>>>>> Dev
             _nE = newEC.AddComponent<Event>() as Event;
             _nE.initialize(difRate, vtype, etype, sPoints);
             _new.Add(_nE);          //uses current dif rate, [for now] default spawn position, [for now] default enemy to create an event

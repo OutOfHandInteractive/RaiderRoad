@@ -52,19 +52,24 @@ public class WanderVehicle : MonoBehaviour {
         //Chance to attack or chase the RV
         if (hasWeapon)
         {
-            cObject.GetComponent<VehicleAI>().Invoke("EnterChase", 10f);
+            StartCoroutine(changeChase());
         }
         else
         {
-            if (action < 50)
-            {
-                cObject.GetComponent<VehicleAI>().Invoke("EnterChase", 10f);
-            }
-            else
-            {
-                cObject.GetComponent<VehicleAI>().Invoke("EnterAttack", 10f);
-            }
+            StartCoroutine(changeAttack());
         }
 
+    }
+
+    IEnumerator changeAttack()
+    {
+        yield return new WaitForSeconds(10);
+        cObject.GetComponent<VehicleAI>().EnterAttack();
+    }
+
+    IEnumerator changeChase()
+    {
+        yield return new WaitForSeconds(10);
+        cObject.GetComponent<VehicleAI>().EnterChase();
     }
 }

@@ -195,6 +195,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7eff8a2b532aacf419a432d8b9c15738, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< HEAD
   wallDrop: {fileID: 1412282026529114, guid: c4b78f547f7592d42867fc5a56f7cc72, type: 2}
   objWithMat:
   - {fileID: 1016203175446322}
@@ -205,5 +206,16 @@ MonoBehaviour:
   healthModifier: 0
   ramDamageModifier: 0
   speedModifier: 1
+=======
+  drop: {fileID: 1412282026529114, guid: c4b78f547f7592d42867fc5a56f7cc72, type: 3}
+  dropOffset: {x: 0, y: 0, z: -1}
+  objWithMat:
+  - {fileID: 1016203175446322}
+  maxHealth: 3
+  ramDamageStacks: 0
+  armorStacks: 0
+  speedStacks: 1
+>>>>>>> Dev
   threatModifier: 0
+  isIntact: 1
   payloadNode: {fileID: 1054385919659460}

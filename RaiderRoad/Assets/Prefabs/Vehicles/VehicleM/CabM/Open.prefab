@@ -297,11 +297,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34b7badb19b3e7a40987378c024f1d73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< HEAD
   wallDrop: {fileID: 1412282026529114, guid: c4b78f547f7592d42867fc5a56f7cc72, type: 2}
+=======
+  drop: {fileID: 1412282026529114, guid: c4b78f547f7592d42867fc5a56f7cc72, type: 3}
+  dropOffset: {x: 0, y: 0, z: -1}
+>>>>>>> Dev
   objWithMat:
   - {fileID: 1445555037106280}
   - {fileID: 1251948112713928}
   maxHealth: 3
+<<<<<<< HEAD
   isIntact: 1
   myOrigColor: {r: 0, g: 0, b: 0, a: 0}
   destroyedColor: {r: 0, g: 0, b: 0, a: 0}
@@ -310,4 +316,12 @@ MonoBehaviour:
   healthModifier: 0
   ramDamageModifier: 0
   speedModifier: 0
+=======
+  ramDamageStacks: 0
+  armorStacks: 0
+  speedStacks: 1
+>>>>>>> Dev
   threatModifier: 0
+  isIntact: 1
+  cargoNode: {fileID: 1066642467616094}
+  front_attachmentNode: {fileID: 1550911703620688}

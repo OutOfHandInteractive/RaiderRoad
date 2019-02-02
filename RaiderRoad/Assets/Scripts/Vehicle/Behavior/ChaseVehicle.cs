@@ -5,37 +5,51 @@ using UnityEngine.AI;
 
 public class ChaseVehicle : MonoBehaviour {
     //Loading point location, agent info
+    private List<Transform> attackList;
+    private int attackPoints = 0;
+    private GameObject WallsRV;
+    private GameObject attackPosition;
     private Transform player;
     private NavMeshAgent cEnemy;
     private GameObject cObject;
     private float timer = 0f;
     //Initialize agent
-    public virtual void StartChase(NavMeshAgent agent, GameObject enemy)
+    public virtual void StartChase(NavMeshAgent agent, GameObject enemy, string side)
     {
         cEnemy = agent;
         cObject = enemy;
+        attackList = new List<Transform>();
+        if (side.Equals("left"))
+        {
+            WallsRV = GameObject.Find("WeaponsLeft");
+        }
+        else
+        {
+            WallsRV = GameObject.Find("WeaponsRight");
+        }
+
+        //Get all building points
+        foreach (Transform child in WallsRV.transform)
+        {
+            attackList.Add(child);
+        }
+
     }
 
     public void Chase(string side)
     {
         //Stop completely when next to spot
-        cEnemy.autoBraking = true;
-
+        //cEnemy.autoBraking = true;
         //Randomly choose to load left or right side
-        if (side.Equals("left"))
-        {
-            player = GameObject.Find("EnemyL").transform;
-        }
-        else
-        {
-            player = GameObject.Find("EnemyR").transform;
-        }
         //Go to loading area
-        cEnemy.SetDestination(player.transform.position);
+        if (attackList.Count == 0)
+            return;
+        cEnemy.SetDestination(attackList[attackPoints].position);
+        attackPoints = Random.Range(0, attackList.Count);
 
         //Increase time if state destination has not been reached
-        
-        if(cObject.GetComponent<VehicleAI>().getState() == VehicleAI.State.Chase)
+
+        if (cObject.GetComponent<VehicleAI>().getState() == VehicleAI.State.Chase)
         {
             if (cEnemy.remainingDistance > .1f)
             {
@@ -49,11 +63,19 @@ public class ChaseVehicle : MonoBehaviour {
             }
         }
 
-        //Enter stay if you get to the loading position
-        if(!cEnemy.pathPending && cEnemy.remainingDistance < .01f)
-        {
-            cObject.GetComponent<VehicleAI>().EnterStay();
-        }
+        Invoke("WaitForNextState", 10f);
+    }
+
+    void WaitForNextState()
+    {
+        StartCoroutine(waitToLeave());
+    }
+
+    IEnumerator waitToLeave()
+    {
+        cObject.GetComponent<VehicleAI>().EnterWander();
+        yield return new WaitForSeconds(5);
+        cObject.GetComponent<VehicleAI>().EnterLeave();
 
     }
 }
