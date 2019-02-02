@@ -18,7 +18,7 @@ public class Obstacle : MonoBehaviour
     {
         transform.Translate(Vector3.forward * Time.deltaTime * speed);
         if(this.transform.position.z < -35f){
-            Destroy(this);
+            Destroy(gameObject);
         }
     }
     //this comment is a test

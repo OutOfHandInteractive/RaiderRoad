@@ -89,15 +89,15 @@ public class EventManager : MonoBehaviour {
         Event _nE;
         List<Event> _new = new List<Event>();
         GameObject newEC = Instantiate(eCluster);
-        int clusterSize = 3 + difRate;
+        int clusterSize = 7 + difRate;
         List<Transform> sPoints = new List<Transform>();
         int randNum;////////////
         for (int i = 0; i < clusterSize; i++)
         {
             Debug.Log("creating event " + i);
             //determine etype - temporary
-            randNum = UnityEngine.Random.Range(1,6);
-            if(randNum % 2 == 0){
+            randNum = UnityEngine.Random.Range(1,5);
+            if(randNum % 5 == 0){
                 etype = EventManager.eventTypes.obstacle;
             }else{
                 etype = EventManager.eventTypes.vehicle;

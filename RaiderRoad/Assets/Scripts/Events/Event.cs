@@ -42,7 +42,7 @@ public class Event : MonoBehaviour {
         int i = Random.Range(1, 6);
         Vector3 spawnPoint = spawnPoints[i].transform.position;
         GameObject newObstacle = Instantiate(obstacle,spawnPoint,Quaternion.identity);    /////need obstacle prefab
-
+        newObstacle.GetComponentInChildren<eventObject>().setCluster(this.gameObject);
     }
 
     public void spawn(VehicleFactoryManager factory)
