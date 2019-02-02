@@ -16,6 +16,7 @@ public class AttackVehicle : MonoBehaviour{
     private float timer = 0f;
     private Vector3 impact = Vector3.zero;
     private float mass;
+    private bool hasHit = false;
 
     //Initialize agent and attack points
     public void StartAttack(NavMeshAgent agent, GameObject enemy, Rigidbody rb, string side)
@@ -42,49 +43,35 @@ public class AttackVehicle : MonoBehaviour{
         {
             attackList.Add(child);
         }
+        //Stop if there is nothing to attack
+        if (attackList.Count == 0)
+            return;
+        Debug.Log(attackList.Count);
+        attackPoints = 1;// Random.Range(0, attackList.Count);
     }
 
      public void Attack()
      {
-        //Stop if there is nothing to attack
-        if (attackList.Count == 0)
-             return;
-
          //Go to attack point
         cEnemy.SetDestination(attackList[attackPoints].position);
-        attackPoints = Random.Range(0, attackList.Count);
+
         //Check if vehicle hit, add "knockback"
-        if (cEnemy.remainingDistance < 1f)
+        if (Vector3.Distance(cEnemy.transform.position, attackList[attackPoints].position) < 1f && hasHit == false)
         {
             //hitCount++;
             //cEnemy.SetDestination(attackPosition.transform.position);
-            StartCoroutine(Knockback());
-        }
-        if (cObject.GetComponent<VehicleAI>().getState() == VehicleAI.State.Attack)
-        {
-            //Increase time if state destination has not been reached
-            if (cEnemy.pathPending)
-            {
-                timer += Time.deltaTime;
-            }
-            //Debug.Log(timer);
-            //Leave if you can't enter state destination
-            if (timer > 5)
-            {
-                StartCoroutine(waitToLeave());
-            }
-
-            //If vehicle hit RV more than 5 times leave
-            if (hitCount >= 2)
-            {
-                StartCoroutine(waitToLeave());
-            }
+            //StartCoroutine(Knockback());
+            GameObject.FindGameObjectWithTag("RV").GetComponent<rvHealth>().damagePOI(20f);
+            cObject.GetComponent<VehicleAI>().EnterStay(attackPoints);
+            hasHit = true;
         }
 
 
     }
     IEnumerator waitToLeave()
     {
+        cEnemy.transform.parent = null;
+        cEnemy.transform.GetComponent<NavMeshAgent>().enabled = true;
         cObject.GetComponent<VehicleAI>().EnterWander();
         yield return new WaitForSeconds(5);
         cObject.GetComponent<VehicleAI>().EnterLeave();

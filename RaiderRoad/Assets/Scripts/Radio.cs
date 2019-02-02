@@ -18,6 +18,8 @@ public class Radio
      */
     private static List<StayVehicle> evacVehicles = new List<StayVehicle>();
     private static Queue<EscapeEnemy> mooksForEvac = new Queue<EscapeEnemy>();
+
+    private static List<PlayerController_Rewired> targets = new List<PlayerController_Rewired>();
     public void CallForEvac(EscapeEnemy mook)
     {
         mooksForEvac.Enqueue(mook);
@@ -43,6 +45,10 @@ public class Radio
         // No check
     }
 
+    public void CurrentTargets(PlayerController_Rewired target)
+    {
+        targets.Add(target);
+    }
     private void CheckForEvac()
     {
         //evacVehicles.RemoveAll(delegate (StayVehicle v) { return v == null; });
@@ -60,6 +66,18 @@ public class Radio
             //Debug.Assert(vehicle != null);
             Debug.Log("Found vehicle: " +vehicle.ToString());
             mook.RadioEvacCallback(vehicle);
+        }
+    }
+
+    private void CheckPlayers()
+    {
+        while (targets.Count > 0)
+        {
+            PlayerController_Rewired players = targets[0];
+            if (players == null)
+            {
+                targets.RemoveAt(0);
+            }
         }
     }
 }
