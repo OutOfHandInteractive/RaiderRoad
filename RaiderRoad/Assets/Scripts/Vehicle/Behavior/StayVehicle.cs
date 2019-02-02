@@ -111,6 +111,15 @@ public class StayVehicle : MonoBehaviour {
                 Debug.Log("All loaded up and ready to go!");
                 leave = true;
             }
+            if (leave)
+            {
+                Debug.Log("LEAVING");
+                if (calledRadio)
+                {
+                    Radio.GetRadio().EvacLeaving(this);
+                }
+                StartCoroutine(waitToLeave());
+            }
             //Debug.Log("Waiting for enemies");
         }
         if (leave)
@@ -122,6 +131,7 @@ public class StayVehicle : MonoBehaviour {
             }
             StartCoroutine(waitToLeave());
         }
+
     }
 
     IEnumerator waitToLeave()
