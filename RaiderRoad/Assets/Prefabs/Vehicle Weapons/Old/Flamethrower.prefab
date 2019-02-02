@@ -349,7 +349,7 @@ MeshRenderer:
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100002, guid: b79d56fb079ef0e49b610b5b35d0be72, type: 3}
+  - {fileID: 2100000, guid: 930c8dddb74e04a4785f0d4624393f0a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -380,7 +380,6 @@ GameObject:
   - component: {fileID: 4878625373666344}
   - component: {fileID: 114298130041857538}
   - component: {fileID: 65580179566833754}
-  - component: {fileID: 8030127406488015988}
   m_Layer: 0
   m_Name: Flamethrower
   m_TagString: Interactable
@@ -447,18 +446,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.8851876, y: 1.0113463, z: 0.5561055}
   m_Center: {x: 0, y: -0.017799973, z: -0.4305535}
---- !u!114 &8030127406488015988
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1309888914691442}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a8cc82ce5e0f59a4799638d30948d7af, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1358121399177206
 GameObject:
   m_ObjectHideFlags: 0

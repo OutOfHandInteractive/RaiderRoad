@@ -1,46 +1,14 @@
 fileFormatVersion: 2
-guid: b79d56fb079ef0e49b610b5b35d0be72
+guid: 115eebbeabc846440ae29ef73620f0c0
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
-    100000: Base
-    100002: Base 1
-    100004: Base_Connector1
-    100006: Base_Connector2
-    100008: Base_Leg1
-    100010: Base_Leg2
-    100012: Connector1
-    100014: Cylinder_Connector
-    100016: //RootNode
-    400000: Base
-    400002: Base 1
-    400004: Base_Connector1
-    400006: Base_Connector2
-    400008: Base_Leg1
-    400010: Base_Leg2
-    400012: Connector1
-    400014: Cylinder_Connector
-    400016: //RootNode
-    2100000: lambert1
-    2100002: lambert2
-    2300000: Base 1
-    2300002: Base_Connector1
-    2300004: Base_Connector2
-    2300006: Base_Leg1
-    2300008: Base_Leg2
-    2300010: Cylinder_Connector
-    3300000: Base 1
-    3300002: Base_Connector1
-    3300004: Base_Connector2
-    3300006: Base_Leg1
-    3300008: Base_Leg2
-    3300010: Cylinder_Connector
-    4300000: Base_Connector1
-    4300002: Base_Leg1
-    4300004: Base_Leg2
-    4300006: Base
-    4300008: Base_Connector2
-    4300010: Cylinder_Connector
+    100000: //RootNode
+    400000: //RootNode
+    2100000: lambert5
+    2300000: //RootNode
+    3300000: //RootNode
+    4300000: Wand
   externalObjects: {}
   materials:
     importMaterials: 1
@@ -72,9 +40,10 @@ ModelImporter:
     isReadable: 1
   meshes:
     lODScreenPercentages: []
-    globalScale: 1
+    globalScale: 0.01
     meshCompression: 0
     addColliders: 0
+    useSRGBMaterialColor: 1
     importVisibility: 1
     importBlendShapes: 1
     importCameras: 1
@@ -99,6 +68,9 @@ ModelImporter:
     normalImportMode: 0
     tangentImportMode: 3
     normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
   importAnimation: 1
   copyAvatar: 0
   humanDescription:
@@ -113,7 +85,6 @@ ModelImporter:
     legStretch: 0.05
     feetSpacing: 0
     rootMotionBoneName: 
-    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
     hasTranslationDoF: 0
     hasExtraRoot: 0
     skeletonHasParents: 1

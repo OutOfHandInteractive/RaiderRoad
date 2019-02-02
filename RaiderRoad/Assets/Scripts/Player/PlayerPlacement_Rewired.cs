@@ -156,6 +156,8 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
                 Destroy(floatingItem);
                 buildMode = false;
                 holdTime = 0f;
+                
+                myAni.SetBool("isHolding", false);
             }
         }
     }
@@ -166,8 +168,8 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         //Debug.Log(trapBuild);
         if (!trapBuild.GetComponent<TrapNode>().occupied)
         {
-            myAni.SetTrigger("do_build");
-            trapBuild.GetComponent<TrapNode>().BuildTrap(heldItem);
+            //myAni.SetTrigger("build");
+            node.Build(heldItem, floatingItem.GetComponent<DurableConstruct>().GetDurability());
             heldItem = null;
             hasItem = false;
             Destroy(floatingItem);
@@ -181,23 +183,21 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
 
     private void BuildEngine()
     {
+        GameObject trapBuild = (GameObject)trapNodes[0];
+        //Debug.Log(trapBuild);
+        BuildDurableConstruct(trapBuild.GetComponent<TrapNode>());
+
+        myAni.SetTrigger("build");
+        myAni.SetBool("isHolding", false);
+    }
+
+    private void BuildEngine()
+    {
         GameObject EngineBuild = (GameObject)engineNodes[0];
-        if (!EngineBuild.GetComponent<PoiNode>().occupied)
-        {
-            myAni.SetTrigger("do_build");
-            //building floating item, because it has correct durability value (was held item)
-            //this is issue, not correct on build. Likely instatiating object and not carrying over value, gonna need to edit fuction to carry dur
-            //---------------------------------------------
-            EngineBuild.GetComponent<PoiNode>().BuildPoi(heldItem, floatingItem.GetComponent<Engine>().GetDurability());
-            heldItem = null;
-            hasItem = false;
-            Destroy(floatingItem);
-            buildMode = false;
-        }
-        else
-        {
-            Debug.Log("Occupied >:(");
-        }
+        BuildDurableConstruct(EngineBuild.GetComponent<PoiNode>());
+
+        myAni.SetTrigger("build");
+        myAni.SetBool("isHolding", false);
     }
 
     private void BuildWeapon()
@@ -205,7 +205,8 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         GameObject toBuild = (GameObject)nodes[0];
         if (!toBuild.GetComponent<BuildNode>().occupied)
         {
-            myAni.SetTrigger("do_build");
+            myAni.SetTrigger("build");
+            myAni.SetBool("isHolding", false);
             toBuild.GetComponent<BuildNode>().Build(heldItem, toBuild);
             heldItem = null;
             hasItem = false;
@@ -239,10 +240,6 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         {
             Attack();
         }
-        else if (player.GetButtonUp("Attack") && myAni.GetBool("isAttacking"))
-        {
-            myAni.SetBool("isAttacking", false);
-        }
     }
 
     private void BuildWall()
@@ -250,7 +247,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         GameObject toBuild = (GameObject)nodes[0];
         if (!toBuild.GetComponent<BuildNode>().occupied)
         {
-            myAni.SetTrigger("do_build");
+            myAni.SetTrigger("build");
             toBuild.GetComponent<BuildNode>().Build(wall, toBuild);
             wallInventory--;
             changeInventory();
@@ -278,7 +275,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
 
     private void Attack()
     {
-        myAni.SetBool("isAttacking", true);
+        myAni.SetTrigger("attack");
         canAttack = false;
         attackCount = attack_cooldown;
         //myAni.SetBool("isAttacking", false);
@@ -431,6 +428,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
             }
 
             Destroy(other.gameObject);
+            myAni.SetBool("isHolding", true);
             buildMode = true;
         }
 
@@ -500,7 +498,10 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         {
             GameObject myFloat = heldItem;
             floatingItem = Instantiate(myFloat, //fix later for prettier
-                new Vector3(transform.parent.position.x, transform.parent.position.y + 1.5f, transform.parent.position.z), Quaternion.identity, transform.parent);
+                new Vector3(transform.parent.position.x, transform.parent.position.y, transform.parent.position.z), transform.parent.rotation, transform.parent);
+            //OLD - new Vector3(transform.parent.position.x, transform.parent.position.y + 1f, transform.parent.position.z + 0.5f), Quaternion.identity, transform.parent);
+            floatingItem.transform.localPosition = new Vector3(0f, 1.1f, 0.5f); //NEED SOLUTION FOR ALL CHARACTER SIZES
+
             hasItem = true;
             floatingItem.tag = "Untagged";
             floatingItem.GetComponentInChildren<BoxCollider>().enabled = false;
