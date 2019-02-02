@@ -123,6 +123,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
     private void HoldingItem()
     {
         floatItem();
+        GameObject toBuild = (GameObject)nodes[0];
         if (player.GetButtonDown("Place Object"))
         {
             if (heldItem.tag == "Trap" && trapNodes.Count > 0)
@@ -133,7 +134,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
             {
                 BuildEngine();
             }
-            else if (heldItem.tag == "Weapon" && nodes.Count > 0) //to change later?
+            else if (heldItem.tag == "Weapon" && toBuild.GetComponent<BuildNode>().canPlaceWeapon) //to change later?
             {
                 BuildWeapon();
             }
@@ -409,7 +410,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         // Pick Up
         //if (other.gameObject.CompareTag("Drops"))
         //{
-        if (other.name == "Wall Drop")
+        if (other.tag == "WallDrop")
         {
             wallInventory++;
             Destroy(other.gameObject);
