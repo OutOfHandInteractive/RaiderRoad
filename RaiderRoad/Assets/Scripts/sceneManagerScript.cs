@@ -23,6 +23,8 @@ public class sceneManagerScript : MonoBehaviour {
     public Material[] charaMatArray = new Material[4];
     private Transform rv; //rv is reference to RV obj in scene
 
+    public List<Transform> playersInScene;
+
     void Awake() {
 		// Have playlist persist across scenes.
 		if (Instance == null) {
@@ -37,7 +39,7 @@ public class sceneManagerScript : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-        if (SceneManager.GetActiveScene() != SceneManager.GetSceneByName("PlayerSelect"))
+        if (SceneManager.GetActiveScene() != SceneManager.GetSceneByName("PlayerSelect") || SceneManager.GetActiveScene() != SceneManager.GetSceneByName("playerLobby")) //once switched over, only use lobby
         {   
             nextScene = null;
         }
@@ -51,12 +53,18 @@ public class sceneManagerScript : MonoBehaviour {
     void Update () {
         if (Input.GetKey("escape"))     //Set all variables back to null and send player to Scene menu
         {
-            nextScene = null;
+            if(GameManager.GameManagerInstance != null) // make sure we have a game manager
+            {
+                GameManager g = GameManager.GameManagerInstance;
+                g.clearMenu();
+            }
+
+            nextScene = NeedPlaySelScene[0];
             char1Players = null;
             char1Players = null;
             char1Players = null;
             char1Players = null;
-            SceneManager.LoadScene("SceneMenu", LoadSceneMode.Single);
+            SceneManager.LoadScene("playerLobby", LoadSceneMode.Single); //was PlayerSelect
         }
 	}
 
@@ -71,6 +79,11 @@ public class sceneManagerScript : MonoBehaviour {
         }
     }
 
+    public void OverrideNextScene(string myScene)
+    {
+        nextScene = myScene;
+    }
+
     public void PlaySelDone(int[] c1Array, int[] c2Array, int[] c3Array, int[] c4Array) {
         char1Players = c1Array;     //Pull all the arrays from the player select menu (so we know how many of each character we have)
         char2Players = c2Array;
@@ -80,10 +93,11 @@ public class sceneManagerScript : MonoBehaviour {
         SceneManager.LoadScene(nextScene, LoadSceneMode.Single);
     }
 
-
     //Load Main Game Scene Functions
     public void SpawnPlayers(GameObject myRv, Transform[] SpawnPoints)
     {
+        GameManager g = GameManager.GameManagerInstance;
+        playersInScene = new List<Transform>(); //Empty players list
         //Debug.Log("Players are Spawned");
         //finding RV
         rv = myRv.transform;
@@ -96,6 +110,8 @@ public class sceneManagerScript : MonoBehaviour {
         spawnChar4();
 
         //gameObject.SetActive(false);
+        g.getPlayers(playersInScene);
+        g.restartMenu();
     }
 
     void spawnChar1()
@@ -106,12 +122,14 @@ public class sceneManagerScript : MonoBehaviour {
             for (int i = 0; i < char1Players.Length; i++)       //for loop in case multiples of character
             {
                 int playId = char1Players[i];
+                Debug.Log("HEY" + playId);
                 player[i] = Instantiate(character1, playerPos[playId].position, character1.rotation, rv);    //create character, set them to player spawn position
                 player[i].gameObject.GetComponent<PlayerController_Rewired>().SetId(playId);
                 player[i].Find("View").gameObject.GetComponent<PlayerPlacement_Rewired>().SetId(playId);
 
                 AssignPlayMat(player[i].gameObject, playId);  //passing player gameObject and player id
                 //Debug.Log(player[i]);
+                playersInScene.Add(player[i]);
             }
         }
     }
@@ -129,6 +147,8 @@ public class sceneManagerScript : MonoBehaviour {
                 player[i].Find("View").gameObject.GetComponent<PlayerPlacement_Rewired>().SetId(playId);
 
                 AssignPlayMat(player[i].gameObject, playId);
+
+                playersInScene.Add(player[i]);
             }
         }
     }
@@ -146,6 +166,8 @@ public class sceneManagerScript : MonoBehaviour {
                 player[i].Find("View").gameObject.GetComponent<PlayerPlacement_Rewired>().SetId(playId);
 
                 AssignPlayMat(player[i].gameObject, playId);
+
+                playersInScene.Add(player[i]);
             }
         }
     }
@@ -163,11 +185,13 @@ public class sceneManagerScript : MonoBehaviour {
                 player[i].Find("View").gameObject.GetComponent<PlayerPlacement_Rewired>().SetId(playId);
 
                 AssignPlayMat(player[i].gameObject, playId);
-        }
+
+                playersInScene.Add(player[i]);
+            }
         }
     }
 
-    void AssignPlayMat(GameObject PlayerParent, int playerNum)
+    public void AssignPlayMat(GameObject PlayerParent, int playerNum)
     {
         Renderer[] myMats = PlayerParent.GetComponentsInChildren<Renderer>();   //assign materials of child objects
 

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BuildNode : MonoBehaviour {
+public class BuildNode : AbstractBuildNode {
     //Michael
 
     //--------------------
@@ -10,9 +10,9 @@ public class BuildNode : MonoBehaviour {
     //--------------------
 
     public GameObject wall;
-    public bool occupied = false;
     public bool isHorizontal;
     public bool canPlaceWeapon = false;
+    private Material outline;
     //public float height = 1f;
 
     //--------------------
@@ -39,16 +39,23 @@ public class BuildNode : MonoBehaviour {
                 item.transform.parent = spawnNode.transform;
                 occupied = true;
             }
+            Material tempMat = item.GetComponent<Renderer>().material;
+            outline = Instantiate(tempMat);
+            item.GetComponent<Renderer>().material = outline;
+            outline.SetFloat("_Active", 0.0f);
+
             item.GetComponent<Wall>().myNode = gameObject;
         }
         else if(objectToPlace.tag == "Weapon" && canPlaceWeapon)
         {
             Vector3 dir = gameObject.transform.forward;
             item = Instantiate(objectToPlace, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.LookRotation(dir));
-            item.transform.localScale = new Vector3(1.5f, 0.7f, 0.7f);
+			item.transform.localScale = new Vector3(1.5f, 0.7f, 0.7f);
             item.transform.parent = spawnNode.transform;
 
-            BoxCollider coll = item.GetComponentsInChildren<BoxCollider>()[1];
+			RemoveShow();	// get rid of holo when item is placed
+
+			BoxCollider coll = item.GetComponentsInChildren<BoxCollider>()[1];
             coll.enabled = true;
 
             item.GetComponent<Weapon>().DisableNear();
@@ -63,10 +70,12 @@ public class BuildNode : MonoBehaviour {
             if (this.isHorizontal)
             {
                 holo = Instantiate(makeHolo, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
+                holo.transform.parent = this.gameObject.transform;
             }
             else
             {
                 holo = Instantiate(makeHolo, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.Euler(new Vector3(0, 90, 0)));
+                holo.transform.parent = this.gameObject.transform;
             }
             holo.GetComponent<Wall>().isHolo = true;
         }else{

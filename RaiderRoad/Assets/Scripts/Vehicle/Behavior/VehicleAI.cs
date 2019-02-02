@@ -19,14 +19,17 @@ public class VehicleAI : MonoBehaviour {
     public State currentState;
     private GameObject enemy;
     private Rigidbody rb;
+    private int attackPoint;
 
     private string side;
     private bool hasWeapon;
+    public ParticleSystem collision;
 
-	//Statistics
-	public float maxHealth;
+    //Statistics
+    public float maxHealth;
 	public float ramDamage;
 	public float speed;
+	public float movementChance;
 	public int threat;
 
 	public float currentHealth;
@@ -65,6 +68,14 @@ public class VehicleAI : MonoBehaviour {
     // Update is called once per frame
     void Update () {
         //Debug.Log(currentState);
+        if(currentState == State.Attack)
+        {
+            agent.speed = 30;
+        }
+        else
+        {
+            agent.speed = 15;
+        }
         if(transform.GetComponentInChildren<PlayerController_Rewired>())
         {
             EnterWander();
@@ -76,15 +87,14 @@ public class VehicleAI : MonoBehaviour {
                     wander.Wander();
                 break;
             case State.Chase:
-                chase.Chase(side);
+                if (!agent.pathPending && agent.remainingDistance < 0.5f)
+                    chase.Chase(side);
                 break;
             case State.Stay:
-                if (!agent.pathPending && agent.remainingDistance < 0.5f)
-                    stay.Stay();
+                stay.Stay();
                 break;
             case State.Attack:
-                if (!agent.pathPending && agent.remainingDistance < 0.5f)
-                    attack.Attack();
+                attack.Attack();
                 break;
             case State.Leave:
                 leave.Leave();
@@ -111,12 +121,12 @@ public class VehicleAI : MonoBehaviour {
     }
     public void EnterChase()
     {
-        chase.StartChase(agent, enemy);
+        chase.StartChase(agent, enemy, side);
         currentState = State.Chase;
     }
-    public void EnterStay()
+    public void EnterStay(int stickPoint)
     {
-        stay.StartStay(agent, enemy, side);
+        stay.StartStay(agent, enemy, side, stickPoint);
         currentState = State.Stay;
     }
     public void EnterAttack()
@@ -134,7 +144,23 @@ public class VehicleAI : MonoBehaviour {
         //Destroy this when it goes off screen
         if (other.tag == "Exit")
             Destroy(this.gameObject);
+        if (other.gameObject.tag.Equals("Obstacle"))
+        {
+            Debug.Log("You Hit an Obstacle");
+            ParticleSystem explosion = Instantiate(collision, other.gameObject.transform.position, Quaternion.identity, gameObject.transform);
+            explosion.gameObject.transform.localScale *= 10;
+            //Destroy(other.gameObject);
+            StartCoroutine(WaitToDie(other));
+        }
 
+    }
+
+    IEnumerator WaitToDie(Collider other)
+    {
+        agent.enabled = false;
+        transform.parent = other.transform;
+        yield return new WaitForSeconds(5);
+        Destroy(gameObject);
     }
 
 	// ---------- Getters and Setters ----------

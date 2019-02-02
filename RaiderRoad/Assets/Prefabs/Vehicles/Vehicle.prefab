@@ -17,7 +17,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_Radius
-      value: 5
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_IsKinematic
@@ -25,7 +25,16 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: maxHealth
-      value: 2
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: collision
+      value: 
+      objectReference: {fileID: 198301596306357704, guid: cc906a23251370445ad2fecbd813a666,
+        type: 2}
+    - target: {fileID: 0}
+      propertyPath: m_Speed
+      value: 15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 0}
@@ -90,7 +99,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: 0
-  maxHealth: 2
+  collision: {fileID: 198301596306357704, guid: cc906a23251370445ad2fecbd813a666,
+    type: 2}
+  maxHealth: 1
   ramDamage: 0
   speed: 0
   threat: 0
@@ -106,6 +117,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3abba137eb8c4334fa5d737d18289387, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  originCluster: {fileID: 0}
 --- !u!195 &195580747568780906
 NavMeshAgent:
   m_ObjectHideFlags: 1
@@ -114,8 +126,8 @@ NavMeshAgent:
   m_GameObject: {fileID: 1385481512942962}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 5
-  m_Speed: 20
+  m_Radius: 3
+  m_Speed: 15
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 0

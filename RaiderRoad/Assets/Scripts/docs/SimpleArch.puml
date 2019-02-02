@@ -5,6 +5,7 @@ actor Player
 
 rectangle RaiderRoad {
 	rectangle Unity
+	rectangle Rewired
 	rectangle Game {
 		rectangle Build
 		rectangle Fight
@@ -15,5 +16,6 @@ rectangle RaiderRoad {
 
 Player <--> RaiderRoad
 Unity <--> Game
+Unity <-> Rewired
 
 @enduml

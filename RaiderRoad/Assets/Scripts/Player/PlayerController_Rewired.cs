@@ -30,9 +30,11 @@ public class PlayerController_Rewired : MonoBehaviour {
     private Vector3 rotateVector;
     
     private Rigidbody rb;
-    private Animator myAni;
+    //Animator
+    public Animator myAni;
+    private GameManager g;
 
-	public float currentHealth;
+    public float currentHealth;
     private float baseJumpInidicatorScale;
     private float baseJumpIndicatorDist;
 	public float reviveCountdown;
@@ -74,6 +76,9 @@ public class PlayerController_Rewired : MonoBehaviour {
 
         //find animator
         myAni = gameObject.GetComponentInChildren<Animator>();
+
+        //Get game manager for reference
+        g = GameManager.GameManagerInstance;
     }
     
     void Initialize()
@@ -203,7 +208,7 @@ public class PlayerController_Rewired : MonoBehaviour {
     
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log(collision.gameObject.name);
+        //Debug.Log(collision.gameObject.name);
         if (collision.gameObject.tag == "RV" || collision.gameObject.tag == "eVehicle")
         {
             //Debug.Log("Can jump");
@@ -232,7 +237,11 @@ public class PlayerController_Rewired : MonoBehaviour {
 		reviving = true;
 		reviveCountdown = reviveTime;
 		p.GetComponentInChildren<healthBar>().startRevive(reviveTime);
-	}
+
+        moveVector.x = 0f;  //zero movement so you don't keep walking while revive
+        moveVector.y = 0f;
+        myAni.SetFloat("speed", moveVector.magnitude);
+    }
 
 	public void stopRevive(PlayerController_Rewired p) {
 		reviving = false;
@@ -256,7 +265,7 @@ public class PlayerController_Rewired : MonoBehaviour {
             myAni.SetBool("downed", true);
 
             state = playerStates.down;
-
+            g.playerDowned();
         }
 	}
     
@@ -316,6 +325,12 @@ public class PlayerController_Rewired : MonoBehaviour {
     public void removeInteractable(GameObject i) {
         Debug.Log("removed weapon");
         interactables.Remove(i);
+    }
+
+    public void clearInteractable()
+    {
+        interactables.Clear();
+        //Debug.Log("AHHHHHHHHHHHHHHH" + interactables.Count);
     }
 
 	public void addDownedPlayer(GameObject p) {

@@ -35,23 +35,37 @@ public class cannonball : MonoBehaviour {
 		timeElapsed = travelTime - timeRemaining;
 
 		transform.position += new Vector3(xVel*Time.deltaTime, deltaY(), zVel*Time.deltaTime);
-
+        //Debug.Log("CAAAAAAAAAAAAAAAAAAAAAAAAAAAAANNON" + transform.position);
 		if(timeRemaining <= 0) {
 			Destroy(gameObject);
 		}
 	}
 
-	private void OnTriggerEnter(Collider other) {
+    private void OnTriggerEnter(Collider other) {
 		GameObject directTarget = other.gameObject;
-		if (directTarget.CompareTag("eVehicle")) {
-			directTarget.GetComponentInParent<VehicleAI>().takeDamage(damage);
-		}
-		else if (directTarget.CompareTag("Enemy")) {
-			directTarget.GetComponent<StatefulEnemyAI>().takeDamage(damage);
-		}
+        Debug.Log("TAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAG" + other.gameObject.tag);
 
-		Instantiate(explosion, transform.position, Quaternion.identity);
-		Collider[] splashTargets = Physics.OverlapSphere(transform.position, splashRadius);
+
+        if (directTarget.CompareTag("eVehicle") || directTarget.CompareTag("Destructable"))
+        {
+            directTarget.GetComponentInParent<VehicleAI>().takeDamage(damage);
+            Instantiate(explosion, transform.position, Quaternion.identity);
+            Destroy(gameObject);
+        }
+        else if (directTarget.CompareTag("Enemy"))
+        {
+            directTarget.GetComponent<StatefulEnemyAI>().takeDamage(damage);
+            Instantiate(explosion, transform.position, Quaternion.identity);
+            Destroy(gameObject);
+        }
+        else if (directTarget.CompareTag("road"))
+        {
+            Instantiate(explosion, transform.position, Quaternion.identity);
+            Destroy(gameObject);
+        }
+
+
+        Collider[] splashTargets = Physics.OverlapSphere(transform.position, splashRadius);
 
 		for (int i = 0; i<splashTargets.Length; i++) {
 			if (splashTargets[i].gameObject.CompareTag("eVehicle") && splashTargets[i] != other) {
@@ -61,22 +75,30 @@ public class cannonball : MonoBehaviour {
 				other.gameObject.GetComponent<StatefulEnemyAI>().takeDamage(splashDamage);
 			}
 		}
-
-		Destroy(gameObject);
 	}
 
 
 	#region Physics
-	public void launch(Vector3 _target, Vector3 _source) {
+	public void launch(Vector3 _target, Vector3 _source, Vector3 launchDir) {
 		target = _target;
 		source = _source;
 		dir = target - source;
 
 		// need to fix x/z velocity
 		angle = angleOfReach(_target, _source);
-		xzAng = Mathf.Atan(dir.z / dir.x);
-		xzVel = muzzleVelocity * Mathf.Cos(angle * Mathf.Deg2Rad);
-		xVel = xzVel * Mathf.Cos(xzAng);
+
+		// facing to the right
+		if (launchDir.x > 0) {
+			xzAng = Mathf.Atan(dir.z / dir.x);
+			xzVel = muzzleVelocity * Mathf.Cos(angle * Mathf.Deg2Rad);
+			xVel = xzVel * Mathf.Cos(xzAng);
+		}
+		else {	// facing to the left
+			xzAng = -Mathf.Atan(dir.z / dir.x);	// flip angle so it doesn't shoot backward
+			xzVel = muzzleVelocity * Mathf.Cos(angle * Mathf.Deg2Rad);
+			xVel = -xzVel * Mathf.Cos(xzAng); // make its x velocity negative
+		}
+		
 		zVel = xzVel * Mathf.Sin(xzAng);
 		yVel = muzzleVelocity * Mathf.Sin(angle * Mathf.Deg2Rad);
 

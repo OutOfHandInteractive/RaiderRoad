@@ -11,8 +11,10 @@ public class WeaponAttackEnemy : EnemyAI {
     private VehicleAI eVehicle;
     private GameObject cannon;
     private GameObject barrel;
-    private GameObject flamethrower;
+    private flamethrower flamer;
+    private GameObject flamethrowerBody;
     private bool fired = false;
+    private bool firing = false;
     private ParticleSystem fireInstance;
     private bool created = false;
     public void StartWeapon(GameObject enemy, VehicleAI vehicle, GameObject munnitions, GameObject fire, string side)
@@ -23,15 +25,16 @@ public class WeaponAttackEnemy : EnemyAI {
         fireFX = fire;
         if (cObject.transform.parent.tag == "Cannon")
         {
-            Transform cannonBody = eVehicle.GetComponentInChildren<cannon>().transform.Find("Cannon_Body");
+            Transform cannonBody = eVehicle.GetComponentInChildren<cannon>().transform.Find("Cannon_Fire");
             cannon = cannonBody.gameObject;
-            barrel = cannonBody.Find("Barrel").gameObject;
+            barrel = cannonBody.Find("cannonMount").Find("Barrel").gameObject;
         }
         else if (cObject.transform.parent.tag == "Fire")
         {
-            Transform flameBody = eVehicle.GetComponentInChildren<flamethrower>().transform.Find("FlamethrowerBodyWrapper");
+            flamer = eVehicle.GetComponentInChildren<flamethrower>();
+            Transform flameBody = flamer.transform.Find("FlamethrowerBodyWrapper");
             Debug.Log(flameBody);
-            flamethrower = flameBody.Find("FlameThrower_Body").gameObject;
+            flamethrowerBody = flameBody.Find("FlameThrower_Body").gameObject;
             barrel = flameBody.Find("FlameThrower_Body").gameObject.transform.Find("Barrel").gameObject;
             if (!created)
             {
@@ -59,7 +62,12 @@ public class WeaponAttackEnemy : EnemyAI {
 
         //flamethrower.transform.LookAt(player.transform.position);
 
-        if (cObject.transform.parent.tag == "Cannon")
+        Transform parent = gameObject.transform.parent;
+        if(parent == null)
+        {
+            gameObject.GetComponent<StatefulEnemyAI>().EnterDeath();
+        }
+        else if (parent.tag == "Cannon")
         {
             if (!fired)
             {
@@ -67,7 +75,7 @@ public class WeaponAttackEnemy : EnemyAI {
                 fired = true;
             }
         }
-        else if (cObject.transform.parent.tag == "Fire")
+        else if (parent.tag == "Fire")
         {
             Flames();
         }
@@ -107,8 +115,13 @@ public class WeaponAttackEnemy : EnemyAI {
 
     void Flames()
     {
-        fireInstance.gameObject.transform.rotation = barrel.transform.rotation;
-        fireInstance.Play();
+        //fireInstance.gameObject.transform.rotation = barrel.transform.rotation;
+        flamer.SetRotation(barrel.transform.rotation);
+        flamer.CheckOverheat();
+        if (!flamer.isOverheated())
+        {
+            flamer.StartFiring();
+        }
     }
 
     public GameObject getWeapon()
@@ -117,9 +130,9 @@ public class WeaponAttackEnemy : EnemyAI {
         {
             return cannon;
         }
-        else if (flamethrower != null)
+        else if (flamethrowerBody != null)
         {
-            return flamethrower;
+            return flamethrowerBody;
         }
         return null;
     }
@@ -130,6 +143,6 @@ public class WeaponAttackEnemy : EnemyAI {
         GameObject player = Closest(cObject.transform.position, players);
         Vector3 targetPosition = new Vector3(player.transform.position.x, weapons.transform.position.y, player.transform.position.z);
         cObject.transform.LookAt(targetPosition);
-        weapons.transform.LookAt(player.transform.position);
+        weapons.transform.LookAt(targetPosition);
     }
 }

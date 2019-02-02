@@ -5,32 +5,42 @@ using UnityEngine.AI;
 
 public class StayVehicle : MonoBehaviour {
 
-    private List<Transform> load;
+    private List<Transform> attackList;
+    private GameObject WallsRV;
+    private GameObject attackPosition;
     private int loadPoints = 0;
     private NavMeshAgent cEnemy;
     private GameObject cObject;
     private GameObject player;
     private string cSide;
     private bool calledRadio = false;
-    public void StartStay(NavMeshAgent agent, GameObject enemy, string side)
+    public void StartStay(NavMeshAgent agent, GameObject enemy, string side, int stickPoint)
     {
         cEnemy = agent;
         cObject = enemy;
-        load = new List<Transform>();
+        attackList = new List<Transform>();
         cSide = side;
         cEnemy.speed = 6f;
+        //Find random attack point
         if (side.Equals("left"))
         {
-            player = GameObject.Find("EnemyLload");
+            WallsRV = GameObject.Find("NodesLeft");
+            attackPosition = GameObject.Find("AttackLeft");
         }
         else
         {
-            player = GameObject.Find("EnemyRload");
+            WallsRV = GameObject.Find("NodesRight");
+            attackPosition = GameObject.Find("AttackRight");
         }
-        foreach (Transform child in player.transform)
+
+        //Get all building points
+        foreach (Transform child in WallsRV.transform)
         {
-            load.Add(child);
+            attackList.Add(child);
         }
+        if (attackList.Count == 0)
+            return;
+        loadPoints = stickPoint;
     }
 
     public GameObject GetObject()
@@ -64,16 +74,16 @@ public class StayVehicle : MonoBehaviour {
 
     public void Stay()
     {
+        Debug.Log("STAY STATE");
         //Stop completely when next to spot
         //cEnemy.autoBraking = true;
-        if (load.Count == 0)
-            return;
+
         //Randomly choose to load left or right side
 
         //Go to loading area
-        cEnemy.SetDestination(load[loadPoints].position);
+        cEnemy.SetDestination(attackList[loadPoints].position);
 
-        loadPoints = Random.Range(0, load.Count);
+
 
         bool leave = false;
         int extantEnemies = GameObject.FindGameObjectsWithTag("Enemy").Length;
@@ -81,14 +91,16 @@ public class StayVehicle : MonoBehaviour {
         {
             leave = true;
         }
-        else if(cEnemy.remainingDistance < 0.5f)
+        else if(Vector3.Distance(cEnemy.transform.position, attackList[loadPoints].position) < 1f)
         {
+            cEnemy.transform.position = attackList[loadPoints].transform.position;
+            //cEnemy.GetComponent<NavMeshAgent>().isStopped = true;
+            Debug.Log("TRUE");
             // At loading area
             if (!calledRadio)
             {
                 if(this == null)
                 {
-                    Debug.Log("This shit is retarded");
                 }
                 Debug.Log("Calling radio: " + this.ToString());
                 Radio.GetRadio().ReadyForEvac(this);
@@ -99,16 +111,27 @@ public class StayVehicle : MonoBehaviour {
                 Debug.Log("All loaded up and ready to go!");
                 leave = true;
             }
+            if (leave)
+            {
+                Debug.Log("LEAVING");
+                if (calledRadio)
+                {
+                    Radio.GetRadio().EvacLeaving(this);
+                }
+                StartCoroutine(waitToLeave());
+            }
             //Debug.Log("Waiting for enemies");
         }
         if (leave)
         {
+            Debug.Log("LEAVING");
             if (calledRadio)
             {
                 Radio.GetRadio().EvacLeaving(this);
             }
             StartCoroutine(waitToLeave());
         }
+
     }
 
     IEnumerator waitToLeave()

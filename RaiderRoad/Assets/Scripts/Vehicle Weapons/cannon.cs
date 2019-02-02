@@ -12,6 +12,7 @@ public class cannon : Interactable {
 	public GameObject barrel;
 	public GameObject weapon;
 	public GameObject smokeBurst;
+	public Animator myAni;
 
 	// gameplay values
 	public float reticuleMoveSpeed;
@@ -48,13 +49,13 @@ public class cannon : Interactable {
 		cooldownTimer = cooldown;
 		firingCooldownTimer = firingCooldown;
 
-		forwardDir = transform.forward;
+		//forwardDir = transform.forward;
 		maxRange = getMaxRange();
 	}
 
 	// Update is called once per frame
 	void Update () {
-		weapon.transform.LookAt(reticule.transform);
+		//weapon.transform.LookAt(reticule.transform);
 		if (isOnCooldown()) {
 			cooldownTimer -= Time.deltaTime;
 		}
@@ -76,24 +77,23 @@ public class cannon : Interactable {
 
 			if (player.GetButtonDown("Exit Interactable") && interacting) {
 				Leave();
-				interacting = false;
+                playerUsing.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
+                interacting = false;
 			}
 
 			if (player.GetButtonDown("Shoot Weapon") && !isOnFiringCooldown()) {
-				proj = Instantiate(munitions.gameObject, barrel.transform.position, Quaternion.identity);
-
 				// Fire the cannon
-				proj.GetComponent<cannonball>().launch(reticule.transform.position, barrel.transform.position);
-				GameObject tempFx = Instantiate(smokeBurst, barrel.transform.position, Quaternion.identity);
-				tempFx.gameObject.transform.LookAt(reticule.transform);
-				StartCoroutine(particleDestroy(tempFx));
+				StartCoroutine(fireCannon());				
 
 				firingCooldownTimer = firingCooldown;
 			}
 
 			if (reticule.activeSelf == true) {
 				interacting = true;
-			}
+                playerUsing.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePosition;
+
+                weapon.transform.LookAt(reticule.transform);
+            }
 		}
 	}
 
@@ -123,6 +123,7 @@ public class cannon : Interactable {
 		user = pController;
 		player = user.GetPlayer();
 		userPlayerId = user.playerId;
+        playerUsing = user.gameObject;
 		user.setInteractingFlag();
         user.interactAnim(true); //start animation
 
@@ -145,9 +146,19 @@ public class cannon : Interactable {
 			return false;
 	}
 
-	IEnumerator particleDestroy(GameObject fx) {
-		yield return new WaitUntil(delegate { return !fx.GetComponentInChildren<ParticleSystem>().IsAlive(); });
+	IEnumerator fireCannon() {
+		myAni.SetTrigger("Fire");
 
-		Destroy(fx);
+		// wait time so shot happens at right point in animation
+		yield return new WaitForSecondsRealtime(7f / 24f);
+
+		proj = Instantiate(munitions.gameObject, barrel.transform.position, Quaternion.identity);
+		proj.GetComponent<cannonball>().launch(reticule.transform.position, barrel.transform.position, weapon.transform.forward);
+		GameObject tempFx = Instantiate(smokeBurst, barrel.transform.position, Quaternion.identity);
+		tempFx.gameObject.transform.LookAt(reticule.transform);
+
+		yield return new WaitUntil(delegate { return !tempFx.GetComponentInChildren<ParticleSystem>().IsAlive(); });
+
+		Destroy(tempFx);
 	}
 }

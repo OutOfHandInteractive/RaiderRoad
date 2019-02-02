@@ -67,8 +67,11 @@ public class flamethrower : Interactable {
     
 	// Update is called once per frame
 	void Update () {
-		weapon.transform.LookAt(reticule.transform);
-		fireInstance.transform.LookAt(reticule.transform);
+        if (inUse)
+        {
+            weapon.transform.LookAt(reticule.transform);
+            fireInstance.transform.LookAt(reticule.transform);
+        }
         if (isOnCooldown())
         {
             cooldownTimer -= Time.deltaTime;
@@ -79,6 +82,30 @@ public class flamethrower : Interactable {
         
         CheckOverheat();
 	}
+
+    public void StartFiring()
+    {
+        fireInstance.Play();
+        firing = true;
+        damageCollider.SetActive(true);
+    }
+
+    public void StopFiring()
+    {
+        fireInstance.Stop();
+        firing = false;
+        damageCollider.SetActive(false);
+    }
+
+    public void SetRotation(Quaternion rot)
+    {
+        fireInstance.transform.rotation = rot;
+    }
+
+    public bool isOverheated()
+    {
+        return overheated;
+    }
     
 	private void GetInput() {
 		if (!paused && inUse) {
@@ -92,15 +119,11 @@ public class flamethrower : Interactable {
             
 			if (player.GetButtonDown("Shoot Weapon") && !overheated)
             {
-				fireInstance.Play();
-                firing = true;
-				damageCollider.SetActive(true);
+                StartFiring();
 			}
             if (player.GetButtonUp("Shoot Weapon"))
             {
-				fireInstance.Stop();
-                firing = false;
-				damageCollider.SetActive(false);
+                StopFiring();
 			}
             
             if (reticule.activeSelf == true) {
@@ -126,7 +149,7 @@ public class flamethrower : Interactable {
 			reticule.transform.localPosition.z);
 	}
 
-	void CheckOverheat() 
+	public void CheckOverheat() 
     {
         if (firing)
         {

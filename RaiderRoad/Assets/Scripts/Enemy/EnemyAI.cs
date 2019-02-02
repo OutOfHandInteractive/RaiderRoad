@@ -12,13 +12,30 @@ public abstract class EnemyAI : MonoBehaviour
         foreach (GameObject wall in objects)
         {
             float dist = Vector3.Distance(wall.transform.position, myPos);
-            if (closest == null || dist < minDist)
+            if ((closest == null || dist < minDist) /*&& closest.GetComponent<Constructable>().isOccupied == false*/) /*|| deadPlayer != PlayerController_Rewired.playerStates.down*/
             {
                 closest = wall;
                 minDist = dist;
             }
         }
         return closest;
+    }
+
+    public GameObject Closest(GameObject[] objects)
+    {
+        return Closest(gameObject.transform.position, objects);
+    }
+
+    public void MoveToward(GameObject target)
+    {
+        MoveToward(target.transform);
+    }
+
+    public void MoveToward(Transform target)
+    {
+        float movement = speed * Time.deltaTime;
+        gameObject.transform.LookAt(target);
+        gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, target.position, movement);
     }
 
     /// <summary>

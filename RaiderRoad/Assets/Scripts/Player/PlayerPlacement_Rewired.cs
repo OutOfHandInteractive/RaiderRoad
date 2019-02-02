@@ -34,10 +34,10 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
     private Player player;
 	private PlayerController_Rewired pController;
     private GameObject rv;
-    private ArrayList nodes = new ArrayList();      //probably better way to do this, REVISIT!
-    private ArrayList trapNodes = new ArrayList();
-    private ArrayList engineNodes = new ArrayList();
-    private ArrayList attackRange = new ArrayList();
+    private List<GameObject> nodes = new List<GameObject>();      //probably better way to do this, REVISIT!
+    private List<GameObject> trapNodes = new List<GameObject>();
+    private List<GameObject> engineNodes = new List<GameObject>();
+    private List<GameObject> attackRange = new List<GameObject>();
 	private List<GameObject> destructableParts = new List<GameObject>();
 	private bool hasItem = false;
     private GameObject floatingItem;
@@ -93,201 +93,245 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
 
         myInteracting = pController.interacting;
         //checking that player isn't "interacting" (driving, piloting weapon, etc)
-        if (!myInteracting) {
+        if (myInteracting)
+        {
+            // Early exit
+            return;
+        }
 
-            if (heldItem != null) //change this to tags later
+        if (heldItem != null) //change this to tags later
+        {
+            HoldingItem();
+        }
+        else
+        {
+            NotHoldingItem();
+        }
+
+        if (currentAttColor.a > 0)
+        {
+            currentAttColor.a -= 1f * Time.deltaTime; //transitioning color from visibile to invisible
+            TempAttMat.color = currentAttColor;
+        }
+        else if (currentAttColor.a < 0)
+        { // getting alpha to exactly 0, and after that won't check further
+            currentAttColor.a = 0;
+            TempAttMat.color = currentAttColor;
+        }
+    }
+
+    private void HoldingItem()
+    {
+        floatItem();
+        if (player.GetButtonDown("Place Object"))
+        {
+            if (heldItem.tag == "Trap" && trapNodes.Count > 0)
             {
-                floatItem();
-                if (player.GetButtonDown("Place Object"))
-                {
-                    if (heldItem.tag == "Trap" && trapNodes.Count > 0)
-                    {
-                        GameObject trapBuild = (GameObject)trapNodes[0];
-                        //Debug.Log(trapBuild);
-                        if (!trapBuild.GetComponent<TrapNode>().occupied)
-                        {
-							myAni.SetTrigger("build");
-                            myAni.SetBool("isHolding", false);
-                            trapBuild.GetComponent<TrapNode>().BuildTrap(heldItem);
-                            heldItem = null;
-                            hasItem = false;
-                            Destroy(floatingItem);
-                            buildMode = false;
-                        }
-                        else
-                        {
-                            Debug.Log("Occupied >:(");
-                        }
-                    }
-                    else if (heldItem.tag == "Engine" && engineNodes.Count > 0)
-                    {
-                        GameObject EngineBuild = (GameObject)engineNodes[0];
-                        if (!EngineBuild.GetComponent<PoiNode>().occupied)
-                        {
-							myAni.SetTrigger("build");
-                            myAni.SetBool("isHolding", false);
-                            EngineBuild.GetComponent<PoiNode>().BuildPoi(heldItem);
-                            heldItem = null;
-                            hasItem = false;
-                            Destroy(floatingItem);
-                            buildMode = false;
-						}
-                        else
-                        {
-                            Debug.Log("Occupied >:(");
-                        }
-                    }
-                    else if (heldItem.tag == "Weapon") //to change later?
-                    {
-                        GameObject toBuild = (GameObject)nodes[0];
-                        if (!toBuild.GetComponent<BuildNode>().occupied)
-                        {
-							myAni.SetTrigger("build");
-                            myAni.SetBool("isHolding", false);
-                            toBuild.GetComponent<BuildNode>().Build(heldItem, toBuild);
-                            heldItem = null;
-                            hasItem = false;
-                            Destroy(floatingItem);
-                            buildMode = false;
-							//other.gameObject.SetActive (false);
-						}
-                        else
-                        {
-                            Debug.Log("Occupied >:(");
-                        }
-                    }
-                }
-
-                if (player.GetButton("Use"))
-                {
-                    holdTime += Time.deltaTime;
-                    if (holdTime > timeToDrop)
-                    {
-                        myAni.SetBool("isHolding", false);
-                        GameObject dropItem = null;
-                        if (heldItem.tag == "Trap") dropItem = heldItem.GetComponent<Trap>().drop; //get the drop prefab item from item's script
-                        if (heldItem.tag == "Engine") dropItem = heldItem.GetComponent<Engine>().drop;
-                        // more ifs for other items
-                        GameObject item = Instantiate(dropItem, new Vector3(transform.position.x, transform.position.y, transform.position.z + 1f), Quaternion.identity);    //create drop item
-                        item.name = heldItem.name + " Drop";
-
-                        heldItem = null;
-                        hasItem = false;
-                        Destroy(floatingItem);
-                        buildMode = false;
-                        holdTime = 0f;
-                    }
-                }
+                BuildTrap();
             }
-            else
+            else if (heldItem.tag == "Engine" && engineNodes.Count > 0)
             {
-
-                if (player.GetButtonDown("Build Mode"))
-                {
-                    if (buildMode) attackRange = new ArrayList(); //When switching out of build mode, attack will get stuck in InvalidOperationException: List has changed. This helps
-                    buildMode = !buildMode;
-                }
-                if (buildMode)
-                {
-                    if (wallInventory > 0 && player.GetButtonDown("Place Object") && nodes.Count > 0)
-                    {
-                        GameObject toBuild = (GameObject)nodes[0];
-                        if (!toBuild.GetComponent<BuildNode>().occupied)
-                        {
-							myAni.SetTrigger("build");
-							toBuild.GetComponent<BuildNode>().Build(wall, toBuild);
-                            wallInventory--;
-                            changeInventory();
-                            //other.gameObject.SetActive (false);
-                        }
-                        else
-                        {
-                            Debug.Log("Occupied >:(");
-                        }
-                    }
-                    if (wallInventory <= 0) buildMode = false; //leave wall build mode if you have no wall (needs more feedback)
-                }
-                else if (player.GetButtonDown("Attack") && canAttack)
-                {
-                    myAni.SetTrigger("attack");
-                    canAttack = false;
-                    attackCount = attack_cooldown;
-                    //myAni.SetBool("isAttacking", false);
-                    if (destructableParts.Count == 0)
-                    {
-                        foreach (GameObject item in attackRange)
-                        {
-                            //Debug.Log(item);
-                            if (item == null)
-                            {
-                                attackRange.Remove(item);
-                            }
-                            else if (item.CompareTag("Wall"))
-                            {
-                                item.GetComponent<Wall>().Damage(damage);
-                            }
-                            else if (item.CompareTag("Trap"))
-                            {
-                                item.GetComponent<Trap>().Damage(damage);
-                            }
-                            else if (item.CompareTag("Engine"))
-                            {
-                                item.GetComponent<Engine>().Damage(damage);
-                            }
-                            else if (item.CompareTag("Weapon"))
-                            {
-                                item.GetComponent<Weapon>().Damage(damage);
-                            }
-                            else if (item.CompareTag("Enemy"))
-                            {
-                                Vector3 dir = item.transform.position - transform.parent.position;
-                                dir = Vector3.Normalize(new Vector3(dir.x, 0.0f, dir.z));
-                                item.GetComponent<Rigidbody>().AddForce(dir * knockback_force);
-                                item.GetComponent<StatefulEnemyAI>().takeDamage(damage);
-                                //Debug.Log(dir);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        if (destructableParts[0].GetComponent<DestructiblePart>().takeDamage(1) <= 0)
-                        {
-                            destructableParts.RemoveAt(0);
-                        }
-                    }
-
-                    currentAttColor.a = 0.5f; //setting attack model's mat to 1/2 visible
-
-                }
-
+                BuildEngine();
             }
-        
-            if (currentAttColor.a > 0) {
-                currentAttColor.a -= 1f * Time.deltaTime; //transitioning color from visibile to invisible
-                TempAttMat.color = currentAttColor;
-            } else if (currentAttColor.a < 0) { // getting alpha to exactly 0, and after that won't check further
-                currentAttColor.a = 0;
-                TempAttMat.color = currentAttColor;
+            else if (heldItem.tag == "Weapon") //to change later?
+            {
+                BuildWeapon();
             }
         }
 
+        if (player.GetButton("Use"))
+        {
+            holdTime += Time.deltaTime;
+            if (holdTime > timeToDrop)
+            {
+                GameObject dropItem = heldItem.GetComponent<Constructable>().drop;
+                //if (heldItem.tag == "Trap") dropItem = heldItem.GetComponent<Trap>().drop; //get the drop prefab item from item's script
+                //if (heldItem.tag == "Engine") dropItem = heldItem.GetComponent<Engine>().drop;
+                // more ifs for other items
+                GameObject item = Instantiate(dropItem, new Vector3(transform.position.x, transform.position.y, transform.position.z + 1f), Quaternion.identity);    //create drop item
+                item.name = heldItem.name + " Drop";
+
+                heldItem = null;
+                hasItem = false;
+                Destroy(floatingItem);
+                buildMode = false;
+                holdTime = 0f;
+            }
+        }
+    }
+
+    private void BuildDurableConstruct(DurabilityBuildNode node)
+    {
+        if (!node.occupied)
+        {
+            myAni.SetTrigger("do_build");
+            node.Build(heldItem, floatingItem.GetComponent<DurableConstruct>().GetDurability());
+            heldItem = null;
+            hasItem = false;
+            Destroy(floatingItem);
+            buildMode = false;
+        }
+        else
+        {
+            Debug.Log("Occupied >:(");
+        }
+    }
+
+    private void BuildTrap()
+    {
+        GameObject trapBuild = (GameObject)trapNodes[0];
+        //Debug.Log(trapBuild);
+        BuildDurableConstruct(trapBuild.GetComponent<TrapNode>());
+    }
+
+    private void BuildEngine()
+    {
+        GameObject EngineBuild = (GameObject)engineNodes[0];
+        BuildDurableConstruct(EngineBuild.GetComponent<PoiNode>());
+    }
+
+    private void BuildWeapon()
+    {
+        GameObject toBuild = (GameObject)nodes[0];
+        if (!toBuild.GetComponent<BuildNode>().occupied)
+        {
+            myAni.SetTrigger("do_build");
+            toBuild.GetComponent<BuildNode>().Build(heldItem, toBuild);
+            heldItem = null;
+            hasItem = false;
+            Destroy(floatingItem);
+            buildMode = false;
+            //other.gameObject.SetActive (false);
+        }
+        else
+        {
+            Debug.Log("Occupied >:(");
+        }
+    }
+
+    private void NotHoldingItem()
+    {
+        if (player.GetButtonDown("Build Mode"))
+        {
+            //When switching out of build mode, attack will get stuck in InvalidOperationException: List has changed. This helps
+            if (buildMode) attackRange = new List<GameObject>();
+            buildMode = !buildMode;
+        }
+        if (buildMode)
+        {
+            if (wallInventory > 0 && player.GetButtonDown("Place Object") && nodes.Count > 0)
+            {
+                BuildWall();
+            }
+            if (wallInventory <= 0) buildMode = false; //leave wall build mode if you have no wall (needs more feedback)
+        }
+        else if (player.GetButtonDown("Attack") && canAttack)
+        {
+            Attack();
+        }
+        else if (player.GetButtonUp("Attack") && myAni.GetBool("isAttacking"))
+        {
+            myAni.SetBool("isAttacking", false);
+        }
+    }
+
+    private void BuildWall()
+    {
+        GameObject toBuild = (GameObject)nodes[0];
+        if (!toBuild.GetComponent<BuildNode>().occupied)
+        {
+            myAni.SetTrigger("do_build");
+            toBuild.GetComponent<BuildNode>().Build(wall, toBuild);
+            wallInventory--;
+            changeInventory();
+            //other.gameObject.SetActive (false);
+        }
+        else
+        {
+            Debug.Log("Occupied >:(");
+        }
+    }
+
+    private bool AttackVehicleParts()
+    {
+        Util.RemoveNulls(destructableParts);
+        if(destructableParts.Count > 0)
+        {
+            if (destructableParts[0].GetComponent<DestructiblePart>().takeDamage(1) <= 0)
+            {
+                destructableParts.RemoveAt(0);
+            }
+            return true;
+        }
+        return false;
+    }
+
+    private void Attack()
+    {
+        myAni.SetBool("isAttacking", true);
+        canAttack = false;
+        attackCount = attack_cooldown;
+        //myAni.SetBool("isAttacking", false);
+        if (!AttackVehicleParts())
+        {
+            Util.RemoveNulls(attackRange);
+            foreach (GameObject item in attackRange)
+            {
+                //Debug.Log(item);
+                Constructable construct;
+                if(item == null)
+                {
+                    // This should've been removed!!
+                    continue;
+                }
+                if (item.CompareTag("Weapon"))
+                {
+                    item.GetComponent<Weapon>().Damage(damage, gameObject.transform.parent.gameObject);
+                }
+                else if ((construct = item.GetComponent<Constructable>()) != null)
+                {
+                    construct.Damage(damage);
+                }
+                else if (item.CompareTag("Enemy"))
+                {
+                    Vector3 dir = item.transform.position - transform.parent.position;
+                    dir = Vector3.Normalize(new Vector3(dir.x, 0.0f, dir.z));
+                    item.GetComponent<Rigidbody>().AddForce(dir * knockback_force);
+                    item.GetComponent<StatefulEnemyAI>().takeDamage(damage);
+                    item.GetComponent<StatefulEnemyAI>().Stunned();
+                    //Debug.Log(dir);
+                }
+            }
+        }
+
+        currentAttColor.a = 0.5f; //setting attack model's mat to 1/2 visible
     }
 
     void OnTriggerEnter(Collider other)
     {
-        
+
         //Debug.Log(other.name);
         if ((other.tag == "WallNode") && wallInventory > 0)
         {
             //Debug.Log("Added");
-            nodes.Add(other.gameObject);
-            if (buildMode && heldItem == null)
+            if (!other.GetComponent<BuildNode>().occupied)
             {
-                other.GetComponent<BuildNode>().Show(wall);
-            }
-            else if (buildMode && heldItem.CompareTag("Weapon") && other.GetComponent<BuildNode>().canPlaceWeapon)
-            {
-                other.GetComponent<BuildNode>().Show(heldItem);
+                nodes.Add(other.gameObject);
+                GameObject first = (GameObject)nodes[0];
+                if (buildMode && heldItem == null)
+                {
+                    if (nodes.Count <= 1 && !first.GetComponent<BuildNode>().occupied)
+                    {
+                        first.GetComponent<BuildNode>().Show(wall);
+                    }
+                }
+                else if (buildMode && heldItem.CompareTag("Weapon") && other.GetComponent<BuildNode>().canPlaceWeapon)
+                {
+                    if (nodes.Count <= 1 && !first.GetComponent<BuildNode>().occupied)
+                    {
+                        other.GetComponent<BuildNode>().Show(heldItem);
+                    }
+                }
             }
             //if player is in build mode, activate show wall in the build node script
             //GameObject toRemove = (GameObject)nodes[0];
@@ -324,6 +368,10 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
             attackRange.Add(other.gameObject);
         }
         if (other.gameObject.CompareTag("Enemy"))
+        {
+            attackRange.Add(other.gameObject);
+        }
+        if (other.gameObject.CompareTag("Weapon"))
         {
             attackRange.Add(other.gameObject);
         }
@@ -364,6 +412,14 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         else if(other.tag == "Drops" && !heldItem)
         {
             heldItem = other.GetComponent<ItemDrop>().item;
+            floatItem();
+            //pass durabilty if needed (POI)
+            DurableConstruct construct = floatingItem.GetComponent<DurableConstruct>();
+            if (construct != null)
+            {
+                construct.SetDurability(other.GetComponent<ItemDrop>().myItemDur);
+            }
+
             Destroy(other.gameObject);
             myAni.SetBool("isHolding", true);
             buildMode = true;
@@ -385,7 +441,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         engineNodes.Remove(other.gameObject);
         attackRange.Remove(other.gameObject);
 
-		if (other.gameObject.CompareTag("Interactable")) {
+        if (other.gameObject.CompareTag("Interactable")) {
 			pController.removeInteractable(other.gameObject);
 		}
 		if (other.gameObject.CompareTag("Player")) {
@@ -407,6 +463,21 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         inventoryText.text = wallInventory.ToString();
     }
 
+    private void checkHologram()
+    {
+        if(nodes.Count <= 1)
+        {
+            GameObject first = (GameObject)nodes[0];
+            if (buildMode && heldItem == null)
+            {
+                if (nodes.Count <= 1 && !first.GetComponent<BuildNode>().occupied)
+                {
+                    first.GetComponent<BuildNode>().Show(wall);
+                }
+            }
+        }
+    }
+
     void displayMode()
     {
         if (buildMode) mode.text = "Building";
@@ -425,6 +496,8 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
             floatingItem.transform.localPosition = new Vector3(0f, 1.1f, 0.5f); //NEED SOLUTION FOR ALL CHARACTER SIZES
 
             hasItem = true;
+            floatingItem.tag = "Untagged";
+            floatingItem.GetComponentInChildren<BoxCollider>().enabled = false;
         }
 
     }

@@ -4,21 +4,19 @@ using UnityEngine;
 using Rewired;
 
 public class carscript2 : MonoBehaviour {
-	//--------------------
-	// Public Variables
-	//--------------------
+	//-------------------- Public Variables --------------------
+	// gameplay values
 	public int playerId = 0;
 
 	public float moveSpeed = 10f;
 
-	//--------------------
-	// Private Variables
-	//--------------------
+    //--------------------
+    // Private Variables
+    //--------------------
 	private Player player;
 	private Vector2 moveVector;
 
 	private Vector3 rotateVector;
-
 
 	[System.NonSerialized]
 	private bool initialized;
@@ -80,14 +78,5 @@ public class carscript2 : MonoBehaviour {
     {
         playerId = id;
         initialized = false;
-    }
-
-    void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.tag.Equals("Obstacle"))
-        {
-            Debug.Log("You Hit an Obstacle");
-            // Insert Obstacle colliding code here
-        }
     }
 }         
