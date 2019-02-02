@@ -96,8 +96,8 @@ public class EventManager : MonoBehaviour {
         {
             Debug.Log("creating event " + i);
             //determine etype - temporary
-            randNum = UnityEngine.Random.Range(1,5);
-            if(randNum % 5 == 0){
+            randNum = UnityEngine.Random.Range(1,10);
+            if(randNum % 7 == 0){
                 etype = EventManager.eventTypes.obstacle;
             }else{
                 etype = EventManager.eventTypes.vehicle;
