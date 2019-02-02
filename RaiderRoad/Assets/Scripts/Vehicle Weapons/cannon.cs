@@ -124,8 +124,9 @@ public class cannon : Interactable {
 		player = user.GetPlayer();
 		userPlayerId = user.playerId;
 		user.setInteractingFlag();
+        user.interactAnim(true); //start animation
 
-		inUse = true;
+        inUse = true;
 		reticule.SetActive(true);
 	}
 
@@ -134,7 +135,8 @@ public class cannon : Interactable {
 		user.unsetInteractingFlag();
 		inUse = false;
 		reticule.SetActive(false);
-	}
+        user.interactAnim(false); //stop animation
+    }
 
 	private bool isOnFiringCooldown() {
 		if (firingCooldownTimer > 0)
