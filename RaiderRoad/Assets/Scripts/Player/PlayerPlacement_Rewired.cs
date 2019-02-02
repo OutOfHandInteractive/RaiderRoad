@@ -133,7 +133,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
             {
                 BuildEngine();
             }
-            else if (heldItem.tag == "Weapon") //to change later?
+            else if (heldItem.tag == "Weapon" && nodes.Count > 0) //to change later?
             {
                 BuildWeapon();
             }

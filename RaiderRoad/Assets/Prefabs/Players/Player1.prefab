@@ -10074,7 +10074,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1757454909120126}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.65, y: 0, z: 0.74}
+  m_LocalPosition: {x: -0.385, y: 0.17, z: 0.521}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4914171367738596}
@@ -10091,8 +10091,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.5, y: 1.4143302, z: 0.65}
-  m_Center: {x: 0.39838436, y: 0.4158845, z: 0}
+  m_Size: {x: 0.53798795, y: 1.4143302, z: 0.65}
+  m_Center: {x: 0.4008962, y: 0.4158845, z: 0}
 --- !u!114 &114586731710966824
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10535,6 +10535,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4914171367738596}
     m_Modifications:
+    - target: {fileID: 9500000, guid: 97a5e8a4fafd21340b5904864b0d2298, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 067e4317075ad1a45800b2fd806f10cf, type: 2}
     - target: {fileID: 100010, guid: 97a5e8a4fafd21340b5904864b0d2298, type: 3}
       propertyPath: m_Name
       value: Dad_model
@@ -10583,10 +10587,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 9500000, guid: 97a5e8a4fafd21340b5904864b0d2298, type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: 067e4317075ad1a45800b2fd806f10cf, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 97a5e8a4fafd21340b5904864b0d2298, type: 3}
 --- !u!95 &9163920193262004614 stripped
