@@ -17,8 +17,9 @@ public class Obstacle : MonoBehaviour
     void Update()
     {
         transform.Translate(Vector3.forward * Time.deltaTime * speed);
-        //if(check position - if off bottom of screen, destroy){
-            //Destroy(this);
-        //}
+        if(this.transform.position.z < -35f){
+            Destroy(this);
+        }
     }
+
 }
