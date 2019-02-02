@@ -215,7 +215,6 @@ public class PlayerController_Rewired : MonoBehaviour {
             transform.parent = collision.transform.root;
             if(!grounded) myAni.SetTrigger("land");
             grounded = true;
-            //myAni.SetTrigger("land"); //the landing time isn't accurate, investigate it
         }
         if (collision.gameObject.tag == "road")
         {
@@ -305,6 +304,7 @@ public class PlayerController_Rewired : MonoBehaviour {
     public void interactAnim(bool animStat)
     {
         myAni.SetBool("aimWeapon", animStat);
+        myAni.SetFloat("speed", 0f);
     }
 
 	public float getMaxHealth() {

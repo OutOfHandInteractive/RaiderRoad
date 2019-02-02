@@ -156,6 +156,8 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
                 Destroy(floatingItem);
                 buildMode = false;
                 holdTime = 0f;
+                
+                myAni.SetBool("isHolding", false);
             }
         }
     }
@@ -164,7 +166,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
     {
         if (!node.occupied)
         {
-            myAni.SetTrigger("do_build");
+            //myAni.SetTrigger("build");
             node.Build(heldItem, floatingItem.GetComponent<DurableConstruct>().GetDurability());
             heldItem = null;
             hasItem = false;
@@ -182,12 +184,18 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         GameObject trapBuild = (GameObject)trapNodes[0];
         //Debug.Log(trapBuild);
         BuildDurableConstruct(trapBuild.GetComponent<TrapNode>());
+
+        myAni.SetTrigger("build");
+        myAni.SetBool("isHolding", false);
     }
 
     private void BuildEngine()
     {
         GameObject EngineBuild = (GameObject)engineNodes[0];
         BuildDurableConstruct(EngineBuild.GetComponent<PoiNode>());
+
+        myAni.SetTrigger("build");
+        myAni.SetBool("isHolding", false);
     }
 
     private void BuildWeapon()
@@ -195,7 +203,8 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         GameObject toBuild = (GameObject)nodes[0];
         if (!toBuild.GetComponent<BuildNode>().occupied)
         {
-            myAni.SetTrigger("do_build");
+            myAni.SetTrigger("build");
+            myAni.SetBool("isHolding", false);
             toBuild.GetComponent<BuildNode>().Build(heldItem, toBuild);
             heldItem = null;
             hasItem = false;
@@ -229,10 +238,6 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         {
             Attack();
         }
-        else if (player.GetButtonUp("Attack") && myAni.GetBool("isAttacking"))
-        {
-            myAni.SetBool("isAttacking", false);
-        }
     }
 
     private void BuildWall()
@@ -240,7 +245,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         GameObject toBuild = (GameObject)nodes[0];
         if (!toBuild.GetComponent<BuildNode>().occupied)
         {
-            myAni.SetTrigger("do_build");
+            myAni.SetTrigger("build");
             toBuild.GetComponent<BuildNode>().Build(wall, toBuild);
             wallInventory--;
             changeInventory();
@@ -268,7 +273,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
 
     private void Attack()
     {
-        myAni.SetBool("isAttacking", true);
+        myAni.SetTrigger("attack");
         canAttack = false;
         attackCount = attack_cooldown;
         //myAni.SetBool("isAttacking", false);

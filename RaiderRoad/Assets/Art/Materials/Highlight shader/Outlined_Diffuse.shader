@@ -34,8 +34,7 @@
 	{
 		Tags{ "Queue" = "Transparent" "IgnoreProjector" = "True" }
 
-		//OUTLINE CURRENTLY BORKED
-		/*Pass //Outline
+		Pass //Outline
 		{
 			ZWrite Off
 			//ZTest Always
@@ -62,7 +61,7 @@
 			}
 
 			ENDCG
-		}*/
+		}
 
 		Tags{ "Queue" = "Geometry"}
 
@@ -74,8 +73,8 @@
 		};
 		 
 		void surf (Input IN, inout SurfaceOutput o) {
-			fixed4 c = tex2D(_MainTex, IN.uv_MainTex);
-			o.Albedo = lerp(_Color, c.rgb, c.a);
+			fixed4 c = tex2D(_MainTex, IN.uv_MainTex) * _Color;
+			o.Albedo = c.rgb;
 			o.Alpha = c.a;
 		}
 		ENDCG
