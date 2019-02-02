@@ -93,6 +93,11 @@ public class StatefulEnemyAI : EnemyAI {
         {
             EnterDeath();
         }
+
+        if (GetState() != State.Weapon && transform.root.GetComponentInChildren<PlayerController_Rewired>() && transform.root.tag == "eVehicle")
+        {
+            EnterFight();
+        }
         //Debug.Log(currentState);
         //Go to weapon state when vehicle is ramming
 
@@ -112,6 +117,7 @@ public class StatefulEnemyAI : EnemyAI {
         if (transform.parent != null && transform.parent.name == "EnemyInt" && vehicle.getState() == VehicleAI.State.Chase)
         {
             EnterWeapon();
+            weapon.Weapon();
 
         }
         else

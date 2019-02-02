@@ -19,6 +19,7 @@ public class VehicleAI : MonoBehaviour {
     public State currentState;
     private GameObject enemy;
     private Rigidbody rb;
+    private int attackPoint;
 
     private string side;
     private bool hasWeapon;
@@ -66,6 +67,14 @@ public class VehicleAI : MonoBehaviour {
     // Update is called once per frame
     void Update () {
         //Debug.Log(currentState);
+        if(currentState == State.Attack)
+        {
+            agent.speed = 30;
+        }
+        else
+        {
+            agent.speed = 15;
+        }
         if(transform.GetComponentInChildren<PlayerController_Rewired>())
         {
             EnterWander();
@@ -77,15 +86,14 @@ public class VehicleAI : MonoBehaviour {
                     wander.Wander();
                 break;
             case State.Chase:
-                chase.Chase(side);
+                if (!agent.pathPending && agent.remainingDistance < 0.5f)
+                    chase.Chase(side);
                 break;
             case State.Stay:
-                if (!agent.pathPending && agent.remainingDistance < 0.5f)
-                    stay.Stay();
+                stay.Stay();
                 break;
             case State.Attack:
-                if (!agent.pathPending && agent.remainingDistance < 0.5f)
-                    attack.Attack();
+                attack.Attack();
                 break;
             case State.Leave:
                 leave.Leave();
@@ -112,12 +120,12 @@ public class VehicleAI : MonoBehaviour {
     }
     public void EnterChase()
     {
-        chase.StartChase(agent, enemy);
+        chase.StartChase(agent, enemy, side);
         currentState = State.Chase;
     }
-    public void EnterStay()
+    public void EnterStay(int stickPoint)
     {
-        stay.StartStay(agent, enemy, side);
+        stay.StartStay(agent, enemy, side, stickPoint);
         currentState = State.Stay;
     }
     public void EnterAttack()
