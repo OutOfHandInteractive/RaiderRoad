@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EscapeEnemy : JumpEnemy {
 
@@ -38,7 +39,7 @@ public class EscapeEnemy : JumpEnemy {
         float movement = speed * Time.deltaTime;
 
         //If a reasonable jumping distance to vehicle, escape
-        if (Vector3.Distance(cObject.transform.position, eVehicle.transform.position) < 5f)
+        if (Vector3.Distance(cObject.transform.position, eVehicle.transform.position) < 3f)
         {
             //Enemy vehicle destination position
             Vector3 pos = eVehicle.transform.position;
@@ -51,9 +52,10 @@ public class EscapeEnemy : JumpEnemy {
             cObject.transform.LookAt(targetPosition);
             cObject.transform.position = Vector3.MoveTowards(cObject.transform.position, eVehicle.transform.position, movement);
         }
-
-        if(cObject.transform.root.tag == "eVehicle" && cObject.transform.parent != null && cObject.GetComponent<StatefulEnemyAI>().GetState() != StatefulEnemyAI.State.Weapon)
+        Debug.Log(cObject.transform.tag + " HEEEEEEEEY");
+        if(cObject.transform.root.tag == "eVehicle" && cObject.transform.parent != null)
         {
+            Debug.Log("HEYYYY");
             StartCoroutine(waitToLeave());
         }
         //cObject.GetComponent<EnemyAI>().EnterWait();
@@ -61,6 +63,7 @@ public class EscapeEnemy : JumpEnemy {
 
     IEnumerator waitToLeave()
     {
+        eVehicle.GetComponent<NavMeshAgent>().isStopped = false;
         eVehicle.GetComponent<VehicleAI>().EnterWander();
         yield return new WaitForSeconds(5);
         eVehicle.GetComponent<VehicleAI>().EnterLeave();
