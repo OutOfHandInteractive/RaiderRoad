@@ -21,5 +21,5 @@ public class Obstacle : MonoBehaviour
             Destroy(this);
         }
     }
-
+    //this comment is a test
 }
