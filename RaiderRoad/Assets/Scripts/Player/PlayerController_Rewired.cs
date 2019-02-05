@@ -129,7 +129,10 @@ public class PlayerController_Rewired : MonoBehaviour {
 					startRevive(downedPlayers[0].GetComponent<PlayerController_Rewired>());
 				}
 				else if (interactables.Count > 0 && !interactables[0].GetComponent<Interactable>().isOnCooldown()) {
-					interactables[0].GetComponent<Interactable>().Interact(this);
+                    if (!interactables[0].GetComponent<Interactable>().Occupied())
+                    {
+                        interactables[0].GetComponent<Interactable>().Interact(this);
+                    }
 				}
 			}
 
