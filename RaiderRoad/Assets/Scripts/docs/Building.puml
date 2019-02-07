@@ -1,0 +1,59 @@
+﻿@startuml
+'' Building
+
+hide empty members
+
+UnityEngine.MonoBehaviour <|-- Constructable
+UnityEngine.MonoBehaviour <|-- AbstractBuildNode
+
+abstract class Constructable{
+	+int hits
+	+float health
+	#void Start()
+	#void Update()
+	+void Damage(float)
+	+void OnDrop(GameObject)
+	{abstract} #AbstractBuildNode GetNodeComp(GameObject)
+	{abstract} +void OnStart()
+	{abstract} +void OnUpdate()
+	{abstract} +void OnBreak()
+}
+abstract class AbstractBuildNode{
+	+bool occupied
+}
+Constructable -> AbstractBuildNode
+
+Constructable <|-- Wall
+Constructable <|-- DurableConstruct
+AbstractBuildNode <|-- BuildNode
+AbstractBuildNode <|-- DurabilityBuildNode
+
+abstract class DurableConstruct{
+	+float durability
+	+void DurabilityDamage(float)
+	+void OnStart()
+	+void OnUpdate()
+	+void OnDrop()
+}
+abstract class DurabilityBuildNode{
+	+void Build(GameObject,float)
+	+void Show(GameObject)
+	+void RemoveShow()
+}
+
+DurableConstruct <|-- Engine
+DurableConstruct <|-- Trap
+DurabilityBuildNode <|-- PoiNode
+DurabilityBuildNode <|-- TrapNode
+
+abstract class Trap{
+	+void OnStart()
+	+void OnUpdate()
+	+bool CanTarget(GameObject)
+	{abstract} +void Activate(GameObject)
+}
+
+Trap <|-- SpringTrap
+Trap <|-- LureTrap
+
+@enduml
