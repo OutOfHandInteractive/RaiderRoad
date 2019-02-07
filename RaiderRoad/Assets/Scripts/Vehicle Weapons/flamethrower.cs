@@ -210,8 +210,13 @@ public class flamethrower : Interactable {
 		inUse = true;
 		reticule.SetActive(true);
 	}
-    
-	public override void Leave() {
+
+    public override bool Occupied()
+    {
+        return inUse;
+    }
+
+    public override void Leave() {
         cooldownTimer = cooldown;
         user.unsetInteractingFlag();
 		inUse = false;

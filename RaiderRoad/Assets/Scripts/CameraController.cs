@@ -8,6 +8,8 @@ public class CameraController : MonoBehaviour
     public GameObject[] enemies;
     public bool reactToEnemies = true;
     public Vector3 offset;
+    public Vector2 bottomLeft;
+    public Vector2 topRight;
     public float smoothTime = 0.5f;
     public float minZoom = 1f;
     public float maxZoom = 10f;
@@ -40,7 +42,17 @@ public class CameraController : MonoBehaviour
     void MoveCamera()
     {
         Vector3 average = GetAverage();
-        Vector3 newPosition = average + offset;
+        average += offset;
+        Vector3 newPosition;
+        if (average.x > bottomLeft.x && average.x < topRight.x && average.z > bottomLeft.y && average.z < topRight.y)
+        {
+            newPosition = average;
+            newPosition.y = offset.y;
+        }
+        else
+        {
+            newPosition = transform.position;
+        }
 
         transform.position = Vector3.SmoothDamp(transform.position, newPosition, ref velocity, smoothTime);
     }

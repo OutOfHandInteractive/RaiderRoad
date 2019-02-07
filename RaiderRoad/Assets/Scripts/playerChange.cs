@@ -10,10 +10,11 @@ public class playerChange : MonoBehaviour {
 	public GameObject steeringwheel;
     public float cooldown = 3.0f;
     private float count = 0.0f;
+    private bool occupied = false;
 
 	void OnTriggerEnter(Collider other)
 	{
-		if (other.CompareTag ("Player") && count <= 0.0f) 
+		if (other.CompareTag ("Player") && count <= 0.0f && !occupied) 
 		{
             player = other.gameObject;
             player.GetComponentInChildren<PlayerController_Rewired>().myAni.SetFloat("speed", 0);
@@ -28,7 +29,9 @@ public class playerChange : MonoBehaviour {
 			view.GetComponent<BoxCollider> ().enabled = false;
 
             player.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
-		}
+
+            occupied = true;
+        }
 	}
 
     void Update()
@@ -50,5 +53,7 @@ public class playerChange : MonoBehaviour {
 
         player.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
         player.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
+
+        occupied = false;
     }
 }

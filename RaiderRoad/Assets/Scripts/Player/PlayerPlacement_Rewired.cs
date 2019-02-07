@@ -123,6 +123,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
     private void HoldingItem()
     {
         floatItem();
+        GameObject toBuild = (GameObject)nodes[0];
         if (player.GetButtonDown("Place Object"))
         {
             if (heldItem.tag == "Trap" && trapNodes.Count > 0)
@@ -133,7 +134,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
             {
                 BuildEngine();
             }
-            else if (heldItem.tag == "Weapon") //to change later?
+            else if (heldItem.tag == "Weapon" && toBuild.GetComponent<BuildNode>().canPlaceWeapon) //to change later?
             {
                 BuildWeapon();
             }
@@ -156,6 +157,8 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
                 Destroy(floatingItem);
                 buildMode = false;
                 holdTime = 0f;
+                
+                myAni.SetBool("isHolding", false);
             }
         }
     }
@@ -164,7 +167,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
     {
         if (!node.occupied)
         {
-            myAni.SetTrigger("do_build");
+            //myAni.SetTrigger("build");
             node.Build(heldItem, floatingItem.GetComponent<DurableConstruct>().GetDurability());
             heldItem = null;
             hasItem = false;
@@ -182,12 +185,18 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         GameObject trapBuild = (GameObject)trapNodes[0];
         //Debug.Log(trapBuild);
         BuildDurableConstruct(trapBuild.GetComponent<TrapNode>());
+
+        myAni.SetTrigger("build");
+        myAni.SetBool("isHolding", false);
     }
 
     private void BuildEngine()
     {
         GameObject EngineBuild = (GameObject)engineNodes[0];
         BuildDurableConstruct(EngineBuild.GetComponent<PoiNode>());
+
+        myAni.SetTrigger("build");
+        myAni.SetBool("isHolding", false);
     }
 
     private void BuildWeapon()
@@ -195,7 +204,8 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         GameObject toBuild = (GameObject)nodes[0];
         if (!toBuild.GetComponent<BuildNode>().occupied)
         {
-            myAni.SetTrigger("do_build");
+            myAni.SetTrigger("build");
+            myAni.SetBool("isHolding", false);
             toBuild.GetComponent<BuildNode>().Build(heldItem, toBuild);
             heldItem = null;
             hasItem = false;
@@ -229,10 +239,6 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         {
             Attack();
         }
-        else if (player.GetButtonUp("Attack") && myAni.GetBool("isAttacking"))
-        {
-            myAni.SetBool("isAttacking", false);
-        }
     }
 
     private void BuildWall()
@@ -240,7 +246,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         GameObject toBuild = (GameObject)nodes[0];
         if (!toBuild.GetComponent<BuildNode>().occupied)
         {
-            myAni.SetTrigger("do_build");
+            myAni.SetTrigger("build");
             toBuild.GetComponent<BuildNode>().Build(wall, toBuild);
             wallInventory--;
             changeInventory();
@@ -268,7 +274,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
 
     private void Attack()
     {
-        myAni.SetBool("isAttacking", true);
+        myAni.SetTrigger("attack");
         canAttack = false;
         attackCount = attack_cooldown;
         //myAni.SetBool("isAttacking", false);
@@ -298,6 +304,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
                     dir = Vector3.Normalize(new Vector3(dir.x, 0.0f, dir.z));
                     item.GetComponent<Rigidbody>().AddForce(dir * knockback_force);
                     item.GetComponent<StatefulEnemyAI>().takeDamage(damage);
+                    item.GetComponent<StatefulEnemyAI>().Stunned();
                     //Debug.Log(dir);
                 }
             }
@@ -403,7 +410,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         // Pick Up
         //if (other.gameObject.CompareTag("Drops"))
         //{
-        if (other.name == "Wall Drop")
+        if (other.tag == "WallDrop")
         {
             wallInventory++;
             Destroy(other.gameObject);
@@ -420,6 +427,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
             }
 
             Destroy(other.gameObject);
+            myAni.SetBool("isHolding", true);
             buildMode = true;
         }
 
@@ -489,7 +497,10 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         {
             GameObject myFloat = heldItem;
             floatingItem = Instantiate(myFloat, //fix later for prettier
-                new Vector3(transform.parent.position.x, transform.parent.position.y + 1.5f, transform.parent.position.z), Quaternion.identity, transform.parent);
+                new Vector3(transform.parent.position.x, transform.parent.position.y, transform.parent.position.z), transform.parent.rotation, transform.parent);
+            //OLD - new Vector3(transform.parent.position.x, transform.parent.position.y + 1f, transform.parent.position.z + 0.5f), Quaternion.identity, transform.parent);
+            floatingItem.transform.localPosition = new Vector3(0f, 1.1f, 0.5f); //NEED SOLUTION FOR ALL CHARACTER SIZES
+
             hasItem = true;
             floatingItem.tag = "Untagged";
             floatingItem.GetComponentInChildren<BoxCollider>().enabled = false;
