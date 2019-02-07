@@ -5,7 +5,15 @@ using UnityEngine;
 public class ItemDrop : MonoBehaviour {
     //contains a reference to the item it will bestow the player
     public GameObject item;
-    public float myItemDur = 100f;
+    public float myItemDur = -1f;
+
+    private void Start()
+    {
+        if(myItemDur < 0 && item.GetComponent<DurableConstruct>() != null)
+        {
+            myItemDur = item.GetComponent<DurableConstruct>().GetDurability();
+        }
+    }
 
     private void OnTriggerEnter(Collider other)
     {

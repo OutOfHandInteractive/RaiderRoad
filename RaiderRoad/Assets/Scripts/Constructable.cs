@@ -49,6 +49,11 @@ public abstract class Constructable : MonoBehaviour
         health -= damage;
     }
 
+    public bool isPlaced()
+    {
+        return myNode != null && GetNodeComp(myNode).occupied;
+    }
+
     public virtual void OnDrop(GameObject item)
     {
         // Do nothing by default

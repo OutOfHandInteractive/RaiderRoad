@@ -7,7 +7,7 @@ public abstract class DestructiblePart : MonoBehaviour {
 	// ---------------------- public variables -----------------------
 	// references
 	public GameObject drop;
-    public Vector3 dropOffset = new Vector3(0, 2, -1);
+    public Vector3 dropOffset = new Vector3(0, 0.75f, -1);
 	public List<GameObject> objWithMat;
 
 	// gameplay values

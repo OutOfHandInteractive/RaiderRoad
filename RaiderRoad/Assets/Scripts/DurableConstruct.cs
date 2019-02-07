@@ -4,7 +4,7 @@ using System.Collections;
 public abstract class DurableConstruct : Constructable
 {
     public float durability; //original amount
-    protected float currDur = -1f; //current durability
+    public float currDur = -1f; //current durability
 
     public override void OnStart()
     {
@@ -19,12 +19,16 @@ public abstract class DurableConstruct : Constructable
 
     public override void OnUpdate()
     {
-        CheckDur();
+        //CheckDur();
     }
 
     private void CheckDur()
     {
-        if (currDur <= 0f)
+        if(currDur > durability)
+        {
+            Debug.LogError("WTF, durability should never be that high: " + currDur);
+        }
+        if (isPlaced() && currDur <= 0f)
         {
             GetNodeComp(myNode).occupied = false; // set node to unoccupied again
             Destroy(gameObject);
@@ -34,13 +38,13 @@ public abstract class DurableConstruct : Constructable
     public void DurabilityDamage(float damage)
     {
         currDur -= damage;
-        //CheckDur();
+        CheckDur();
     }
 
     public void SetDurability(float newDur)
     {
         currDur = newDur;
-        //CheckDur();
+        CheckDur();
     }
 
     public float GetDurability()
