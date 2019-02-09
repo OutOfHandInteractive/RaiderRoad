@@ -8,7 +8,7 @@ public class flamethrowerDamage : MonoBehaviour {
 	private float tickTime; // time in seconds between damage ticks
 	private float tickTimeCountdown;
 
-	private List<StatefulEnemyAI> enemyTargets = new List<StatefulEnemyAI>();
+	[SerializeField] private List<StatefulEnemyAI> enemyTargets = new List<StatefulEnemyAI>();
 	private List<VehicleAI> vehicleTargets = new List<VehicleAI>();
 
 	// Update is called once per frame
