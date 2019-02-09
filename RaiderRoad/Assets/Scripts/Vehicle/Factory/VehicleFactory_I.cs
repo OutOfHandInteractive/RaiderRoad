@@ -42,7 +42,7 @@ public abstract class VehicleFactory_I : MonoBehaviour {
 		vAI.setMaxHealth(chassisScript.GetBaseHealth() * (1 + armorStacks * Constants.ARMOR_TOTALHEALTH_MODIFIER_PER_STACK));
 		vAI.setRamDamage(ramDamageStacks);
 		vAI.setSpeed(chassisScript.baseSpeed * (1 + speedStacks * Constants.SPEED_MOVEMENT_MODIFIER_PER_STACK));
-		vAI.movementChance += (speedStacks * Constants.SPEED_LOCATIONCHANGE_MODIFIER_PER_STACK);
+		vAI.setMovementChance(speedStacks * Constants.SPEED_LOCATIONCHANGE_MODIFIER_PER_STACK);
 
 		vehicle.GetComponent<eventObject>().setDifficulty(chassis.GetComponent<Chassis>().baseThreat);
 

@@ -39,7 +39,7 @@ public class flamethrowerDamage : MonoBehaviour {
 	private void OnTriggerEnter(Collider other) {
 		Debug.Log("adding target");
 		GameObject directTarget = other.gameObject;
-		if (directTarget.CompareTag("eVehicle")) {
+		if (directTarget.CompareTag("eVehicle") || directTarget.CompareTag("Destructable")) {
 			vehicleTargets.Add(directTarget.GetComponentInParent<VehicleAI>());
 		}
 		else if (directTarget.CompareTag("Enemy")) {
@@ -49,7 +49,7 @@ public class flamethrowerDamage : MonoBehaviour {
 
 	private void OnTriggerExit(Collider other) {
 		GameObject directTarget = other.gameObject;
-		if (directTarget.CompareTag("eVehicle")) {
+		if (directTarget.CompareTag("eVehicle") || directTarget.CompareTag("Destructable")) {
 			vehicleTargets.Remove(directTarget.GetComponentInParent<VehicleAI>());
 		}
 		else if (directTarget.CompareTag("Enemy")) {
