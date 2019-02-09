@@ -32,7 +32,8 @@ public class VehicleAI : MonoBehaviour {
 	public float movementChance;
 	public int threat;
 
-	public float currentHealth;
+	// --------------- private variables --------------------
+	private float currentHealth;
 
 	// Use this for initialization
 	void Start () {
@@ -163,7 +164,7 @@ public class VehicleAI : MonoBehaviour {
         Destroy(gameObject);
     }
 
-	// ---------- Getters and Setters ----------
+	#region Getters and Setters
 	public float getMaxHealth() {
 		return maxHealth;
 	}
@@ -171,6 +172,10 @@ public class VehicleAI : MonoBehaviour {
 	public void setMaxHealth(float _maxHealth) {
 		maxHealth = _maxHealth;
 		currentHealth = maxHealth;
+	}
+
+	public float getHealth() {
+		return currentHealth;
 	}
 
 	public float getRamDamage() {
@@ -202,4 +207,5 @@ public class VehicleAI : MonoBehaviour {
     {
         return currentState;
     }
+	#endregion
 }
