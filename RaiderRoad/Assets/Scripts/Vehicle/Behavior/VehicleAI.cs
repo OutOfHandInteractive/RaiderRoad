@@ -27,12 +27,14 @@ public class VehicleAI : MonoBehaviour {
 
     //Statistics
     public float maxHealth;
-	public float ramDamage;
-	public float speed;
-	public float movementChance;
-	public int threat;
+	[SerializeField] private float ramDamage;
+	[SerializeField] private float speed;
+	[SerializeField] private float movementChance;
+	[SerializeField] private int threat;
 
-	public float currentHealth;
+	// --------------- private variables --------------------
+	private float currentHealth;
+	private int destroyedParts = 0;
 
 	// Use this for initialization
 	void Start () {
@@ -113,8 +115,15 @@ public class VehicleAI : MonoBehaviour {
 		}
 	}
 
-    //Used to change state from different classes
-    public void EnterWander()
+	public void destroyPart() {
+		destroyedParts++;
+		if (destroyedParts >= 2) {
+			Destroy(gameObject);
+		}
+	}
+
+	//Used to change state from different classes
+	public void EnterWander()
     {
         wander.StartWander(agent, enemy, side, hasWeapon);
         currentState = State.Wander;
@@ -163,7 +172,7 @@ public class VehicleAI : MonoBehaviour {
         Destroy(gameObject);
     }
 
-	// ---------- Getters and Setters ----------
+	#region Getters and Setters
 	public float getMaxHealth() {
 		return maxHealth;
 	}
@@ -171,6 +180,10 @@ public class VehicleAI : MonoBehaviour {
 	public void setMaxHealth(float _maxHealth) {
 		maxHealth = _maxHealth;
 		currentHealth = maxHealth;
+	}
+
+	public float getHealth() {
+		return currentHealth;
 	}
 
 	public float getRamDamage() {
@@ -189,6 +202,14 @@ public class VehicleAI : MonoBehaviour {
 		speed = _speed;
 	}
 
+	public float getMovementChance() {
+		return movementChance;
+	}
+
+	public void setMovementChance(float _chance) {
+		movementChance = _chance;
+	}
+
     public void setSide(string _side)
     {
         side = _side;
@@ -202,4 +223,5 @@ public class VehicleAI : MonoBehaviour {
     {
         return currentState;
     }
+	#endregion
 }
