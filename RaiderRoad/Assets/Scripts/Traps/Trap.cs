@@ -11,7 +11,6 @@ public abstract class Trap : DurableConstruct<TrapNode>
 
     public override void OnUpdate()
     {
-        base.OnUpdate();
         cooldownRemaining = Mathf.Max(0, cooldownRemaining - Time.deltaTime);
     }
 
@@ -51,7 +50,7 @@ public abstract class Trap : DurableConstruct<TrapNode>
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Collider Entered");
+        //Debug.Log("Collider Entered");
         if (!isHolo && CanTarget(other.gameObject))
         {
             colliders.Add(other);
@@ -61,7 +60,7 @@ public abstract class Trap : DurableConstruct<TrapNode>
 
     private void OnTriggerExit(Collider other)
     {
-        Debug.Log("Collider Exited");
+        //Debug.Log("Collider Exited");
         colliders.Remove(other);
     }
 }

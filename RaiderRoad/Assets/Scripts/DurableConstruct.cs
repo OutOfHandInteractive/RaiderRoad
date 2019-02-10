@@ -4,6 +4,7 @@ using System.Collections;
 public abstract class DurableConstruct : Constructable
 {
     public float durability; //original amount
+    // currDur only public so I can peak at it in the editor while the game is running
     public float currDur = -1f; //current durability
 
     public override void OnStart()
@@ -17,10 +18,10 @@ public abstract class DurableConstruct : Constructable
         item.GetComponent<ItemDrop>().myItemDur = currDur; //give new drop item correct durabilty
     }
 
-    public override void OnUpdate()
-    {
-        //CheckDur();
-    }
+    //public override void OnUpdate()
+    //{
+    //    //CheckDur();
+    //}
 
     private void CheckDur()
     {
