@@ -139,6 +139,7 @@ public class PlayerController_Rewired : MonoBehaviour {
 
 			if (player.GetButtonDown("Jump") && grounded) {
 				rb.AddForce(transform.up * jumpForce);
+                rb.constraints &= ~RigidbodyConstraints.FreezePositionY;
 				grounded = false;
                 myAni.SetTrigger("jump");
             }
@@ -215,7 +216,8 @@ public class PlayerController_Rewired : MonoBehaviour {
         //Debug.Log(collision.gameObject.name);
         if (collision.gameObject.tag == "RV" || collision.gameObject.tag == "eVehicle")
         {
-            //Debug.Log("Can jump");
+            Debug.Log("Can jump");
+            rb.constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotation;
             transform.parent = collision.transform.root;
             if(!grounded) myAni.SetTrigger("land");
             grounded = true;
@@ -228,6 +230,12 @@ public class PlayerController_Rewired : MonoBehaviour {
     }
     private void OnCollisionExit(Collision collision)
     {
+        /*
+        if (collision.gameObject.tag == "RV")
+        {
+            rb.constraints &= ~RigidbodyConstraints.FreezePositionY;
+        }
+        */
         if (collision.gameObject.tag == "eVehicle")
         {
             //Debug.Log("Can jump");

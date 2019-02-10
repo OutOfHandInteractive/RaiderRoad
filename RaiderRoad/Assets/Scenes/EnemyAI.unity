@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657838, g: 0.49641234, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -465,6 +465,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: RV2.0 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1636722948722512, guid: db5ed31c411315942b4614efcfa501d7, type: 3}
+      propertyPath: m_TagString
+      value: RV
+      objectReference: {fileID: 0}
     - target: {fileID: 4257649090973040, guid: db5ed31c411315942b4614efcfa501d7, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -582,7 +586,36 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 114264594823163686, guid: db5ed31c411315942b4614efcfa501d7,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 65879854558768282, guid: db5ed31c411315942b4614efcfa501d7,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1216940953755428, guid: db5ed31c411315942b4614efcfa501d7, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 146621347298649246, guid: db5ed31c411315942b4614efcfa501d7,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 146708319237324736, guid: db5ed31c411315942b4614efcfa501d7,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 146796631353887824, guid: db5ed31c411315942b4614efcfa501d7,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 146979628946989270, guid: db5ed31c411315942b4614efcfa501d7,
         type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -1075,7 +1108,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 124
+  m_Constraints: 118
   m_CollisionDetection: 0
 --- !u!4 &805757926 stripped
 Transform:

@@ -16,6 +16,7 @@ public class playerChange : MonoBehaviour {
 	{
 		if (other.CompareTag ("Player") && count <= 0.0f && !occupied) 
 		{
+            rv.GetComponent<Rigidbody>().constraints &= ~RigidbodyConstraints.FreezePositionX;
             player = other.gameObject;
             player.GetComponentInChildren<PlayerController_Rewired>().myAni.SetFloat("speed", 0);
             int id = player.GetComponent<PlayerController_Rewired>().GetId();
@@ -23,7 +24,7 @@ public class playerChange : MonoBehaviour {
             player.transform.position = transform.position;
             view = player.transform.Find("View").gameObject;
 			rv.GetComponent<carscript2> ().enabled = true;
-			rv.GetComponent<SimpleCarScript> ().enabled = true;
+			//rv.GetComponent<SimpleCarScript> ().enabled = true;
 			player.GetComponent<PlayerController_Rewired> ().enabled = false;
 			view.GetComponent<PlayerPlacement_Rewired> ().enabled = false;
 			view.GetComponent<BoxCollider> ().enabled = false;
@@ -45,8 +46,9 @@ public class playerChange : MonoBehaviour {
     public void exitSteering ()
 	{
         count = cooldown;
-		rv.GetComponent<carscript2> ().enabled = false;
-		rv.GetComponent<SimpleCarScript> ().enabled = false;
+        rv.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY;
+        rv.GetComponent<carscript2> ().enabled = false;
+		//rv.GetComponent<SimpleCarScript> ().enabled = false;
 		player.GetComponent<PlayerController_Rewired> ().enabled = true;
 		view.GetComponent<PlayerPlacement_Rewired> ().enabled = true;
 		view.GetComponent<BoxCollider> ().enabled = true;
