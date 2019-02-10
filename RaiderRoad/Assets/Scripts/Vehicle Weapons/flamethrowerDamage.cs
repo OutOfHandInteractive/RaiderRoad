@@ -14,7 +14,7 @@ public class flamethrowerDamage : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		tickTimeCountdown -= Time.deltaTime;
-		Debug.Log(tickTimeCountdown);
+		//Debug.Log(tickTimeCountdown);
 		if (tickTimeCountdown <= 0) {
 			tickTimeCountdown = tickTime;
 
