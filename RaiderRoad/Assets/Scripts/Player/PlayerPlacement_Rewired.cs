@@ -123,6 +123,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
     private void HoldingItem()
     {
         floatItem();
+        GameObject toBuild = (GameObject)nodes[0];
         if (player.GetButtonDown("Place Object"))
         {
             if (heldItem.tag == "Trap" && trapNodes.Count > 0)
@@ -133,7 +134,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
             {
                 BuildEngine();
             }
-            else if (heldItem.tag == "Weapon") //to change later?
+            else if (heldItem.tag == "Weapon" && toBuild.GetComponent<BuildNode>().canPlaceWeapon) //to change later?
             {
                 BuildWeapon();
             }
@@ -141,14 +142,16 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
 
         if (player.GetButton("Use"))
         {
-            holdTime += Time.deltaTime;
-            if (holdTime > timeToDrop)
-            {
+            //GETTING RID OF HOLD TO DROP
+            //holdTime += Time.deltaTime;
+            //if (holdTime > timeToDrop)
+            //{
                 GameObject dropItem = heldItem.GetComponent<Constructable>().drop;
                 //if (heldItem.tag == "Trap") dropItem = heldItem.GetComponent<Trap>().drop; //get the drop prefab item from item's script
                 //if (heldItem.tag == "Engine") dropItem = heldItem.GetComponent<Engine>().drop;
                 // more ifs for other items
-                GameObject item = Instantiate(dropItem, new Vector3(transform.position.x, transform.position.y, transform.position.z + 1f), Quaternion.identity);    //create drop item
+                GameObject item = Instantiate(dropItem, new Vector3(transform.parent.position.x, transform.parent.position.y + 0.3f, transform.parent.position.z) + transform.parent.forward * 1.7f, Quaternion.identity);
+                //create drop item in front of player (needs to be parent to get exact position in world space)
                 item.name = heldItem.name + " Drop";
 
                 heldItem = null;
@@ -156,7 +159,9 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
                 Destroy(floatingItem);
                 buildMode = false;
                 holdTime = 0f;
-            }
+                
+                myAni.SetBool("isHolding", false);
+            //}
         }
     }
 
@@ -164,7 +169,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
     {
         if (!node.occupied)
         {
-            myAni.SetTrigger("do_build");
+            //myAni.SetTrigger("build");
             node.Build(heldItem, floatingItem.GetComponent<DurableConstruct>().GetDurability());
             heldItem = null;
             hasItem = false;
@@ -182,12 +187,18 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         GameObject trapBuild = (GameObject)trapNodes[0];
         //Debug.Log(trapBuild);
         BuildDurableConstruct(trapBuild.GetComponent<TrapNode>());
+
+        myAni.SetTrigger("build");
+        myAni.SetBool("isHolding", false);
     }
 
     private void BuildEngine()
     {
         GameObject EngineBuild = (GameObject)engineNodes[0];
         BuildDurableConstruct(EngineBuild.GetComponent<PoiNode>());
+
+        myAni.SetTrigger("build");
+        myAni.SetBool("isHolding", false);
     }
 
     private void BuildWeapon()
@@ -195,7 +206,8 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         GameObject toBuild = (GameObject)nodes[0];
         if (!toBuild.GetComponent<BuildNode>().occupied)
         {
-            myAni.SetTrigger("do_build");
+            myAni.SetTrigger("build");
+            myAni.SetBool("isHolding", false);
             toBuild.GetComponent<BuildNode>().Build(heldItem, toBuild);
             heldItem = null;
             hasItem = false;
@@ -211,11 +223,23 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
 
     private void NotHoldingItem()
     {
-        if (player.GetButtonDown("Build Mode"))
+        if (player.GetButton("Build Mode"))
         {
-            //When switching out of build mode, attack will get stuck in InvalidOperationException: List has changed. This helps
-            if (buildMode) attackRange = new List<GameObject>();
-            buildMode = !buildMode;
+            if (!buildMode)
+            {
+                //When switching out of build mode, attack will get stuck in InvalidOperationException: List has changed. This helps
+                if (buildMode) attackRange = new List<GameObject>();
+                buildMode = !buildMode;
+
+                checkHologram();
+            }
+        } else {
+            if (nodes.Count > 0) { //If showing holo wall, turn off every holo wall currently being displayed
+                for(int i = 0; i < nodes.Count; i++){ 
+                    nodes[i].GetComponent<BuildNode>().RemoveShow();
+                }
+            }
+            buildMode = false;
         }
         if (buildMode)
         {
@@ -229,10 +253,6 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         {
             Attack();
         }
-        else if (player.GetButtonUp("Attack") && myAni.GetBool("isAttacking"))
-        {
-            myAni.SetBool("isAttacking", false);
-        }
     }
 
     private void BuildWall()
@@ -240,7 +260,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         GameObject toBuild = (GameObject)nodes[0];
         if (!toBuild.GetComponent<BuildNode>().occupied)
         {
-            myAni.SetTrigger("do_build");
+            myAni.SetTrigger("build");
             toBuild.GetComponent<BuildNode>().Build(wall, toBuild);
             wallInventory--;
             changeInventory();
@@ -268,7 +288,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
 
     private void Attack()
     {
-        myAni.SetBool("isAttacking", true);
+        myAni.SetTrigger("attack");
         canAttack = false;
         attackCount = attack_cooldown;
         //myAni.SetBool("isAttacking", false);
@@ -404,7 +424,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         // Pick Up
         //if (other.gameObject.CompareTag("Drops"))
         //{
-        if (other.name == "Wall Drop")
+        if (other.tag == "WallDrop")
         {
             wallInventory++;
             Destroy(other.gameObject);
@@ -421,6 +441,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
             }
 
             Destroy(other.gameObject);
+            myAni.SetBool("isHolding", true);
             buildMode = true;
         }
 
@@ -462,9 +483,10 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         inventoryText.text = wallInventory.ToString();
     }
 
+    //Using it for re-entering wall build mode
     private void checkHologram()
     {
-        if(nodes.Count <= 1)
+        if(nodes.Count <= 1 && nodes.Count > 0) //previously didn't include > 0, but you need a node to pass
         {
             GameObject first = (GameObject)nodes[0];
             if (buildMode && heldItem == null)
@@ -490,7 +512,10 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         {
             GameObject myFloat = heldItem;
             floatingItem = Instantiate(myFloat, //fix later for prettier
-                new Vector3(transform.parent.position.x, transform.parent.position.y + 1.5f, transform.parent.position.z), Quaternion.identity, transform.parent);
+                new Vector3(transform.parent.position.x, transform.parent.position.y, transform.parent.position.z), transform.parent.rotation, transform.parent);
+            //OLD - new Vector3(transform.parent.position.x, transform.parent.position.y + 1f, transform.parent.position.z + 0.5f), Quaternion.identity, transform.parent);
+            floatingItem.transform.localPosition = new Vector3(0f, 1.1f, 0.5f); //NEED SOLUTION FOR ALL CHARACTER SIZES
+
             hasItem = true;
             floatingItem.tag = "Untagged";
             floatingItem.GetComponentInChildren<BoxCollider>().enabled = false;

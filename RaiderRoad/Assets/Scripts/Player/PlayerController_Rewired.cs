@@ -19,7 +19,6 @@ public class PlayerController_Rewired : MonoBehaviour {
     public float jumpIndicatorScaling = 10f;
     
     public float jumpForce;
-	public float reviveTime;
 	// --------------------------------------------------------------------
    
 		
@@ -28,8 +27,10 @@ public class PlayerController_Rewired : MonoBehaviour {
     private Vector2 moveVector;
     
     private Vector3 rotateVector;
-    
-    private Rigidbody rb;
+
+	[SerializeField] private float reviveTime;
+
+	private Rigidbody rb;
     //Animator
     public Animator myAni;
     private GameManager g;
@@ -113,7 +114,8 @@ public class PlayerController_Rewired : MonoBehaviour {
 			moveVector.x = player.GetAxis("Move Horizontal") * Time.deltaTime * moveSpeed;
 			moveVector.y = player.GetAxis("Move Vertical") * Time.deltaTime * moveSpeed;
 
-            myAni.SetFloat("speed", moveVector.magnitude);
+            //Debug.Log(moveVector.magnitude * 10f);
+            myAni.SetFloat("speed", moveVector.magnitude * 10f);
             //Debug.Log(moveVector.magnitude);
 
 			//Twin Stick Rotation
@@ -128,14 +130,18 @@ public class PlayerController_Rewired : MonoBehaviour {
 					startRevive(downedPlayers[0].GetComponent<PlayerController_Rewired>());
 				}
 				else if (interactables.Count > 0 && !interactables[0].GetComponent<Interactable>().isOnCooldown()) {
-					interactables[0].GetComponent<Interactable>().Interact(this);
+                    if (!interactables[0].GetComponent<Interactable>().Occupied())
+                    {
+                        interactables[0].GetComponent<Interactable>().Interact(this);
+                    }
 				}
 			}
 
 			if (player.GetButtonDown("Jump") && grounded) {
 				rb.AddForce(transform.up * jumpForce);
 				grounded = false;
-			}
+                myAni.SetTrigger("jump");
+            }
 		}
 
 		// reviving functions
@@ -211,6 +217,7 @@ public class PlayerController_Rewired : MonoBehaviour {
         {
             //Debug.Log("Can jump");
             transform.parent = collision.transform.root;
+            if(!grounded) myAni.SetTrigger("land");
             grounded = true;
         }
         if (collision.gameObject.tag == "road")
@@ -232,7 +239,7 @@ public class PlayerController_Rewired : MonoBehaviour {
     public void startRevive(PlayerController_Rewired p) {
 		reviving = true;
 		reviveCountdown = reviveTime;
-		p.GetComponentInChildren<healthBar>().startRevive(reviveTime);
+		p.GetComponentInChildren<HealthBar_Player>().startRevive(reviveTime);
 
         moveVector.x = 0f;  //zero movement so you don't keep walking while revive
         moveVector.y = 0f;
@@ -241,22 +248,24 @@ public class PlayerController_Rewired : MonoBehaviour {
 
 	public void stopRevive(PlayerController_Rewired p) {
 		reviving = false;
-		p.GetComponentInChildren<healthBar>().stopRevive();
+		p.GetComponentInChildren<HealthBar_Player>().stopRevive();
+
 	}
 
 	public void revive(PlayerController_Rewired p) {
 		p.currentHealth = basehealth;
-        p.backToOrigMat();
-		p.setState(playerStates.up);
-		reviving = false;
-		p.GetComponentInChildren<healthBar>().stopRevive();
+        p.backToOrigAnim();
+		p.setState(playerStates.up);;
+        reviving = false;
+		p.GetComponentInChildren<HealthBar_Player>().stopRevive();
 	}
 
 	public void takeDamage(float _damage) {
 		currentHealth -= _damage;
 		if (currentHealth <= 0) {
-            Color deathColor = myOrigColor * 0.5f;        //Replace with proper death feedback
-            myMat.color = deathColor;
+            //Color deathColor = myOrigColor * 0.5f;        //Replace with proper death feedback
+            //myMat.color = deathColor;
+            myAni.SetBool("downed", true);
 
             state = playerStates.down;
             g.playerDowned();
@@ -295,6 +304,13 @@ public class PlayerController_Rewired : MonoBehaviour {
         interacting = false;
     }
 
+    //Temporary anim function, needs features for full hand follows
+    public void interactAnim(bool animStat)
+    {
+        myAni.SetBool("aimWeapon", animStat);
+        myAni.SetFloat("speed", 0f);
+    }
+
 	public float getMaxHealth() {
 		return basehealth;
 	}
@@ -329,7 +345,7 @@ public class PlayerController_Rewired : MonoBehaviour {
 		downedPlayers.Remove(p);
 	}
 
-    public void backToOrigMat() {
-        myMat.color = myOrigColor;
+    public void backToOrigAnim() {
+        myAni.SetBool("downed", false);
     }
 }

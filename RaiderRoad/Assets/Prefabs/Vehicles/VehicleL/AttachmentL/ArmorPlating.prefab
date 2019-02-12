@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 114622104288528450}
   m_Layer: 0
   m_Name: ArmorPlating
-  m_TagString: Untagged
+  m_TagString: Destructable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -58,10 +58,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e7f614eb7afd4b4c80845e6e1a54838, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  drop: {fileID: 1412282026529114, guid: c4b78f547f7592d42867fc5a56f7cc72, type: 3}
+  dropOffset: {x: 0, y: 2, z: -1}
+  objWithMat: []
+  maxHealth: 0
   ramDamageStacks: 0
   armorStacks: 1
   speedStacks: 0
   threatModifier: 1
+  isIntact: 1
 --- !u!1 &6306381981044191943
 GameObject:
   m_ObjectHideFlags: 0

@@ -125,17 +125,24 @@ public class cannon : Interactable {
 		userPlayerId = user.playerId;
         playerUsing = user.gameObject;
 		user.setInteractingFlag();
+        user.interactAnim(true); //start animation
 
-		inUse = true;
+        inUse = true;
 		reticule.SetActive(true);
 	}
 
-	public override void Leave() {
+    public override bool Occupied()
+    {
+        return inUse;
+    }
+
+    public override void Leave() {
 		cooldownTimer = cooldown;
 		user.unsetInteractingFlag();
 		inUse = false;
 		reticule.SetActive(false);
-	}
+        user.interactAnim(false); //stop animation
+    }
 
 	private bool isOnFiringCooldown() {
 		if (firingCooldownTimer > 0)
