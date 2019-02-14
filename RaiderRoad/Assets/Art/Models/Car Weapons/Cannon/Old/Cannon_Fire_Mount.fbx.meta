@@ -1,38 +1,99 @@
 fileFormatVersion: 2
-guid: fc9e98c729335ba47b71184d0c7aab46
+guid: e947ec32a042c904e99b23f9ab09e2d2
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
-    100000: Base
-    100002: BaseMountPlank
-    100004: BaseMountPlank1
-    100006: //RootNode
+    100000: BaseCrossbar2x4
+    100002: //RootNode
+    100004: cannonBarrel
+    100006: cannonMount
     100008: L_Base2x4
-    100010: R_Base2x4
-    100012: ShellBase
-    400000: Base
-    400002: BaseMountPlank
-    400004: BaseMountPlank1
-    400006: //RootNode
+    100010: l_grip
+    100012: L_Handle2x4
+    100014: L_Mount2x4
+    100016: lGrip
+    100018: lGripBracket
+    100020: LMountScrew
+    100022: R_Base2x4
+    100024: r_grip
+    100026: R_Handle2x4
+    100028: R_Mount2x4
+    100030: rGrip
+    100032: rGripBracket
+    100034: RMountScrew
+    100036: RotatingBase
+    100038: Screws
+    100040: Wood
+    400000: BaseCrossbar2x4
+    400002: //RootNode
+    400004: cannonBarrel
+    400006: cannonMount
     400008: L_Base2x4
-    400010: R_Base2x4
-    400012: ShellBase
+    400010: l_grip
+    400012: L_Handle2x4
+    400014: L_Mount2x4
+    400016: lGrip
+    400018: lGripBracket
+    400020: LMountScrew
+    400022: R_Base2x4
+    400024: r_grip
+    400026: R_Handle2x4
+    400028: R_Mount2x4
+    400030: rGrip
+    400032: rGripBracket
+    400034: RMountScrew
+    400036: RotatingBase
+    400038: Screws
+    400040: Wood
     2100000: lambert2
-    2300000: BaseMountPlank
-    2300002: BaseMountPlank1
+    2100002: lambert3
+    2300000: BaseCrossbar2x4
+    2300002: cannonBarrel
     2300004: L_Base2x4
-    2300006: R_Base2x4
-    2300008: ShellBase
-    3300000: BaseMountPlank
-    3300002: BaseMountPlank1
+    2300006: L_Handle2x4
+    2300008: L_Mount2x4
+    2300010: lGrip
+    2300012: lGripBracket
+    2300014: LMountScrew
+    2300016: R_Base2x4
+    2300018: R_Handle2x4
+    2300020: R_Mount2x4
+    2300022: rGrip
+    2300024: rGripBracket
+    2300026: RMountScrew
+    2300028: RotatingBase
+    3300000: BaseCrossbar2x4
+    3300002: cannonBarrel
     3300004: L_Base2x4
-    3300006: R_Base2x4
-    3300008: ShellBase
-    4300000: ShellBase
-    4300002: BaseMountPlank
-    4300004: R_Base2x4
-    4300006: L_Base2x4
-    4300008: BaseMountPlank1
+    3300006: L_Handle2x4
+    3300008: L_Mount2x4
+    3300010: lGrip
+    3300012: lGripBracket
+    3300014: LMountScrew
+    3300016: R_Base2x4
+    3300018: R_Handle2x4
+    3300020: R_Mount2x4
+    3300022: rGrip
+    3300024: rGripBracket
+    3300026: RMountScrew
+    3300028: RotatingBase
+    4300000: L_Base2x4
+    4300002: R_Base2x4
+    4300004: L_Mount2x4
+    4300006: R_Mount2x4
+    4300008: BaseCrossbar2x4
+    4300010: RMountScrew
+    4300012: LMountScrew
+    4300014: RotatingBase
+    4300016: cannonBarrel
+    4300018: lGrip
+    4300020: L_Handle2x4
+    4300022: lGripBracket
+    4300024: rGripBracket
+    4300026: R_Handle2x4
+    4300028: rGrip
+    7400000: Take 001
+    9500000: //RootNode
   externalObjects: {}
   materials:
     importMaterials: 1
@@ -85,8 +146,8 @@ ModelImporter:
     secondaryUVHardAngle: 88
     secondaryUVPackMargin: 4
     useFileScale: 1
-    previousCalculatedGlobalScale: 1
-    hasPreviousCalculatedGlobalScale: 0
+    previousCalculatedGlobalScale: 0.01
+    hasPreviousCalculatedGlobalScale: 1
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
@@ -113,7 +174,7 @@ ModelImporter:
     hasExtraRoot: 0
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
-  animationType: 0
+  animationType: 2
   humanoidOversampling: 1
   additionalBone: 0
   userData: 
