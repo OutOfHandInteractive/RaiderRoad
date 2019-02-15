@@ -11,6 +11,7 @@ public class eventObject : MonoBehaviour {
     public void setCluster(GameObject cluster)
     {
         originCluster = cluster;
+        //Debug.Log("added to cluster" + originCluster);
     }
 	
 	public void setDifficulty(int _diff) {

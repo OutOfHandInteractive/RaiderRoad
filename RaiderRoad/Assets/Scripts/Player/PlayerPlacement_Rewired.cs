@@ -141,14 +141,16 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
 
         if (player.GetButton("Use"))
         {
-            holdTime += Time.deltaTime;
-            if (holdTime > timeToDrop)
-            {
+            //GETTING RID OF HOLD TO DROP
+            //holdTime += Time.deltaTime;
+            //if (holdTime > timeToDrop)
+            //{
                 GameObject dropItem = heldItem.GetComponent<Constructable>().drop;
                 //if (heldItem.tag == "Trap") dropItem = heldItem.GetComponent<Trap>().drop; //get the drop prefab item from item's script
                 //if (heldItem.tag == "Engine") dropItem = heldItem.GetComponent<Engine>().drop;
                 // more ifs for other items
-                GameObject item = Instantiate(dropItem, new Vector3(transform.position.x, transform.position.y, transform.position.z + 1f), Quaternion.identity);    //create drop item
+                GameObject item = Instantiate(dropItem, new Vector3(transform.parent.position.x, transform.parent.position.y + 0.3f, transform.parent.position.z) + transform.parent.forward * 1.7f, Quaternion.identity);
+                //create drop item in front of player (needs to be parent to get exact position in world space)
                 item.name = heldItem.name + " Drop";
 
                 heldItem = null;
@@ -158,7 +160,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
                 holdTime = 0f;
                 
                 myAni.SetBool("isHolding", false);
-            }
+            //}
         }
     }
 
@@ -220,11 +222,23 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
 
     private void NotHoldingItem()
     {
-        if (player.GetButtonDown("Build Mode"))
+        if (player.GetButton("Build Mode"))
         {
-            //When switching out of build mode, attack will get stuck in InvalidOperationException: List has changed. This helps
-            if (buildMode) attackRange = new List<GameObject>();
-            buildMode = !buildMode;
+            if (!buildMode)
+            {
+                //When switching out of build mode, attack will get stuck in InvalidOperationException: List has changed. This helps
+                if (buildMode) attackRange = new List<GameObject>();
+                buildMode = !buildMode;
+
+                checkHologram();
+            }
+        } else {
+            if (nodes.Count > 0) { //If showing holo wall, turn off every holo wall currently being displayed
+                for(int i = 0; i < nodes.Count; i++){ 
+                    nodes[i].GetComponent<BuildNode>().RemoveShow();
+                }
+            }
+            buildMode = false;
         }
         if (buildMode)
         {
@@ -468,9 +482,10 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         inventoryText.text = wallInventory.ToString();
     }
 
+    //Using it for re-entering wall build mode
     private void checkHologram()
     {
-        if(nodes.Count <= 1)
+        if(nodes.Count <= 1 && nodes.Count > 0) //previously didn't include > 0, but you need a node to pass
         {
             GameObject first = (GameObject)nodes[0];
             if (buildMode && heldItem == null)
