@@ -31,4 +31,8 @@ public class Engine : DurableConstruct<PoiNode> {
         // Nothing
     }
 
+    public override void OnUpdate()
+    {
+        // Nothing
+    }
 }

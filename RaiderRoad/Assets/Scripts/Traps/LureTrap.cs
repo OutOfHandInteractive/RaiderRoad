@@ -7,7 +7,10 @@ public class LureTrap : Trap
     public override void OnUpdate()
     {
         base.OnUpdate();
-        DurabilityDamage(Time.deltaTime);
+        if (isPlaced())
+        {
+            DurabilityDamage(Time.deltaTime);
+        }
     }
 
     public override bool CanTarget(GameObject target)
@@ -15,7 +18,7 @@ public class LureTrap : Trap
         if (Util.isEnemy(target))
         {
             StatefulEnemyAI.State state = target.GetComponent<StatefulEnemyAI>().GetState();
-            return state != StatefulEnemyAI.State.Wait && state != StatefulEnemyAI.State.Weapon;
+            return state != StatefulEnemyAI.State.Wait && state != StatefulEnemyAI.State.Weapon && state != StatefulEnemyAI.State.Lure;
         }
         return false;
     }
@@ -23,7 +26,7 @@ public class LureTrap : Trap
     public override void Activate(GameObject victim)
     {
         victim.GetComponent<LureEnemy>().AddLure(this);
-        victim.GetComponent<StatefulEnemyAI>().EnterStateIfNotAlready(StatefulEnemyAI.State.Wait);
+        victim.GetComponent<StatefulEnemyAI>().EnterLure();
     }
 
     public override void OnBreak()

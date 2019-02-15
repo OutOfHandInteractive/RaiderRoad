@@ -123,7 +123,6 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
     private void HoldingItem()
     {
         floatItem();
-        GameObject toBuild = (GameObject)nodes[0];
         if (player.GetButtonDown("Place Object"))
         {
             if (heldItem.tag == "Trap" && trapNodes.Count > 0)
@@ -134,7 +133,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
             {
                 BuildEngine();
             }
-            else if (heldItem.tag == "Weapon" && toBuild.GetComponent<BuildNode>().canPlaceWeapon) //to change later?
+            else if (heldItem.tag == "Weapon" && nodes.Count > 0 && nodes[0].GetComponent<BuildNode>().canPlaceWeapon) //to change later?
             {
                 BuildWeapon();
             }
@@ -184,7 +183,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
 
     private void BuildTrap()
     {
-        GameObject trapBuild = (GameObject)trapNodes[0];
+        GameObject trapBuild = trapNodes[0];
         //Debug.Log(trapBuild);
         BuildDurableConstruct(trapBuild.GetComponent<TrapNode>());
 
@@ -194,7 +193,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
 
     private void BuildEngine()
     {
-        GameObject EngineBuild = (GameObject)engineNodes[0];
+        GameObject EngineBuild = engineNodes[0];
         BuildDurableConstruct(EngineBuild.GetComponent<PoiNode>());
 
         myAni.SetTrigger("build");
