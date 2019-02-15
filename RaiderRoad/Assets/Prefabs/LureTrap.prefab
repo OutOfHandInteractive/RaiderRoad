@@ -107,10 +107,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   drop: {fileID: 7145308879583255186, guid: 902b4e54864070b4bb113bd0ab0b06c4, type: 3}
   hits: 3
-  health: 3
+  health: 75
   isHolo: 0
+  isOccupied: 0
   myNode: {fileID: 0}
   durability: 45
+  currDur: -1
   cooldownTime: 0
 --- !u!65 &4719965172250682475
 BoxCollider:
