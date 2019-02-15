@@ -7,7 +7,7 @@ using UnityEngine.AI;
 
 public class EventManager : MonoBehaviour {
 
-
+    public enum eventTypes { vehicle, obstacle };
     public float TimeBetweenDifficultyAdjustment = 60;     //for now, difficulty updated every minute
     [SerializeField]
     private int difficultyRating = 1;       //set to 1 for testing
@@ -39,15 +39,24 @@ public class EventManager : MonoBehaviour {
     
     //spawn points for events
     [SerializeField]
-    private List<Transform> spawnPoints;
+    private List<Transform> vspawnPoints;
+    public GameObject oSpawnsParent;
+    [SerializeField]
+    private List<Transform> ospawnPoints;
 
     void Start(){
         //StartCoroutine(difficultyManager());
-        spawnPoints = new List<Transform>();
-        foreach (Transform child in transform)      //get spawn points
+        vspawnPoints = new List<Transform>();
+        foreach (Transform child in transform)      //get vehicle spawn points
         {
             Debug.Log(child);
-            spawnPoints.Add(child);
+            vspawnPoints.Add(child);
+        }
+        ospawnPoints = new List<Transform>();
+        foreach (Transform child in oSpawnsParent.transform)      //get obstacle spawn points
+        {
+            Debug.Log(child);
+            ospawnPoints.Add(child);
         }
         StartCoroutine(initialize());                   //initializes first cluster
     }
@@ -75,18 +84,47 @@ public class EventManager : MonoBehaviour {
 
     GameObject generate(int difRate)      //I don't think we need a coroutine for thise - at least not yet
     {
-        VehicleFactoryManager.vehicleTypes type;
+        VehicleFactoryManager.vehicleTypes vtype = VehicleFactoryManager.vehicleTypes._null; //need to assign for debugging
+        eventTypes etype;
         Event _nE;
         List<Event> _new = new List<Event>();
         GameObject newEC = Instantiate(eCluster);
-        int clusterSize = 3 + difRate;
+        int clusterSize = 7 + difRate;
+        List<Transform> sPoints = new List<Transform>();
+        int randNum;////////////
         for (int i = 0; i < clusterSize; i++)
         {
             Debug.Log("creating event " + i);
-            type = (VehicleFactoryManager.vehicleTypes)UnityEngine.Random.Range(0, 2);
+            //determine etype - temporary
+            randNum = UnityEngine.Random.Range(1,10);
+            if(randNum % 7 == 0){
+                etype = EventManager.eventTypes.obstacle;
+            }else{
+                etype = EventManager.eventTypes.vehicle;
+            }
+            Debug.Log(etype);
+            //------------------end temp
+            if (etype == EventManager.eventTypes.vehicle)
+            {
+                //determine vehicle type --- need to implement, for now just does medium and light randomly
+                randNum = UnityEngine.Random.Range(1,3);
+                if(randNum == 3){
+                    vtype = VehicleFactoryManager.vehicleTypes.medium;
+                }else{
+                    vtype = VehicleFactoryManager.vehicleTypes.light;
+                }
+                sPoints = vspawnPoints;
+            }
+            else if (etype == EventManager.eventTypes.obstacle)
+            {
+                vtype = VehicleFactoryManager.vehicleTypes._null;
+                sPoints = ospawnPoints;
+            }
+            Debug.Log(vtype);
+            //vtype = (VehicleFactoryManager.vehicleTypes)UnityEngine.Random.Range(0, 2);
             //type = VehicleFactoryManager.vehicleTypes.medium;
             _nE = newEC.AddComponent<Event>() as Event;
-            _nE.initialize(difRate, type, spawnPoints);
+            _nE.initialize(difRate, vtype, etype, sPoints);
             _new.Add(_nE);          //uses current dif rate, [for now] default spawn position, [for now] default enemy to create an event
         }
         newEC.GetComponent<EventCluster>().startUp(_new, vFactory);

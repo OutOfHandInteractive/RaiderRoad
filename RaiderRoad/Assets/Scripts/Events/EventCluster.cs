@@ -20,6 +20,8 @@ public class EventCluster : MonoBehaviour {
     [SerializeField]
     private float delay = 15;   //for testing 15, seconds
     private int i = 0;          //needed to have this outside a function so that the coroutine doesn't mess up its value
+    [SerializeField]
+    private GameObject _obstacle;
     
 
 
@@ -69,7 +71,14 @@ public class EventCluster : MonoBehaviour {
         
     //calls next event in cluster
     void callEvent(){
-        events[i].spawn(vFactory);
+        if (events[i]._etype == EventManager.eventTypes.obstacle)
+        {
+            events[i].oSpawn(_obstacle);
+        }
+        else if (events[i]._etype == EventManager.eventTypes.vehicle)
+        {
+            events[i].spawn(vFactory);
+        }
         i++;
     }
 }
