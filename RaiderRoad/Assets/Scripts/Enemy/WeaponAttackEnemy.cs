@@ -25,18 +25,40 @@ public class WeaponAttackEnemy : EnemyAI {
         fireFX = fire;
         if (vehicle.GetComponentInChildren<HasWeapon>().gameObject.tag == "Cannon")
         {
-            Transform cannonBody = eVehicle.GetComponentInChildren<cannon>().transform.Find("Cannon_Fire");
+			Transform getCannon = eVehicle.GetComponentInChildren<cannon>().transform.Find("model");
+			Transform cannonBody = null;	// this is BAD
+			foreach (Transform child in getCannon) {
+				if (child.CompareTag("WeaponMount")) {
+					cannonBody = child.transform;
+				}
+			}
             cannon = cannonBody.gameObject;
-            barrel = cannonBody.Find("cannonMount").Find("cannonBarrel").gameObject;
+
+			foreach (Transform child in cannon.transform) {
+				if (child.CompareTag("WeaponBarrel")) {
+					barrel = child.gameObject;
+				}
+			}
         }
         else if (vehicle.GetComponentInChildren<HasWeapon>().gameObject.tag == "Fire")
         {
-            flamer = eVehicle.GetComponentInChildren<flamethrower>();
-            Transform flameBody = flamer.transform.Find("FlameThrowerWrapper").transform.Find("FlameThrower");
-            Debug.Log(flameBody);
-            flamethrowerBody = flameBody.Find("Main_Body").gameObject;
-            barrel = flameBody.Find("Main_Body").gameObject.transform.Find("Barrel").gameObject;
-            if (!created)
+			Transform getFlamethrower = eVehicle.GetComponentInChildren<flamethrower>().transform.Find("FlameThrowerWrapper").Find("model"); // this is WORSE
+			Transform flamethrower = null;
+			foreach (Transform child in getFlamethrower) {
+				if (child.CompareTag("WeaponMount")) {
+					flamethrower = child.transform;
+				}
+			}
+			flamethrowerBody = flamethrower.gameObject;
+
+			foreach (Transform child in flamethrowerBody.transform) {
+				if (child.CompareTag("WeaponBarrel")) {
+					barrel = child.gameObject;
+				}
+			}
+
+
+			if (!created)
             {
                 if (side.Equals("right"))
                 {
