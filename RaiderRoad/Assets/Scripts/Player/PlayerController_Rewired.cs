@@ -19,6 +19,7 @@ public class PlayerController_Rewired : MonoBehaviour {
     public float jumpIndicatorScaling = 10f;
     
     public float jumpForce;
+    public float distToGround = 0.0f;
 	// --------------------------------------------------------------------
    
 		
@@ -41,7 +42,6 @@ public class PlayerController_Rewired : MonoBehaviour {
 	public float reviveCountdown;
     
 	// states and flags
-    private bool grounded = true;
 	public bool paused = false;
 	public bool reviving = false;
 	public bool beingRevived = false;
@@ -137,9 +137,9 @@ public class PlayerController_Rewired : MonoBehaviour {
 				}
 			}
 
-			if (player.GetButtonDown("Jump") && grounded) {
+            Debug.DrawRay(transform.position + Vector3.up * 0.05f, -Vector3.up * (distToGround + 0.1f), Color.red);
+            if (player.GetButtonDown("Jump") && IsGrounded()) {
 				rb.AddForce(transform.up * jumpForce);
-				grounded = false;
                 myAni.SetTrigger("jump");
             }
 		}
@@ -201,7 +201,7 @@ public class PlayerController_Rewired : MonoBehaviour {
         
         // On ground
         RaycastHit hit;
-        Debug.DrawRay(transform.position, -Vector3.up, Color.green);
+        //Debug.DrawRay(transform.position, -Vector3.up, Color.green);
         if (Physics.Raycast(new Vector3(transform.position.x,transform.position.y + .5f, transform.position.z), -Vector3.up, out hit)) {
             //Debug.Log(hit.collider);
             Vector3 pos = hit.point + hit.normal * 0.01f;
@@ -217,8 +217,6 @@ public class PlayerController_Rewired : MonoBehaviour {
         {
             //Debug.Log("Can jump");
             transform.parent = collision.transform.root;
-            if(!grounded) myAni.SetTrigger("land");
-            grounded = true;
         }
         if (collision.gameObject.tag == "road")
         {
@@ -235,8 +233,12 @@ public class PlayerController_Rewired : MonoBehaviour {
         }
     }
 
-    // ------------------------- reviving and damage --------------------------------
-    public void startRevive(PlayerController_Rewired p) {
+    private bool IsGrounded() {
+        return Physics.Raycast(transform.position + Vector3.up * 0.5f, -Vector3.up, distToGround + 0.1f);
+    }
+
+// ------------------------- reviving and damage --------------------------------
+public void startRevive(PlayerController_Rewired p) {
 		reviving = true;
 		reviveCountdown = reviveTime;
 		p.GetComponentInChildren<HealthBar_Player>().startRevive(reviveTime);
