@@ -54,7 +54,6 @@ public class flamethrower : Interactable {
 		inUse = false;
 		user = null;
 		userPlayerId = -1;
-        //barrel.GetComponent<MeshRenderer>().material = normalMat;
         overheatCount = overheatTime;
         cooldownCount = overheatCooldown;
         overheated = false;
