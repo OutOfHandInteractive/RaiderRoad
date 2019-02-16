@@ -57,6 +57,8 @@ public class PlayerController_Rewired : MonoBehaviour {
     public Material myMat;
     private Color myOrigColor;
 
+    private bool jumped = false;
+
 	// ----------------------------------------------------------------------
     
     
@@ -138,9 +140,10 @@ public class PlayerController_Rewired : MonoBehaviour {
 			}
 
             Debug.DrawRay(transform.position + Vector3.up, -Vector3.up * (distToGround + 0.1f), Color.red);
-            if (player.GetButtonDown("Jump") && IsGrounded()) {
+            if (player.GetButtonDown("Jump") && IsGrounded() && jumped == false) {
 				rb.AddForce(transform.up * jumpForce);
                 myAni.SetTrigger("jump");
+                jumped = true;
             }
 		}
 
@@ -217,6 +220,7 @@ public class PlayerController_Rewired : MonoBehaviour {
         {
             //Debug.Log("Can jump");
             transform.parent = collision.transform.root;
+            jumped = false;
         }
         if (collision.gameObject.tag == "road")
         {
