@@ -17,6 +17,7 @@ public class Driving : Interactable
     private bool paused = false;
     private Player player;
     private Vector2 moveVector;
+    private Rigidbody rb;
 
     [System.NonSerialized]
     private bool initialized;
@@ -27,6 +28,8 @@ public class Driving : Interactable
         user = null;
         userPlayerId = -1;
         cooldownTimer = cooldown;
+
+        rb = rv.GetComponent<Rigidbody>();
     }
 
     void Update()
@@ -44,10 +47,13 @@ public class Driving : Interactable
     {
         if (!paused && inUse)
         {
-            playerUsing.transform.position = transform.position;
-            playerUsing.transform.rotation = transform.rotation;
-            moveVector.x = player.GetAxis("Move Horizontal") * Time.deltaTime * moveSpeed;
-            moveVector.y = player.GetAxis("Move Vertical") * Time.deltaTime * moveSpeed;
+
+            float moveHorizontal = Input.GetAxis("Horizontal");
+            float moveVertical = Input.GetAxis("Vertical");
+
+            Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
+
+            rb.AddForce(movement * moveSpeed);
 
             if (player.GetButtonDown("Exit Interactable"))
             {
