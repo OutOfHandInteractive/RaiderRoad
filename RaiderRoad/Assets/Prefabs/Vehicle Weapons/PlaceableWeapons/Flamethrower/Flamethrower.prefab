@@ -61,7 +61,7 @@ MonoBehaviour:
   coneAngle: 45
   overheatTime: 5
   overheatCooldown: 3
-  tickDamage: 5
+  tickDamage: 10
   tickTime: 0.5
 --- !u!65 &65648946905826044
 BoxCollider:
@@ -293,7 +293,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1689385613954182}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0.47, z: 0}
+  m_LocalPosition: {x: 0, y: -4.8, z: 0}
   m_LocalScale: {x: 1.5, y: 0.7, z: 0.7}
   m_Children:
   - {fileID: 4441295590853880}
@@ -582,6 +582,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Center.y
       value: 0.009152771
+      objectReference: {fileID: 0}
+    - target: {fileID: 5657665254142232371, guid: 0d9b7ed469d802749b55e689d4a6ca4f,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0d9b7ed469d802749b55e689d4a6ca4f, type: 3}
