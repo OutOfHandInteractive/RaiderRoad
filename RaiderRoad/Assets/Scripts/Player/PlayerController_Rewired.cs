@@ -19,7 +19,7 @@ public class PlayerController_Rewired : MonoBehaviour {
     public float jumpIndicatorScaling = 10f;
     
     public float jumpForce;
-    public float distToGround = 0.0f;
+    public float distToGround = 0.9f;
 	// --------------------------------------------------------------------
    
 		
@@ -137,7 +137,7 @@ public class PlayerController_Rewired : MonoBehaviour {
 				}
 			}
 
-            Debug.DrawRay(transform.position + Vector3.up * 0.05f, -Vector3.up * (distToGround + 0.1f), Color.red);
+            Debug.DrawRay(transform.position + Vector3.up, -Vector3.up * (distToGround + 0.1f), Color.red);
             if (player.GetButtonDown("Jump") && IsGrounded()) {
 				rb.AddForce(transform.up * jumpForce);
                 myAni.SetTrigger("jump");
@@ -234,7 +234,7 @@ public class PlayerController_Rewired : MonoBehaviour {
     }
 
     private bool IsGrounded() {
-        return Physics.Raycast(transform.position + Vector3.up * 0.5f, -Vector3.up, distToGround + 0.1f);
+        return Physics.Raycast(transform.position + Vector3.up, -Vector3.up, distToGround + 0.1f);
     }
 
 // ------------------------- reviving and damage --------------------------------
