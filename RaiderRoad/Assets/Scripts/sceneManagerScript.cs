@@ -53,11 +53,11 @@ public class sceneManagerScript : MonoBehaviour {
     void Update () {
         if (Input.GetKey("escape"))     //Set all variables back to null and send player to Scene menu
         {
-            if(GameManager.GameManagerInstance != null) // make sure we have a game manager
+            /*if(GameManager.GameManagerInstance != null) // make sure we have a game manager
             {
                 GameManager g = GameManager.GameManagerInstance;
                 g.clearMenu();
-            }
+            }*/
 
             nextScene = NeedPlaySelScene[0];
             char1Players = null;
