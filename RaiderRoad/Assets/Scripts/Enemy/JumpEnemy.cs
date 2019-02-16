@@ -8,12 +8,14 @@ public class JumpEnemy : EnemyAI
     private float initialAngle;
     private bool hasJumped = false;
     protected string cSide;
+    protected int action;
 
-    public virtual void StartJump(GameObject enemy, Rigidbody rb, string side)
+    public virtual void StartJump(GameObject enemy, Rigidbody rb, string side, int stateChance)
     {
         cObject = enemy;
         cRb = rb;
         cSide = side;
+        action = stateChance;
         initialAngle = 75f;
     }
 

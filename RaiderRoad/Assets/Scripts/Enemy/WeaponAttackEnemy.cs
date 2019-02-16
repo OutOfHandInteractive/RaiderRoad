@@ -23,19 +23,19 @@ public class WeaponAttackEnemy : EnemyAI {
         eVehicle = vehicle;
         cMunnitions = munnitions;
         fireFX = fire;
-        if (cObject.transform.parent.tag == "Cannon")
+        if (vehicle.GetComponentInChildren<HasWeapon>().gameObject.tag == "Cannon")
         {
             Transform cannonBody = eVehicle.GetComponentInChildren<cannon>().transform.Find("Cannon_Fire");
             cannon = cannonBody.gameObject;
-            barrel = cannonBody.Find("cannonMount").Find("Barrel").gameObject;
+            barrel = cannonBody.Find("cannonMount").Find("cannonBarrel").gameObject;
         }
-        else if (cObject.transform.parent.tag == "Fire")
+        else if (vehicle.GetComponentInChildren<HasWeapon>().gameObject.tag == "Fire")
         {
             flamer = eVehicle.GetComponentInChildren<flamethrower>();
-            Transform flameBody = flamer.transform.Find("FlamethrowerBodyWrapper");
+            Transform flameBody = flamer.transform.Find("FlameThrowerWrapper").transform.Find("FlameThrower");
             Debug.Log(flameBody);
-            flamethrowerBody = flameBody.Find("FlameThrower_Body").gameObject;
-            barrel = flameBody.Find("FlameThrower_Body").gameObject.transform.Find("Barrel").gameObject;
+            flamethrowerBody = flameBody.Find("Main_Body").gameObject;
+            barrel = flameBody.Find("Main_Body").gameObject.transform.Find("Barrel").gameObject;
             if (!created)
             {
                 if (side.Equals("right"))
@@ -118,9 +118,11 @@ public class WeaponAttackEnemy : EnemyAI {
         //fireInstance.gameObject.transform.rotation = barrel.transform.rotation;
         flamer.SetRotation(barrel.transform.rotation);
         flamer.CheckOverheat();
+        flamer.GetComponentInChildren<flamethrowerDamage>().enabled = false;
         if (!flamer.isOverheated())
         {
             flamer.StartFiring();
+            flamer.GetComponentInChildren<flamethrowerDamage>().enabled = true;
         }
     }
 

@@ -9,10 +9,10 @@ public class BoardEnemy : JumpEnemy {
     private int action;
 
 
-    public override void StartJump(GameObject enemy, Rigidbody rb, string side)
+    public override void StartJump(GameObject enemy, Rigidbody rb, string side, int stateChance)
     {
-        base.StartJump(enemy, rb, side);
-        action = Random.Range(0, 100);
+        base.StartJump(enemy, rb, side, stateChance);
+        action = stateChance;
         //Set rv, enemy, rigidbody, current side, and angle to jump
 
 
