@@ -14,20 +14,18 @@ public class PayloadL : Payload {
 
 	public override void populate() {
 		for (int i=0; i < PAYLOAD_SIZE; i++) {
-			if (payloadCode[i] == payloadTypes.enemy)
+			if (payloadCode[i] == payloadTypes.enemy) {
 				payloadInstance.Add(Instantiate(SelectEnemies().gameObject));
-            if (payloadCode[i] == payloadTypes.weapon)
-            {
-                payloadInstance.Add(Instantiate(SelectInteractable().gameObject));
-            }
+			}
+			else if (payloadCode[i] == payloadTypes.weapon) {
+				payloadInstance.Add(Instantiate(SelectInteractable().gameObject));
+				payloadInstance.Add(Instantiate(SelectEnemies().gameObject));
+			}
  
 		}
 
 		payloadInstance[0].transform.SetParent(enemyNode01.transform);
 		payloadInstance[0].transform.position = new Vector3(0, 1f, 0);
-
-		payloadInstance[1].transform.SetParent(enemyNode02.transform);
-		payloadInstance[1].transform.position = new Vector3(0, 1f, 0);
 	}
 
 	protected override StatefulEnemyAI SelectEnemies() {
