@@ -39,6 +39,7 @@ public class StatefulEnemyAI : EnemyAI {
     public float damagePower;
     public float currentHealth;
     public float damageMeter;
+    public int stateChance;
     private bool inRange;
 
     // Use this for initialization
@@ -103,13 +104,18 @@ public class StatefulEnemyAI : EnemyAI {
 
         Debug.Log(interactable);
         Debug.Log(transform.parent);
-        if (interactable && !interactable.transform.GetComponentInChildren<EnemyAI>())
+        if (interactable && !interactable.GetComponent<HasWeapon>().enemyUsing)
         {
             gameObject.tag = "usingWeapon";
-            transform.SetParent(interactable.transform, true);
+            interactable.GetComponent<HasWeapon>().enemyUsing = true;
+        }
+        if(gameObject.tag == "usingWeapon")
+        {
+            //transform.SetParent(interactable.transform, true);
             transform.position = interactable.transform.position;
             //transform.rotation = Quaternion.identity;
-            transform.localScale = scale;
+            //transform.localScale = scale;
+            transform.localScale = transform.localScale;
             weapon.StartWeapon(enemy, vehicle, munnitions, fire, side);
             GameObject weapons = weapon.getWeapon();
             weapon.LookAtPlayer(weapons);
@@ -223,7 +229,7 @@ public class StatefulEnemyAI : EnemyAI {
     public void EnterBoard()
     {
         currentState = State.Board;
-        board.StartJump(enemy, rb, side);
+        board.StartJump(enemy, rb, side, stateChance);
         enemy.GetComponent<Renderer>().material.color = Color.green;
     }
 
@@ -257,7 +263,7 @@ public class StatefulEnemyAI : EnemyAI {
     public void EnterEscape()
     {
         currentState = State.Escape;
-        escape.StartJump(enemy, rb, side);
+        escape.StartJump(enemy, rb, side, stateChance);
         enemy.GetComponent<Renderer>().material.color = Color.blue;
     }
 
@@ -303,12 +309,8 @@ public class StatefulEnemyAI : EnemyAI {
         {
             Destroy(gameObject);
         }
-    }
-
-    private void OnCollisionStay(Collision collision)
-    {
         //Change transform to stay on vehicles
-        if (collision.gameObject.tag == "eVehicle")
+        if (collision.gameObject.tag == "eVehicle" && gameObject.tag != "usingWeapon")
         {
             transform.parent = parent.transform;
         }
@@ -317,6 +319,11 @@ public class StatefulEnemyAI : EnemyAI {
             transform.parent = collision.transform.root;
             //currentState = State.Destroy;
         }
+    }
+
+    private void OnCollisionStay(Collision collision)
+    {
+
     }
 
     private void OnCollisionExit(Collision collision)
@@ -396,12 +403,6 @@ public class StatefulEnemyAI : EnemyAI {
             {
                 destroy.engineKill = true;
             }
-        }
-        if (other.gameObject.tag == "Drops" && currentState == State.Steal)
-        {
-            //Debug.Log("HIT");
-            //Destroy(other.gameObject);
-            //steal.hasStolen = true;
         }
     }
 
