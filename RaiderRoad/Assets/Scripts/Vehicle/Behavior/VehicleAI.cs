@@ -190,10 +190,6 @@ public class VehicleAI : MonoBehaviour {
         Destroy(gameObject);
     }
 
-    public void OnDestroy()
-    {
-    }
-
     private void DelayedDeath()
     {
         StartCoroutine(WaitToDie());
