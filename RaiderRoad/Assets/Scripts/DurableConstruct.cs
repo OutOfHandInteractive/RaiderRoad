@@ -5,7 +5,7 @@ public abstract class DurableConstruct : Constructable
 {
     public float durability; //original amount
     
-    [SerializeField] private float currDur = -1f; //current durability
+    [SerializeField] protected float currDur = -1f; //current durability
 
     public override void OnStart()
     {

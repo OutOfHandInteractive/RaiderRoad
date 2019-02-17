@@ -12,6 +12,13 @@ public abstract class DurabilityBuildNode : AbstractBuildNode
         item = Instantiate(objToBuild, new Vector3(transform.position.x, transform.position.y, transform.position.z),
             Quaternion.identity);
         item.transform.parent = this.gameObject.transform;
+        Material tempMat = item.GetComponent<Renderer>().material;
+        if(tempMat.shader.name == "Outlined/Uniform")
+        {
+            Material outline = Instantiate(tempMat);
+            item.GetComponent<Renderer>().material = outline;
+            outline.SetFloat("_Active", 0.0f);
+        }
 
         occupied = true;
         item.GetComponent<DurableConstruct>().myNode = gameObject;

@@ -364,7 +364,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
             {
                 //Debug.Log("Trap node added");
                 trapNodes.Add(other.gameObject);
-                if (buildMode) other.GetComponent<TrapNode>().Show(trap); //if player is in build mode, activate show wall in the build node script
+                if (buildMode) other.GetComponent<TrapNode>().Show(heldItem); //if player is in build mode, activate show wall in the build node script
             }
         }
         if (heldItem != null && other.name == "PoiNode")
@@ -373,7 +373,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
             {
                 //Debug.Log("Trap node added");
                 engineNodes.Add(other.gameObject);
-                if (buildMode) other.GetComponent<PoiNode>().Show(engine); //if player is in build mode, activate show wall in the build node script
+                if (buildMode) other.GetComponent<PoiNode>().Show(heldItem); //if player is in build mode, activate show wall in the build node script
             }
         }
         if (other.gameObject.CompareTag("Trap"))
