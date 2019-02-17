@@ -40,6 +40,7 @@ public class flamethrower : Interactable {
     private float newAngle;
     private bool interacting = false;
 	private ParticleSystem fireInstance;
+	private flamethrowerDamage damage;
     
 	[System.NonSerialized]
         private bool initialized;
@@ -60,8 +61,11 @@ public class flamethrower : Interactable {
         firing = false;
         cooldownTimer = cooldown;
 
-		damageCollider.GetComponent<flamethrowerDamage>().setTickDamage(tickDamage);
-		damageCollider.GetComponent<flamethrowerDamage>().setTickTime(tickTime);
+		damage = damageCollider.GetComponent<flamethrowerDamage>();
+		damage.setTickDamage(tickDamage);
+		damage.setTickTime(tickTime);
+
+		damageCollider.SetActive(false);
 	}
     
 	// Update is called once per frame
