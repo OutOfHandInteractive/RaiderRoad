@@ -63,7 +63,11 @@ public class EscapeEnemy : JumpEnemy {
 
     IEnumerator waitToLeave()
     {
-        eVehicle.GetComponent<NavMeshAgent>().isStopped = false;
+        NavMeshAgent agent = eVehicle.GetComponent<NavMeshAgent>();
+        if (agent.enabled)
+        {
+            agent.isStopped = false;
+        }
         eVehicle.GetComponent<VehicleAI>().EnterWander();
         yield return new WaitForSeconds(5);
         eVehicle.GetComponent<VehicleAI>().EnterLeave();
