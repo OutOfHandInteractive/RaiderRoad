@@ -118,10 +118,9 @@ public class StatefulEnemyAI : EnemyAI {
             weapon.StartWeapon(enemy, vehicle, munnitions, fire, side);
             GameObject weapons = weapon.getWeapon();
             weapon.LookAtPlayer(weapons);
-
 			transform.position = interactable.transform.position;
-		}
-        if (transform.parent != null && transform.parent.name == "EnemyInt" && vehicle.getState() == VehicleAI.State.Chase)
+        }
+        if (gameObject.tag == "usingWeapon" && vehicle.getState() == VehicleAI.State.Chase)
         {
             EnterWeapon();
             weapon.Weapon();

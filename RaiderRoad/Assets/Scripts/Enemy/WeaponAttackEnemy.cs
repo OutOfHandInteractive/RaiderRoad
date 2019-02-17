@@ -42,6 +42,7 @@ public class WeaponAttackEnemy : EnemyAI {
         }
         else if (vehicle.GetComponentInChildren<HasWeapon>().gameObject.tag == "Fire")
         {
+            flamer = eVehicle.GetComponentInChildren<flamethrower>();
 			Transform getFlamethrower = eVehicle.GetComponentInChildren<flamethrower>().transform.Find("FlameThrowerWrapper").Find("model"); // this is WORSE
 			Transform flamethrower = null;
 			foreach (Transform child in getFlamethrower) {
@@ -84,13 +85,15 @@ public class WeaponAttackEnemy : EnemyAI {
 
         //flamethrower.transform.LookAt(player.transform.position);
 
-        Transform parent = gameObject.transform.parent;
+        Transform parent = eVehicle.GetComponentInChildren<HasWeapon>().transform;
+        Debug.Log(parent);
         if(parent == null)
         {
             gameObject.GetComponent<StatefulEnemyAI>().EnterDeath();
         }
         else if (parent.tag == "Cannon")
         {
+            Debug.Log("SHOOOOOOOOOOOOOOOOOOOT CANNNNNNNNNNNNON");
             if (!fired)
             {
                 StartCoroutine(WaitToShoot());
@@ -99,6 +102,7 @@ public class WeaponAttackEnemy : EnemyAI {
         }
         else if (parent.tag == "Fire")
         {
+            Debug.Log("SHOOOOOOOOOOOOOOOOOOOT FIREEEEEEEEEEEEEEEE");
             Flames();
         }
 
@@ -109,7 +113,7 @@ public class WeaponAttackEnemy : EnemyAI {
     {
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
         GameObject player = Closest(cObject.transform.position, players);
-        proj = Object.Instantiate(cMunnitions.gameObject, barrel.transform.position, Quaternion.identity);
+        proj = Instantiate(cMunnitions.gameObject, barrel.transform.position, Quaternion.identity);
         proj.GetComponent<Rigidbody>().velocity = CannonVelocity(player, 75f);
     }
 
@@ -138,13 +142,15 @@ public class WeaponAttackEnemy : EnemyAI {
     void Flames()
     {
         //fireInstance.gameObject.transform.rotation = barrel.transform.rotation;
+        Debug.Log(barrel);
+        Debug.Log(flamer);
         flamer.SetRotation(barrel.transform.rotation);
         flamer.CheckOverheat();
-        flamer.GetComponentInChildren<flamethrowerDamage>().enabled = false;
+        //flamer.GetComponentInChildren<flamethrowerDamage>().enabled = false;
         if (!flamer.isOverheated())
         {
             flamer.StartFiring();
-            flamer.GetComponentInChildren<flamethrowerDamage>().enabled = true;
+            //flamer.GetComponentInChildren<flamethrowerDamage>().enabled = true;
         }
     }
 

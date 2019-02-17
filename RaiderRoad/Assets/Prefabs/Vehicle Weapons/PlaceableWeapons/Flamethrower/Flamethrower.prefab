@@ -418,10 +418,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4441295590853880}
     m_Modifications:
-    - target: {fileID: 6631037219080494066, guid: 0d9b7ed469d802749b55e689d4a6ca4f,
+    - target: {fileID: 5699029790436524379, guid: 0d9b7ed469d802749b55e689d4a6ca4f,
         type: 3}
-      propertyPath: m_Name
-      value: FlameThrowerWrapper
+      propertyPath: m_TagString
+      value: WeaponBarrel
       objectReference: {fileID: 0}
     - target: {fileID: 6460048298713719536, guid: 0d9b7ed469d802749b55e689d4a6ca4f,
         type: 3}
@@ -478,15 +478,20 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1129828961117578751, guid: 0d9b7ed469d802749b55e689d4a6ca4f,
-        type: 3}
-      propertyPath: m_Name
-      value: model
-      objectReference: {fileID: 0}
     - target: {fileID: 1129828961117578639, guid: 0d9b7ed469d802749b55e689d4a6ca4f,
         type: 3}
       propertyPath: m_TagString
       value: WeaponMount
+      objectReference: {fileID: 0}
+    - target: {fileID: 6631037219080494066, guid: 0d9b7ed469d802749b55e689d4a6ca4f,
+        type: 3}
+      propertyPath: m_Name
+      value: FlameThrowerWrapper
+      objectReference: {fileID: 0}
+    - target: {fileID: 1129828961117578751, guid: 0d9b7ed469d802749b55e689d4a6ca4f,
+        type: 3}
+      propertyPath: m_Name
+      value: model
       objectReference: {fileID: 0}
     - target: {fileID: 5700687790710161637, guid: 0d9b7ed469d802749b55e689d4a6ca4f,
         type: 3}
@@ -537,11 +542,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5699029790436524379, guid: 0d9b7ed469d802749b55e689d4a6ca4f,
-        type: 3}
-      propertyPath: m_TagString
-      value: WeaponBarrel
       objectReference: {fileID: 0}
     - target: {fileID: 4311744539964931117, guid: 0d9b7ed469d802749b55e689d4a6ca4f,
         type: 3}
@@ -601,7 +601,7 @@ PrefabInstance:
     - target: {fileID: 5657665254142232371, guid: 0d9b7ed469d802749b55e689d4a6ca4f,
         type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0d9b7ed469d802749b55e689d4a6ca4f, type: 3}
