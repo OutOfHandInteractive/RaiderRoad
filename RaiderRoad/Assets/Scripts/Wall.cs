@@ -16,6 +16,6 @@ public class Wall : Constructable<BuildNode>
 
     public override void OnBreak()
     {
-        // Do nothing
-    }
+		Instantiate(objectBreakParticles, transform.position, Quaternion.identity);
+	}
 }

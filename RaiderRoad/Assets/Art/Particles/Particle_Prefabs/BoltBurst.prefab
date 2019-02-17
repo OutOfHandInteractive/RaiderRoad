@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6212661251598392330}
   - component: {fileID: 6212661251598392329}
   - component: {fileID: 6212661251598392328}
+  - component: {fileID: 8730501825678864724}
   m_Layer: 0
   m_Name: BoltBurst
   m_TagString: Untagged
@@ -48,7 +49,7 @@ ParticleSystem:
   cullingMode: 0
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
-  looping: 1
+  looping: 0
   prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0
@@ -4758,6 +4759,19 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &8730501825678864724
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6212661251598392327}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1438f612fc14f874b8f45dfb53c137ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fx: {fileID: 6212661251598392329}
 --- !u!1 &6212661252200515948
 GameObject:
   m_ObjectHideFlags: 0
@@ -4804,7 +4818,7 @@ ParticleSystem:
   cullingMode: 0
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
-  looping: 1
+  looping: 0
   prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0
@@ -9560,7 +9574,7 @@ ParticleSystem:
   cullingMode: 0
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
-  looping: 1
+  looping: 0
   prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0
