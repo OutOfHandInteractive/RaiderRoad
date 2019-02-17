@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 6f851cb877ae04243b368fd239ac746e
+guid: f5bbf4f4fca1c054ebeed627eb01675e
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
@@ -339,8 +339,9 @@ ModelImporter:
     400330: ThumbR1_c 1
     400332: ThumbR2_c
     400334: ThumbR2_c 1
-    2100000: DadTexNew
-    2100002: lambert1
+    2100000: Skin_R
+    2100002: NewTex
+    2100004: lambert1
     2300000: pPlane1
     3300000: pPlane1
     4300000: skull
@@ -350,7 +351,7 @@ ModelImporter:
     4300008: Hair2
     4300010: Body
     4300012: pPlane1
-    7400000: Dad_Run2
+    7400000: Dad_Attack3
     9500000: //RootNode
     13700000: Body
     13700002: Eyebrows
@@ -363,7 +364,12 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: DadTexNew
+      name: NewTex
+    second: {fileID: 2100000, guid: 3a3f5ceafac0aa147bbee084bfefc29c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Skin_R
     second: {fileID: 2100000, guid: 3a3f5ceafac0aa147bbee084bfefc29c, type: 2}
   - first:
       type: UnityEngine:Material
@@ -388,8 +394,7 @@ ModelImporter:
       might lower retargeting quality:\nNote: Activate translation DOF on avatar to
       improve retargeting quality.\n\t'RShoulder_j' has translation animation that
       will be discarded.\n\t'LShoulder_j' has translation animation that will be discarded.\n\t'head_j'
-      has translation animation that will be discarded.\n\t'reye_j' has scale animation
-      that will be discarded.\n\t'leye_j' has scale animation that will be discarded.\n"
+      has translation animation that will be discarded.\n"
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
@@ -403,10 +408,10 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Dad_Run2
+      name: Dad_Attack3
       takeName: Take 001
       firstFrame: 0
-      lastFrame: 20
+      lastFrame: 15
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -416,7 +421,7 @@ ModelImporter:
       loopTime: 1
       loopBlend: 0
       loopBlendOrientation: 1
-      loopBlendPositionY: 1
+      loopBlendPositionY: 0
       loopBlendPositionXZ: 1
       keepOriginalOrientation: 0
       keepOriginalPositionY: 1
