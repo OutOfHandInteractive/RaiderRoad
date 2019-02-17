@@ -9,43 +9,30 @@ public abstract class Trap : DurableConstruct<TrapNode>
     private List<Collider> colliders = new List<Collider>();
     private float cooldownRemaining = 0;
 
-    public override void OnStart()
-    {
-        base.OnStart();
-    }
-
     public override void OnUpdate()
     {
-        base.OnUpdate();
         cooldownRemaining = Mathf.Max(0, cooldownRemaining - Time.deltaTime);
     }
 
     private void CheckTrap()
     {
-        if(isHolo || cooldownRemaining > 0)
+        if(isHolo || cooldownRemaining > 0 || !isPlaced())
         {
             return;
         }
         //Debug.Log("Checking " + colliders.Count + " colliders");
         bool activated = false;
+        Util.RemoveNulls(colliders);
         foreach (Collider other in colliders)
         {
             if (other == null)
             {
-                colliders.Remove(other);
                 continue;
             }
             GameObject target = other.gameObject;
             //Debug.Log("Collider object tag: " + target.tag);
-            if (CanTarget(target))
-            {
-                Activate(target);
-                activated = true;
-            }
-            else
-            {
-                colliders.Remove(other);
-            }
+            Activate(target);
+            activated = true;
         }
         if (activated)
         {
@@ -63,8 +50,8 @@ public abstract class Trap : DurableConstruct<TrapNode>
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Collider Entered");
-        if (!isHolo)
+        //Debug.Log("Collider Entered");
+        if (!isHolo && CanTarget(other.gameObject))
         {
             colliders.Add(other);
             CheckTrap();
@@ -73,7 +60,7 @@ public abstract class Trap : DurableConstruct<TrapNode>
 
     private void OnTriggerExit(Collider other)
     {
-        Debug.Log("Collider Exited");
+        //Debug.Log("Collider Exited");
         colliders.Remove(other);
     }
 }

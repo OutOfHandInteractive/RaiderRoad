@@ -1,0 +1,26 @@
+﻿@startuml
+'' SceneFlow
+hide empty description
+
+[*] -> MainMenu
+MainMenu -> Lobby : Play
+MainMenu --> Options
+Options --> MainMenu
+MainMenu --> [*] : Exit
+
+Lobby -> Game : Stand in the box
+Lobby --> LobbyPause
+LobbyPause --> Lobby
+LobbyPause --> MainMenu
+
+Game -> GameOver : Win/Lose
+Game --> GamePause
+GamePause --> Game
+GamePause --> Lobby
+GamePause --> MainMenu
+
+GameOver -> Game : Restart
+GameOver -> MainMenu
+GameOver -> Lobby
+
+@enduml

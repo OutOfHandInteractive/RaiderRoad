@@ -7,7 +7,7 @@ public abstract class DestructiblePart : MonoBehaviour {
 	// ---------------------- public variables -----------------------
 	// references
 	public GameObject drop;
-    public Vector3 dropOffset = new Vector3(0, 2, -1);
+    public Vector3 dropOffset = new Vector3(0, 0.75f, -1);
 	public List<GameObject> objWithMat;
 
 	// gameplay values
@@ -23,6 +23,7 @@ public abstract class DestructiblePart : MonoBehaviour {
 	private List<Material> myMat = new List<Material>();
 	private Color myOrigColor;
 	private Color destroyedColor;
+	private VehicleAI vAI;
 
 	// attributes
 	private float currentHealth;
@@ -32,6 +33,8 @@ public abstract class DestructiblePart : MonoBehaviour {
 
 	private void Start() {
 		maxHealth = GetMaxHealth() * (1 + armorStacks * Constants.ARMOR_PARTHEALTH_MODIFIER_PER_STACK);
+
+		vAI = GetComponentInParent<VehicleAI>();
 
 		for (int i = 0; i<objWithMat.Count; i++) {
 			myMat.Add(objWithMat[i].GetComponent<Renderer>().material);
@@ -55,6 +58,8 @@ public abstract class DestructiblePart : MonoBehaviour {
 			for (int i = 0; i<myMat.Count; i++) {
 				myMat[i].color = destroyedColor;
 			}
+
+			vAI.destroyPart();
 		}
 
 		return currentHealth;

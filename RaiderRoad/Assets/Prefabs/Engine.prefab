@@ -107,10 +107,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   drop: {fileID: 1099907924002084, guid: 85835a933eb86574a9eb24ab530c64d9, type: 3}
   hits: 3
-  health: 3
+  health: 75
   isHolo: 0
+  isOccupied: 0
   myNode: {fileID: 0}
   durability: 100
+  currDur: -1
   myHealthTrans: {fileID: 161990232358420329}
 --- !u!1001 &161990232358020585
 PrefabInstance:
@@ -119,10 +121,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4262750795651346}
     m_Modifications:
-    - target: {fileID: 100000, guid: 5cbfbc5bd8e0bfd469677ffb0d1caab7, type: 3}
-      propertyPath: m_Name
-      value: engineHealthBar
-      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 5cbfbc5bd8e0bfd469677ffb0d1caab7, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.39999998
@@ -166,6 +164,10 @@ PrefabInstance:
     - target: {fileID: 400000, guid: 5cbfbc5bd8e0bfd469677ffb0d1caab7, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 5cbfbc5bd8e0bfd469677ffb0d1caab7, type: 3}
+      propertyPath: m_Name
+      value: engineHealthBar
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5cbfbc5bd8e0bfd469677ffb0d1caab7, type: 3}

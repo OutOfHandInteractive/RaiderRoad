@@ -1,0 +1,20 @@
+﻿@startuml
+'' RadioSeq
+skinparam backgroundColor transparent
+skinparam ParticipantBackgroundColor transparent
+skinparam monochrome true
+skinparam shadowing false
+
+participant Raider
+participant Radio
+participant Vehicle
+
+Raider -> Radio : I need Evac!
+Radio --> Raider : Please Wait
+Vehicle -> Radio : Ready to evac
+Radio -> Raider : Evac is here
+Raider -> Vehicle : Jump on
+Vehicle -> Radio : I'm leaving
+
+
+@enduml

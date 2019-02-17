@@ -16,13 +16,11 @@ public abstract class Constructable : MonoBehaviour
 
     public bool isHolo = false;
     public bool isOccupied = false;
-    private Material myMat; //reference material of gameObject
     public GameObject myNode; //node it spawned from
 
     // Use this for initialization
     void Start()
     {
-        myMat = gameObject.GetComponent<Renderer>().material;
         if (isHolo) MakeHolo();
         OnStart();
     }
@@ -49,6 +47,11 @@ public abstract class Constructable : MonoBehaviour
         health -= damage;
     }
 
+    public bool isPlaced()
+    {
+        return myNode != null && GetNodeComp(myNode).occupied;
+    }
+
     public virtual void OnDrop(GameObject item)
     {
         // Do nothing by default
@@ -72,9 +75,13 @@ public abstract class Constructable : MonoBehaviour
     private void MakeHolo() // a function for making material holographic
     {
         gameObject.GetComponent<BoxCollider>().enabled = false;
-        Color tempColor = myMat.color;
-        tempColor.a = 0.4f;
-        myMat.color = tempColor;
+        foreach(Renderer renderer in gameObject.GetComponentsInChildren<Renderer>())
+        {
+            Material myMat = renderer.material;
+            Color tempColor = myMat.color;
+            tempColor.a = 0.4f;
+            myMat.color = tempColor;
+        }
     }
 }
 

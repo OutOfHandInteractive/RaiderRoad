@@ -19,7 +19,6 @@ public class PlayerController_Rewired : MonoBehaviour {
     public float jumpIndicatorScaling = 10f;
     
     public float jumpForce;
-	public float reviveTime;
 	// --------------------------------------------------------------------
    
 		
@@ -28,8 +27,10 @@ public class PlayerController_Rewired : MonoBehaviour {
     private Vector2 moveVector;
     
     private Vector3 rotateVector;
-    
-    private Rigidbody rb;
+
+	[SerializeField] private float reviveTime;
+
+	private Rigidbody rb;
     //Animator
     public Animator myAni;
     private GameManager g;
@@ -238,7 +239,7 @@ public class PlayerController_Rewired : MonoBehaviour {
     public void startRevive(PlayerController_Rewired p) {
 		reviving = true;
 		reviveCountdown = reviveTime;
-		p.GetComponentInChildren<healthBar>().startRevive(reviveTime);
+		p.GetComponentInChildren<HealthBar_Player>().startRevive(reviveTime);
 
         moveVector.x = 0f;  //zero movement so you don't keep walking while revive
         moveVector.y = 0f;
@@ -247,7 +248,7 @@ public class PlayerController_Rewired : MonoBehaviour {
 
 	public void stopRevive(PlayerController_Rewired p) {
 		reviving = false;
-		p.GetComponentInChildren<healthBar>().stopRevive();
+		p.GetComponentInChildren<HealthBar_Player>().stopRevive();
 
 	}
 
@@ -256,7 +257,7 @@ public class PlayerController_Rewired : MonoBehaviour {
         p.backToOrigAnim();
 		p.setState(playerStates.up);;
         reviving = false;
-		p.GetComponentInChildren<healthBar>().stopRevive();
+		p.GetComponentInChildren<HealthBar_Player>().stopRevive();
 	}
 
 	public void takeDamage(float _damage) {

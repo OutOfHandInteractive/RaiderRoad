@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class HasWeapon : MonoBehaviour {
 
+    public bool enemyUsing = false;
 	// Use this for initialization
 	void Start () {
 		

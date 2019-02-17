@@ -1,26 +1,38 @@
 ﻿@startuml
 '' Architecture
+skinparam backgroundColor transparent
+skinparam monochrome true
+skinparam shadowing false
 
 actor Player
 
-rectangle Hardware {
-	rectangle Controller
-	rectangle Monitor
+frame Hardware {
+	component Controller
+	component Monitor
 }
 
-rectangle RaiderRoad {
-	rectangle Unity {
-		rectangle Renderer
-		rectangle Rewired <<Plugin>>
+frame RaiderRoad {
+	package Unity {
+		component Renderer
+		component Rewired <<External Plugin>>
 	}
-	rectangle Events
-	rectangle GameObjects {
-		rectangle Players
+	package GameObjects {
+		component Events
+		component VehicleFactory
+		component PlayerController{
+			rectangle Drive
+			rectangle Steal
+		}
+		component PlayerPlacement{
+			component Build
+			rectangle Fight
+		}
 		rectangle RV
-		rectangle Mooks
-		rectangle Vehicles
+		component EnemyAI{
+			component Raiders
+			component Vehicles
+		}
 	}
-	rectangle EnemyAI
 }
 
 Player --> Controller : Input
@@ -29,12 +41,13 @@ Player <-- Monitor : Visual
 Controller --> Rewired
 Monitor <-- Renderer
 
-Vehicles <-- Events
-Vehicles --> EnemyAI
-Mooks --> EnemyAI
+Events -> VehicleFactory
+VehicleFactory --> Vehicles : Builds
 Renderer <-- GameObjects
-Rewired --> Players
-Players -> RV
-Mooks <-> Vehicles : Radio
+Rewired --> PlayerController
+PlayerController --> PlayerPlacement
+Raiders <-> Vehicles : Radio
+
+Drive --> RV
 
 @enduml
