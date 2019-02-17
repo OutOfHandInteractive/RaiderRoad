@@ -120,7 +120,7 @@ public class StatefulEnemyAI : EnemyAI {
             GameObject weapons = weapon.getWeapon();
             weapon.LookAtPlayer(weapons);
         }
-        if (transform.parent != null && transform.parent.name == "EnemyInt" && vehicle.getState() == VehicleAI.State.Chase)
+        if (gameObject.tag == "usingWeapon" && vehicle.getState() == VehicleAI.State.Chase)
         {
             EnterWeapon();
             weapon.Weapon();
