@@ -105,7 +105,11 @@ public class PlayerController_Rewired : MonoBehaviour {
 			GetInput();
 			ProcessInput();
 		}
-        
+
+        if (!IsGrounded())
+        {
+            rb.isKinematic = false;
+        }
         ScaleJumpIndicator();
     }
     
@@ -141,8 +145,10 @@ public class PlayerController_Rewired : MonoBehaviour {
 
             Debug.DrawRay(transform.position + Vector3.up, -Vector3.up * (distToGround + 0.1f), Color.red);
             if (player.GetButtonDown("Jump") && IsGrounded() && jumped == false) {
+                rb.isKinematic = false;
 				rb.AddForce(transform.up * jumpForce);
                 myAni.SetTrigger("jump");
+                myAni.SetBool("land", false);
                 jumped = true;
             }
 		}
@@ -215,12 +221,16 @@ public class PlayerController_Rewired : MonoBehaviour {
     
     private void OnCollisionEnter(Collision collision)
     {
+        jumped = false;
+        myAni.SetBool("land", true);
         //Debug.Log(collision.gameObject.name);
         if (collision.gameObject.tag == "RV" || collision.gameObject.tag == "eVehicle")
         {
             //Debug.Log("Can jump");
             transform.parent = collision.transform.root;
             jumped = false;
+            myAni.SetBool("land", true);
+            rb.isKinematic = true;
         }
         if (collision.gameObject.tag == "road")
         {
@@ -235,6 +245,14 @@ public class PlayerController_Rewired : MonoBehaviour {
             //Debug.Log("Can jump");
             transform.parent = null;
         }
+
+        /*
+        if(collision.gameObject.tag == "floor")
+        {
+            rb.isKinematic = false;
+        }
+        */
+
     }
 
     private bool IsGrounded() {
