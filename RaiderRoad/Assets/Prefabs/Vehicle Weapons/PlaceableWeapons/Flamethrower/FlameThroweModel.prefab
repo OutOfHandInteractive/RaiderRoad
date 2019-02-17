@@ -61,7 +61,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5700464303683841405
 Transform:
   m_ObjectHideFlags: 0
@@ -96,7 +96,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5698907371457382119}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 018313a7545c21d4187bbe6b4d19d759, type: 3}
   m_Name: 
@@ -170,10 +170,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6460048298713719536}
     m_Modifications:
-    - target: {fileID: 100020, guid: eefa3a1cb4600634797a269c12472372, type: 3}
-      propertyPath: m_Name
-      value: FlameThrower
-      objectReference: {fileID: 0}
     - target: {fileID: 400020, guid: eefa3a1cb4600634797a269c12472372, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.01
@@ -229,6 +225,10 @@ PrefabInstance:
     - target: {fileID: 400020, guid: eefa3a1cb4600634797a269c12472372, type: 3}
       propertyPath: m_LocalScale.z
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 100020, guid: eefa3a1cb4600634797a269c12472372, type: 3}
+      propertyPath: m_Name
+      value: FlameThrower
       objectReference: {fileID: 0}
     - target: {fileID: 2300000, guid: eefa3a1cb4600634797a269c12472372, type: 3}
       propertyPath: m_Materials.Array.data[0]
