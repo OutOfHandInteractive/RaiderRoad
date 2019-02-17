@@ -8,21 +8,23 @@ using System.Collections;
 /// </summary>
 public abstract class Constructable : MonoBehaviour
 {
+	// -------------- public variables ------------------
+	// references
     public GameObject drop;
-    //hits is for destroying by hand to remove an ill placed wall
-    //health is the durability from attacks by raiders
-    public int hits;
-    public float health;
+	public GameObject myNode; //node it spawned from
 
-    public bool isHolo = false;
+	// gameplay values
+	public int hits;        //hits is for destroying by hand to remove an ill placed wall
+	public float health;    //health is the durability from attacks by raiders
+	public bool isHolo = false;
     public bool isOccupied = false;
-    private Material myMat; //reference material of gameObject
-    public GameObject myNode; //node it spawned from
+
+	// -------------- nonpublic variables ----------------
+	[SerializeField] protected ParticleSystem objectBreakParticles;
 
     // Use this for initialization
     void Start()
     {
-        myMat = gameObject.GetComponent<Renderer>().material;
         if (isHolo) MakeHolo();
         OnStart();
     }
@@ -42,7 +44,7 @@ public abstract class Constructable : MonoBehaviour
 
     public abstract void OnUpdate();
 
-    public abstract void OnBreak();
+	public abstract void OnBreak();
 
     public virtual void Damage(float damage)
     {
@@ -77,9 +79,13 @@ public abstract class Constructable : MonoBehaviour
     private void MakeHolo() // a function for making material holographic
     {
         gameObject.GetComponent<BoxCollider>().enabled = false;
-        Color tempColor = myMat.color;
-        tempColor.a = 0.4f;
-        myMat.color = tempColor;
+        foreach(Renderer renderer in gameObject.GetComponentsInChildren<Renderer>())
+        {
+            Material myMat = renderer.material;
+            Color tempColor = myMat.color;
+            tempColor.a = 0.4f;
+            myMat.color = tempColor;
+        }
     }
 }
 

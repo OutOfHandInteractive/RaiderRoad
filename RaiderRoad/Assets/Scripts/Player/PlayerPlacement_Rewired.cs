@@ -202,7 +202,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
 
     private void BuildWeapon()
     {
-        GameObject toBuild = (GameObject)nodes[0];
+        GameObject toBuild = nodes[0];
         if (!toBuild.GetComponent<BuildNode>().occupied)
         {
             myAni.SetTrigger("build");
@@ -256,7 +256,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
 
     private void BuildWall()
     {
-        GameObject toBuild = (GameObject)nodes[0];
+        GameObject toBuild = nodes[0];
         if (!toBuild.GetComponent<BuildNode>().occupied)
         {
             myAni.SetTrigger("build");
@@ -273,14 +273,16 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
 
     private bool AttackVehicleParts()
     {
-        Util.RemoveNulls(destructableParts);
-        if(destructableParts.Count > 0)
+        foreach(GameObject part in destructableParts)
         {
-            if (destructableParts[0].GetComponent<DestructiblePart>().takeDamage(1) <= 0)
+            if(part!=null)
             {
-                destructableParts.RemoveAt(0);
+                if(part.GetComponent<DestructiblePart>().takeDamage(1) <= 0)
+                {
+                    destructableParts.Remove(part);
+                }
+                return true;
             }
-            return true;
         }
         return false;
     }
@@ -362,7 +364,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
             {
                 //Debug.Log("Trap node added");
                 trapNodes.Add(other.gameObject);
-                if (buildMode) other.GetComponent<TrapNode>().Show(trap); //if player is in build mode, activate show wall in the build node script
+                if (buildMode) other.GetComponent<TrapNode>().Show(heldItem); //if player is in build mode, activate show wall in the build node script
             }
         }
         if (heldItem != null && other.name == "PoiNode")
@@ -371,7 +373,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
             {
                 //Debug.Log("Trap node added");
                 engineNodes.Add(other.gameObject);
-                if (buildMode) other.GetComponent<PoiNode>().Show(engine); //if player is in build mode, activate show wall in the build node script
+                if (buildMode) other.GetComponent<PoiNode>().Show(heldItem); //if player is in build mode, activate show wall in the build node script
             }
         }
         if (other.gameObject.CompareTag("Trap"))

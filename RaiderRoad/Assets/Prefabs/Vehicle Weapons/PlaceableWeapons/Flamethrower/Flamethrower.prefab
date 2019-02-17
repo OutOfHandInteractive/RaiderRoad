@@ -61,7 +61,7 @@ MonoBehaviour:
   coneAngle: 45
   overheatTime: 5
   overheatCooldown: 3
-  tickDamage: 5
+  tickDamage: 10
   tickTime: 0.5
 --- !u!65 &65648946905826044
 BoxCollider:
@@ -293,7 +293,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1689385613954182}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0.47, z: 0}
+  m_LocalPosition: {x: 0, y: -4.8, z: 0}
   m_LocalScale: {x: 1.5, y: 0.7, z: 0.7}
   m_Children:
   - {fileID: 4441295590853880}
@@ -326,11 +326,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   drop: {fileID: 1809475952700736, guid: 9adaf04d4ba30a5448a0d13d067a98ec, type: 3}
+  myNode: {fileID: 0}
   hits: 3
   health: 100
   isHolo: 0
   isOccupied: 0
-  myNode: {fileID: 0}
+  objectBreakParticles: {fileID: 6212661251598392329, guid: eb78ab39b81a90648939e23da22dc49d,
+    type: 3}
   disabledNodes: []
 --- !u!1 &1781928842949164
 GameObject:
@@ -478,6 +480,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1129828961117578751, guid: 0d9b7ed469d802749b55e689d4a6ca4f,
+        type: 3}
+      propertyPath: m_Name
+      value: model
+      objectReference: {fileID: 0}
+    - target: {fileID: 1129828961117578639, guid: 0d9b7ed469d802749b55e689d4a6ca4f,
+        type: 3}
+      propertyPath: m_TagString
+      value: WeaponMount
+      objectReference: {fileID: 0}
     - target: {fileID: 5700687790710161637, guid: 0d9b7ed469d802749b55e689d4a6ca4f,
         type: 3}
       propertyPath: m_LocalRotation.x
@@ -527,6 +539,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5698907371457382119, guid: 0d9b7ed469d802749b55e689d4a6ca4f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5699029790436524379, guid: 0d9b7ed469d802749b55e689d4a6ca4f,
+        type: 3}
+      propertyPath: m_TagString
+      value: WeaponBarrel
       objectReference: {fileID: 0}
     - target: {fileID: 4311744539964931117, guid: 0d9b7ed469d802749b55e689d4a6ca4f,
         type: 3}
@@ -582,6 +604,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Center.y
       value: 0.009152771
+      objectReference: {fileID: 0}
+    - target: {fileID: 5657665254142232371, guid: 0d9b7ed469d802749b55e689d4a6ca4f,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0d9b7ed469d802749b55e689d4a6ca4f, type: 3}

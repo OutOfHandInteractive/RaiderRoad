@@ -25,7 +25,9 @@ public class Weapon : Constructable<BuildNode> {
         {
             myAttacker.GetComponent<PlayerController_Rewired>().clearInteractable();
         }
-    }
+
+		Instantiate(objectBreakParticles, transform.position, Quaternion.identity);
+	}
 
     public void Damage(float damage, GameObject attackingObj)
     {

@@ -7,9 +7,9 @@ public class EscapeEnemy : JumpEnemy {
 
     //Gameobject, rigidbody, vehicle, initialangle for jump, if enemy jumped, current side 
     private GameObject eVehicle;
-    public override void StartJump(GameObject enemy, Rigidbody rb, string side)
+    public override void StartJump(GameObject enemy, Rigidbody rb, string side, int stateChance)
     {
-        base.StartJump(enemy, rb, side);
+        base.StartJump(enemy, rb, side, stateChance);
         Radio.GetRadio().CallForEvac(this);
         Debug.Log("I need evac!!");
     }
@@ -63,7 +63,11 @@ public class EscapeEnemy : JumpEnemy {
 
     IEnumerator waitToLeave()
     {
-        eVehicle.GetComponent<NavMeshAgent>().isStopped = false;
+        NavMeshAgent agent = eVehicle.GetComponent<NavMeshAgent>();
+        if (agent.enabled)
+        {
+            agent.isStopped = false;
+        }
         eVehicle.GetComponent<VehicleAI>().EnterWander();
         yield return new WaitForSeconds(5);
         eVehicle.GetComponent<VehicleAI>().EnterLeave();
