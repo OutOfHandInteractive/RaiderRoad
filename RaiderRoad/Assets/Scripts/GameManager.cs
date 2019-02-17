@@ -8,20 +8,17 @@ public class GameManager : MonoBehaviour {
 	public static GameManager GameManagerInstance = null;
 
     public GameObject MyUICanvas;
-    public GameObject EndGameText;
-    public GameObject RestartButton;
-    //public GameObject RVHealthText;
-    //private int RVhealth;
-    public RectTransform RVMarker;
-    public Image dottedLine;
-    public float startYpos;
-    public float finishYPos;
+    public GameObject PauseCanvas;
+    private RectTransform RVMarker;
+    private Image dottedLine;
+    private float startYpos;
+    private float finishYPos;
 
     public bool gameOver = false;
     public float FinishTime;
     private float myTimer;
-    //public GameObject GameTimer;
-    //private float timeElapsed;
+    public float markerBarOffset;
+
     private List<Transform> playersInScene;
 
     private void Awake() {
@@ -71,11 +68,13 @@ public class GameManager : MonoBehaviour {
     {
         playersInScene = playersList;
 
+        //Pass players to pause and end game UI
+        PauseCanvas.GetComponent<pauseController>().getPlayerNumber(playersList.Count);
     }
 
     private void UpdateRVMarker() {
         Vector2 TempMarkPos = RVMarker.anchoredPosition;
-        TempMarkPos.y = Mathf.Lerp(finishYPos, startYpos, myTimer / FinishTime);
+        TempMarkPos.y = Mathf.Lerp(finishYPos, startYpos, myTimer / (FinishTime + markerBarOffset));
         RVMarker.anchoredPosition = TempMarkPos;
 
         dottedLine.fillAmount = myTimer / FinishTime;
@@ -99,13 +98,6 @@ public class GameManager : MonoBehaviour {
         }
     }
 
-    /*  OLD
-    public void updateRVHealth(float newHealth)
-    {
-        if (newHealth <= 0f) newHealth = 0;
-        RVHealthText.GetComponent<Text>().text = "RV Health: " + Mathf.Ceil(newHealth);
-    }*/
-
     public void EngineLoss()
     {
         GameObject[] engines = GameObject.FindGameObjectsWithTag("Engine");
@@ -117,42 +109,30 @@ public class GameManager : MonoBehaviour {
 
     public void LossGame()
     {
-        RestartButton.SetActive(true);
-        EndGameText.SetActive(true);
+        //RestartButton.SetActive(true);
+        //EndGameText.SetActive(true);
         gameOver = true;
 
-        EndGameText.GetComponent<Text>().text = "Vacation Canceled";
+        //EndGameText.GetComponent<Text>().text = "Vacation Canceled";
+        PauseCanvas.GetComponent<pauseController>().endState("Vacation Canceled");
     }
 
     public void WinGame()
     {
         gameOver = true;
-        RestartButton.SetActive(true);
-        EndGameText.SetActive(true);
+        //RestartButton.SetActive(true);
+        //EndGameText.SetActive(true);
 
-        EndGameText.GetComponent<Text>().text = "Victory";
+        //EndGameText.GetComponent<Text>().text = "Victory";
+        PauseCanvas.GetComponent<pauseController>().endState("Vacation Victory");
     }
 
     public void restartMenu()
     {
-        //GameTimer.SetActive(true);  //make sure UI is on
-        //RVHealthText.SetActive(true);
-
         gameOver = false;
-        RestartButton.SetActive(false);
-        EndGameText.SetActive(false);
+        //RestartButton.SetActive(false);
+        //EndGameText.SetActive(false);
         myTimer = FinishTime;
-        //RVHealthText.GetComponent<Text>().text = "RV Health: 6";
     }
 
-    /* MAYBE OLD, FIND WHERE CALLED
-    public void clearMenu()
-    {
-        gameOver = false;
-        RestartButton.SetActive(false);
-        EndGameText.SetActive(false);
-        myTimer = FinishTime;
-        GameTimer.SetActive(false);
-        RVHealthText.SetActive(false);
-    }*/
 }
