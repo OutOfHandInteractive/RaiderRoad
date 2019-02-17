@@ -232,17 +232,8 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
 
     private void NotHoldingItem()
     {
-        if (player.GetButton("Build Mode"))
+        if (player.GetButtonDown("Leave Build"))
         {
-            if (!buildMode)
-            {
-                //When switching out of build mode, attack will get stuck in InvalidOperationException: List has changed. This helps
-                if (buildMode) attackRange = new List<GameObject>();
-                buildMode = !buildMode;
-
-                checkHologram();
-            }
-        } else {
             if (nodes.Count > 0) { //If showing holo wall, turn off every holo wall currently being displayed
                 for(int i = 0; i < nodes.Count; i++){ 
                     nodes[i].GetComponent<BuildNode>().RemoveShow();
@@ -257,11 +248,23 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
                 BuildWall();
             }
             if (wallInventory <= 0) buildMode = false; //leave wall build mode if you have no wall (needs more feedback)
-        }
-        else if (player.GetButtonDown("Attack") && canAttack)
+        } else if (player.GetButtonDown("Attack") && canAttack)
         {
             Attack();
         }
+
+        if (player.GetButtonDown("Build Mode"))
+        {
+            if (!buildMode)
+            {
+                //When switching out of build mode, attack will get stuck in InvalidOperationException: List has changed. This helps
+                if (buildMode) attackRange = new List<GameObject>();
+                buildMode = !buildMode;
+
+                checkHologram();
+            }
+        }
+
     }
 
     private void BuildWall()
