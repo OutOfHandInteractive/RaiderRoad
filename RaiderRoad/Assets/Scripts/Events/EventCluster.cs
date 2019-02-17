@@ -19,7 +19,7 @@ public class EventCluster : MonoBehaviour {
     private bool spawnFlag = true;
     [SerializeField]
     private float delay = 15;   //for testing 15, seconds
-    private int i = 0;          //needed to have this outside a function so that the coroutine doesn't mess up its value
+    //private int i = 0;          //needed to have this outside a function so that the coroutine doesn't mess up its value
     [SerializeField]
     private GameObject _obstacle;
     
@@ -48,11 +48,8 @@ public class EventCluster : MonoBehaviour {
 
     //spawning coroutine
     IEnumerator dispense(){
-        while (true){
-            if (i < initSize)
-            {
-                callEvent();
-            }
+        foreach (Event e in events){
+            callEvent(e);
             yield return new WaitForSeconds(delay);     //call next event after delay
         }
     }
@@ -70,15 +67,14 @@ public class EventCluster : MonoBehaviour {
     }
         
     //calls next event in cluster
-    void callEvent(){
-        if (events[i]._etype == EventManager.eventTypes.obstacle)
+    void callEvent(Event eve){
+        if (eve._etype == EventManager.eventTypes.obstacle)
         {
-            events[i].oSpawn(_obstacle);
+            eve.oSpawn(_obstacle);
         }
-        else if (events[i]._etype == EventManager.eventTypes.vehicle)
+        else if (eve._etype == EventManager.eventTypes.vehicle)
         {
-            events[i].spawn(vFactory);
+            eve.spawn(vFactory);
         }
-        i++;
     }
 }

@@ -209,6 +209,12 @@ public class PlayerController_Rewired : MonoBehaviour {
             //jumpIndicator.transform.position = new Vector3(jumpIndicator.transform.position.x, pos, jumpIndicator.transform.position.z);
         }
     }
+
+    public void RoadRash(float damage=2.0f)
+    {
+        takeDamage(damage);
+        transform.position = GameObject.Find("player1Spawn").transform.position;
+    }
     
     private void OnCollisionEnter(Collision collision)
     {
@@ -222,8 +228,7 @@ public class PlayerController_Rewired : MonoBehaviour {
         }
         if (collision.gameObject.tag == "road")
         {
-            takeDamage(2f);
-            transform.position = GameObject.Find("player1Spawn").transform.position;
+            RoadRash();
         }
     }
     private void OnCollisionExit(Collision collision)

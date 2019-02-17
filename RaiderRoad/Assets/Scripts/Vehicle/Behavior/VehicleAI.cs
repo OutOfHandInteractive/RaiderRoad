@@ -70,7 +70,12 @@ public class VehicleAI : MonoBehaviour {
     // Update is called once per frame
     void Update () {
         //Debug.Log(currentState);
-        if(currentState == State.Attack)
+        if (!agent.enabled)
+        {
+            //Early exit
+            return;
+        }
+        if (currentState == State.Attack)
         {
             agent.speed = 30;
         }
@@ -110,15 +115,16 @@ public class VehicleAI : MonoBehaviour {
 
 		Debug.Log("took " + damage + " damage");
 
-		if (currentHealth <= 0) {
-			Destroy(gameObject);
-		}
+		if (currentHealth <= 0)
+        {
+            DelayedDeath();
+        }
 	}
 
 	public void destroyPart() {
 		destroyedParts++;
 		if (destroyedParts >= 2) {
-			Destroy(gameObject);
+            DelayedDeath();
 		}
 	}
 
@@ -159,17 +165,37 @@ public class VehicleAI : MonoBehaviour {
             ParticleSystem explosion = Instantiate(collision, other.gameObject.transform.position, Quaternion.identity, gameObject.transform);
             explosion.gameObject.transform.localScale *= 10;
             //Destroy(other.gameObject);
-            StartCoroutine(WaitToDie(other));
+            transform.parent = other.transform;
+            DelayedDeath();
+            StartCoroutine(WaitToDie());
         }
 
     }
 
-    IEnumerator WaitToDie(Collider other)
+    private void Die()
+    {
+        foreach (PlayerController_Rewired pc in gameObject.GetComponentsInChildren<PlayerController_Rewired>())
+        {
+            pc.RoadRash();
+            pc.transform.parent = null;
+        }
+        Destroy(gameObject);
+    }
+
+    public void OnDestroy()
+    {
+    }
+
+    private void DelayedDeath()
+    {
+        StartCoroutine(WaitToDie());
+    }
+
+    IEnumerator WaitToDie()
     {
         agent.enabled = false;
-        transform.parent = other.transform;
         yield return new WaitForSeconds(5);
-        Destroy(gameObject);
+        Die();
     }
 
 	#region Getters and Setters

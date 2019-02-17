@@ -165,8 +165,11 @@ public class WeaponAttackEnemy : EnemyAI {
     {
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
         GameObject player = Closest(cObject.transform.position, players);
-        Vector3 targetPosition = new Vector3(player.transform.position.x, weapons.transform.position.y, player.transform.position.z);
-        cObject.transform.LookAt(targetPosition);
-        weapons.transform.LookAt(targetPosition);
+        if(player != null)
+        {
+            Vector3 targetPosition = new Vector3(player.transform.position.x, weapons.transform.position.y, player.transform.position.z);
+            cObject.transform.LookAt(targetPosition);
+            weapons.transform.LookAt(targetPosition);
+        }
     }
 }
