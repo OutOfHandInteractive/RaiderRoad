@@ -8,15 +8,19 @@ using System.Collections;
 /// </summary>
 public abstract class Constructable : MonoBehaviour
 {
+	// -------------- public variables ------------------
+	// references
     public GameObject drop;
-    //hits is for destroying by hand to remove an ill placed wall
-    //health is the durability from attacks by raiders
-    public int hits;
-    public float health;
+	public GameObject myNode; //node it spawned from
 
-    public bool isHolo = false;
+	// gameplay values
+	public int hits;        //hits is for destroying by hand to remove an ill placed wall
+	public float health;    //health is the durability from attacks by raiders
+	public bool isHolo = false;
     public bool isOccupied = false;
-    public GameObject myNode; //node it spawned from
+
+	// -------------- nonpublic variables ----------------
+	[SerializeField] protected ParticleSystem objectBreakParticles;
 
     // Use this for initialization
     void Start()
@@ -40,7 +44,7 @@ public abstract class Constructable : MonoBehaviour
 
     public abstract void OnUpdate();
 
-    public abstract void OnBreak();
+	public abstract void OnBreak();
 
     public virtual void Damage(float damage)
     {
