@@ -8,12 +8,13 @@ public class GameManager : MonoBehaviour {
 	public static GameManager GameManagerInstance = null;
 
     public GameObject MyUICanvas;
-    public GameObject PauseCanvas;
+    public GameObject PauseParent; //the parent of pause and end UI
     private RectTransform RVMarker;
     private Image dottedLine;
     private float startYpos;
     private float finishYPos;
 
+    public bool pauseInput = false;
     public bool gameOver = false;
     public float FinishTime;
     private float myTimer;
@@ -45,9 +46,9 @@ public class GameManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        EngineLoss();
-        if (!gameOver)
-        {
+        if (!gameOver) {
+            EngineLoss();
+
             if (myTimer > 0f){
                 myTimer -= Time.deltaTime;
                 UpdateRVMarker();
@@ -67,9 +68,6 @@ public class GameManager : MonoBehaviour {
     public void getPlayers(List<Transform> playersList)
     {
         playersInScene = playersList;
-
-        //Pass players to pause and end game UI
-        PauseCanvas.GetComponent<pauseController>().getPlayerNumber(playersList.Count);
     }
 
     private void UpdateRVMarker() {
@@ -114,7 +112,7 @@ public class GameManager : MonoBehaviour {
         gameOver = true;
 
         //EndGameText.GetComponent<Text>().text = "Vacation Canceled";
-        PauseCanvas.GetComponent<pauseController>().endState("Vacation Canceled");
+        PauseParent.GetComponent<pauseController>().endState("Vacation Canceled");
     }
 
     public void WinGame()
@@ -124,7 +122,7 @@ public class GameManager : MonoBehaviour {
         //EndGameText.SetActive(true);
 
         //EndGameText.GetComponent<Text>().text = "Victory";
-        PauseCanvas.GetComponent<pauseController>().endState("Vacation Victory");
+        PauseParent.GetComponent<pauseController>().endState("Vacation Victory");
     }
 
     public void restartMenu()
