@@ -34,8 +34,9 @@ public class rvHealth : MonoBehaviour {
         }
 	}
 
-	// -------------------- Getters and Setters --------------------
-	public void takeDamage(float damage) {
+    // -------------------- Getters and Setters --------------------
+    /* OLD Damage System
+    public void takeDamage(float damage) {
         GameManager g = GameManager.GameManagerInstance;
         currentHealth -= damage;
         g.updateRVHealth(currentHealth);
@@ -43,7 +44,7 @@ public class rvHealth : MonoBehaviour {
         {
             g.LossGame();
         }
-	}
+	}*/
 
 	public float getHealth() {
 		return currentHealth;

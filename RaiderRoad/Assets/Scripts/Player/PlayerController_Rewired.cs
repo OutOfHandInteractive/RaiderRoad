@@ -37,6 +37,7 @@ public class PlayerController_Rewired : MonoBehaviour {
     //Animator
     public Animator myAni;
     private GameManager g;
+    private bool myPauseInput = false; //used for stopping input at end of game or pause
 
     public float currentHealth;
     private float baseJumpInidicatorScale;
@@ -102,7 +103,11 @@ public class PlayerController_Rewired : MonoBehaviour {
         if (!ReInput.isReady) return; // Exit if Rewired isn't ready. This would only happen during a script recompile in the editor.
         if (!initialized) Initialize(); // Reinitialize after a recompile in the editor
         
-		if (!interacting && state == playerStates.up) {
+        if(!(g == null)) {
+            myPauseInput = g.GetComponent<GameManager>().pauseInput;
+        }
+
+		if (!interacting && state == playerStates.up && !myPauseInput) {
 			GetInput();
 			ProcessInput();
 		}

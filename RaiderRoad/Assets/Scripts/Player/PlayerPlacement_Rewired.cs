@@ -36,6 +36,8 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
     //--------------------
     private Player player;
 	private PlayerController_Rewired pController;
+    private GameManager g;
+    private bool myPauseInput = false; //used for stopping input at end of game or pause
     private GameObject rv;
     private List<GameObject> nodes = new List<GameObject>();      //probably better way to do this, REVISIT!
     private List<GameObject> trapNodes = new List<GameObject>();
@@ -75,6 +77,8 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
 
         TempAttMat = AttackObject.GetComponent<Renderer>().material;
         currentAttColor = TempAttMat.color; //get current color so we can play with alpha
+
+        g = GameManager.GameManagerInstance;
     }
 
     void Update()
@@ -84,42 +88,48 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         changeInventory();
         displayMode();
 
-        // Attack cooldown
-        if (!canAttack)
-        {
-            attackCount -= Time.deltaTime;
-        }
-        if (attackCount <= 0.0)
-        {
-            canAttack = true;
+        if(!(g == null)) {
+            myPauseInput = g.GetComponent<GameManager>().pauseInput;
         }
 
-        myInteracting = pController.interacting;
-        //checking that player isn't "interacting" (driving, piloting weapon, etc)
-        if (myInteracting)
-        {
-            // Early exit
-            return;
-        }
+        if (!myPauseInput) {
+            // Attack cooldown
+            if (!canAttack)
+            {
+                attackCount -= Time.deltaTime;
+            }
+            if (attackCount <= 0.0)
+            {
+                canAttack = true;
+            }
 
-        if (heldItem != null) //change this to tags later
-        {
-            HoldingItem();
-        }
-        else
-        {
-            NotHoldingItem();
-        }
+            myInteracting = pController.interacting;
+            //checking that player isn't "interacting" (driving, piloting weapon, etc)
+            if (myInteracting)
+            {
+                // Early exit
+                return;
+            }
 
-        if (currentAttColor.a > 0)
-        {
-            currentAttColor.a -= 1f * Time.deltaTime; //transitioning color from visibile to invisible
-            TempAttMat.color = currentAttColor;
-        }
-        else if (currentAttColor.a < 0)
-        { // getting alpha to exactly 0, and after that won't check further
-            currentAttColor.a = 0;
-            TempAttMat.color = currentAttColor;
+            if (heldItem != null) //change this to tags later
+            {
+                HoldingItem();
+            }
+            else
+            {
+                NotHoldingItem();
+            }
+
+            if (currentAttColor.a > 0)
+            {
+                currentAttColor.a -= 1f * Time.deltaTime; //transitioning color from visibile to invisible
+                TempAttMat.color = currentAttColor;
+            }
+            else if (currentAttColor.a < 0)
+            { // getting alpha to exactly 0, and after that won't check further
+                currentAttColor.a = 0;
+                TempAttMat.color = currentAttColor;
+            }
         }
     }
 
