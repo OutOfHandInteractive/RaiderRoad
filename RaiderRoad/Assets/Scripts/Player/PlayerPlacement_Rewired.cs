@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using Rewired;
 
+/// <summary>
+/// Class for handling all user input related to building walls, weapons, traps, etc. as well as attacking.
+/// </summary>
 public class PlayerPlacement_Rewired : MonoBehaviour {
     //Michael
 
@@ -52,7 +55,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
 
     [System.NonSerialized]
     private bool initialized;
-
+    
 	private void Start() {
         pController = GetComponentInParent<PlayerController_Rewired>();
 	}
@@ -133,9 +136,16 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
             {
                 BuildEngine();
             }
-            else if (heldItem.tag == "Weapon" && nodes.Count > 0 && nodes[0].GetComponent<BuildNode>().canPlaceWeapon) //to change later?
+            else if (heldItem.tag == "Weapon" && nodes.Count > 0) //to change later?
             {
-                BuildWeapon();
+                foreach(GameObject node in nodes)
+                {
+                    if (node.GetComponent<BuildNode>().canPlaceWeapon)
+                    {
+                        BuildWeapon(node);
+                        break;
+                    }
+                }
             }
         }
 
@@ -200,9 +210,8 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         myAni.SetBool("isHolding", false);
     }
 
-    private void BuildWeapon()
+    private void BuildWeapon(GameObject toBuild)
     {
-        GameObject toBuild = nodes[0];
         if (!toBuild.GetComponent<BuildNode>().occupied)
         {
             myAni.SetTrigger("build");
@@ -328,31 +337,51 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         currentAttColor.a = 0.5f; //setting attack model's mat to 1/2 visible
     }
 
+    private void CheckBuildNodes()
+    {
+        if (buildMode)
+        {
+            bool isWall;
+            GameObject item;
+            if (heldItem == null)
+            {
+                item = wall;
+                isWall = wallInventory > 0;
+            }
+            else if (heldItem != null && heldItem.CompareTag("Weapon"))
+            {
+                item = heldItem;
+                isWall = false;
+            }
+            else
+            {
+                return;
+            }
+            bool found = false;
+            foreach (GameObject obj in nodes)
+            {
+                BuildNode node = obj.GetComponent<BuildNode>();
+                node.RemoveShow();
+                if (!found && !node.occupied && (isWall || node.canPlaceWeapon))
+                {
+                    node.Show(item);
+                    found = true;
+                }
+            }
+        }
+    }
+
     void OnTriggerEnter(Collider other)
     {
 
         //Debug.Log(other.name);
-        if ((other.tag == "WallNode") && wallInventory > 0)
+        if ((other.tag == "WallNode"))
         {
             //Debug.Log("Added");
             if (!other.GetComponent<BuildNode>().occupied)
             {
                 nodes.Add(other.gameObject);
-                GameObject first = (GameObject)nodes[0];
-                if (buildMode && heldItem == null)
-                {
-                    if (nodes.Count <= 1 && !first.GetComponent<BuildNode>().occupied)
-                    {
-                        first.GetComponent<BuildNode>().Show(wall);
-                    }
-                }
-                else if (buildMode && heldItem.CompareTag("Weapon") && other.GetComponent<BuildNode>().canPlaceWeapon)
-                {
-                    if (nodes.Count <= 1 && !first.GetComponent<BuildNode>().occupied)
-                    {
-                        other.GetComponent<BuildNode>().Show(heldItem);
-                    }
-                }
+                CheckBuildNodes();
             }
             //if player is in build mode, activate show wall in the build node script
             //GameObject toRemove = (GameObject)nodes[0];

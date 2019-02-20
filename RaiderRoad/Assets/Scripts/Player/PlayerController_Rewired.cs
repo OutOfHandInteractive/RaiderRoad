@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using Rewired;
 
+/// <summary>
+/// This class is for handling user input related to movement (running, jumping, driving) and interacting with the environment
+/// </summary>
 public class PlayerController_Rewired : MonoBehaviour {
     public enum playerStates { up, down };
 
@@ -219,21 +222,21 @@ public class PlayerController_Rewired : MonoBehaviour {
     private void OnCollisionEnter(Collision collision)
     {
         //Debug.Log(collision.gameObject.name);
-        if (collision.gameObject.tag == "RV" || collision.gameObject.tag == "eVehicle")
+        if (Util.IsRV(collision.gameObject) || Util.IsVehicle(collision.gameObject))
         {
             //Debug.Log("Can jump");
             transform.parent = collision.transform.root;
             if(!grounded) myAni.SetTrigger("land");
             grounded = true;
         }
-        if (collision.gameObject.tag == "road")
+        else if (collision.gameObject.tag == "road")
         {
             RoadRash();
         }
     }
     private void OnCollisionExit(Collision collision)
     {
-        if (collision.gameObject.tag == "eVehicle")
+        if (Util.IsVehicle(collision.gameObject))
         {
             //Debug.Log("Can jump");
             transform.parent = null;

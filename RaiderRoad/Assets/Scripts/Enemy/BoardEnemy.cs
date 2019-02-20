@@ -3,26 +3,32 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+/// <summary>
+/// This is for when the enemy jumps onto the RV. Inherits jump logic from JumpEnemy
+/// </summary>
 public class BoardEnemy : JumpEnemy {
 
     //enemy, rigidbody,rv, angle to jump, if enemy jumped, chance to take action, current side 
-    private int action;
+    //private int action;
 
 
-    public override void StartJump(GameObject enemy, Rigidbody rb, string side, int stateChance)
-    {
-        base.StartJump(enemy, rb, side, stateChance);
-        action = stateChance;
-        //Set rv, enemy, rigidbody, current side, and angle to jump
+    //public override void StartJump(GameObject enemy, Rigidbody rb, string side, int stateChance)
+    //{
+    //    base.StartJump(enemy, rb, side, stateChance);
+    //    //action = stateChance;
+    //    //Set rv, enemy, rigidbody, current side, and angle to jump
 
 
-    }
+    //}
 
     private Vector3 GetTarget(Vector3 planePos)
     {
         return Closest(planePos, GameObject.FindGameObjectsWithTag("floor")).transform.position;
     }
 
+    /// <summary>
+    /// Performs the boarding action then switches to the next state
+    /// </summary>
     public void Board()
     {
         //RV destination position

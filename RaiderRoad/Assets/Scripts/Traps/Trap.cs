@@ -2,16 +2,26 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Trap : DurableConstruct<TrapNode>
+/// <summary>
+/// This class is for all traps. Implements cooldown and selective targeting
+/// </summary>
+public abstract class Trap : DurableConstructGen<TrapNode>
 {
+    /// <summary>
+    /// The time it takes for the trap to reset (in seconds)
+    /// </summary>
     public float cooldownTime;
 
     private List<Collider> colliders = new List<Collider>();
     private float cooldownRemaining = 0;
 
+    /// <summary>
+    /// Update hook to update the cooldown
+    /// </summary>
     public override void OnUpdate()
     {
         cooldownRemaining = Mathf.Max(0, cooldownRemaining - Time.deltaTime);
+        CheckTrap();
     }
 
     private void CheckTrap()
@@ -41,11 +51,20 @@ public abstract class Trap : DurableConstruct<TrapNode>
         }
     }
 
+    /// <summary>
+    /// Overridable method for selecting targets. By default it selects only enemies
+    /// </summary>
+    /// <param name="target">The target to check</param>
+    /// <returns>True if and only if the trap should target them</returns>
     public virtual bool CanTarget(GameObject target)
     {
         return Util.isEnemy(target);
     }
 
+    /// <summary>
+    /// Abstract method for the implementer to fill with whatever it is their trap does. Called for each applicable target
+    /// </summary>
+    /// <param name="victim">The enemy to target</param>
     public abstract void Activate(GameObject victim);
 
     private void OnTriggerEnter(Collider other)
