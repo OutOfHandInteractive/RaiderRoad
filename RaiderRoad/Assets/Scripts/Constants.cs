@@ -16,4 +16,9 @@ public class Constants : MonoBehaviour
 	public static float SPEED_LOCATIONCHANGE_MODIFIER_PER_STACK = 0.2f;
 	public static float ARMOR_TOTALHEALTH_MODIFIER_PER_STACK = .20f;
 	public static float ARMOR_PARTHEALTH_MODIFIER_PER_STACK = .10f;
+
+	// difficulty ratings
+	public static int SMALL_OBSTACLE_BASE_THREAT = 1;
+	public static int LIGHT_VEHICLE_BASE_THREAT = 1;
+	public static int MEDIUM_VEHICLE_BASE_THREAT = 3;
 }

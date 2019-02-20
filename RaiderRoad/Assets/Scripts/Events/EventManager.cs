@@ -7,35 +7,43 @@ using UnityEngine.AI;
 
 public class EventManager : MonoBehaviour {
 
-    public enum eventTypes { vehicle, obstacle };
-    public float TimeBetweenDifficultyAdjustment = 60;     //for now, difficulty updated every minute
-    [SerializeField]
-    private int difficultyRating = 1;       //set to 1 for testing
-    public VehicleFactoryManager vFactory;
+	// Light vehicle threat: 1-3
+	// Medium vehicle threat: 3-5
 
+	// small obstacle threat: 1
+
+	// --------------------- public variables -------------------------
+	// enumerations
+	public enum eventTypes { vehicle, obstacle };
+
+	// references
+	public VehicleFactoryManager vFactory;
+
+	// gameplay values
+	public float TimeBetweenDifficultyAdjustment = 60;     //for now, difficulty updated every minute
+
+	// -------------------- nonpublic variables ------------------------
+    [SerializeField] private int difficultyRating = 2;
 
     // Equation coefficients                    -------all set to 1 for now
-    public float expectedGameLengthModifier = 1;
-    public float sinFrequencyModifier = 1;
-    public float sinAmplitudeModifier = 1;
-    public float difficultySlopeModifier = 1;
-    public float baseDifficultyRating = 1;
+    [SerializeField] private float expectedGameLengthModifier = 1;
+	[SerializeField] private float sinFrequencyModifier = 1;
+	[SerializeField] private float sinAmplitudeModifier = 1;
+	[SerializeField] private float difficultySlopeModifier = 1;
+	[SerializeField] private float baseDifficultyRating = 1;
 
-    // Variation coefficients
-    public float randomModifierMin;
-    public float randomModifierMax;
+	// Variation coefficients
+	[SerializeField] private float randomModifierMin;
+	[SerializeField] private float randomModifierMax;
 
-    // event generation constants
-    public int minEventDifficulty;
-    public int maxEventDifficulty;
+	// event generation constants
+	[SerializeField] private int minEventDifficulty;
+	[SerializeField] private int maxEventDifficulty;
     
     //cluster objects - prefab, currently active, and next ready
-    [SerializeField]
-    private GameObject eCluster;
-    [SerializeField]
-    private GameObject onDeck;
-    [SerializeField]
-    private GameObject active;
+    [SerializeField] private GameObject eCluster;
+    [SerializeField] private GameObject onDeck;
+    [SerializeField] private GameObject active;
     
     //spawn points for events
     [SerializeField]
@@ -89,30 +97,35 @@ public class EventManager : MonoBehaviour {
         Event _nE;
         List<Event> _new = new List<Event>();
         GameObject newEC = Instantiate(eCluster);
-        int clusterSize = 7 + difRate;
+
+		int difficultySpace = difRate;
+
         List<Transform> sPoints = new List<Transform>();
         int randNum;////////////
-        for (int i = 0; i < clusterSize; i++)
+        while (difficultySpace > 0)
         {
-            Debug.Log("creating event " + i);
+            Debug.Log("creating event ");
             //determine etype - temporary
             randNum = UnityEngine.Random.Range(1,10);
-            if(randNum % 7 == 0){
+            if(randNum % 7 == 0){	// Im assuming this is a percentage - can we get it put in constants to avoid magic numbers?
                 etype = EventManager.eventTypes.obstacle;
             }else{
-                etype = EventManager.eventTypes.vehicle;
+				etype = EventManager.eventTypes.vehicle;
             }
             Debug.Log(etype);
             //------------------end temp
+
             if (etype == EventManager.eventTypes.vehicle)
             {
-                //determine vehicle type --- need to implement, for now just does medium and light randomly
-                randNum = UnityEngine.Random.Range(1,3);
-                if(randNum == 3){
-                    vtype = VehicleFactoryManager.vehicleTypes.medium;
-                }else{
-                    vtype = VehicleFactoryManager.vehicleTypes.light;
-                }
+				//determine vehicle type --- need to implement, for now just does medium and light randomly
+				if (difficultyRating >= Constants.MEDIUM_VEHICLE_BASE_THREAT) {
+					randNum = UnityEngine.Random.Range((int)VehicleFactoryManager.vehicleTypes.light, (int)VehicleFactoryManager.vehicleTypes.medium + 1);
+				}
+				else {
+					randNum = UnityEngine.Random.Range((int)VehicleFactoryManager.vehicleTypes.light, (int)VehicleFactoryManager.vehicleTypes.light + 1);
+				}
+				vtype = (VehicleFactoryManager.vehicleTypes)randNum;
+
                 sPoints = vspawnPoints;
             }
             else if (etype == EventManager.eventTypes.obstacle)
@@ -121,8 +134,7 @@ public class EventManager : MonoBehaviour {
                 sPoints = ospawnPoints;
             }
             Debug.Log(vtype);
-            //vtype = (VehicleFactoryManager.vehicleTypes)UnityEngine.Random.Range(0, 2);
-            //type = VehicleFactoryManager.vehicleTypes.medium;
+            
             _nE = newEC.AddComponent<Event>() as Event;
             _nE.initialize(difRate, vtype, etype, sPoints);
             _new.Add(_nE);          //uses current dif rate, [for now] default spawn position, [for now] default enemy to create an event
