@@ -99,7 +99,8 @@ public class EventManager : MonoBehaviour {
         GameObject newEC = Instantiate(eCluster);
 
 		int difficultySpace = difRate;
-
+        int vThreat = 0;  //this is used down below when subtracting the constants for each vtype from the difficultySpace
+        int vMod = 0;       //this is used down below when generating a number in the ranges above based on type
         List<Transform> sPoints = new List<Transform>();
         int randNum;////////////
         while (difficultySpace > 0)
@@ -114,7 +115,7 @@ public class EventManager : MonoBehaviour {
             }
             Debug.Log(etype);
             //------------------end temp
-
+            
             if (etype == EventManager.eventTypes.vehicle)
             {
 				//determine vehicle type --- need to implement, for now just does medium and light randomly
@@ -125,7 +126,20 @@ public class EventManager : MonoBehaviour {
 					randNum = UnityEngine.Random.Range((int)VehicleFactoryManager.vehicleTypes.light, (int)VehicleFactoryManager.vehicleTypes.light + 1);
 				}
 				vtype = (VehicleFactoryManager.vehicleTypes)randNum;
-
+                //--------------------------------------------------------------------------------------------------------
+                if(vtype == VehicleFactoryManager.vehicleTypes.light){
+                    vThreat = Constants.LIGHT_VEHICLE_BASE_THREAT;
+                    vMod = UnityEngine.Random.Range(1, 3);
+                }
+                else if(vtype == VehicleFactoryManager.vehicleTypes.medium){
+                    vThreat = Constants.MEDIUM_VEHICLE_BASE_THREAT;
+                    vMod = UnityEngine.Random.Range(3, 5);
+                }
+                //else if(vtype == VehicleFactoryManager.vehicleTypes.heavy){   //this is for heavies when we get those in
+                //  vThreat = Constants.HEAVY_VEHICLE_BASE_THREAT;
+                //}
+                //---------------------------------------------------------------------------------------------------------
+                difficultySpace = difficultySpace - vThreat;  //subtract threat from difSpace
                 sPoints = vspawnPoints;
             }
             else if (etype == EventManager.eventTypes.obstacle)
