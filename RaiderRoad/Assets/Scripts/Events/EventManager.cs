@@ -132,6 +132,8 @@ public class EventManager : MonoBehaviour {
             {
                 vtype = VehicleFactoryManager.vehicleTypes._null;
                 sPoints = ospawnPoints;
+
+				difficultySpace -= Constants.SMALL_OBSTACLE_BASE_THREAT;
             }
             Debug.Log(vtype);
             
