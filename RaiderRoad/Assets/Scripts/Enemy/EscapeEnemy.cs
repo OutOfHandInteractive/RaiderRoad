@@ -3,10 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+/// <summary>
+/// This class is for enemies trying to get off the RV. It inherits jump logic from JumpEnemy
+/// </summary>
 public class EscapeEnemy : JumpEnemy {
 
     //Gameobject, rigidbody, vehicle, initialangle for jump, if enemy jumped, current side 
     private GameObject eVehicle;
+
+    /// <summary>
+    /// Initializes this state
+    /// </summary>
+    /// <param name="enemy">This enemy</param>
+    /// <param name="rb">The rigid body</param>
+    /// <param name="side">The side of the RV we're on</param>
+    /// <param name="stateChance"></param>
     public override void StartJump(GameObject enemy, Rigidbody rb, string side, int stateChance)
     {
         base.StartJump(enemy, rb, side, stateChance);
@@ -14,6 +25,10 @@ public class EscapeEnemy : JumpEnemy {
         Debug.Log("I need evac!!");
     }
 
+    /// <summary>
+    /// This method is used by the radio to signal when a vehicle becomes available
+    /// </summary>
+    /// <param name="vehicle">The vehicle the radio found</param>
     public void RadioEvacCallback(StayVehicle vehicle)
     {
         if(IsNull(vehicle))
@@ -26,6 +41,9 @@ public class EscapeEnemy : JumpEnemy {
         eVehicle = vehicle.GetObject();
     }
 
+    /// <summary>
+    /// Performs the escape actions
+    /// </summary>
     public void Escape()
     {
         // Wait to recieve vehicle

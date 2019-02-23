@@ -6,12 +6,41 @@ public class Util
 {
     public static bool isEnemy(GameObject gameObject)
     {
-        return gameObject.tag == "Enemy";
+        return gameObject != null && gameObject.tag == "Enemy";
     }
 
     public static bool isPlayer(GameObject gameObject)
     {
-        return gameObject.tag == "Player";
+        return gameObject != null && gameObject.tag == "Player";
+    }
+
+    public static bool IsRV(GameObject gameObject)
+    {
+        return gameObject != null && gameObject.tag == "RV";
+    }
+
+    public static bool IsVehicle(GameObject gameObject)
+    {
+        return gameObject != null && gameObject.tag == "eVehicle";
+    }
+
+    public static bool IsVehicleRecursive(GameObject gameObject)
+    {
+        return gameObject != null && (IsVehicle(gameObject) || IsVehicleRecursive(Parent(gameObject)));
+    }
+
+    public static GameObject Parent(GameObject gameObject)
+    {
+        if(gameObject == null)
+        {
+            return null;
+        }
+        Transform parent = gameObject.transform.parent;
+        if(parent == null)
+        {
+            return null;
+        }
+        return parent.gameObject;
     }
 
     public static Vector3 Copy(Vector3 vector)
