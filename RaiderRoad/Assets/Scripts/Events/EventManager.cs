@@ -20,17 +20,17 @@ public class EventManager : MonoBehaviour {
 	public VehicleFactoryManager vFactory;
 
 	// gameplay values
-	public float TimeBetweenDifficultyAdjustment = 60;     //for now, difficulty updated every minute
+	public float TimeBetweenDifficultyAdjustment;
 
 	// -------------------- nonpublic variables ------------------------
-    [SerializeField] private int difficultyRating = 2;
+    [SerializeField] private int difficultyRating;
 
     // Equation coefficients                    -------all set to 1 for now
-    [SerializeField] private float expectedGameLengthModifier = 1;
-	[SerializeField] private float sinFrequencyModifier = 1;
-	[SerializeField] private float sinAmplitudeModifier = 1;
-	[SerializeField] private float difficultySlopeModifier = 1;
-	[SerializeField] private float baseDifficultyRating = 1;
+    [SerializeField] private float expectedGameLengthModifier;
+	[SerializeField] private float sinFrequencyModifier;
+	[SerializeField] private float sinAmplitudeModifier;
+	[SerializeField] private float difficultySlopeModifier;
+	[SerializeField] private float baseDifficultyRating;
 
 	// Variation coefficients
 	[SerializeField] private float randomModifierMin;
@@ -57,16 +57,17 @@ public class EventManager : MonoBehaviour {
         vspawnPoints = new List<Transform>();
         foreach (Transform child in transform)      //get vehicle spawn points
         {
-            Debug.Log(child);
+            //Debug.Log(child);
             vspawnPoints.Add(child);
         }
         ospawnPoints = new List<Transform>();
         foreach (Transform child in oSpawnsParent.transform)      //get obstacle spawn points
         {
-            Debug.Log(child);
+            //Debug.Log(child);
             ospawnPoints.Add(child);
         }
-        StartCoroutine(initialize());                   //initializes first cluster
+		StartCoroutine(difficultyManager());
+		StartCoroutine(initialize());                   //initializes first cluster
     }
 
     IEnumerator initialize()
@@ -74,7 +75,6 @@ public class EventManager : MonoBehaviour {
         onDeck = generate(difficultyRating);                //create event cluster at starting difficulty and set as on-deck
         yield return new WaitForSecondsRealtime(10);       //delay for some short time - let's say 30 seconds for now/10 for testing
         lastDone();                                     //switches on-deck to active, deploys it, and creates new on-deck cluster
-        StartCoroutine(difficultyManager());
     }
 
     //called from last cluster generated once it reaches certain threshold - deploys next cluster and generates a new one on deck
@@ -105,7 +105,7 @@ public class EventManager : MonoBehaviour {
         int randNum;////////////
         while (difficultySpace > 0)
         {
-            Debug.Log("creating event ");
+            //Debug.Log("creating event ");
             //determine etype - temporary
             randNum = UnityEngine.Random.Range(1,10);
             if(randNum % 7 == 0){	// Im assuming this is a percentage - can we get it put in constants to avoid magic numbers?
@@ -113,7 +113,7 @@ public class EventManager : MonoBehaviour {
             }else{
 				etype = EventManager.eventTypes.vehicle;
             }
-            Debug.Log(etype);
+            //s.Log(etype);
             //------------------end temp
             
             if (etype == EventManager.eventTypes.vehicle)
@@ -149,7 +149,7 @@ public class EventManager : MonoBehaviour {
 
 				difficultySpace -= Constants.SMALL_OBSTACLE_BASE_THREAT;
             }
-            Debug.Log(vtype);
+            //Debug.Log(vtype);
             
             _nE = newEC.AddComponent<Event>() as Event;
             _nE.initialize(difRate, vtype, etype, sPoints);
@@ -167,7 +167,7 @@ public class EventManager : MonoBehaviour {
         while (true)
         {
             difficultyRating = calculateDifficultyRating();
-            Debug.Log(difficultyRating);
+            Debug.Log("difficulty: " + difficultyRating);
 
             yield return new WaitForSecondsRealtime(TimeBetweenDifficultyAdjustment);
         }
@@ -180,7 +180,7 @@ public class EventManager : MonoBehaviour {
         double calculatedDifficulty;
 
         System.Random rand = new System.Random();
-        double randomModifier = (rand.NextDouble() * (randomModifierMax - randomModifierMin)) + randomModifierMin;
+        double randomModifier = (rand.NextDouble() * (randomModifierMax - randomModifierMin)) + randomModifierMin;	// this is kinda broke
 
         // Equation to calculate difficulty rating. Has base linear slope modified by a sin function to give peaks and valleys
         // to difficulty

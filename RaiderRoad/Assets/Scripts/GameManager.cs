@@ -62,7 +62,7 @@ public class GameManager : MonoBehaviour {
 
 	// -------------------------- Getters and Setters -------------------------
 	public float getGameTime() {
-		return FinishTime;
+		return FinishTime - myTimer;
 	}
 
     public void getPlayers(List<Transform> playersList)
