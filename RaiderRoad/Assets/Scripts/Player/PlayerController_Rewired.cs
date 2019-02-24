@@ -22,6 +22,7 @@ public class PlayerController_Rewired : MonoBehaviour {
     public float jumpIndicatorScaling = 10f;
     
     public float jumpForce;
+
 	// --------------------------------------------------------------------
    
 		
@@ -36,6 +37,7 @@ public class PlayerController_Rewired : MonoBehaviour {
 	private Rigidbody rb;
     //Animator
     public Animator myAni;
+    public float prevMoveVal; //used to polish movement transitions (in animations)
     private GameManager g;
     private bool myPauseInput = false; //used for stopping input at end of game or pause
 
@@ -122,15 +124,19 @@ public class PlayerController_Rewired : MonoBehaviour {
 			moveVector.x = player.GetAxis("Move Horizontal") * Time.deltaTime * moveSpeed;
 			moveVector.y = player.GetAxis("Move Vertical") * Time.deltaTime * moveSpeed;
 
-            //Debug.Log(moveVector.magnitude * 10f);
-            myAni.SetFloat("speed", moveVector.magnitude * 10f);
-            //Debug.Log(moveVector.magnitude);
+            //Check if change in movement vector isn't extreme for single frames (looks bad when transitioning btwn walk to run)
+            float aniDiff = prevMoveVal - moveVector.magnitude * 10f;
+            if (Mathf.Abs(aniDiff) < 0.06f) {
+                //apply movement to speed to play walk/running anims
+                myAni.SetFloat("speed", moveVector.magnitude * 10f);
+            }
+            prevMoveVal = moveVector.magnitude * 10f;
 
-			//Twin Stick Rotation
-			//rotateVector = Vector3.right * player.GetAxis("Rotate Horizontal") + Vector3.forward * player.GetAxis("Rotate Vertical");
+            //Twin Stick Rotation
+            //rotateVector = Vector3.right * player.GetAxis("Rotate Horizontal") + Vector3.forward * player.GetAxis("Rotate Vertical");
 
-			//Single Stick Rotation
-			rotateVector = Vector3.right * player.GetAxis("Move Horizontal") + Vector3.forward * player.GetAxis("Move Vertical");
+            //Single Stick Rotation
+            rotateVector = Vector3.right * player.GetAxis("Move Horizontal") + Vector3.forward * player.GetAxis("Move Vertical");
 
 			if (player.GetButtonDown("Use")) {
 				Debug.Log("pressing button");
