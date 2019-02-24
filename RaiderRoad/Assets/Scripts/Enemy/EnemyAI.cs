@@ -25,10 +25,66 @@ public abstract class EnemyAI : MonoBehaviour
         foreach (GameObject wall in objects)
         {
             float dist = Vector3.Distance(wall.transform.position, myPos);
-            if ((closest == null || dist < minDist) /*&& closest.GetComponent<Constructable>().isOccupied == false*/) /*|| deadPlayer != PlayerController_Rewired.playerStates.down*/
+            if(wall.GetComponent<Wall>() != null)
             {
-                closest = wall;
-                minDist = dist;
+                if ((closest == null || dist < minDist) && wall.GetComponent<Wall>().isOccupied != true)
+                {
+                    wall.GetComponent<Wall>().isOccupied = true;
+                    closest = wall;
+                    minDist = dist;
+                }
+            }
+            else if (wall.GetComponent<Engine>() != null)
+            {
+                if ((closest == null || dist < minDist) && wall.GetComponent<ItemDrop>().isOccupied != true)
+                {
+                    wall.GetComponent<Engine>().isOccupied = true;
+                    closest = wall;
+                    minDist = dist;
+                }
+            }
+            else if (wall.GetComponent<ItemDrop>() != null)
+            {
+                if ((closest == null || dist < minDist) && wall.GetComponent<ItemDrop>().isOccupied != true)
+                {
+                    wall.GetComponent<ItemDrop>().isOccupied = true;
+                    closest = wall;
+                    minDist = dist;
+                }
+            }
+            else if (wall.GetComponent<cannon>() != null)
+            {
+                if ((closest == null || dist < minDist) && wall.GetComponent<cannon>().isOccupied != true)
+                {
+                    wall.GetComponent<cannon>().isOccupied = true;
+                    closest = wall;
+                    minDist = dist;
+                }
+            }
+            else if (wall.GetComponent<flamethrower>() != null)
+            {
+                if ((closest == null || dist < minDist) && wall.GetComponent<flamethrower>().isOccupied != true)
+                {
+                    wall.GetComponent<flamethrower>().isOccupied = true;
+                    closest = wall;
+                    minDist = dist;
+                }
+            }
+            else if (wall.GetComponent<PlayerController_Rewired>() != null)
+            {
+                if ((closest == null || dist < minDist) && wall.GetComponent<PlayerController_Rewired>().isOccupied != true)
+                {
+                    closest = wall;
+                    minDist = dist;
+                }
+            }
+            else if (wall.gameObject.tag == "floor")
+            {
+                if (closest == null || dist < minDist)
+                {
+                    closest = wall;
+                    minDist = dist;
+                }
             }
         }
         return closest;

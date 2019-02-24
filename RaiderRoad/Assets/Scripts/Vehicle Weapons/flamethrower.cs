@@ -16,6 +16,7 @@ public class flamethrower : Interactable {
     public Material overheatMat;
 	public GameObject fireFX;
 	public GameObject damageCollider;
+    public bool isOccupied = false;
     
 	// gameplay values
 	public float reticuleMoveSpeed;

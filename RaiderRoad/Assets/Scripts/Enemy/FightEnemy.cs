@@ -16,6 +16,8 @@ public class FightEnemy : EnemyAI {
     private float knockback_force = 2000f;
     private GameObject _target;
     private int playerHit = 0;
+    private GameObject[] players;
+    private GameObject player;
 
     /// <summary>
     /// Initialize this state
@@ -25,6 +27,8 @@ public class FightEnemy : EnemyAI {
     public void StartFight(GameObject enemy, GameObject target = null)
     {
         //Initialized enemy
+        players = GameObject.FindGameObjectsWithTag("Player");
+        player = GetTarget();
         cObject = enemy;
         _target = target;
         fightRange = cObject.transform.Find("EnemyAttack").gameObject;
@@ -34,7 +38,7 @@ public class FightEnemy : EnemyAI {
     {
         if(_target == null)
         {
-            GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+            Debug.Log(players);
             _target = Closest(cObject.transform.position, players);
             //PlayerController_Rewired.playerStates deadPlayer = _target.GetComponent<PlayerController_Rewired>().state;
             //if(deadPlayer != PlayerController_Rewired.playerStates.down)
@@ -48,7 +52,6 @@ public class FightEnemy : EnemyAI {
     public void Fight()
     {
         //Get player object
-        GameObject player = GetTarget();
         //Get enemy speed
         
 

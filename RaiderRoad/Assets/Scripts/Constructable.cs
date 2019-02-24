@@ -41,7 +41,7 @@ public abstract class Constructable : MonoBehaviour
     /// <summary>
     /// Boolean flag that indicates whether this object is currently being attacked by a raider
     /// </summary>
-    public bool isOccupied = false;
+    //public bool isOccupied = false;
 
 	// -------------- nonpublic variables ----------------
 	[SerializeField] protected ParticleSystem objectBreakParticles;
