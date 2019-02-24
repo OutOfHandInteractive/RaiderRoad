@@ -30,6 +30,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
     public float attack_cooldown = .25f;
 
     public GameObject AttackObject; //for temporary attack for prototype
+    public GameObject myWeapon;
 
     //--------------------
     // Private Variables
@@ -78,6 +79,8 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         TempAttMat = AttackObject.GetComponent<Renderer>().material;
         currentAttColor = TempAttMat.color; //get current color so we can play with alpha
 
+        myWeapon.SetActive(false);
+
         g = GameManager.GameManagerInstance;
     }
 
@@ -100,6 +103,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
             }
             if (attackCount <= 0.0)
             {
+                myWeapon.SetActive(false);
                 canAttack = true;
             }
 
@@ -309,6 +313,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
     private void Attack()
     {
         myAni.SetTrigger("attack");
+        myWeapon.SetActive(true);
         canAttack = false;
         attackCount = attack_cooldown;
         //myAni.SetBool("isAttacking", false);

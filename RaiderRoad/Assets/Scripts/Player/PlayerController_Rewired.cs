@@ -37,6 +37,7 @@ public class PlayerController_Rewired : MonoBehaviour
     public Animator myAni;
     public float prevMoveVal; //used to polish movement transitions (in animations)
     private GameManager g;
+    private bool myPauseInput = false;
 
     public float currentHealth;
     private float baseJumpInidicatorScale;
@@ -104,11 +105,17 @@ public class PlayerController_Rewired : MonoBehaviour
         if (!ReInput.isReady) return; // Exit if Rewired isn't ready. This would only happen during a script recompile in the editor.
         if (!initialized) Initialize(); // Reinitialize after a recompile in the editor
 
-        if (!interacting && state == playerStates.up)
+        if (g != null)
+        {
+            myPauseInput = g.GetComponent<GameManager>().pauseInput;
+        }
+
+        if (!interacting && state == playerStates.up && !myPauseInput)
         {
             GetInput();
             ProcessInput();
         }
+
         /*
         if (!IsGrounded())
         {
