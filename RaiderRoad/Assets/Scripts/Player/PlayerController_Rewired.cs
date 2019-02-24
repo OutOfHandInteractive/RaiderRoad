@@ -124,13 +124,7 @@ public class PlayerController_Rewired : MonoBehaviour {
 			moveVector.x = player.GetAxis("Move Horizontal") * Time.deltaTime * moveSpeed;
 			moveVector.y = player.GetAxis("Move Vertical") * Time.deltaTime * moveSpeed;
 
-            //Check if change in movement vector isn't extreme for single frames (looks bad when transitioning btwn walk to run)
-            float aniDiff = prevMoveVal - moveVector.magnitude * 10f;
-            if (Mathf.Abs(aniDiff) < 0.06f) {
-                //apply movement to speed to play walk/running anims
-                myAni.SetFloat("speed", moveVector.magnitude * 10f);
-            }
-            prevMoveVal = moveVector.magnitude * 10f;
+            myAni.SetFloat("speed", moveVector.magnitude/ Time.deltaTime);
 
             //Twin Stick Rotation
             //rotateVector = Vector3.right * player.GetAxis("Rotate Horizontal") + Vector3.forward * player.GetAxis("Rotate Vertical");
