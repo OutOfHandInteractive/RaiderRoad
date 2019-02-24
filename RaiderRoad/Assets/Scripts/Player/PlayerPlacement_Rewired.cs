@@ -184,12 +184,22 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         }
     }
 
+    private void SetSpringTrapPosition(GameObject obj)
+    {
+        SpringTrap trap = obj.GetComponent<SpringTrap>();
+        if (trap != null)
+        {
+            trap.SetDirection(obj.transform.position - gameObject.transform.position);
+        }
+    }
+
     private void BuildDurableConstruct(DurabilityBuildNode node)
     {
         if (!node.occupied)
         {
             //myAni.SetTrigger("build");
-            node.Build(heldItem, floatingItem.GetComponent<DurableConstruct>().GetDurability());
+            GameObject obj = node.Build(heldItem, floatingItem.GetComponent<DurableConstruct>().GetDurability());
+            SetSpringTrapPosition(obj);
             heldItem = null;
             hasItem = false;
             Destroy(floatingItem);
@@ -403,7 +413,11 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
             {
                 //Debug.Log("Trap node added");
                 trapNodes.Add(other.gameObject);
-                if (buildMode) other.GetComponent<TrapNode>().Show(heldItem); //if player is in build mode, activate show wall in the build node script
+                //if player is in build mode, activate show wall in the build node script
+                if (buildMode) {
+                    GameObject holo = other.GetComponent<TrapNode>().Show(heldItem);
+                    SetSpringTrapPosition(holo);
+                } 
             }
         }
         if (heldItem != null && other.name == "PoiNode")
