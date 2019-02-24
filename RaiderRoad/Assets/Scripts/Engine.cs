@@ -2,11 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Engine : DurableConstruct<PoiNode> {
+/// <summary>
+/// Class for Engine parts
+/// </summary>
+public class Engine : DurableConstructGen<PoiNode> {
 
-    //Health for obstacles/raider vehicles on the RV
+    /// <summary>
+    /// Transform for the health bar for obstacles/raider vehicles on the RV
+    /// </summary>
     public Transform myHealthTrans;
 
+    /// <summary>
+    /// Start() hook that just initializes the health bar
+    /// </summary>
     public override void OnStart()
     {
         base.OnStart();
@@ -14,13 +22,18 @@ public class Engine : DurableConstruct<PoiNode> {
     }
 
     //Durability functions
+
+    /// <summary>
+    /// Takes RV damage as durability damage and updates the health bar
+    /// </summary>
+    /// <param name="damage"></param>
     public void TakeRVDamage(float damage)
     {
         DurabilityDamage(damage);
         //Debug.Log("Engine Health" + currDur);
         UpdateHealthBar();
     }
-
+    
     private void UpdateHealthBar()
     {
         myHealthTrans.localScale = new Vector3(currDur / durability, 1f, 1f); //reflect on health bar
@@ -31,4 +44,8 @@ public class Engine : DurableConstruct<PoiNode> {
         // Nothing
     }
 
+    public override void OnUpdate()
+    {
+        // Nothing
+    }
 }

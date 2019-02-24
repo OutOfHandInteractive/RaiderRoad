@@ -2,10 +2,17 @@
 using System.Collections.Generic;
 using System;
 
+/// <summary>
+/// Singleton class for communication between Raiders and Vehicles.
+/// </summary>
 public class Radio
 {
     private static Radio instance = new Radio();
 
+    /// <summary>
+    /// Gets the static Radio instance
+    /// </summary>
+    /// <returns>The Radio instance</returns>
     public static Radio GetRadio()
     {
         return instance;
@@ -20,12 +27,21 @@ public class Radio
     private static Queue<EscapeEnemy> mooksForEvac = new Queue<EscapeEnemy>();
 
     private static List<PlayerController_Rewired> targets = new List<PlayerController_Rewired>();
+
+    /// <summary>
+    /// This method is for escaping enemies to call for a vehicle to evacuate him
+    /// </summary>
+    /// <param name="mook">The enemy looking for evac</param>
     public void CallForEvac(EscapeEnemy mook)
     {
         mooksForEvac.Enqueue(mook);
         CheckForEvac();
     }
 
+    /// <summary>
+    /// This method is for vehicles to indicate that they are ready to receive raiders
+    /// </summary>
+    /// <param name="vehicle">The vehicle making the call</param>
     public void ReadyForEvac(StayVehicle vehicle)
     {
         if(vehicle == null)
@@ -37,6 +53,10 @@ public class Radio
         CheckForEvac();
     }
 
+    /// <summary>
+    /// This method is for evac vehicles leaving the scene (or dying).
+    /// </summary>
+    /// <param name="vehicle">The vehicle that is leaving</param>
     public void EvacLeaving(StayVehicle vehicle)
     {
         Debug.Log("Leaving");
@@ -45,10 +65,15 @@ public class Radio
         // No check
     }
 
+    /// <summary>
+    /// Add the player to the list of targets (Possibly Deprecated)
+    /// </summary>
+    /// <param name="target">The player</param>
     public void CurrentTargets(PlayerController_Rewired target)
     {
         targets.Add(target);
     }
+
     private void CheckForEvac()
     {
         //evacVehicles.RemoveAll(delegate (StayVehicle v) { return v == null; });

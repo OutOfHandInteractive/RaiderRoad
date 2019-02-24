@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using Rewired;
 
+/// <summary>
+/// This class is for handling user input related to movement (running, jumping, driving) and interacting with the environment
+/// </summary>
 public class PlayerController_Rewired : MonoBehaviour {
     public enum playerStates { up, down };
 
@@ -19,7 +22,6 @@ public class PlayerController_Rewired : MonoBehaviour {
     public float jumpIndicatorScaling = 10f;
     
     public float jumpForce;
-	public float reviveTime;
 	// --------------------------------------------------------------------
    
 		
@@ -28,11 +30,14 @@ public class PlayerController_Rewired : MonoBehaviour {
     private Vector2 moveVector;
     
     private Vector3 rotateVector;
-    
-    private Rigidbody rb;
+
+	[SerializeField] private float reviveTime;
+
+	private Rigidbody rb;
     //Animator
     public Animator myAni;
     private GameManager g;
+    private bool myPauseInput = false; //used for stopping input at end of game or pause
 
     public float currentHealth;
     private float baseJumpInidicatorScale;
@@ -98,7 +103,11 @@ public class PlayerController_Rewired : MonoBehaviour {
         if (!ReInput.isReady) return; // Exit if Rewired isn't ready. This would only happen during a script recompile in the editor.
         if (!initialized) Initialize(); // Reinitialize after a recompile in the editor
         
-		if (!interacting && state == playerStates.up) {
+        if(!(g == null)) {
+            myPauseInput = g.GetComponent<GameManager>().pauseInput;
+        }
+
+		if (!interacting && state == playerStates.up && !myPauseInput) {
 			GetInput();
 			ProcessInput();
 		}
@@ -129,7 +138,10 @@ public class PlayerController_Rewired : MonoBehaviour {
 					startRevive(downedPlayers[0].GetComponent<PlayerController_Rewired>());
 				}
 				else if (interactables.Count > 0 && !interactables[0].GetComponent<Interactable>().isOnCooldown()) {
-					interactables[0].GetComponent<Interactable>().Interact(this);
+                    if (!interactables[0].GetComponent<Interactable>().Occupied())
+                    {
+                        interactables[0].GetComponent<Interactable>().Interact(this);
+                    }
 				}
 			}
 
@@ -205,26 +217,31 @@ public class PlayerController_Rewired : MonoBehaviour {
             //jumpIndicator.transform.position = new Vector3(jumpIndicator.transform.position.x, pos, jumpIndicator.transform.position.z);
         }
     }
+
+    public void RoadRash(float damage=2.0f)
+    {
+        takeDamage(damage);
+        transform.position = GameObject.Find("player1Spawn").transform.position;
+    }
     
     private void OnCollisionEnter(Collision collision)
     {
         //Debug.Log(collision.gameObject.name);
-        if (collision.gameObject.tag == "RV" || collision.gameObject.tag == "eVehicle")
+        if (Util.IsRV(collision.gameObject) || Util.IsVehicle(collision.gameObject))
         {
             //Debug.Log("Can jump");
             transform.parent = collision.transform.root;
             if(!grounded) myAni.SetTrigger("land");
             grounded = true;
         }
-        if (collision.gameObject.tag == "road")
+        else if (collision.gameObject.tag == "road")
         {
-            takeDamage(2f);
-            transform.position = GameObject.Find("player1Spawn").transform.position;
+            RoadRash();
         }
     }
     private void OnCollisionExit(Collision collision)
     {
-        if (collision.gameObject.tag == "eVehicle")
+        if (Util.IsVehicle(collision.gameObject))
         {
             //Debug.Log("Can jump");
             transform.parent = null;
@@ -235,7 +252,7 @@ public class PlayerController_Rewired : MonoBehaviour {
     public void startRevive(PlayerController_Rewired p) {
 		reviving = true;
 		reviveCountdown = reviveTime;
-		p.GetComponentInChildren<healthBar>().startRevive(reviveTime);
+		p.GetComponentInChildren<HealthBar_Player>().startRevive(reviveTime);
 
         moveVector.x = 0f;  //zero movement so you don't keep walking while revive
         moveVector.y = 0f;
@@ -244,7 +261,7 @@ public class PlayerController_Rewired : MonoBehaviour {
 
 	public void stopRevive(PlayerController_Rewired p) {
 		reviving = false;
-		p.GetComponentInChildren<healthBar>().stopRevive();
+		p.GetComponentInChildren<HealthBar_Player>().stopRevive();
 
 	}
 
@@ -253,7 +270,7 @@ public class PlayerController_Rewired : MonoBehaviour {
         p.backToOrigAnim();
 		p.setState(playerStates.up);;
         reviving = false;
-		p.GetComponentInChildren<healthBar>().stopRevive();
+		p.GetComponentInChildren<HealthBar_Player>().stopRevive();
 	}
 
 	public void takeDamage(float _damage) {

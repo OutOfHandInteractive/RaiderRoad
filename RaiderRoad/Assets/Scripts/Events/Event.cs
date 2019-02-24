@@ -8,14 +8,20 @@ public class Event : MonoBehaviour {
 	//public enum EventTypes { vehicle, obstacle, fork };
     //public enum vehicleTypes { light, medium, heavy };
 
-
+	// ---------------- public variables ------------------
+	// gameplay values
 	public int difficultyRating;
 	public float postDelay;
-    private VehicleFactoryManager.vehicleTypes _type;
+	public EventManager.eventTypes _etype;
+
+	// -------------- nonpublic variables -----------------
+	// references
+	private GameObject e;
+	[SerializeField] private List<Transform> spawnPoints;
+
+	// gameplay values
+	private VehicleFactoryManager.vehicleTypes _vtype;
     private int numPoints;
-    private GameObject e;
-    [SerializeField]
-    private List<Transform> spawnPoints;
 
     /*public Event(int dif, VehicleFactoryManager.vehicleTypes type)       //add game object to constructor for spawning
     {
@@ -24,9 +30,10 @@ public class Event : MonoBehaviour {
         _type = type;
     }*/
 
-    public void initialize(int dif, VehicleFactoryManager.vehicleTypes type, List<Transform> spawns){    //constructor work-around
+    public void initialize(int dif, VehicleFactoryManager.vehicleTypes vtype,  EventManager.eventTypes etype, List<Transform> spawns){    //constructor work-around
         difficultyRating = dif;
-        _type = type;
+        _vtype = vtype;
+        _etype = etype;
         spawnPoints = spawns;
     }
 
@@ -35,17 +42,26 @@ public class Event : MonoBehaviour {
         Debug.Log("Event Created");
     }
 
+    public void oSpawn(GameObject obstacle)
+    {
+        int i = Random.Range(1, 6);
+        Vector3 spawnPoint = spawnPoints[i].transform.position;
+        GameObject newObstacle = Instantiate(obstacle,spawnPoint,Quaternion.identity);    /////need obstacle prefab
+        newObstacle.GetComponentInChildren<eventObject>().setCluster(this.gameObject);
+    }
+
     public void spawn(VehicleFactoryManager factory)
     {
         numPoints = Random.Range(1, spawnPoints.Count);
         Debug.Log("spawn = " + numPoints);
         //Debug.Log("spawn called");
         //based on type, call proper function - for now just creates light vehicle
-        e = factory.newConstructVehicle(_type);
+        e = factory.newConstructVehicle(_vtype);
         e.GetComponent<VehicleAI>().setSide(spawnPoints[numPoints].name);
         e.transform.position = spawnPoints[numPoints].transform.position;
         e.GetComponentInChildren<eventObject>().setCluster(this.gameObject);
 		difficultyRating = e.GetComponentInChildren<eventObject>().getDifficulty();
         //GameObject.CreatePrimitive(PrimitiveType.Cube);
     }
+
 }

@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using Rewired;
 
+/// <summary>
+/// Class for handling all user input related to building walls, weapons, traps, etc. as well as attacking.
+/// </summary>
 public class PlayerPlacement_Rewired : MonoBehaviour {
     //Michael
 
@@ -33,6 +36,8 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
     //--------------------
     private Player player;
 	private PlayerController_Rewired pController;
+    private GameManager g;
+    private bool myPauseInput = false; //used for stopping input at end of game or pause
     private GameObject rv;
     private List<GameObject> nodes = new List<GameObject>();      //probably better way to do this, REVISIT!
     private List<GameObject> trapNodes = new List<GameObject>();
@@ -52,7 +57,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
 
     [System.NonSerialized]
     private bool initialized;
-
+    
 	private void Start() {
         pController = GetComponentInParent<PlayerController_Rewired>();
 	}
@@ -72,6 +77,8 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
 
         TempAttMat = AttackObject.GetComponent<Renderer>().material;
         currentAttColor = TempAttMat.color; //get current color so we can play with alpha
+
+        g = GameManager.GameManagerInstance;
     }
 
     void Update()
@@ -81,42 +88,48 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         changeInventory();
         displayMode();
 
-        // Attack cooldown
-        if (!canAttack)
-        {
-            attackCount -= Time.deltaTime;
-        }
-        if (attackCount <= 0.0)
-        {
-            canAttack = true;
+        if(!(g == null)) {
+            myPauseInput = g.GetComponent<GameManager>().pauseInput;
         }
 
-        myInteracting = pController.interacting;
-        //checking that player isn't "interacting" (driving, piloting weapon, etc)
-        if (myInteracting)
-        {
-            // Early exit
-            return;
-        }
+        if (!myPauseInput) {
+            // Attack cooldown
+            if (!canAttack)
+            {
+                attackCount -= Time.deltaTime;
+            }
+            if (attackCount <= 0.0)
+            {
+                canAttack = true;
+            }
 
-        if (heldItem != null) //change this to tags later
-        {
-            HoldingItem();
-        }
-        else
-        {
-            NotHoldingItem();
-        }
+            myInteracting = pController.interacting;
+            //checking that player isn't "interacting" (driving, piloting weapon, etc)
+            if (myInteracting)
+            {
+                // Early exit
+                return;
+            }
 
-        if (currentAttColor.a > 0)
-        {
-            currentAttColor.a -= 1f * Time.deltaTime; //transitioning color from visibile to invisible
-            TempAttMat.color = currentAttColor;
-        }
-        else if (currentAttColor.a < 0)
-        { // getting alpha to exactly 0, and after that won't check further
-            currentAttColor.a = 0;
-            TempAttMat.color = currentAttColor;
+            if (heldItem != null) //change this to tags later
+            {
+                HoldingItem();
+            }
+            else
+            {
+                NotHoldingItem();
+            }
+
+            if (currentAttColor.a > 0)
+            {
+                currentAttColor.a -= 1f * Time.deltaTime; //transitioning color from visibile to invisible
+                TempAttMat.color = currentAttColor;
+            }
+            else if (currentAttColor.a < 0)
+            { // getting alpha to exactly 0, and after that won't check further
+                currentAttColor.a = 0;
+                TempAttMat.color = currentAttColor;
+            }
         }
     }
 
@@ -133,22 +146,31 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
             {
                 BuildEngine();
             }
-            else if (heldItem.tag == "Weapon") //to change later?
+            else if (heldItem.tag == "Weapon" && nodes.Count > 0) //to change later?
             {
-                BuildWeapon();
+                foreach(GameObject node in nodes)
+                {
+                    if (node.GetComponent<BuildNode>().canPlaceWeapon)
+                    {
+                        BuildWeapon(node);
+                        break;
+                    }
+                }
             }
         }
 
         if (player.GetButton("Use"))
         {
-            holdTime += Time.deltaTime;
-            if (holdTime > timeToDrop)
-            {
+            //GETTING RID OF HOLD TO DROP
+            //holdTime += Time.deltaTime;
+            //if (holdTime > timeToDrop)
+            //{
                 GameObject dropItem = heldItem.GetComponent<Constructable>().drop;
                 //if (heldItem.tag == "Trap") dropItem = heldItem.GetComponent<Trap>().drop; //get the drop prefab item from item's script
                 //if (heldItem.tag == "Engine") dropItem = heldItem.GetComponent<Engine>().drop;
                 // more ifs for other items
-                GameObject item = Instantiate(dropItem, new Vector3(transform.position.x, transform.position.y, transform.position.z + 1f), Quaternion.identity);    //create drop item
+                GameObject item = Instantiate(dropItem, new Vector3(transform.parent.position.x, transform.parent.position.y + 0.3f, transform.parent.position.z) + transform.parent.forward * 1.7f, Quaternion.identity);
+                //create drop item in front of player (needs to be parent to get exact position in world space)
                 item.name = heldItem.name + " Drop";
 
                 heldItem = null;
@@ -158,7 +180,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
                 holdTime = 0f;
                 
                 myAni.SetBool("isHolding", false);
-            }
+            //}
         }
     }
 
@@ -181,7 +203,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
 
     private void BuildTrap()
     {
-        GameObject trapBuild = (GameObject)trapNodes[0];
+        GameObject trapBuild = trapNodes[0];
         //Debug.Log(trapBuild);
         BuildDurableConstruct(trapBuild.GetComponent<TrapNode>());
 
@@ -191,16 +213,15 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
 
     private void BuildEngine()
     {
-        GameObject EngineBuild = (GameObject)engineNodes[0];
+        GameObject EngineBuild = engineNodes[0];
         BuildDurableConstruct(EngineBuild.GetComponent<PoiNode>());
 
         myAni.SetTrigger("build");
         myAni.SetBool("isHolding", false);
     }
 
-    private void BuildWeapon()
+    private void BuildWeapon(GameObject toBuild)
     {
-        GameObject toBuild = (GameObject)nodes[0];
         if (!toBuild.GetComponent<BuildNode>().occupied)
         {
             myAni.SetTrigger("build");
@@ -220,11 +241,23 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
 
     private void NotHoldingItem()
     {
-        if (player.GetButtonDown("Build Mode"))
+        if (player.GetButton("Build Mode"))
         {
-            //When switching out of build mode, attack will get stuck in InvalidOperationException: List has changed. This helps
-            if (buildMode) attackRange = new List<GameObject>();
-            buildMode = !buildMode;
+            if (!buildMode)
+            {
+                //When switching out of build mode, attack will get stuck in InvalidOperationException: List has changed. This helps
+                if (buildMode) attackRange = new List<GameObject>();
+                buildMode = !buildMode;
+
+                checkHologram();
+            }
+        } else {
+            if (nodes.Count > 0) { //If showing holo wall, turn off every holo wall currently being displayed
+                for(int i = 0; i < nodes.Count; i++){ 
+                    nodes[i].GetComponent<BuildNode>().RemoveShow();
+                }
+            }
+            buildMode = false;
         }
         if (buildMode)
         {
@@ -242,7 +275,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
 
     private void BuildWall()
     {
-        GameObject toBuild = (GameObject)nodes[0];
+        GameObject toBuild = nodes[0];
         if (!toBuild.GetComponent<BuildNode>().occupied)
         {
             myAni.SetTrigger("build");
@@ -259,14 +292,16 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
 
     private bool AttackVehicleParts()
     {
-        Util.RemoveNulls(destructableParts);
-        if(destructableParts.Count > 0)
+        foreach(GameObject part in destructableParts)
         {
-            if (destructableParts[0].GetComponent<DestructiblePart>().takeDamage(1) <= 0)
+            if(part!=null)
             {
-                destructableParts.RemoveAt(0);
+                if(part.GetComponent<DestructiblePart>().takeDamage(1) <= 0)
+                {
+                    destructableParts.Remove(part);
+                }
+                return true;
             }
-            return true;
         }
         return false;
     }
@@ -312,31 +347,51 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         currentAttColor.a = 0.5f; //setting attack model's mat to 1/2 visible
     }
 
+    private void CheckBuildNodes()
+    {
+        if (buildMode)
+        {
+            bool isWall;
+            GameObject item;
+            if (heldItem == null)
+            {
+                item = wall;
+                isWall = wallInventory > 0;
+            }
+            else if (heldItem != null && heldItem.CompareTag("Weapon"))
+            {
+                item = heldItem;
+                isWall = false;
+            }
+            else
+            {
+                return;
+            }
+            bool found = false;
+            foreach (GameObject obj in nodes)
+            {
+                BuildNode node = obj.GetComponent<BuildNode>();
+                node.RemoveShow();
+                if (!found && !node.occupied && (isWall || node.canPlaceWeapon))
+                {
+                    node.Show(item);
+                    found = true;
+                }
+            }
+        }
+    }
+
     void OnTriggerEnter(Collider other)
     {
 
         //Debug.Log(other.name);
-        if ((other.tag == "WallNode") && wallInventory > 0)
+        if ((other.tag == "WallNode"))
         {
             //Debug.Log("Added");
             if (!other.GetComponent<BuildNode>().occupied)
             {
                 nodes.Add(other.gameObject);
-                GameObject first = (GameObject)nodes[0];
-                if (buildMode && heldItem == null)
-                {
-                    if (nodes.Count <= 1 && !first.GetComponent<BuildNode>().occupied)
-                    {
-                        first.GetComponent<BuildNode>().Show(wall);
-                    }
-                }
-                else if (buildMode && heldItem.CompareTag("Weapon") && other.GetComponent<BuildNode>().canPlaceWeapon)
-                {
-                    if (nodes.Count <= 1 && !first.GetComponent<BuildNode>().occupied)
-                    {
-                        other.GetComponent<BuildNode>().Show(heldItem);
-                    }
-                }
+                CheckBuildNodes();
             }
             //if player is in build mode, activate show wall in the build node script
             //GameObject toRemove = (GameObject)nodes[0];
@@ -348,7 +403,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
             {
                 //Debug.Log("Trap node added");
                 trapNodes.Add(other.gameObject);
-                if (buildMode) other.GetComponent<TrapNode>().Show(trap); //if player is in build mode, activate show wall in the build node script
+                if (buildMode) other.GetComponent<TrapNode>().Show(heldItem); //if player is in build mode, activate show wall in the build node script
             }
         }
         if (heldItem != null && other.name == "PoiNode")
@@ -357,7 +412,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
             {
                 //Debug.Log("Trap node added");
                 engineNodes.Add(other.gameObject);
-                if (buildMode) other.GetComponent<PoiNode>().Show(engine); //if player is in build mode, activate show wall in the build node script
+                if (buildMode) other.GetComponent<PoiNode>().Show(heldItem); //if player is in build mode, activate show wall in the build node script
             }
         }
         if (other.gameObject.CompareTag("Trap"))
@@ -409,7 +464,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         // Pick Up
         //if (other.gameObject.CompareTag("Drops"))
         //{
-        if (other.name == "Wall Drop")
+        if (other.tag == "WallDrop")
         {
             wallInventory++;
             Destroy(other.gameObject);
@@ -468,9 +523,10 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         inventoryText.text = wallInventory.ToString();
     }
 
+    //Using it for re-entering wall build mode
     private void checkHologram()
     {
-        if(nodes.Count <= 1)
+        if(nodes.Count <= 1 && nodes.Count > 0) //previously didn't include > 0, but you need a node to pass
         {
             GameObject first = (GameObject)nodes[0];
             if (buildMode && heldItem == null)

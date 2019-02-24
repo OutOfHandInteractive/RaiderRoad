@@ -13,7 +13,8 @@ public abstract class Interactable : MonoBehaviour {
 	protected float cooldownTimer;
 
 	public abstract void Interact(PlayerController_Rewired player);
-	public abstract void Leave();
+    public abstract bool Occupied();
+    public abstract void Leave();
 
 	public bool isOnCooldown() {
 		if (cooldownTimer > 0)

@@ -7,49 +7,67 @@ using UnityEngine.AI;
 
 public class EventManager : MonoBehaviour {
 
+	// Light vehicle threat: 1-3
+	// Medium vehicle threat: 3-5
 
-    public float TimeBetweenDifficultyAdjustment = 60;     //for now, difficulty updated every minute
-    [SerializeField]
-    private int difficultyRating = 1;       //set to 1 for testing
-    public VehicleFactoryManager vFactory;
+	// small obstacle threat: 1
 
+	// --------------------- public variables -------------------------
+	// enumerations
+	public enum eventTypes { vehicle, obstacle };
+
+	// references
+	public VehicleFactoryManager vFactory;
+
+	// gameplay values
+	public float TimeBetweenDifficultyAdjustment;
+
+	// -------------------- nonpublic variables ------------------------
+    [SerializeField] private int difficultyRating;
 
     // Equation coefficients                    -------all set to 1 for now
-    public float expectedGameLengthModifier = 1;
-    public float sinFrequencyModifier = 1;
-    public float sinAmplitudeModifier = 1;
-    public float difficultySlopeModifier = 1;
-    public float baseDifficultyRating = 1;
+    [SerializeField] private float expectedGameLengthModifier;
+	[SerializeField] private float sinFrequencyModifier;
+	[SerializeField] private float sinAmplitudeModifier;
+	[SerializeField] private float difficultySlopeModifier;
+	[SerializeField] private float baseDifficultyRating;
 
-    // Variation coefficients
-    public float randomModifierMin;
-    public float randomModifierMax;
+	// Variation coefficients
+	[SerializeField] private float randomModifierMin;
+	[SerializeField] private float randomModifierMax;
 
-    // event generation constants
-    public int minEventDifficulty;
-    public int maxEventDifficulty;
+	// event generation constants
+	[SerializeField] private int minEventDifficulty;
+	[SerializeField] private int maxEventDifficulty;
     
     //cluster objects - prefab, currently active, and next ready
-    [SerializeField]
-    private GameObject eCluster;
-    [SerializeField]
-    private GameObject onDeck;
-    [SerializeField]
-    private GameObject active;
+    [SerializeField] private GameObject eCluster;
+    [SerializeField] private GameObject onDeck;
+    [SerializeField] private GameObject active;
     
     //spawn points for events
     [SerializeField]
-    private List<Transform> spawnPoints;
+    private List<Transform> vspawnPoints;
+    public GameObject oSpawnsParent;
+    [SerializeField]
+    private List<Transform> ospawnPoints;
 
     void Start(){
         //StartCoroutine(difficultyManager());
-        spawnPoints = new List<Transform>();
-        foreach (Transform child in transform)      //get spawn points
+        vspawnPoints = new List<Transform>();
+        foreach (Transform child in transform)      //get vehicle spawn points
         {
-            Debug.Log(child);
-            spawnPoints.Add(child);
+            //Debug.Log(child);
+            vspawnPoints.Add(child);
         }
-        StartCoroutine(initialize());                   //initializes first cluster
+        ospawnPoints = new List<Transform>();
+        foreach (Transform child in oSpawnsParent.transform)      //get obstacle spawn points
+        {
+            //Debug.Log(child);
+            ospawnPoints.Add(child);
+        }
+		StartCoroutine(difficultyManager());
+		StartCoroutine(initialize());                   //initializes first cluster
     }
 
     IEnumerator initialize()
@@ -57,7 +75,6 @@ public class EventManager : MonoBehaviour {
         onDeck = generate(difficultyRating);                //create event cluster at starting difficulty and set as on-deck
         yield return new WaitForSecondsRealtime(10);       //delay for some short time - let's say 30 seconds for now/10 for testing
         lastDone();                                     //switches on-deck to active, deploys it, and creates new on-deck cluster
-        StartCoroutine(difficultyManager());
     }
 
     //called from last cluster generated once it reaches certain threshold - deploys next cluster and generates a new one on deck
@@ -75,18 +92,67 @@ public class EventManager : MonoBehaviour {
 
     GameObject generate(int difRate)      //I don't think we need a coroutine for thise - at least not yet
     {
-        VehicleFactoryManager.vehicleTypes type;
+        VehicleFactoryManager.vehicleTypes vtype = VehicleFactoryManager.vehicleTypes._null; //need to assign for debugging
+        eventTypes etype;
         Event _nE;
         List<Event> _new = new List<Event>();
         GameObject newEC = Instantiate(eCluster);
-        int clusterSize = 3 + difRate;
-        for (int i = 0; i < clusterSize; i++)
+
+		int difficultySpace = difRate;
+        int vThreat = 0;  //this is used down below when subtracting the constants for each vtype from the difficultySpace
+        int vMod = 0;       //this is used down below when generating a number in the ranges above based on type
+        List<Transform> sPoints = new List<Transform>();
+        int randNum;////////////
+        while (difficultySpace > 0)
         {
-            Debug.Log("creating event " + i);
-            type = (VehicleFactoryManager.vehicleTypes)UnityEngine.Random.Range(0, 2);
-            //type = VehicleFactoryManager.vehicleTypes.medium;
+            //Debug.Log("creating event ");
+            //determine etype - temporary
+            randNum = UnityEngine.Random.Range(1,10);
+            if(randNum % 7 == 0){	// Im assuming this is a percentage - can we get it put in constants to avoid magic numbers?
+                etype = EventManager.eventTypes.obstacle;
+            }else{
+				etype = EventManager.eventTypes.vehicle;
+            }
+            //s.Log(etype);
+            //------------------end temp
+            
+            if (etype == EventManager.eventTypes.vehicle)
+            {
+				//determine vehicle type --- need to implement, for now just does medium and light randomly
+				if (difficultyRating >= Constants.MEDIUM_VEHICLE_BASE_THREAT) {
+					randNum = UnityEngine.Random.Range((int)VehicleFactoryManager.vehicleTypes.light, (int)VehicleFactoryManager.vehicleTypes.medium + 1);
+				}
+				else {
+					randNum = UnityEngine.Random.Range((int)VehicleFactoryManager.vehicleTypes.light, (int)VehicleFactoryManager.vehicleTypes.light + 1);
+				}
+				vtype = (VehicleFactoryManager.vehicleTypes)randNum;
+                //--------------------------------------------------------------------------------------------------------
+                if(vtype == VehicleFactoryManager.vehicleTypes.light){
+                    vThreat = Constants.LIGHT_VEHICLE_BASE_THREAT;
+                    vMod = UnityEngine.Random.Range(1, 3);
+                }
+                else if(vtype == VehicleFactoryManager.vehicleTypes.medium){
+                    vThreat = Constants.MEDIUM_VEHICLE_BASE_THREAT;
+                    vMod = UnityEngine.Random.Range(3, 5);
+                }
+                //else if(vtype == VehicleFactoryManager.vehicleTypes.heavy){   //this is for heavies when we get those in
+                //  vThreat = Constants.HEAVY_VEHICLE_BASE_THREAT;
+                //}
+                //---------------------------------------------------------------------------------------------------------
+                difficultySpace = difficultySpace - vThreat;  //subtract threat from difSpace
+                sPoints = vspawnPoints;
+            }
+            else if (etype == EventManager.eventTypes.obstacle)
+            {
+                vtype = VehicleFactoryManager.vehicleTypes._null;
+                sPoints = ospawnPoints;
+
+				difficultySpace -= Constants.SMALL_OBSTACLE_BASE_THREAT;
+            }
+            //Debug.Log(vtype);
+            
             _nE = newEC.AddComponent<Event>() as Event;
-            _nE.initialize(difRate, type, spawnPoints);
+            _nE.initialize(difRate, vtype, etype, sPoints);
             _new.Add(_nE);          //uses current dif rate, [for now] default spawn position, [for now] default enemy to create an event
         }
         newEC.GetComponent<EventCluster>().startUp(_new, vFactory);
@@ -101,7 +167,7 @@ public class EventManager : MonoBehaviour {
         while (true)
         {
             difficultyRating = calculateDifficultyRating();
-            Debug.Log(difficultyRating);
+            Debug.Log("difficulty: " + difficultyRating);
 
             yield return new WaitForSecondsRealtime(TimeBetweenDifficultyAdjustment);
         }
@@ -114,7 +180,7 @@ public class EventManager : MonoBehaviour {
         double calculatedDifficulty;
 
         System.Random rand = new System.Random();
-        double randomModifier = (rand.NextDouble() * (randomModifierMax - randomModifierMin)) + randomModifierMin;
+        double randomModifier = (rand.NextDouble() * (randomModifierMax - randomModifierMin)) + randomModifierMin;	// this is kinda broke
 
         // Equation to calculate difficulty rating. Has base linear slope modified by a sin function to give peaks and valleys
         // to difficulty
