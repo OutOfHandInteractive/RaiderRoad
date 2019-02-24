@@ -105,7 +105,7 @@ public class EventManager : MonoBehaviour {
 
 		int difficultySpace = difRate;
         int vThreat = 0;  //this is used down below when subtracting the constants for each vtype from the difficultySpace
-        int vMod = 0;       //this is used down below when generating a number in the ranges above based on type
+        int vMod = 0;       //this is used down below when generating a number in the threat ranges above based on type
         List<Transform> sPoints = new List<Transform>();
         int randNum;////////////
         while (difficultySpace > 0)

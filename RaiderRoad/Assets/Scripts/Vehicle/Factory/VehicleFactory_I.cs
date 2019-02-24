@@ -25,7 +25,7 @@ public abstract class VehicleFactory_I : MonoBehaviour {
 		float armorStacks = 0f;
 		float ramDamageStacks = 0f;
 		float speedStacks = 0f;
-        int mod = modifier;
+        int threatMod = modifier;
 
 		GameObject vehicle, chassis, cab, cargo;
 		vehicle = Instantiate(VehicleBase, new Vector3(0, 0, 0), Quaternion.identity);
