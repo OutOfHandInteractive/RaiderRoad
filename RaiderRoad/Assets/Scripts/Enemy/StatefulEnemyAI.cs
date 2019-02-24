@@ -415,7 +415,9 @@ public class StatefulEnemyAI : EnemyAI {
         if (other.gameObject.tag == "Drops" && currentState == State.Steal)
         {
             Debug.Log("HIT" + other.gameObject.name);
-            other.transform.parent = transform;
+            GameObject drop = other.gameObject;
+            Destroy(other.gameObject);
+            Instantiate(drop, transform);
             //other.transform.position = new Vector3(0, 2, 0);
             steal.hasStolen = true;
         }

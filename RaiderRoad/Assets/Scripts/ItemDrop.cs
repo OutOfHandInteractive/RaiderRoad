@@ -20,8 +20,8 @@ public class ItemDrop : MonoBehaviour {
         Debug.Log(other.gameObject.tag);
         if (other.gameObject.tag == "floor")
         {
-            //transform.parent = other.transform;
-            //transform.localPosition = new Vector3(0, 0, 0);
+            transform.parent = other.transform;
+            transform.localPosition = new Vector3(0, 0, 0);
         }
         if(other.gameObject.tag == "Destructable")
         {
@@ -34,7 +34,7 @@ public class ItemDrop : MonoBehaviour {
     {
         if(other.gameObject.tag == "floor" || other.gameObject.tag == "Destructable")
         {
-            //transform.parent = null;
+            transform.parent = null;
         }
     }
 }
