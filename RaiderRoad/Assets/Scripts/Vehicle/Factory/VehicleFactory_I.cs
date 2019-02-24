@@ -21,10 +21,11 @@ public abstract class VehicleFactory_I : MonoBehaviour {
 		rand = new System.Random();
 	}
 
-	public GameObject AssembleVehicle() {
+	public GameObject AssembleVehicle(int modifier) {
 		float armorStacks = 0f;
 		float ramDamageStacks = 0f;
 		float speedStacks = 0f;
+        int threatMod = modifier;
 
 		GameObject vehicle, chassis, cab, cargo;
 		vehicle = Instantiate(VehicleBase, new Vector3(0, 0, 0), Quaternion.identity);
