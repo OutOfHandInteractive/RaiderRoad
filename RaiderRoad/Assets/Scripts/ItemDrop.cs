@@ -20,7 +20,7 @@ public class ItemDrop : MonoBehaviour {
         Debug.Log(other.gameObject.tag);
         if (other.gameObject.tag == "floor")
         {
-            transform.SetParent(other.transform, true);
+            transform.parent = other.transform;
             transform.localPosition = new Vector3(0, 0, 0);
         }
         if(other.gameObject.tag == "Destructable")

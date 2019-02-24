@@ -11,7 +11,7 @@ public class BoardEnemy : JumpEnemy {
     //enemy, rigidbody,rv, angle to jump, if enemy jumped, chance to take action, current side 
     //private int action;
 
-
+    private float survey = 0;
     //public override void StartJump(GameObject enemy, Rigidbody rb, string side, int stateChance)
     //{
     //    base.StartJump(enemy, rb, side, stateChance);
@@ -44,17 +44,22 @@ public class BoardEnemy : JumpEnemy {
         Transform parent = gameObject.transform.parent;
         if(parent != null && parent.tag == "RV")
         {
-            if (action < 40)
+            survey += Time.deltaTime;
+            Debug.Log(survey);
+            if (survey > 1f)
             {
-                ai.EnterDestroy();
-            }
-            else if (action > 40 && action < 80)
-            {
-                ai.EnterFight();
-            }
-            else
-            {
-                ai.EnterSteal();
+                if (action < 40)
+                {
+                    ai.EnterDestroy();
+                }
+                else if (action > 40 && action < 80)
+                {
+                    ai.EnterFight();
+                }
+                else
+                {
+                    ai.EnterSteal();
+                }
             }
         }
 

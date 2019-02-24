@@ -27,7 +27,7 @@ public class StealEnemy : EnemyAI {
         }
 
         //If there are no more drops, go to Escape state, else keep going for drops
-        if (hasStolen && cObject.transform.parent != null)
+        if (hasStolen && cObject.transform.GetComponentInChildren<ItemDrop>())
         {
             movement /= 2;
             cObject.GetComponent<StatefulEnemyAI>().EnterEscape();

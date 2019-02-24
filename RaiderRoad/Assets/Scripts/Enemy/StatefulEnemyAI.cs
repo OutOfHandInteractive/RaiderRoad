@@ -26,6 +26,7 @@ public class StatefulEnemyAI : EnemyAI {
 
     //Enemy variables
     private GameObject enemy;
+    [SerializeField]
     private State currentState;
     private Rigidbody rb;
     private GameObject parent;
@@ -413,8 +414,11 @@ public class StatefulEnemyAI : EnemyAI {
         }
         if (other.gameObject.tag == "Drops" && currentState == State.Steal)
         {
-            other.transform.parent = null;
-            other.transform.parent = transform;
+            Debug.Log("HIT" + other.gameObject.name);
+            GameObject drop = other.gameObject;
+            Destroy(other.gameObject);
+            Instantiate(drop, transform);
+            //other.transform.position = new Vector3(0, 2, 0);
             steal.hasStolen = true;
         }
     }
