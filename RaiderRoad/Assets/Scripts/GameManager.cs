@@ -72,7 +72,7 @@ public class GameManager : MonoBehaviour {
 
     private void UpdateRVMarker() {
         Vector2 TempMarkPos = RVMarker.anchoredPosition;
-        TempMarkPos.y = Mathf.Lerp(finishYPos, startYpos, myTimer / (FinishTime + markerBarOffset));
+        TempMarkPos.y = Mathf.Lerp(finishYPos - markerBarOffset, startYpos + markerBarOffset, myTimer/FinishTime); //offSet added to not cover cards
         RVMarker.anchoredPosition = TempMarkPos;
 
         dottedLine.fillAmount = myTimer / FinishTime;
