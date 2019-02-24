@@ -22,6 +22,7 @@ public class Event : MonoBehaviour {
 	// gameplay values
 	private VehicleFactoryManager.vehicleTypes _vtype;
     private int numPoints;
+    private int _mod;
 
     /*public Event(int dif, VehicleFactoryManager.vehicleTypes type)       //add game object to constructor for spawning
     {
@@ -35,6 +36,11 @@ public class Event : MonoBehaviour {
         _vtype = vtype;
         _etype = etype;
         spawnPoints = spawns;
+    }
+
+    public void setMod(int mod)
+    {
+        _mod = mod;
     }
 
     void Start()

@@ -161,7 +161,10 @@ public class EventManager : MonoBehaviour {
             //Debug.Log(vtype);
             
             _nE = newEC.AddComponent<Event>() as Event;
-            _nE.initialize(difRate, vtype, etype, sPoints);
+            _nE.initialize(difRate, vtype, etype, sPoints,vmod);
+            if (etype == EventManager.eventTypes.vehicle){      //pass the vMod value to the event only if event is a vehicle
+                nE.setMod(vMod);
+            }
             _new.Add(_nE);          //uses current dif rate, [for now] default spawn position, [for now] default enemy to create an event
         }
         newEC.GetComponent<EventCluster>().startUp(_new, vFactory);
