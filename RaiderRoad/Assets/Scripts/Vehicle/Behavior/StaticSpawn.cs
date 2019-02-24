@@ -19,7 +19,7 @@ public class StaticSpawn : MonoBehaviour {
         {
             types = (VehicleFactoryManager.vehicleTypes)Random.Range(0, 3);
             //Debug.Log(types);
-            GameObject vehicle = factory.newConstructVehicle(types);
+            GameObject vehicle = factory.newConstructVehicle(types, mod);
             vehicle.transform.position = transform.position;
         }
         
