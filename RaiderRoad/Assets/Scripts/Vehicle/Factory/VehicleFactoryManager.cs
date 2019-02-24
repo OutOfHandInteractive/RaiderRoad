@@ -23,13 +23,13 @@ public class VehicleFactoryManager : MonoBehaviour {
 			h.AssembleVehicle();
 	}
 
-    public GameObject newConstructVehicle(vehicleTypes type)
+    public GameObject newConstructVehicle(vehicleTypes type, int mod)
     {
         if (type == vehicleTypes.light)
-            return l.AssembleVehicle();
+            return l.AssembleVehicle(mod);
         else if (type == vehicleTypes.medium)
-            return m.AssembleVehicle();
+            return m.AssembleVehicle(mod);
         else
-            return h.AssembleVehicle();
+            return h.AssembleVehicle(mod);
     }
 }
