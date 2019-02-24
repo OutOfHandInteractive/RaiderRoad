@@ -146,10 +146,12 @@ public class PlayerController_Rewired : MonoBehaviour
                 Debug.Log("pressing button");
                 if (downedPlayers.Count > 0)
                 {
+                    view.GetComponent<PlayerPlacement_Rewired>().SheathWeapon();
                     startRevive(downedPlayers[0].GetComponent<PlayerController_Rewired>());
                 }
                 else if (interactables.Count > 0 && !interactables[0].GetComponent<Interactable>().isOnCooldown())
                 {
+                    view.GetComponent<PlayerPlacement_Rewired>().SheathWeapon();
                     if (!interactables[0].GetComponent<Interactable>().Occupied())
                     {
                         interactables[0].GetComponent<Interactable>().Interact(this);
@@ -315,6 +317,7 @@ public class PlayerController_Rewired : MonoBehaviour
         {
             //Color deathColor = myOrigColor * 0.5f;        //Replace with proper death feedback
             //myMat.color = deathColor;
+            view.GetComponent<PlayerPlacement_Rewired>().SheathWeapon();
             myAni.SetBool("downed", true);
 
             state = playerStates.down;
