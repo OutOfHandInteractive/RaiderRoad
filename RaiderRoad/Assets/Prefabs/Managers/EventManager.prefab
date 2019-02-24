@@ -145,22 +145,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fa11453a3cbeaf4eaf1acec1116f096, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TimeBetweenDifficultyAdjustment: 0
-  difficultyRating: 1
   vFactory: {fileID: 0}
-  expectedGameLengthModifier: 0
-  sinFrequencyModifier: 0
-  sinAmplitudeModifier: 0
-  difficultySlopeModifier: 0
-  baseDifficultyRating: 0
-  randomModifierMin: 0
-  randomModifierMax: 0
+  TimeBetweenDifficultyAdjustment: 0
+  difficultyRating: 2
+  expectedGameLengthModifier: 1
+  sinFrequencyModifier: 2
+  sinAmplitudeModifier: 1
+  difficultySlopeModifier: 3
+  baseDifficultyRating: 2
+  randomModifierMin: -0.25
+  randomModifierMax: 0.25
   minEventDifficulty: 0
   maxEventDifficulty: 0
   eCluster: {fileID: 1095175963416576, guid: ff685b0044a7d2c41800481e34ec4a69, type: 3}
   onDeck: {fileID: 0}
   active: {fileID: 0}
-  spawnPoints: []
+  vspawnPoints: []
+  oSpawnsParent: {fileID: 0}
+  ospawnPoints: []
 --- !u!1001 &8071802557935970210
 PrefabInstance:
   m_ObjectHideFlags: 0

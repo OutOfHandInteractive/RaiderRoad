@@ -4,4 +4,10 @@ using UnityEngine;
 
 public abstract class Attachment : DestructiblePart {
 	protected abstract override float GetMaxHealth();
+
+	[SerializeField] private ParticleSystem highDamageSmokeEffects;
+
+	public void startHighDamageSmokeEffects() {
+		highDamageSmokeEffects.Play();
+	}
 }

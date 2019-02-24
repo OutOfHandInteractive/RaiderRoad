@@ -33,8 +33,12 @@ public class VehicleAI : MonoBehaviour {
 	[SerializeField] private int threat;
 
 	// --------------- private variables --------------------
+	// references
+	private Attachment front_attachment;
+
+	// gameplay values
 	private float currentHealth;
-	private int destroyedParts = 0;
+	[SerializeField] private float highDamageThreshold;
 
 	// Use this for initialization
 	void Start () {
@@ -49,15 +53,9 @@ public class VehicleAI : MonoBehaviour {
         attack = enemy.AddComponent<AttackVehicle>();
         leave = enemy.AddComponent<LeaveVehicle>();
         rb = GetComponent<Rigidbody>();
-        /*int action = Random.Range(0, 100);
-        if (action < 50)
-        {
-            side = "left";
-        }
-        else
-        {
-            side = "right";
-        }*/
+
+		front_attachment = GetComponentInChildren<Attachment>();
+
         if(GetComponentInChildren<HasWeapon>() != null)
         {
             hasWeapon = true;
@@ -70,7 +68,12 @@ public class VehicleAI : MonoBehaviour {
     // Update is called once per frame
     void Update () {
         //Debug.Log(currentState);
-        if(currentState == State.Attack)
+        if (!agent.enabled)
+        {
+            //Early exit
+            return;
+        }
+        if (currentState == State.Attack)
         {
             agent.speed = 30;
         }
@@ -110,18 +113,20 @@ public class VehicleAI : MonoBehaviour {
 
 		Debug.Log("took " + damage + " damage");
 
-		if (currentHealth <= 0) {
-			Destroy(gameObject);
+		if (currentHealth <= (maxHealth * highDamageThreshold)) {
+			startHighDamageSmokeEffects();
 		}
+
+		if (currentHealth <= 0) {
+            DelayedDeath();
+        }
 	}
 
 	public void destroyPart() {
-		destroyedParts++;
-		if (destroyedParts >= 2) {
-			Destroy(gameObject);
-		}
+		takeDamage(maxHealth * 0.4f);
 	}
 
+	#region state change functions
 	//Used to change state from different classes
 	public void EnterWander()
     {
@@ -148,7 +153,9 @@ public class VehicleAI : MonoBehaviour {
         leave.StartLeave(agent);
         currentState = State.Leave;
     }
-    private void OnTriggerEnter(Collider other)
+	#endregion
+
+	private void OnTriggerEnter(Collider other)
     {
         //Destroy this when it goes off screen
         if (other.tag == "Exit")
@@ -159,18 +166,42 @@ public class VehicleAI : MonoBehaviour {
             ParticleSystem explosion = Instantiate(collision, other.gameObject.transform.position, Quaternion.identity, gameObject.transform);
             explosion.gameObject.transform.localScale *= 10;
             //Destroy(other.gameObject);
-            StartCoroutine(WaitToDie(other));
+            transform.parent = other.transform;
+            DelayedDeath();
+            StartCoroutine(WaitToDie());
         }
 
     }
 
-    IEnumerator WaitToDie(Collider other)
+	#region Effect Functions
+	private void startHighDamageSmokeEffects() {
+		front_attachment.startHighDamageSmokeEffects();
+	}
+	#endregion
+
+	#region death functions
+	private void Die()
     {
-        agent.enabled = false;
-        transform.parent = other.transform;
-        yield return new WaitForSeconds(5);
+        foreach (PlayerController_Rewired pc in gameObject.GetComponentsInChildren<PlayerController_Rewired>())
+        {
+            pc.RoadRash();
+            pc.transform.parent = null;
+        }
         Destroy(gameObject);
     }
+
+    private void DelayedDeath()
+    {
+        StartCoroutine(WaitToDie());
+    }
+
+    IEnumerator WaitToDie()
+    {
+        agent.enabled = false;
+        yield return new WaitForSeconds(5);
+        Die();
+    }
+	#endregion
 
 	#region Getters and Setters
 	public float getMaxHealth() {

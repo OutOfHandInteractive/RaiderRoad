@@ -8,15 +8,20 @@ public class Event : MonoBehaviour {
 	//public enum EventTypes { vehicle, obstacle, fork };
     //public enum vehicleTypes { light, medium, heavy };
 
-
+	// ---------------- public variables ------------------
+	// gameplay values
 	public int difficultyRating;
 	public float postDelay;
-    private VehicleFactoryManager.vehicleTypes _vtype;
-    public EventManager.eventTypes _etype;
+	public EventManager.eventTypes _etype;
+
+	// -------------- nonpublic variables -----------------
+	// references
+	private GameObject e;
+	[SerializeField] private List<Transform> spawnPoints;
+
+	// gameplay values
+	private VehicleFactoryManager.vehicleTypes _vtype;
     private int numPoints;
-    private GameObject e;
-    [SerializeField]
-    private List<Transform> spawnPoints;
 
     /*public Event(int dif, VehicleFactoryManager.vehicleTypes type)       //add game object to constructor for spawning
     {

@@ -16,6 +16,11 @@ frame RaiderRoad {
 		component Renderer
 		component Rewired <<External Plugin>>
 	}
+	package Scenes {
+		rectangle MainMenu
+		rectangle Lobby
+		rectangle Game
+	}
 	package GameObjects {
 		component Events
 		component VehicleFactory
@@ -41,9 +46,15 @@ Player <-- Monitor : Visual
 Controller --> Rewired
 Monitor <-- Renderer
 
+Renderer <-- Scenes
+MainMenu -> Lobby
+Lobby -> Game
+Scenes --> GameObjects : Spawns
+
 Events -> VehicleFactory
 VehicleFactory --> Vehicles : Builds
-Renderer <-- GameObjects
+VehicleFactory --> Raiders : Builds
+'Renderer <-- GameObjects
 Rewired --> PlayerController
 PlayerController --> PlayerPlacement
 Raiders <-> Vehicles : Radio

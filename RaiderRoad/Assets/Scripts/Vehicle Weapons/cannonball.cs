@@ -69,10 +69,10 @@ public class cannonball : MonoBehaviour {
 
 		for (int i = 0; i<splashTargets.Length; i++) {
 			if (splashTargets[i].gameObject.CompareTag("eVehicle") && splashTargets[i] != other) {
-				other.gameObject.GetComponentInParent<VehicleAI>().takeDamage(splashDamage);
+				splashTargets[i].gameObject.GetComponentInParent<VehicleAI>().takeDamage(splashDamage);
 			}
 			else if (splashTargets[i].gameObject.CompareTag("Enemy") && splashTargets[i] != other) {
-				other.gameObject.GetComponent<StatefulEnemyAI>().takeDamage(splashDamage);
+				splashTargets[i].gameObject.GetComponent<StatefulEnemyAI>().takeDamage(splashDamage);
 			}
 		}
 	}

@@ -3,8 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+/// <summary>
+/// State machine for governing Raider AI. Passes updates down to the current state.
+/// </summary>
 public class StatefulEnemyAI : EnemyAI {
     //States
+    /// <summary>
+    /// This enum represents the different AI states. Tightly coupled with the state classes.
+    /// </summary>
     public enum State { Wait, Board, Weapon, Steal, Destroy, Fight, Escape, Death, Lure, Stunned };
     //State Classes
     private WaitEnemy wait;
@@ -39,6 +45,7 @@ public class StatefulEnemyAI : EnemyAI {
     public float damagePower;
     public float currentHealth;
     public float damageMeter;
+    public int stateChance;
     private bool inRange;
 
     // Use this for initialization
@@ -82,6 +89,10 @@ public class StatefulEnemyAI : EnemyAI {
 
     }
 
+    /// <summary>
+    /// Gets the enemy object (Deprecated; use .gameObject)
+    /// </summary>
+    /// <returns>The enemy object</returns>
     public GameObject GetEnemyObject()
     {
         return enemy;
@@ -103,18 +114,23 @@ public class StatefulEnemyAI : EnemyAI {
 
         Debug.Log(interactable);
         Debug.Log(transform.parent);
-        if (interactable && !interactable.transform.GetComponentInChildren<EnemyAI>())
+        if (interactable && !interactable.GetComponent<HasWeapon>().enemyUsing)
         {
             gameObject.tag = "usingWeapon";
-            transform.SetParent(interactable.transform, true);
-            transform.position = interactable.transform.position;
+            interactable.GetComponent<HasWeapon>().enemyUsing = true;
+        }
+        if(gameObject.tag == "usingWeapon")
+        {
+            //transform.SetParent(interactable.transform, true);
             //transform.rotation = Quaternion.identity;
-            transform.localScale = scale;
+            //transform.localScale = scale;
+            //transform.localScale = transform.localScale;
             weapon.StartWeapon(enemy, vehicle, munnitions, fire, side);
             GameObject weapons = weapon.getWeapon();
             weapon.LookAtPlayer(weapons);
+			transform.position = interactable.transform.position;
         }
-        if (transform.parent != null && transform.parent.name == "EnemyInt" && vehicle.getState() == VehicleAI.State.Chase)
+        if (gameObject.tag == "usingWeapon" && vehicle.getState() == VehicleAI.State.Chase)
         {
             EnterWeapon();
             weapon.Weapon();
@@ -159,6 +175,10 @@ public class StatefulEnemyAI : EnemyAI {
 
     }
 
+    /// <summary>
+    /// Makes the enemy suffer damage. Damage is subtracted from health. If health drops to 0 or below the enemy will immediately enter death state.
+    /// </summary>
+    /// <param name="damage">The damage to take</param>
     public void takeDamage(float damage) {
         Debug.Log(currentHealth);
         currentHealth -= damage;
@@ -170,6 +190,10 @@ public class StatefulEnemyAI : EnemyAI {
     }
 
     //Methods to enter states, change color based on states
+    /// <summary>
+    /// Enter the given state if not already in it
+    /// </summary>
+    /// <param name="state">The state to move to</param>
     public void EnterStateIfNotAlready(State state)
     {
         if(currentState != state)
@@ -177,6 +201,11 @@ public class StatefulEnemyAI : EnemyAI {
             EnterState(state);
         }
     }
+
+    /// <summary>
+    /// Enter the given state
+    /// </summary>
+    /// <param name="state">The state to enter</param>
     public void EnterState(State state)
     {
         switch (state)
@@ -213,6 +242,10 @@ public class StatefulEnemyAI : EnemyAI {
                 break;
         }
     }
+
+    /// <summary>
+    /// Enter the wait state
+    /// </summary>
     public void EnterWait()
     {
         currentState = State.Wait;
@@ -220,19 +253,29 @@ public class StatefulEnemyAI : EnemyAI {
         enemy.GetComponent<Renderer>().material.color = Color.white;
         
     }
+
+    /// <summary>
+    /// Enter the board state
+    /// </summary>
     public void EnterBoard()
     {
         currentState = State.Board;
-        board.StartJump(enemy, rb, side);
+        board.StartJump(enemy, rb, side, stateChance);
         enemy.GetComponent<Renderer>().material.color = Color.green;
     }
 
+    /// <summary>
+    /// Enter the wepaon state
+    /// </summary>
     public void EnterWeapon()
     {
         currentState = State.Weapon;
         enemy.GetComponent<Renderer>().material.color = Color.gray;
     }
 
+    /// <summary>
+    /// Enter the steal state
+    /// </summary>
     public void EnterSteal()
     {
         currentState = State.Steal;
@@ -240,6 +283,9 @@ public class StatefulEnemyAI : EnemyAI {
         enemy.GetComponent<Renderer>().material.color = Color.magenta;
     }
 
+    /// <summary>
+    /// Enter the destroy state
+    /// </summary>
     public void EnterDestroy()
     {
         currentState = State.Destroy;
@@ -247,6 +293,9 @@ public class StatefulEnemyAI : EnemyAI {
         enemy.GetComponent<Renderer>().material.color = Color.yellow;
     }
 
+    /// <summary>
+    /// Enter the fight state
+    /// </summary>
     public void EnterFight()
     {
         currentState = State.Fight;
@@ -254,18 +303,27 @@ public class StatefulEnemyAI : EnemyAI {
         enemy.GetComponent<Renderer>().material.color = Color.red;
     }
 
+    /// <summary>
+    /// Enter the escape state
+    /// </summary>
     public void EnterEscape()
     {
         currentState = State.Escape;
-        escape.StartJump(enemy, rb, side);
+        escape.StartJump(enemy, rb, side, stateChance);
         enemy.GetComponent<Renderer>().material.color = Color.blue;
     }
 
+    /// <summary>
+    /// Enter the death state
+    /// </summary>
     public void EnterDeath()
     {
         currentState = State.Death;
     }
 
+    /// <summary>
+    /// Enter the lure state
+    /// </summary>
     public void EnterLure()
     {
         State prev = currentState;
@@ -273,21 +331,30 @@ public class StatefulEnemyAI : EnemyAI {
         lure.StartLure(prev);
         enemy.GetComponent<Renderer>().material.color = Color.cyan;
     }
+
+    /// <summary>
+    /// Enter the stun state
+    /// </summary>
     public void EnterStun()
     {
         currentState = State.Stunned;
         stun.StartStun();
         enemy.GetComponent<Renderer>().material.color = Color.black;
     }
-    public void Stunned()
+
+    /// <summary>
+    /// Starts a coroutine to stun the enemy for the given amount of time
+    /// </summary>
+    /// <param name="secs">The stun duration in seconds</param>
+    public void Stunned(float secs = 1)
     {
-        StartCoroutine(waitStun());
+        StartCoroutine(waitStun(secs));
     }
 
-    IEnumerator waitStun()
+    IEnumerator waitStun(float secs)
     {
         EnterStun();
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(secs);
         EnterFight();
     }
     /*public void Damage(float damage)
@@ -303,12 +370,8 @@ public class StatefulEnemyAI : EnemyAI {
         {
             Destroy(gameObject);
         }
-    }
-
-    private void OnCollisionStay(Collision collision)
-    {
         //Change transform to stay on vehicles
-        if (collision.gameObject.tag == "eVehicle")
+        if (collision.gameObject.tag == "eVehicle" && gameObject.tag != "usingWeapon")
         {
             transform.parent = parent.transform;
         }
@@ -317,6 +380,11 @@ public class StatefulEnemyAI : EnemyAI {
             transform.parent = collision.transform.root;
             //currentState = State.Destroy;
         }
+    }
+
+    private void OnCollisionStay(Collision collision)
+    {
+
     }
 
     private void OnCollisionExit(Collision collision)
@@ -396,12 +464,6 @@ public class StatefulEnemyAI : EnemyAI {
             {
                 destroy.engineKill = true;
             }
-        }
-        if (other.gameObject.tag == "Drops" && currentState == State.Steal)
-        {
-            //Debug.Log("HIT");
-            //Destroy(other.gameObject);
-            //steal.hasStolen = true;
         }
     }
 

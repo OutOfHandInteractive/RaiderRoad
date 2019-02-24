@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Build node for walls/weapons. Can be on vertical or horizontal edges of the RV grid.
+/// </summary>
 public class BuildNode : AbstractBuildNode {
     //Michael
 
@@ -9,22 +12,39 @@ public class BuildNode : AbstractBuildNode {
     //  Public Variables
     //--------------------
 
+    /// <summary>
+    /// Filled with the wall prefab in the editor. (Deprecated)
+    /// </summary>
     public GameObject wall;
+
+    /// <summary>
+    /// Boolean flag that indicates whether this node is on a horizontal edge. Necessary for getting the rotation correct. Ususally set in editor
+    /// </summary>
     public bool isHorizontal;
+
+    /// <summary>
+    /// Boolean flag that indicates that this node can build weapons. Ususally set in editor
+    /// </summary>
     public bool canPlaceWeapon = false;
-    private Material outline;
+
     //public float height = 1f;
 
     //--------------------
     //  Private Variables
     //--------------------
 
+    private Material outline;
     private GameObject holo;
     private GameObject item;
 
+    /// <summary>
+    /// Builds a copy of the given wall or weapon, if possible
+    /// </summary>
+    /// <param name="objectToPlace">The object to build</param>
+    /// <param name="spawnNode">The node to spawn it at (Possibly deprecated)</param>
     public void Build(GameObject objectToPlace, GameObject spawnNode)
     {
-        if(objectToPlace.tag == "Wall"){ //If object is a wall
+        if (objectToPlace.tag == "Wall"){ //If object is a wall
             if (this.isHorizontal)
             {
                 item = Instantiate(objectToPlace, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
@@ -49,9 +69,10 @@ public class BuildNode : AbstractBuildNode {
         else if(objectToPlace.tag == "Weapon" && canPlaceWeapon)
         {
             Vector3 dir = gameObject.transform.forward;
-            item = Instantiate(objectToPlace, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.LookRotation(dir));
+			item = Instantiate(objectToPlace, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.LookRotation(dir));
 			item.transform.localScale = new Vector3(1.5f, 0.7f, 0.7f);
-            item.transform.parent = spawnNode.transform;
+			item.transform.parent = spawnNode.transform;
+			item.transform.localPosition = new Vector3(item.transform.localPosition.x, objectToPlace.transform.position.y, item.transform.localPosition.z);
 
 			RemoveShow();	// get rid of holo when item is placed
 
@@ -65,7 +86,12 @@ public class BuildNode : AbstractBuildNode {
         
     }
 
+    /// <summary>
+    /// Show a hologram of the given object
+    /// </summary>
+    /// <param name="makeHolo">THe object to show</param>
     public void Show(GameObject makeHolo){ //hologram function
+        RemoveShow();
         if(makeHolo.tag == "Wall"){
             if (this.isHorizontal)
             {
@@ -85,6 +111,9 @@ public class BuildNode : AbstractBuildNode {
         
     }
 
+    /// <summary>
+    /// Destroy the hologram, if any
+    /// </summary>
     public void RemoveShow()
     {
         Destroy(holo);

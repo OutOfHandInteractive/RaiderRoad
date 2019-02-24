@@ -2,17 +2,32 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// This enemy just wants to destroy things and pick fights
+/// </summary>
 public class DestroyEnemy : EnemyAI {
     //enemy, speed
     private GameObject cObject;
     private int action;
+
+    /// <summary>
+    /// TODO: Ernest please explain this
+    /// </summary>
     public bool engineKill = false;
+
+    /// <summary>
+    /// Initializes this state
+    /// </summary>
+    /// <param name="enemy">This enemy (Deprecated)</param>
     public void StartDestroy(GameObject enemy)
     {
         cObject = enemy;
         action = Random.Range(0, 100);
     }
 
+    /// <summary>
+    /// Performs the destroy actions
+    /// </summary>
     public void Destroy()
     {
         //Set wall gameobject
@@ -37,6 +52,12 @@ public class DestroyEnemy : EnemyAI {
         }
     }
 
+    /// <summary>
+    /// TODO Explain this too, please, Erndog
+    /// </summary>
+    /// <param name="walls"></param>
+    /// <param name="engines"></param>
+    /// <param name="movement"></param>
     public void ChanceDestroy(GameObject[] walls, GameObject[] engines, float movement)
     {
         if(action < 90)

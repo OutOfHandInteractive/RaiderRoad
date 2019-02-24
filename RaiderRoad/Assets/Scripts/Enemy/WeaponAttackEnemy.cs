@@ -23,20 +23,43 @@ public class WeaponAttackEnemy : EnemyAI {
         eVehicle = vehicle;
         cMunnitions = munnitions;
         fireFX = fire;
-        if (cObject.transform.parent.tag == "Cannon")
+        if (vehicle.GetComponentInChildren<HasWeapon>().gameObject.tag == "Cannon")
         {
-            Transform cannonBody = eVehicle.GetComponentInChildren<cannon>().transform.Find("Cannon_Fire");
+			Transform getCannon = eVehicle.GetComponentInChildren<cannon>().transform.Find("model");
+			Transform cannonBody = null;	// this is BAD
+			foreach (Transform child in getCannon) {
+				if (child.CompareTag("WeaponMount")) {
+					cannonBody = child.transform;
+				}
+			}
             cannon = cannonBody.gameObject;
-            barrel = cannonBody.Find("cannonMount").Find("Barrel").gameObject;
+
+			foreach (Transform child in cannon.transform) {
+				if (child.CompareTag("WeaponBarrel")) {
+					barrel = child.gameObject;
+				}
+			}
         }
-        else if (cObject.transform.parent.tag == "Fire")
+        else if (vehicle.GetComponentInChildren<HasWeapon>().gameObject.tag == "Fire")
         {
             flamer = eVehicle.GetComponentInChildren<flamethrower>();
-            Transform flameBody = flamer.transform.Find("FlamethrowerBodyWrapper");
-            Debug.Log(flameBody);
-            flamethrowerBody = flameBody.Find("FlameThrower_Body").gameObject;
-            barrel = flameBody.Find("FlameThrower_Body").gameObject.transform.Find("Barrel").gameObject;
-            if (!created)
+			Transform getFlamethrower = eVehicle.GetComponentInChildren<flamethrower>().transform.Find("FlameThrowerWrapper").Find("model"); // this is WORSE
+			Transform flamethrower = null;
+			foreach (Transform child in getFlamethrower) {
+				if (child.CompareTag("WeaponMount")) {
+					flamethrower = child.transform;
+				}
+			}
+			flamethrowerBody = flamethrower.gameObject;
+
+			foreach (Transform child in flamethrowerBody.transform) {
+				if (child.CompareTag("WeaponBarrel")) {
+					barrel = child.gameObject;
+				}
+			}
+
+
+			if (!created)
             {
                 if (side.Equals("right"))
                 {
@@ -62,13 +85,15 @@ public class WeaponAttackEnemy : EnemyAI {
 
         //flamethrower.transform.LookAt(player.transform.position);
 
-        Transform parent = gameObject.transform.parent;
+        Transform parent = eVehicle.GetComponentInChildren<HasWeapon>().transform;
+        Debug.Log(parent);
         if(parent == null)
         {
             gameObject.GetComponent<StatefulEnemyAI>().EnterDeath();
         }
         else if (parent.tag == "Cannon")
         {
+            Debug.Log("SHOOOOOOOOOOOOOOOOOOOT CANNNNNNNNNNNNON");
             if (!fired)
             {
                 StartCoroutine(WaitToShoot());
@@ -77,6 +102,7 @@ public class WeaponAttackEnemy : EnemyAI {
         }
         else if (parent.tag == "Fire")
         {
+            Debug.Log("SHOOOOOOOOOOOOOOOOOOOT FIREEEEEEEEEEEEEEEE");
             Flames();
         }
 
@@ -87,7 +113,7 @@ public class WeaponAttackEnemy : EnemyAI {
     {
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
         GameObject player = Closest(cObject.transform.position, players);
-        proj = Object.Instantiate(cMunnitions.gameObject, barrel.transform.position, Quaternion.identity);
+        proj = Instantiate(cMunnitions.gameObject, barrel.transform.position, Quaternion.identity);
         proj.GetComponent<Rigidbody>().velocity = CannonVelocity(player, 75f);
     }
 
@@ -116,11 +142,15 @@ public class WeaponAttackEnemy : EnemyAI {
     void Flames()
     {
         //fireInstance.gameObject.transform.rotation = barrel.transform.rotation;
+        Debug.Log(barrel);
+        Debug.Log(flamer);
         flamer.SetRotation(barrel.transform.rotation);
         flamer.CheckOverheat();
+        //flamer.GetComponentInChildren<flamethrowerDamage>().enabled = false;
         if (!flamer.isOverheated())
         {
             flamer.StartFiring();
+            //flamer.GetComponentInChildren<flamethrowerDamage>().enabled = true;
         }
     }
 
@@ -141,8 +171,11 @@ public class WeaponAttackEnemy : EnemyAI {
     {
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
         GameObject player = Closest(cObject.transform.position, players);
-        Vector3 targetPosition = new Vector3(player.transform.position.x, weapons.transform.position.y, player.transform.position.z);
-        cObject.transform.LookAt(targetPosition);
-        weapons.transform.LookAt(targetPosition);
+        if(player != null)
+        {
+            Vector3 targetPosition = new Vector3(player.transform.position.x, weapons.transform.position.y, player.transform.position.z);
+            cObject.transform.LookAt(targetPosition);
+            weapons.transform.LookAt(targetPosition);
+        }
     }
 }

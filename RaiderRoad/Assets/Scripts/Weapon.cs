@@ -2,9 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Weapon : Constructable<BuildNode> {
+/// <summary>
+/// This class is for weapons like cannons and flamethrowers
+/// </summary>
+public class Weapon : ConstructableGen<BuildNode> {
 
+    /// <summary>
+    /// List of nodes close around the weapon that should be disabled so as not to cause overlap. Populated automatically
+    /// </summary>
     public List<GameObject> disabledNodes = new List<GameObject>();
+
 
     private GameObject myAttacker = null;
 
@@ -18,6 +25,9 @@ public class Weapon : Constructable<BuildNode> {
         // Do nothing
     }
 
+    /// <summary>
+    /// Hook to detach an interacting player and spawn particles
+    /// </summary>
     public override void OnBreak()
     {
         //Debug.Log(myAttacker.GetComponent<PlayerController_Rewired>() + "jdsfijdfidsfjdiofjdsifds");
@@ -25,14 +35,24 @@ public class Weapon : Constructable<BuildNode> {
         {
             myAttacker.GetComponent<PlayerController_Rewired>().clearInteractable();
         }
-    }
 
+		Instantiate(objectBreakParticles, transform.position, Quaternion.identity);
+	}
+
+    /// <summary>
+    /// Extension to Damage() that takes a source
+    /// </summary>
+    /// <param name="damage">The damage to take</param>
+    /// <param name="attackingObj">The source of the damage</param>
     public void Damage(float damage, GameObject attackingObj)
     {
         Damage(damage);
         myAttacker = attackingObj;
     }
 
+    /// <summary>
+    /// Detects and disables nearby nodes so they can't have overlapping weapons
+    /// </summary>
     public void DisableNear(){
         Collider[] hitColliders = Physics.OverlapBox(gameObject.transform.position, transform.localScale / 10, Quaternion.LookRotation(gameObject.transform.forward));
         //Debug.Log(hitColliders.Length.ToString());

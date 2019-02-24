@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Wall : Constructable<BuildNode>
+/// <summary>
+/// This class is for constructable walls
+/// </summary>
+public class Wall : ConstructableGen<BuildNode>
 {
     public override void OnStart()
     {
@@ -14,8 +17,11 @@ public class Wall : Constructable<BuildNode>
         // Do nothing
     }
 
+    /// <summary>
+    /// On break hook to spawn particles
+    /// </summary>
     public override void OnBreak()
     {
-        // Do nothing
-    }
+		Instantiate(objectBreakParticles, transform.position, Quaternion.identity);
+	}
 }

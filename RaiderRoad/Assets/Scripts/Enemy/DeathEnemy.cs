@@ -2,8 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// This enemy just wants to die
+/// </summary>
 public class DeathEnemy : MonoBehaviour {
 
+    /// <summary>
+    /// Performs the raider death actions (ritual?)
+    /// </summary>
+    /// <param name="enemy"></param>
+    /// <param name="drop"></param>
     public void Death(GameObject enemy, GameObject drop)
     {
         spawnDrop(drop, enemy);

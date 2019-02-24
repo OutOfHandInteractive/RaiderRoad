@@ -8,21 +8,47 @@ using System.Collections;
 /// </summary>
 public abstract class Constructable : MonoBehaviour
 {
-    public GameObject drop;
-    //hits is for destroying by hand to remove an ill placed wall
-    //health is the durability from attacks by raiders
-    public int hits;
-    public float health;
+	// -------------- public variables ------------------
+	// references
 
-    public bool isHolo = false;
+    /// <summary>
+    /// The itemdrop that corresponds to this object. Usually set in the editor
+    /// </summary>
+    public GameObject drop;
+
+    /// <summary>
+    /// The node this object was spawned from
+    /// </summary>
+	public GameObject myNode;
+
+	// gameplay values
+
+    /// <summary>
+    /// The number of hits it takes to destroy this (Deprecated)
+    /// </summary>
+	public int hits;
+
+    /// <summary>
+    /// The amount of health this object has
+    /// </summary>
+	public float health;
+
+    /// <summary>
+    /// Boolean flag that indicates whether this object is merely a hologram
+    /// </summary>
+	public bool isHolo = false;
+
+    /// <summary>
+    /// Boolean flag that indicates whether this object is currently being attacked by a raider
+    /// </summary>
     public bool isOccupied = false;
-    private Material myMat; //reference material of gameObject
-    public GameObject myNode; //node it spawned from
+
+	// -------------- nonpublic variables ----------------
+	[SerializeField] protected ParticleSystem objectBreakParticles;
 
     // Use this for initialization
     void Start()
     {
-        myMat = gameObject.GetComponent<Renderer>().material;
         if (isHolo) MakeHolo();
         OnStart();
     }
@@ -38,22 +64,43 @@ public abstract class Constructable : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// This hook method is called in Start() after initialization
+    /// </summary>
     public abstract void OnStart();
 
+    /// <summary>
+    /// This hook method is called in Update() before health is checked
+    /// </summary>
     public abstract void OnUpdate();
 
-    public abstract void OnBreak();
+    /// <summary>
+    /// This hook method is called in Update() if the object is going to be destroyed. It is called just before the drop is spawned.
+    /// </summary>
+	public abstract void OnBreak();
 
+    /// <summary>
+    /// This method is for taking damage from attacks. The damage is subtracted from the health.
+    /// </summary>
+    /// <param name="damage">The damage to take</param>
     public virtual void Damage(float damage)
     {
         health -= damage;
     }
 
+    /// <summary>
+    /// Checks if the object has been placed on a node
+    /// </summary>
+    /// <returns>True if and only if myNode is valid and occupied</returns>
     public bool isPlaced()
     {
         return myNode != null && GetNodeComp(myNode).occupied;
     }
 
+    /// <summary>
+    /// Optional hook that is called with the drop that has been spawned. This allows the implementer to add information to the drop. Does nothing by default.
+    /// </summary>
+    /// <param name="item">THe drop object</param>
     public virtual void OnDrop(GameObject item)
     {
         // Do nothing by default
@@ -72,19 +119,37 @@ public abstract class Constructable : MonoBehaviour
         Destroy(this.gameObject);
     }
 
+    /// <summary>
+    /// Abstract method that gets the build node component out of the given game object
+    /// </summary>
+    /// <param name="myNode">The object to extract the component from</param>
+    /// <returns>The build node component</returns>
     protected abstract AbstractBuildNode GetNodeComp(GameObject myNode);
 
     private void MakeHolo() // a function for making material holographic
     {
         gameObject.GetComponent<BoxCollider>().enabled = false;
-        Color tempColor = myMat.color;
-        tempColor.a = 0.4f;
-        myMat.color = tempColor;
+        foreach(Renderer renderer in gameObject.GetComponentsInChildren<Renderer>())
+        {
+            Material myMat = renderer.material;
+            Color tempColor = myMat.color;
+            tempColor.a = 0.4f;
+            myMat.color = tempColor;
+        }
     }
 }
 
-public abstract class Constructable<N> : Constructable where N : AbstractBuildNode
+/// <summary>
+/// This is the proper generic class for constructables. Provides greater type safety than the other class.
+/// </summary>
+/// <typeparam name="N">The type of build node this object needs</typeparam>
+public abstract class ConstructableGen<N> : Constructable where N : AbstractBuildNode
 {
+    /// <summary>
+    /// Uses GetComponent<> to get the correct component from the object.
+    /// </summary>
+    /// <param name="myNode">The object to look in</param>
+    /// <returns>The correct build node of type N</returns>
     protected override AbstractBuildNode GetNodeComp(GameObject myNode)
     {
         return myNode.GetComponent<N>();
