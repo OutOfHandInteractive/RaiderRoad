@@ -35,8 +35,6 @@ public class Weapon : ConstructableGen<BuildNode> {
         {
             myAttacker.GetComponent<PlayerController_Rewired>().clearInteractable();
         }
-
-		Instantiate(objectBreakParticles, transform.position, Quaternion.identity);
 	}
 
     /// <summary>

@@ -208,12 +208,22 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         }
     }
 
+    private void SetSpringTrapPosition(GameObject obj)
+    {
+        SpringTrap trap = obj.GetComponent<SpringTrap>();
+        if (trap != null)
+        {
+            trap.SetRotation(gameObject);
+        }
+    }
+
     private void BuildDurableConstruct(DurabilityBuildNode node)
     {
         if (!node.occupied)
         {
             //myAni.SetTrigger("build");
-            node.Build(heldItem, floatingItem.GetComponent<DurableConstruct>().GetDurability());
+            GameObject obj = node.Build(heldItem, floatingItem.GetComponent<DurableConstruct>().GetDurability());
+            SetSpringTrapPosition(obj);
             heldItem = null;
             hasItem = false;
             Destroy(floatingItem);
@@ -450,7 +460,12 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
             {
                 //Debug.Log("Trap node added");
                 trapNodes.Add(other.gameObject);
-                if (buildMode) other.GetComponent<TrapNode>().Show(heldItem); //if player is in build mode, activate show wall in the build node script
+                //if player is in build mode, activate show wall in the build node script
+                if (buildMode && !other.GetComponent<TrapNode>().occupied)
+                {
+                    GameObject holo = other.GetComponent<TrapNode>().Show(heldItem);
+                    SetSpringTrapPosition(holo);
+                } 
             }
         }
         if (heldItem != null && other.name == "PoiNode")
@@ -459,7 +474,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
             {
                 //Debug.Log("Trap node added");
                 engineNodes.Add(other.gameObject);
-                if (buildMode) other.GetComponent<PoiNode>().Show(heldItem); //if player is in build mode, activate show wall in the build node script
+                if (buildMode && !other.GetComponent<PoiNode>()) other.GetComponent<PoiNode>().Show(heldItem); //if player is in build mode, activate show wall in the build node script
             }
         }
         if (other.gameObject.CompareTag("Trap"))
