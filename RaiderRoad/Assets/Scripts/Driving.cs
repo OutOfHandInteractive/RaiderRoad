@@ -62,6 +62,9 @@ public class Driving : Interactable
         if (moveVector.x != 0.0f || moveVector.y != 0.0f)
         {
             rv.Translate(moveVector.x, 0, moveVector.y, Space.World);
+            Vector3 clampedPosition = rv.transform.position;
+            clampedPosition.x = Mathf.Clamp(rv.transform.position.x, -20f, 20f);
+            rv.transform.position = clampedPosition;
         }
     }
 
