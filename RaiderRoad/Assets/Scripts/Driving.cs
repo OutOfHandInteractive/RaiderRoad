@@ -11,6 +11,10 @@ public class Driving : Interactable
     public Transform rv;
     public float moveSpeed = 10f;
 
+    public float accel;
+    public float maxSpeed;
+    public float change;
+
     //--------------------
     // Private Variables
     //--------------------
@@ -44,15 +48,24 @@ public class Driving : Interactable
     {
         if (!paused && inUse)
         {
+            if ((moveVector.x != 0.0f || moveVector.y != 0.0f) && (accel < maxSpeed))
+            {
+                accel += Time.deltaTime * change;
+            }
+
             playerUsing.transform.position = transform.position;
             playerUsing.transform.rotation = transform.rotation;
-            moveVector.x = player.GetAxis("Move Horizontal") * Time.deltaTime * moveSpeed;
+            moveVector.x = player.GetAxis("Move Horizontal") * Time.deltaTime * moveSpeed * accel;
             moveVector.y = player.GetAxis("Move Vertical") * Time.deltaTime * moveSpeed;
 
             if (player.GetButtonDown("Exit Interactable"))
             {
                 Leave();
                 playerUsing.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
+            }
+            if (moveVector.x == 0.0f || moveVector.y == 0.0f)
+            {
+                accel = 0;
             }
         }
     }
@@ -94,7 +107,7 @@ public class Driving : Interactable
         playerUsing = user.gameObject;
         user.setInteractingFlag();
         user.interactAnim(true); //start animation
-        
+
         inUse = true;
     }
 
