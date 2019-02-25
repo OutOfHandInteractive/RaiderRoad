@@ -7,6 +7,7 @@ using UnityEngine;
 /// </summary>
 public class Wall : ConstructableGen<BuildNode>
 {
+    public bool isOccupied = false;
     public override void OnStart()
     {
         // Do nothing

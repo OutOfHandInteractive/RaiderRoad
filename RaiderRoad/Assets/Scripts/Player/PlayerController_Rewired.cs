@@ -21,6 +21,7 @@ public class PlayerController_Rewired : MonoBehaviour
 
     public float jumpForce;
     public float distToGround = 0.9f;
+    public bool isOccupied = false;
     // --------------------------------------------------------------------
 
 
