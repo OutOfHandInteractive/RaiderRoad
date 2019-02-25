@@ -7,11 +7,6 @@ using UnityEngine.AI;
 
 public class EventManager : MonoBehaviour {
 
-	// Light vehicle threat: 1-3
-	// Medium vehicle threat: 3-5
-
-	// small obstacle threat: 1
-
 	// --------------------- public variables -------------------------
 	// enumerations
 	public enum eventTypes { vehicle, obstacle };
@@ -51,6 +46,16 @@ public class EventManager : MonoBehaviour {
     public GameObject oSpawnsParent;
     [SerializeField]
     private List<Transform> ospawnPoints;
+
+    //threat ranges
+    private int lThreatMin = 1;
+    private int lThreatMax = 3;
+    private int mThreatMin = 3;
+    private int mThreatMax = 5;
+    private int hThreatMin = 5;
+    private int hThreatMax = 7;
+    private int oThreat = 1;
+
 
     void Start(){
         //StartCoroutine(difficultyManager());
@@ -100,7 +105,7 @@ public class EventManager : MonoBehaviour {
 
 		int difficultySpace = difRate;
         int vThreat = 0;  //this is used down below when subtracting the constants for each vtype from the difficultySpace
-        int vMod = 0;       //this is used down below when generating a number in the ranges above based on type
+        int vMod = 0;       //this is used down below when generating a number in the threat ranges above based on type
         List<Transform> sPoints = new List<Transform>();
         int randNum;////////////
         while (difficultySpace > 0)
@@ -119,7 +124,10 @@ public class EventManager : MonoBehaviour {
             if (etype == EventManager.eventTypes.vehicle)
             {
 				//determine vehicle type --- need to implement, for now just does medium and light randomly
-				if (difficultyRating >= Constants.MEDIUM_VEHICLE_BASE_THREAT) {
+                /*if(difficultyRating >= Constants.HEAVY_VEHICLE_BASE_THREAT){
+                    randNum = UnityEngine.Random.Range((int)VehicleFactoryManager.vehicleTypes.light, (int)VehicleFactoryManager.vehicleTypes.heavy + 1);
+                }
+                else */if (difficultyRating >= Constants.MEDIUM_VEHICLE_BASE_THREAT) {
 					randNum = UnityEngine.Random.Range((int)VehicleFactoryManager.vehicleTypes.light, (int)VehicleFactoryManager.vehicleTypes.medium + 1);
 				}
 				else {
@@ -129,15 +137,16 @@ public class EventManager : MonoBehaviour {
                 //--------------------------------------------------------------------------------------------------------
                 if(vtype == VehicleFactoryManager.vehicleTypes.light){
                     vThreat = Constants.LIGHT_VEHICLE_BASE_THREAT;
-                    vMod = UnityEngine.Random.Range(1, 3);
+                    vMod = UnityEngine.Random.Range(lThreatMin, lThreatMax);
                 }
                 else if(vtype == VehicleFactoryManager.vehicleTypes.medium){
                     vThreat = Constants.MEDIUM_VEHICLE_BASE_THREAT;
-                    vMod = UnityEngine.Random.Range(3, 5);
+                    vMod = UnityEngine.Random.Range(mThreatMin, mThreatMax);
                 }
-                //else if(vtype == VehicleFactoryManager.vehicleTypes.heavy){   //this is for heavies when we get those in
-                //  vThreat = Constants.HEAVY_VEHICLE_BASE_THREAT;
-                //}
+                else if(vtype == VehicleFactoryManager.vehicleTypes.heavy){   //this is for heavies when we get those in
+                    vThreat = Constants.HEAVY_VEHICLE_BASE_THREAT;
+                    vMod = UnityEngine.Random.Range(hThreatMin, hThreatMax);
+                }
                 //---------------------------------------------------------------------------------------------------------
                 difficultySpace = difficultySpace - vThreat;  //subtract threat from difSpace
                 sPoints = vspawnPoints;
@@ -153,6 +162,9 @@ public class EventManager : MonoBehaviour {
             
             _nE = newEC.AddComponent<Event>() as Event;
             _nE.initialize(difRate, vtype, etype, sPoints);
+            if (etype == EventManager.eventTypes.vehicle){      //pass the vMod value to the event only if event is a vehicle
+                _nE.setMod(vMod);
+            }
             _new.Add(_nE);          //uses current dif rate, [for now] default spawn position, [for now] default enemy to create an event
         }
         newEC.GetComponent<EventCluster>().startUp(_new, vFactory);

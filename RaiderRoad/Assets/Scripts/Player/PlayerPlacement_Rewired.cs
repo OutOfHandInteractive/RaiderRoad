@@ -30,6 +30,10 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
     public float attack_cooldown = .25f;
 
     public GameObject AttackObject; //for temporary attack for prototype
+    //melee weapon variables
+    public GameObject myWeapon;
+    public float timeTilSheath;
+    public float sheathAnimTime;
 
     //--------------------
     // Private Variables
@@ -54,6 +58,9 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
     private float holdTime; //timer for "how long button is held"
     private float attackCount;
     private bool canAttack = true;
+    //melee weapon variables
+    private float sheathTimer = 0f;
+    private Vector3 MeleeWeapScale;
 
     [System.NonSerialized]
     private bool initialized;
@@ -78,6 +85,9 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         TempAttMat = AttackObject.GetComponent<Renderer>().material;
         currentAttColor = TempAttMat.color; //get current color so we can play with alpha
 
+        MeleeWeapScale = myWeapon.transform.localScale;
+        myWeapon.SetActive(false);
+
         g = GameManager.GameManagerInstance;
     }
 
@@ -86,7 +96,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         if (!ReInput.isReady) return; // Exit if Rewired isn't ready. This would only happen during a script recompile in the editor.
         if (!initialized) Initialize(); // Reinitialize after a recompile in the editor
         changeInventory();
-        displayMode();
+        //displayMode(); //display "building" text
 
         if(!(g == null)) {
             myPauseInput = g.GetComponent<GameManager>().pauseInput;
@@ -100,7 +110,20 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
             }
             if (attackCount <= 0.0)
             {
+                //myWeapon.SetActive(false);
                 canAttack = true;
+            }
+
+            //Sheath Weapon
+            if(sheathTimer > 0f) {
+                sheathTimer -= Time.deltaTime;
+                if(sheathTimer < sheathAnimTime)
+                {
+                    //myAni.SetTrigger("sheathWeapon");
+                    myWeapon.transform.localScale = MeleeWeapScale * Mathf.SmoothStep(1f, 0f, sheathAnimTime - sheathTimer);
+                }
+            } else {
+                myWeapon.SetActive(false);
             }
 
             myInteracting = pController.interacting;
@@ -136,6 +159,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
     private void HoldingItem()
     {
         floatItem();
+        SheathWeapon();
         if (player.GetButtonDown("Place Object"))
         {
             if (heldItem.tag == "Trap" && trapNodes.Count > 0)
@@ -253,13 +277,15 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
     {
         if (player.GetButton("Build Mode"))
         {
-            if (!buildMode)
+            if (!buildMode && wallInventory > 0)
             {
                 //When switching out of build mode, attack will get stuck in InvalidOperationException: List has changed. This helps
                 if (buildMode) attackRange = new List<GameObject>();
                 buildMode = !buildMode;
 
                 checkHologram();
+                SheathWeapon();
+                myAni.SetBool("isHolding", true);
             }
         } else {
             if (nodes.Count > 0) { //If showing holo wall, turn off every holo wall currently being displayed
@@ -268,14 +294,32 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
                 }
             }
             buildMode = false;
+            myAni.SetBool("isHolding", false);
+            hasItem = false;
+            Destroy(floatingItem);
         }
         if (buildMode)
         {
+            floatItem(); //float a wall piece instead
+
             if (wallInventory > 0 && player.GetButtonDown("Place Object") && nodes.Count > 0)
             {
                 BuildWall();
             }
-            if (wallInventory <= 0) buildMode = false; //leave wall build mode if you have no wall (needs more feedback)
+            if (wallInventory <= 0)
+            {
+                buildMode = false; //leave wall build mode if you have no wall (needs more feedback)
+
+                if (nodes.Count > 0) { //If showing holo wall, turn off every holo wall currently being displayed
+                    for(int i = 0; i < nodes.Count; i++){ 
+                        nodes[i].GetComponent<BuildNode>().RemoveShow();
+                    }
+                }
+                buildMode = false;
+                myAni.SetBool("isHolding", false);
+                hasItem = false;
+                Destroy(floatingItem);
+            }
         }
         else if (player.GetButtonDown("Attack") && canAttack)
         {
@@ -321,7 +365,10 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         myAni.SetTrigger("attack");
         canAttack = false;
         attackCount = attack_cooldown;
-        //myAni.SetBool("isAttacking", false);
+        myWeapon.SetActive(true);
+        myWeapon.transform.localScale = MeleeWeapScale;
+        sheathTimer = timeTilSheath;
+
         if (!AttackVehicleParts())
         {
             Util.RemoveNulls(attackRange);
@@ -546,6 +593,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         }
     }
 
+    //Once "Building" is Officially no longer going to be displayed, DELETE function
     void displayMode()
     {
         if (buildMode) mode.text = "Building";
@@ -557,10 +605,18 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
     {
         if (!hasItem)
         {
-            GameObject myFloat = heldItem;
-            floatingItem = Instantiate(myFloat, //fix later for prettier
+            GameObject myFloat = null;
+            if (heldItem != null) {
+                myFloat = heldItem;
+                floatingItem = Instantiate(myFloat, //fix later for prettier
                 new Vector3(transform.parent.position.x, transform.parent.position.y, transform.parent.position.z), transform.parent.rotation, transform.parent);
-            //OLD - new Vector3(transform.parent.position.x, transform.parent.position.y + 1f, transform.parent.position.z + 0.5f), Quaternion.identity, transform.parent);
+            } else { //Else hold a wall piece
+                myFloat = wall;
+                floatingItem = Instantiate(myFloat, //fix later for prettier
+                new Vector3(transform.parent.position.x, transform.parent.position.y, transform.parent.position.z), transform.parent.rotation, transform.parent);
+                //wall is too big to carry, scaling down
+                floatingItem.transform.localScale *= 0.7f;
+            }
             floatingItem.transform.localPosition = new Vector3(0f, 1.1f, 0.5f); //NEED SOLUTION FOR ALL CHARACTER SIZES
 
             hasItem = true;
@@ -583,4 +639,9 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
 	public void removeDestructableVehiclePart(GameObject p) {
 		destructableParts.Remove(p);
 	}
+
+    public void SheathWeapon(){
+        myWeapon.SetActive(false);
+        sheathTimer = 0f;
+    }
 }

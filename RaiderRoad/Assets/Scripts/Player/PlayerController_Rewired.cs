@@ -35,7 +35,9 @@ public class PlayerController_Rewired : MonoBehaviour
     private Rigidbody rb;
     //Animator
     public Animator myAni;
+    public float prevMoveVal; //used to polish movement transitions (in animations)
     private GameManager g;
+    private bool myPauseInput = false;
 
     public float currentHealth;
     private float baseJumpInidicatorScale;
@@ -103,11 +105,17 @@ public class PlayerController_Rewired : MonoBehaviour
         if (!ReInput.isReady) return; // Exit if Rewired isn't ready. This would only happen during a script recompile in the editor.
         if (!initialized) Initialize(); // Reinitialize after a recompile in the editor
 
-        if (!interacting && state == playerStates.up)
+        if (g != null)
+        {
+            myPauseInput = g.GetComponent<GameManager>().pauseInput;
+        }
+
+        if (!interacting && state == playerStates.up && !myPauseInput)
         {
             GetInput();
             ProcessInput();
         }
+
         /*
         if (!IsGrounded())
         {
@@ -125,9 +133,7 @@ public class PlayerController_Rewired : MonoBehaviour
             moveVector.x = player.GetAxis("Move Horizontal") * Time.deltaTime * moveSpeed;
             moveVector.y = player.GetAxis("Move Vertical") * Time.deltaTime * moveSpeed;
 
-            //Debug.Log(moveVector.magnitude * 10f);
-            myAni.SetFloat("speed", moveVector.magnitude * 10f);
-            //Debug.Log(moveVector.magnitude);
+            myAni.SetFloat("speed", moveVector.magnitude/ Time.deltaTime);
 
             //Twin Stick Rotation
             //rotateVector = Vector3.right * player.GetAxis("Rotate Horizontal") + Vector3.forward * player.GetAxis("Rotate Vertical");
@@ -140,10 +146,12 @@ public class PlayerController_Rewired : MonoBehaviour
                 Debug.Log("pressing button");
                 if (downedPlayers.Count > 0)
                 {
+                    view.GetComponent<PlayerPlacement_Rewired>().SheathWeapon();
                     startRevive(downedPlayers[0].GetComponent<PlayerController_Rewired>());
                 }
                 else if (interactables.Count > 0 && !interactables[0].GetComponent<Interactable>().isOnCooldown())
                 {
+                    view.GetComponent<PlayerPlacement_Rewired>().SheathWeapon();
                     if (!interactables[0].GetComponent<Interactable>().Occupied())
                     {
                         interactables[0].GetComponent<Interactable>().Interact(this);
@@ -309,6 +317,7 @@ public class PlayerController_Rewired : MonoBehaviour
         {
             //Color deathColor = myOrigColor * 0.5f;        //Replace with proper death feedback
             //myMat.color = deathColor;
+            view.GetComponent<PlayerPlacement_Rewired>().SheathWeapon();
             myAni.SetBool("downed", true);
 
             state = playerStates.down;
