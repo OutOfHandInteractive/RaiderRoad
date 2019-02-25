@@ -22,6 +22,7 @@ public class Event : MonoBehaviour {
 	// gameplay values
 	private VehicleFactoryManager.vehicleTypes _vtype;
     private int numPoints;
+    private int _mod;
 
     /*public Event(int dif, VehicleFactoryManager.vehicleTypes type)       //add game object to constructor for spawning
     {
@@ -35,6 +36,11 @@ public class Event : MonoBehaviour {
         _vtype = vtype;
         _etype = etype;
         spawnPoints = spawns;
+    }
+
+    public void setMod(int mod)
+    {
+        _mod = mod;
     }
 
     void Start()
@@ -56,7 +62,7 @@ public class Event : MonoBehaviour {
         Debug.Log("spawn = " + numPoints);
         //Debug.Log("spawn called");
         //based on type, call proper function - for now just creates light vehicle
-        e = factory.newConstructVehicle(_vtype);
+        e = factory.newConstructVehicle(_vtype,_mod);
         e.GetComponent<VehicleAI>().setSide(spawnPoints[numPoints].name);
         e.transform.position = spawnPoints[numPoints].transform.position;
         e.GetComponentInChildren<eventObject>().setCluster(this.gameObject);
