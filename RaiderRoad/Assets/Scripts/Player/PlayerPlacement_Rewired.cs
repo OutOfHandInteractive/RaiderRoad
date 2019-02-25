@@ -430,25 +430,17 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
                 if (buildMode && !other.GetComponent<PoiNode>()) other.GetComponent<PoiNode>().Show(heldItem); //if player is in build mode, activate show wall in the build node script
             }
         }
-        if (other.gameObject.CompareTag("Trap"))
+        if (Util.isEnemy(other.gameObject))
         {
             attackRange.Add(other.gameObject);
         }
-        if (other.gameObject.CompareTag("Wall"))
+        else
         {
-            attackRange.Add(other.gameObject);
-        }
-        if (other.gameObject.CompareTag("Engine"))
-        {
-            attackRange.Add(other.gameObject);
-        }
-        if (other.gameObject.CompareTag("Enemy"))
-        {
-            attackRange.Add(other.gameObject);
-        }
-        if (other.gameObject.CompareTag("Weapon"))
-        {
-            attackRange.Add(other.gameObject);
+            Constructable construct = other.GetComponent<Constructable>();
+            if (construct != null && !construct.isHolo && construct.isPlaced())
+            {
+                attackRange.Add(other.gameObject);
+            }
         }
         if (other.gameObject.CompareTag("Interactable")) {
             if (other.GetComponentInChildren<BoxCollider>().enabled)
@@ -510,11 +502,11 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         if(other.gameObject.name == "BuildNode" || other.name == "xNode") other.GetComponent<BuildNode>().RemoveShow(); //if object leaving is a build node, make sure it isn't showing holo of object
         if (other.name == "Trap") other.GetComponent<TrapNode>().RemoveShow();
         if (other.name == "PoiNode") other.GetComponent<PoiNode>().RemoveShow();
-
-        nodes.Remove(other.gameObject);
-        trapNodes.Remove(other.gameObject);
-        engineNodes.Remove(other.gameObject);
-        attackRange.Remove(other.gameObject);
+        
+        Util.RemoveAll(nodes, other.gameObject);
+        Util.RemoveAll(trapNodes, other.gameObject);
+        Util.RemoveAll(engineNodes, other.gameObject);
+        Util.RemoveAll(attackRange, other.gameObject);
 
         if (other.gameObject.CompareTag("Interactable")) {
 			pController.removeInteractable(other.gameObject);
