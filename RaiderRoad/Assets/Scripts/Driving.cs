@@ -55,30 +55,40 @@ public class Driving : Interactable
 
             playerUsing.transform.position = transform.position;
             playerUsing.transform.rotation = transform.rotation;
+
             moveVector.x = player.GetAxis("Move Horizontal") * Time.deltaTime * moveSpeed * accel;
-            moveVector.y = player.GetAxis("Move Vertical") * Time.deltaTime * moveSpeed;
+            moveVector.y = player.GetAxis("Move Vertical") * Time.deltaTime * moveSpeed * accel;
 
             if (player.GetButtonDown("Exit Interactable"))
             {
                 Leave();
                 playerUsing.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
             }
-            if (moveVector.x == 0.0f || moveVector.y == 0.0f)
+            if ((moveVector.x == 0.0f && moveVector.y == 0.0f) && (accel >= 0))
             {
-                accel = 0;
+                accel -= Time.deltaTime * (change * 4);
             }
+        }
+    }
+
+    IEnumerator smoothSteppin(float a, float dur)
+    {
+        float timer = 10f;
+        float timeToTake = 10f;
+        while (timer >= 0)
+        {
+            accel = Mathf.SmoothStep(a, 0, timer / timeToTake);
+            timer -= Time.deltaTime;
+            yield return null;
         }
     }
 
     private void ProcessInput()
     {
-        if (moveVector.x != 0.0f || moveVector.y != 0.0f)
-        {
-            rv.Translate(moveVector.x, 0, moveVector.y, Space.World);
-            Vector3 clampedPosition = rv.transform.position;
-            clampedPosition.x = Mathf.Clamp(rv.transform.position.x, -20f, 20f);
-            rv.transform.position = clampedPosition;
-        }
+        rv.Translate(moveVector.x, 0, moveVector.y, Space.World);
+        Vector3 clampedPosition = rv.transform.position;
+        clampedPosition.x = Mathf.Clamp(rv.transform.position.x, -20f, 20f);
+        rv.transform.position = clampedPosition;
     }
 
     public float VerticalAxis()
