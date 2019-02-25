@@ -28,10 +28,10 @@ public class FightEnemy : EnemyAI {
     {
         //Initialized enemy
         players = GameObject.FindGameObjectsWithTag("Player");
-        player = GetTarget();
         cObject = enemy;
         _target = target;
         fightRange = cObject.transform.Find("EnemyAttack").gameObject;
+        player = GetTarget();
     }
 
     private GameObject GetTarget()
@@ -39,6 +39,7 @@ public class FightEnemy : EnemyAI {
         if(_target == null)
         {
             Debug.Log(players);
+            Debug.Log(players[0]);
             _target = Closest(cObject.transform.position, players);
             //PlayerController_Rewired.playerStates deadPlayer = _target.GetComponent<PlayerController_Rewired>().state;
             //if(deadPlayer != PlayerController_Rewired.playerStates.down)
@@ -53,7 +54,6 @@ public class FightEnemy : EnemyAI {
     {
         //Get player object
         //Get enemy speed
-        
 
         GameObject[] vehicles = GameObject.FindGameObjectsWithTag("eVehicle");
         float movement = speed * Time.deltaTime;

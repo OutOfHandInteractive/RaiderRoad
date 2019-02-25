@@ -74,7 +74,14 @@ public class DestroyEnemy : EnemyAI {
             if(walls.Length <= 0)
             {
                 Debug.Log(engine);
-                MoveToward(engine);
+                if(engines.Length <= 0)
+                {
+                    cObject.GetComponent<StatefulEnemyAI>().EnterFight();
+                }
+                else
+                {
+                    MoveToward(engine);
+                }
             }
             else
             {
@@ -83,7 +90,14 @@ public class DestroyEnemy : EnemyAI {
         }
         else
         {
-            MoveToward(engine);
+            if (engines.Length <= 0)
+            {
+                cObject.GetComponent<StatefulEnemyAI>().EnterFight();
+            }
+            else
+            {
+                MoveToward(engine);
+            }
         }
     }
 }

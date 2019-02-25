@@ -36,7 +36,7 @@ public abstract class EnemyAI : MonoBehaviour
             }
             else if (wall.GetComponent<Engine>() != null)
             {
-                if ((closest == null || dist < minDist) && wall.GetComponent<ItemDrop>().isOccupied != true)
+                if ((closest == null || dist < minDist) && wall.GetComponent<Engine>().isOccupied != true)
                 {
                     wall.GetComponent<Engine>().isOccupied = true;
                     closest = wall;
@@ -72,7 +72,7 @@ public abstract class EnemyAI : MonoBehaviour
             }
             else if (wall.GetComponent<PlayerController_Rewired>() != null)
             {
-                if ((closest == null || dist < minDist) && wall.GetComponent<PlayerController_Rewired>().isOccupied != true)
+                if ((closest == null || dist < minDist))
                 {
                     closest = wall;
                     minDist = dist;
