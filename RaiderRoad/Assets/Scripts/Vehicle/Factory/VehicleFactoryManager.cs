@@ -14,7 +14,7 @@ public class VehicleFactoryManager : MonoBehaviour {
 
     public vehicleTypes getType;
 
-	public void ConstructVehicle(vehicleTypes type, int mod) {
+	public void ConstructVehicle(vehicleTypes type,int mod) {
 		if (type == vehicleTypes.light)
 			l.AssembleVehicle(mod);
 		else if (type == vehicleTypes.medium)

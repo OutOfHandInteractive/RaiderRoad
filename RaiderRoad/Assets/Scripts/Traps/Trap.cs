@@ -15,6 +15,12 @@ public abstract class Trap : DurableConstructGen<TrapNode>
     private List<Collider> colliders = new List<Collider>();
     private float cooldownRemaining = 0;
 
+    public override void OnStart()
+    {
+        base.OnStart();
+        StartCooldown();
+    }
+
     /// <summary>
     /// Update hook to update the cooldown
     /// </summary>
@@ -47,8 +53,13 @@ public abstract class Trap : DurableConstructGen<TrapNode>
         if (activated)
         {
             DurabilityDamage(1.0f);
-            cooldownRemaining = cooldownTime;
+            StartCooldown();
         }
+    }
+
+    public void StartCooldown()
+    {
+        cooldownRemaining = cooldownTime;
     }
 
     /// <summary>
