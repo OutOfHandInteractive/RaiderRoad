@@ -189,7 +189,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         SpringTrap trap = obj.GetComponent<SpringTrap>();
         if (trap != null)
         {
-            trap.SetDirection(obj.transform.position - gameObject.transform.position);
+            trap.SetRotation(gameObject);
         }
     }
 
@@ -414,7 +414,8 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
                 //Debug.Log("Trap node added");
                 trapNodes.Add(other.gameObject);
                 //if player is in build mode, activate show wall in the build node script
-                if (buildMode) {
+                if (buildMode && !other.GetComponent<TrapNode>().occupied)
+                {
                     GameObject holo = other.GetComponent<TrapNode>().Show(heldItem);
                     SetSpringTrapPosition(holo);
                 } 
@@ -426,7 +427,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
             {
                 //Debug.Log("Trap node added");
                 engineNodes.Add(other.gameObject);
-                if (buildMode) other.GetComponent<PoiNode>().Show(heldItem); //if player is in build mode, activate show wall in the build node script
+                if (buildMode && !other.GetComponent<PoiNode>()) other.GetComponent<PoiNode>().Show(heldItem); //if player is in build mode, activate show wall in the build node script
             }
         }
         if (other.gameObject.CompareTag("Trap"))

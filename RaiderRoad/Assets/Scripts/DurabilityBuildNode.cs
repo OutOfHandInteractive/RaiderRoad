@@ -33,6 +33,7 @@ public abstract class DurabilityBuildNode : AbstractBuildNode
         DurableConstruct construct = item.GetComponent<DurableConstruct>();
         construct.myNode = gameObject;
         construct.SetDurability(durability);
+        RemoveShow();
         return item;
     }
 
@@ -43,7 +44,6 @@ public abstract class DurabilityBuildNode : AbstractBuildNode
     /// <returns>The hologram</returns>
     public GameObject Show(GameObject objToShow)
     { //hologram function, not efficient/working properly
-
         RemoveShow();
         holo = Instantiate(objToShow, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
 
