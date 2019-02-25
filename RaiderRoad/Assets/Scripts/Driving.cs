@@ -88,6 +88,7 @@ public class Driving : Interactable
         rv.Translate(moveVector.x, 0, moveVector.y, Space.World);
         Vector3 clampedPosition = rv.transform.position;
         clampedPosition.x = Mathf.Clamp(rv.transform.position.x, -20f, 20f);
+        clampedPosition.z = Mathf.Clamp(rv.transform.position.z, -10f, 10f);
         rv.transform.position = clampedPosition;
     }
 
