@@ -199,7 +199,7 @@ public class sceneManagerScript : MonoBehaviour {
 
         for (int j = 0; j < myMats.Length; j++)   //assign the same matterial to all the child objects
         {
-            if (myMats[j].gameObject.name != "TempAttack" && myMats[j].gameObject.name != "tempGroundIndicator")  //Make sure not assigning attack visual object
+            if (myMats[j].gameObject.name != "TempAttack" && myMats[j].gameObject.name != "tempGroundIndicator" && myMats[j].gameObject.tag != "CharaWeapon")  //Make sure not assigning attack visual object
             {
 
                 Material[] tempMats = new Material[myMats[j].materials.Length]; //Check that an object doesn't have multiple mats (Vasilios!)
