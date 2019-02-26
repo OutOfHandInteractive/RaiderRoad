@@ -55,7 +55,7 @@ public class pauseController : MonoBehaviour
         {
             Time.timeScale = 0;
             pauseUI.gameObject.SetActive(true);
-            pauseSignObject.SetActive(true);
+            //pauseSignObject.SetActive(true);
             g.GetComponent<GameManager>().pauseInput = true;
             StartCoroutine("highlightBtn");
 
@@ -63,7 +63,7 @@ public class pauseController : MonoBehaviour
 
         } else {
             pauseUI.gameObject.SetActive(false);
-            pauseSignObject.SetActive(false);
+            //pauseSignObject.SetActive(false);
             g.GetComponent<GameManager>().pauseInput = false;
             //myControlMapper.SetActive(true); //bad
             Time.timeScale = 1;
