@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3099647481046231816}
   - component: {fileID: 7260403293848067132}
   m_Layer: 0
-  m_Name: MiniExplosion Parent
+  m_Name: Car_Destruction
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4793,12 +4793,12 @@ PrefabInstance:
     - target: {fileID: 540635487174675841, guid: b05e6beced7a12a42bb7e1f0f9fc9b3e,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.71
+      value: -3.075
       objectReference: {fileID: 0}
     - target: {fileID: 540635487174675841, guid: b05e6beced7a12a42bb7e1f0f9fc9b3e,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.36
+      value: 0.77
       objectReference: {fileID: 0}
     - target: {fileID: 540635487174675841, guid: b05e6beced7a12a42bb7e1f0f9fc9b3e,
         type: 3}
@@ -4842,18 +4842,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5480568767914229426, guid: b05e6beced7a12a42bb7e1f0f9fc9b3e,
         type: 3}
-      propertyPath: looping
-      value: 0
+      propertyPath: startDelay.scalar
+      value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 5480568767914229426, guid: b05e6beced7a12a42bb7e1f0f9fc9b3e,
+    - target: {fileID: 6865297493620352003, guid: b05e6beced7a12a42bb7e1f0f9fc9b3e,
         type: 3}
       propertyPath: startDelay.scalar
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 9046566626395563449, guid: b05e6beced7a12a42bb7e1f0f9fc9b3e,
+    - target: {fileID: 6865297493620352003, guid: b05e6beced7a12a42bb7e1f0f9fc9b3e,
         type: 3}
-      propertyPath: looping
+      propertyPath: ShapeModule.m_Rotation.x
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8894323498081116261, guid: b05e6beced7a12a42bb7e1f0f9fc9b3e,
+        type: 3}
+      propertyPath: startDelay.scalar
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 9046566626395563449, guid: b05e6beced7a12a42bb7e1f0f9fc9b3e,
         type: 3}
@@ -4870,40 +4875,40 @@ PrefabInstance:
       propertyPath: ShapeModule.m_Rotation.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8894323498081116261, guid: b05e6beced7a12a42bb7e1f0f9fc9b3e,
-        type: 3}
-      propertyPath: looping
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8894323498081116261, guid: b05e6beced7a12a42bb7e1f0f9fc9b3e,
-        type: 3}
-      propertyPath: startDelay.scalar
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6865297493620352003, guid: b05e6beced7a12a42bb7e1f0f9fc9b3e,
-        type: 3}
-      propertyPath: looping
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6865297493620352003, guid: b05e6beced7a12a42bb7e1f0f9fc9b3e,
-        type: 3}
-      propertyPath: startDelay.scalar
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6865297493620352003, guid: b05e6beced7a12a42bb7e1f0f9fc9b3e,
-        type: 3}
-      propertyPath: ShapeModule.m_Rotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9150753724122798980, guid: b05e6beced7a12a42bb7e1f0f9fc9b3e,
-        type: 3}
-      propertyPath: looping
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 9150753724122798980, guid: b05e6beced7a12a42bb7e1f0f9fc9b3e,
         type: 3}
       propertyPath: startDelay.scalar
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5692951440277063469, guid: b05e6beced7a12a42bb7e1f0f9fc9b3e,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5692951440277063469, guid: b05e6beced7a12a42bb7e1f0f9fc9b3e,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5692951440277063469, guid: b05e6beced7a12a42bb7e1f0f9fc9b3e,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5692951440277063469, guid: b05e6beced7a12a42bb7e1f0f9fc9b3e,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5692951440277063469, guid: b05e6beced7a12a42bb7e1f0f9fc9b3e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7714330698076049125, guid: b05e6beced7a12a42bb7e1f0f9fc9b3e,
+        type: 3}
+      propertyPath: startDelay.scalar
+      value: 2.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b05e6beced7a12a42bb7e1f0f9fc9b3e, type: 3}
