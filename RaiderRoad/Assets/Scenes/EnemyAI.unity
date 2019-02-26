@@ -461,6 +461,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3737799327558701382, guid: db5ed31c411315942b4614efcfa501d7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1636722948722512, guid: db5ed31c411315942b4614efcfa501d7, type: 3}
       propertyPath: m_Name
       value: RV2.0 1
@@ -1008,6 +1013,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 303513187798166864, guid: 25127a6c690960640a31e1576c7e2733,
+        type: 3}
+      propertyPath: pauseSignObject
+      value: 
+      objectReference: {fileID: 1579029891}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 25127a6c690960640a31e1576c7e2733, type: 3}
 --- !u!1 &600527019 stripped
@@ -1803,6 +1813,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 902b4e54864070b4bb113bd0ab0b06c4, type: 3}
+--- !u!1 &1579029891 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3737799327558701382, guid: db5ed31c411315942b4614efcfa501d7,
+    type: 3}
+  m_PrefabInstance: {fileID: 172675758}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1592488214
 PrefabInstance:
   m_ObjectHideFlags: 0

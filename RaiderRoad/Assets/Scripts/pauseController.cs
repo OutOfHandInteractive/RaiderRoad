@@ -9,6 +9,8 @@ using Rewired;
 public class pauseController : MonoBehaviour
 {
     public Transform pauseUI;
+    //need to be changed for sign, this is slapdash implement
+    public GameObject pauseSignObject;
     public EventSystem myEventSystem;
 
     private int playerNum = 0;
@@ -53,6 +55,7 @@ public class pauseController : MonoBehaviour
         {
             Time.timeScale = 0;
             pauseUI.gameObject.SetActive(true);
+            pauseSignObject.SetActive(true);
             g.GetComponent<GameManager>().pauseInput = true;
             StartCoroutine("highlightBtn");
 
@@ -60,6 +63,7 @@ public class pauseController : MonoBehaviour
 
         } else {
             pauseUI.gameObject.SetActive(false);
+            pauseSignObject.SetActive(false);
             g.GetComponent<GameManager>().pauseInput = false;
             //myControlMapper.SetActive(true); //bad
             Time.timeScale = 1;
