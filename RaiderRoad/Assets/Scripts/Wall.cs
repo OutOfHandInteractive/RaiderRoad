@@ -2,8 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Wall : Constructable<BuildNode>
+/// <summary>
+/// This class is for constructable walls
+/// </summary>
+public class Wall : ConstructableGen<BuildNode>
 {
+    public bool isOccupied = false;
     public override void OnStart()
     {
         // Do nothing
@@ -13,9 +17,9 @@ public class Wall : Constructable<BuildNode>
     {
         // Do nothing
     }
-
+    
     public override void OnBreak()
     {
-		Instantiate(objectBreakParticles, transform.position, Quaternion.identity);
+        // Nothing
 	}
 }

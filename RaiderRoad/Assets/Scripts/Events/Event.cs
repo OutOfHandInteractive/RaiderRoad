@@ -8,15 +8,21 @@ public class Event : MonoBehaviour {
 	//public enum EventTypes { vehicle, obstacle, fork };
     //public enum vehicleTypes { light, medium, heavy };
 
-
+	// ---------------- public variables ------------------
+	// gameplay values
 	public int difficultyRating;
 	public float postDelay;
-    private VehicleFactoryManager.vehicleTypes _vtype;
-    public EventManager.eventTypes _etype;
+	public EventManager.eventTypes _etype;
+
+	// -------------- nonpublic variables -----------------
+	// references
+	private GameObject e;
+	[SerializeField] private List<Transform> spawnPoints;
+
+	// gameplay values
+	private VehicleFactoryManager.vehicleTypes _vtype;
     private int numPoints;
-    private GameObject e;
-    [SerializeField]
-    private List<Transform> spawnPoints;
+    private int _mod;
 
     /*public Event(int dif, VehicleFactoryManager.vehicleTypes type)       //add game object to constructor for spawning
     {
@@ -30,6 +36,11 @@ public class Event : MonoBehaviour {
         _vtype = vtype;
         _etype = etype;
         spawnPoints = spawns;
+    }
+
+    public void setMod(int mod)
+    {
+        _mod = mod;
     }
 
     void Start()
@@ -51,7 +62,7 @@ public class Event : MonoBehaviour {
         Debug.Log("spawn = " + numPoints);
         //Debug.Log("spawn called");
         //based on type, call proper function - for now just creates light vehicle
-        e = factory.newConstructVehicle(_vtype);
+        e = factory.newConstructVehicle(_vtype,_mod);
         e.GetComponent<VehicleAI>().setSide(spawnPoints[numPoints].name);
         e.transform.position = spawnPoints[numPoints].transform.position;
         e.GetComponentInChildren<eventObject>().setCluster(this.gameObject);

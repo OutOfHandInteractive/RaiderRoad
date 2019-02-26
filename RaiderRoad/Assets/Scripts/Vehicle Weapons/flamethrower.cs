@@ -15,14 +15,15 @@ public class flamethrower : Interactable {
     public Material normalMat;
     public Material overheatMat;
 	public GameObject fireFX;
-	public GameObject damageCollider;
+	public GameObject damageCollider, damageColliderEnemy;
+    public bool isOccupied = false;
     
 	// gameplay values
 	public float reticuleMoveSpeed;
     public float coneAngle;
 	public float overheatTime;
 	public float overheatCooldown;
-	public float tickDamage;	// damage between ticks
+	public float tickDamage, tickDamageEnemy;	// damage per ticks
 	public float tickTime;		// amount of seconds between ticks
 
 	// ----------------------------------------------------------------------
@@ -41,6 +42,7 @@ public class flamethrower : Interactable {
     private bool interacting = false;
 	private ParticleSystem fireInstance;
 	private flamethrowerDamage damage;
+	private flamethrowerDamageEnemy damageEnemy;
     
 	[System.NonSerialized]
         private bool initialized;
@@ -65,7 +67,12 @@ public class flamethrower : Interactable {
 		damage.setTickDamage(tickDamage);
 		damage.setTickTime(tickTime);
 
+		damageEnemy = damageColliderEnemy.GetComponent<flamethrowerDamageEnemy>();
+		damageEnemy.setTickDamage(tickDamageEnemy);
+		damageEnemy.setTickTime(tickTime);
+
 		damageCollider.SetActive(false);
+		damageColliderEnemy.SetActive(false);
 	}
     
 	// Update is called once per frame
@@ -99,7 +106,19 @@ public class flamethrower : Interactable {
         damageCollider.SetActive(false);
     }
 
-    public void SetRotation(Quaternion rot)
+	public void StartFiringEnemy() {
+		fireInstance.Play();
+		firing = true;
+		damageColliderEnemy.SetActive(true);
+	}
+
+	public void StopFiringEnemy() {
+		fireInstance.Stop();
+		firing = false;
+		damageColliderEnemy.SetActive(false);
+	}
+
+	public void SetRotation(Quaternion rot)
     {
         fireInstance.transform.rotation = rot;
     }
@@ -172,6 +191,7 @@ public class flamethrower : Interactable {
             overheated = true;
             firing = false;
 			damageCollider.SetActive(false);
+			damageColliderEnemy.SetActive(false);
 			fireInstance.Stop();
 			//weapon.GetComponent<MeshRenderer>().material = overheatMat;
 			cooldownCount = overheatCooldown;

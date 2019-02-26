@@ -2,31 +2,44 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// This is for enemies that want to seek out and beat up players.
+/// </summary>
 public class FightEnemy : EnemyAI {
 
     //Enemy and enemy speed
     private GameObject cObject;
     private GameObject fightRange;
-    private float speed = 2f;
     private float playerDamage = 0;
     private bool chasing = true;
     private float damagePower = 2f;
     private float knockback_force = 2000f;
     private GameObject _target;
     private int playerHit = 0;
+    private GameObject[] players;
+    private GameObject player;
+
+    /// <summary>
+    /// Initialize this state
+    /// </summary>
+    /// <param name="enemy">This enemy</param>
+    /// <param name="target">The target to attack, if any</param>
     public void StartFight(GameObject enemy, GameObject target = null)
     {
         //Initialized enemy
+        players = GameObject.FindGameObjectsWithTag("Player");
         cObject = enemy;
         _target = target;
         fightRange = cObject.transform.Find("EnemyAttack").gameObject;
+        player = GetTarget();
     }
 
     private GameObject GetTarget()
     {
         if(_target == null)
         {
-            GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+            Debug.Log(players);
+            Debug.Log(players[0]);
             _target = Closest(cObject.transform.position, players);
             //PlayerController_Rewired.playerStates deadPlayer = _target.GetComponent<PlayerController_Rewired>().state;
             //if(deadPlayer != PlayerController_Rewired.playerStates.down)
@@ -34,12 +47,13 @@ public class FightEnemy : EnemyAI {
         return _target;
     }
 
+    /// <summary>
+    /// Perform the fight actions
+    /// </summary>
     public void Fight()
     {
         //Get player object
-        GameObject player = GetTarget();
         //Get enemy speed
-        
 
         GameObject[] vehicles = GameObject.FindGameObjectsWithTag("eVehicle");
         float movement = speed * Time.deltaTime;
@@ -58,12 +72,20 @@ public class FightEnemy : EnemyAI {
         }
     }
 
+    /// <summary>
+    /// Show the wind-up
+    /// </summary>
     public void WindupAttack()
     {
         fightRange.GetComponent<Renderer>().material.color = new Color(255f, 150f, 0f, .5f);
         chasing = false;
         //cObject.transform.position = Vector3.zero;
     }
+
+    /// <summary>
+    /// Punch the given player collider
+    /// </summary>
+    /// <param name="other">The player to hit</param>
     public void HitPlayer(Collider other)
     {
         playerDamage += damagePower;
@@ -75,6 +97,10 @@ public class FightEnemy : EnemyAI {
         fightRange.GetComponent<Renderer>().material.color = new Color(255f, 150f, 0f, 0f);
         chasing = true;
     }
+
+    /// <summary>
+    /// Show the miss
+    /// </summary>
     public void Missed()
     {
         fightRange.GetComponent<Renderer>().material.color = new Color(255f, 150f, 0f, 0f);
