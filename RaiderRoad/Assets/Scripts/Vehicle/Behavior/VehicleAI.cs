@@ -170,6 +170,14 @@ public class VehicleAI : MonoBehaviour {
             DelayedDeath();
             StartCoroutine(WaitToDie());
         }
+        if (other.gameObject.tag.Equals("Rail"))
+        {
+            ParticleSystem explosion = Instantiate(collision, other.gameObject.transform.position, Quaternion.identity, gameObject.transform);
+            explosion.gameObject.transform.localScale *= 10;
+            transform.parent = other.transform;
+            DelayedDeath();
+            StartCoroutine(WaitToDie());
+        }
 
     }
 
