@@ -12,6 +12,7 @@ public class WeaponAttackEnemy : EnemyAI {
     private GameObject cannon;
     private GameObject barrel;
     private flamethrower flamer;
+	private bool isFiringFlamethrower = false;
     private GameObject flamethrowerBody;
     private bool fired = false;
     private bool firing = false;
@@ -147,11 +148,15 @@ public class WeaponAttackEnemy : EnemyAI {
         flamer.SetRotation(barrel.transform.rotation);
         flamer.CheckOverheat();
         //flamer.GetComponentInChildren<flamethrowerDamage>().enabled = false;
-        if (!flamer.isOverheated())
+        if (!flamer.isOverheated() && !isFiringFlamethrower)	// yeah we cant do this. should probably be more like if there is a player in range
         {
-            flamer.StartFiring();
+            flamer.StartFiringEnemy();
+			isFiringFlamethrower = true;
             //flamer.GetComponentInChildren<flamethrowerDamage>().enabled = true;
         }
+		else if (flamer.isOverheated() && isFiringFlamethrower) {
+			isFiringFlamethrower = false;
+		}
     }
 
     public GameObject getWeapon()
