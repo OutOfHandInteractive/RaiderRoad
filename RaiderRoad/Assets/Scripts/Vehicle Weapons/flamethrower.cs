@@ -159,7 +159,6 @@ public class flamethrower : Interactable {
             
 			if (player.GetButtonDown("Exit Interactable") && interacting) {
 				Leave();
-                Debug.Log("Left Flamethrower");
 			}
             
 			if (player.GetButtonDown("Shoot Weapon") && !overheated)
@@ -265,5 +264,8 @@ public class flamethrower : Interactable {
 		inUse = false;
 		reticule.SetActive(false);
         interacting = false;
+
+		playerUsing.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
+		interacting = false;
 	}
 }

@@ -12,12 +12,14 @@ public class Weapon : ConstructableGen<BuildNode> {
     /// </summary>
     public List<GameObject> disabledNodes = new List<GameObject>();
 
+	private Interactable interactableWeapon;
+
 
     private GameObject myAttacker = null;
 
     public override void OnStart()
     {
-        // Do nothing
+		interactableWeapon = GetComponentInChildren<Interactable>();
     }
 
     public override void OnUpdate()
@@ -35,6 +37,9 @@ public class Weapon : ConstructableGen<BuildNode> {
         {
             myAttacker.GetComponent<PlayerController_Rewired>().clearInteractable();
         }
+
+		// have player drop weapon so they don't get stuck
+		interactableWeapon.Leave();
 	}
 
     /// <summary>

@@ -80,8 +80,6 @@ public class cannon : Interactable {
 
 			if (player.GetButtonDown("Exit Interactable") && interacting) {
 				Leave();
-                playerUsing.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
-                interacting = false;
 			}
 
 			if (player.GetButtonDown("Shoot Weapon") && !isOnFiringCooldown()) {
@@ -100,6 +98,7 @@ public class cannon : Interactable {
 		}
 	}
 
+	// reticule gets fucky around corners of cone
 	private void ProcessInput() {
 		// If the player has given input, move the reticule accordingly
 		if (moveVector.x != 0.0f || moveVector.y != 0.0f) {
@@ -145,7 +144,10 @@ public class cannon : Interactable {
 		inUse = false;
 		reticule.SetActive(false);
         user.interactAnim(false); //stop animation
-    }
+
+		playerUsing.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
+		interacting = false;
+	}
 
 	private bool isOnFiringCooldown() {
 		if (firingCooldownTimer > 0)

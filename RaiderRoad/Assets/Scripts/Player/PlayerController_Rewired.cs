@@ -156,6 +156,7 @@ public class PlayerController_Rewired : MonoBehaviour
                     if (!interactables[0].GetComponent<Interactable>().Occupied())
                     {
                         interactables[0].GetComponent<Interactable>().Interact(this);
+						Debug.Log("trying to interact");
                     }
                 }
             }
