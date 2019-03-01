@@ -19,13 +19,29 @@ public class ChaseVehicle : MonoBehaviour {
         cEnemy = agent;
         cObject = enemy;
         attackList = new List<Transform>();
-        if (side.Equals("left"))
+        if(enemy.GetComponentInChildren<cannon>() != null)
         {
-            WallsRV = GameObject.Find("WeaponsLeft");
+            if (side.Equals("left"))
+            {
+                WallsRV = GameObject.Find("CannonsLeft");
+            }
+            else
+            {
+                WallsRV = GameObject.Find("CannonsRight");
+            }
+
         }
-        else
+        else if (enemy.GetComponentInChildren<flamethrower>() != null)
         {
-            WallsRV = GameObject.Find("WeaponsRight");
+            if (side.Equals("left"))
+            {
+                WallsRV = GameObject.Find("FireLeft");
+            }
+            else
+            {
+                WallsRV = GameObject.Find("FireRight");
+            }
+
         }
 
         //Get all building points

@@ -23,7 +23,16 @@ public class BoardEnemy : JumpEnemy {
 
     private Vector3 GetTarget(Vector3 planePos)
     {
-        return Closest(planePos, GameObject.FindGameObjectsWithTag("floor")).transform.position;
+        Debug.Log(cSide);
+        if(cSide == "left")
+        {
+            return Closest(planePos, GameObject.FindGameObjectsWithTag("JumpL")).transform.position;
+        }
+        else if (cSide == "right")
+        {
+            return Closest(planePos, GameObject.FindGameObjectsWithTag("JumpR")).transform.position;
+        }
+        return new Vector3(0,0,0);
     }
 
     /// <summary>
