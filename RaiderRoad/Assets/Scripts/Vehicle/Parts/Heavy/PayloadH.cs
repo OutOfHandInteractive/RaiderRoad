@@ -15,7 +15,7 @@ public class PayloadH : Payload {
 	public override void populate() {
 		for (int i = 0; i < PAYLOAD_SIZE; i++) {
 			if (payloadCode[i] == payloadTypes.enemy)
-				payloadInstance.Add(Instantiate(SelectEnemies().GetEnemyObject()));
+                payloadInstance.Add(Instantiate(SelectEnemies().gameObject));
             if (payloadCode[i] == payloadTypes.weapon)
             {
                 payloadInstance.Add(Instantiate(SelectInteractable().gameObject));
