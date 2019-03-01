@@ -12,7 +12,6 @@ public class FightEnemy : EnemyAI {
     private GameObject fightRange;
     private float playerDamage = 0;
     private bool chasing = true;
-    private float damagePower = 2f;
     private float knockback_force = 2000f;
     private GameObject _target;
     private int playerHit = 0;
@@ -86,7 +85,7 @@ public class FightEnemy : EnemyAI {
     /// Punch the given player collider
     /// </summary>
     /// <param name="other">The player to hit</param>
-    public void HitPlayer(Collider other)
+    public void HitPlayer(Collider other, float damagePower)
     {
         playerDamage += damagePower;
         fightRange.GetComponent<Renderer>().material.color = new Color(255f, 0f, 0f, .5f);

@@ -257,7 +257,7 @@ public class PlayerController_Rewired : MonoBehaviour
         }
         if (collision.gameObject.tag == "road")
         {
-            takeDamage(2f);
+            takeDamage(Constants.PLAYER_FALL_DAMAGE);
             transform.position = GameObject.Find("player1Spawn").transform.position;
         }
     }
