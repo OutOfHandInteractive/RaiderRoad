@@ -326,9 +326,9 @@ public class PlayerController_Rewired : MonoBehaviour
         }
     }
 
-    public void RoadRash(float damage = 2.0f)
+    public void RoadRash()
     {
-        takeDamage(damage);
+        takeDamage(Constants.PLAYER_FALL_DAMAGE);
         transform.position = GameObject.Find("player1Spawn").transform.position;
     }
 
