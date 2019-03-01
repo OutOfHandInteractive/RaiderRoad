@@ -59,14 +59,15 @@ public class Driving : Interactable
             moveVector.x = player.GetAxis("Move Horizontal") * Time.deltaTime * moveSpeed * accel;
             moveVector.y = player.GetAxis("Move Vertical") * Time.deltaTime * moveSpeed * accel;
 
-            if (player.GetButtonDown("Exit Interactable"))
+            if (player.GetButtonDown("Exit Interactable") || Input.GetKeyDown("k"))
             {
                 Leave();
+                accel = 0;
                 playerUsing.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
             }
             if ((moveVector.x == 0.0f && moveVector.y == 0.0f) && (accel >= 0))
             {
-                accel -= Time.deltaTime * (change * 4);
+                accel -= Time.deltaTime * (change * 5);
             }
         }
     }
