@@ -64,7 +64,7 @@ MonoBehaviour:
   overheatTime: 5
   overheatCooldown: 3
   tickDamage: 10
-  tickDamageEnemy: 1
+  tickDamageEnemy: 10
   tickTime: 0.5
 --- !u!65 &65648946905826044
 BoxCollider:
@@ -539,15 +539,30 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1129828961117578751, guid: 0d9b7ed469d802749b55e689d4a6ca4f,
+    - target: {fileID: 5699029790436524379, guid: 0d9b7ed469d802749b55e689d4a6ca4f,
         type: 3}
-      propertyPath: m_Name
-      value: model
+      propertyPath: m_TagString
+      value: WeaponBarrel
+      objectReference: {fileID: 0}
+    - target: {fileID: 5698907371457382119, guid: 0d9b7ed469d802749b55e689d4a6ca4f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1129828961117578639, guid: 0d9b7ed469d802749b55e689d4a6ca4f,
         type: 3}
       propertyPath: m_TagString
       value: WeaponMount
+      objectReference: {fileID: 0}
+    - target: {fileID: 1129828961117578751, guid: 0d9b7ed469d802749b55e689d4a6ca4f,
+        type: 3}
+      propertyPath: m_Name
+      value: model
+      objectReference: {fileID: 0}
+    - target: {fileID: 5700464303683841405, guid: 0d9b7ed469d802749b55e689d4a6ca4f,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5700687790710161637, guid: 0d9b7ed469d802749b55e689d4a6ca4f,
         type: 3}
@@ -594,46 +609,6 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 0.847
       objectReference: {fileID: 0}
-    - target: {fileID: 5700464303683841405, guid: 0d9b7ed469d802749b55e689d4a6ca4f,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5698907371457382119, guid: 0d9b7ed469d802749b55e689d4a6ca4f,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5699029790436524379, guid: 0d9b7ed469d802749b55e689d4a6ca4f,
-        type: 3}
-      propertyPath: m_TagString
-      value: WeaponBarrel
-      objectReference: {fileID: 0}
-    - target: {fileID: 4311744539964931117, guid: 0d9b7ed469d802749b55e689d4a6ca4f,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4311744539964931117, guid: 0d9b7ed469d802749b55e689d4a6ca4f,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 4311744539964931117, guid: 0d9b7ed469d802749b55e689d4a6ca4f,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4311744539964931117, guid: 0d9b7ed469d802749b55e689d4a6ca4f,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 4311744539964931117, guid: 0d9b7ed469d802749b55e689d4a6ca4f,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 90
-      objectReference: {fileID: 0}
     - target: {fileID: 5763335080411700463, guid: 0d9b7ed469d802749b55e689d4a6ca4f,
         type: 3}
       propertyPath: m_Size.z
@@ -668,6 +643,31 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4311744539964931117, guid: 0d9b7ed469d802749b55e689d4a6ca4f,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4311744539964931117, guid: 0d9b7ed469d802749b55e689d4a6ca4f,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 4311744539964931117, guid: 0d9b7ed469d802749b55e689d4a6ca4f,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4311744539964931117, guid: 0d9b7ed469d802749b55e689d4a6ca4f,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 4311744539964931117, guid: 0d9b7ed469d802749b55e689d4a6ca4f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 90
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0d9b7ed469d802749b55e689d4a6ca4f, type: 3}
