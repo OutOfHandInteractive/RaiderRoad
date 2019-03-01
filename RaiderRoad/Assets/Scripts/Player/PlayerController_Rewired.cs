@@ -402,6 +402,10 @@ public class PlayerController_Rewired : MonoBehaviour
         interactables.Remove(i);
     }
 
+	public Interactable getFirstInteractable() {
+		return interactables[0].GetComponent<Interactable>();
+	}
+
     public void clearInteractable()
     {
         interactables.Clear();

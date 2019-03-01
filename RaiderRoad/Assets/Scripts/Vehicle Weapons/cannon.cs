@@ -147,6 +147,10 @@ public class cannon : Interactable {
 
 		playerUsing.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
 		interacting = false;
+
+		if (user.getFirstInteractable() == this) {
+			user.removeInteractable(gameObject);
+		}
 	}
 
 	private bool isOnFiringCooldown() {

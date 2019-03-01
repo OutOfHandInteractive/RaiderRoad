@@ -247,8 +247,10 @@ public class flamethrower : Interactable {
 		user = pController;
 		player = user.GetPlayer();
 		userPlayerId = user.playerId;
+		playerUsing = user.gameObject;
 		user.setInteractingFlag();
-        
+		user.interactAnim(true); //start animation
+
 		inUse = true;
 		reticule.SetActive(true);
 	}
@@ -259,13 +261,17 @@ public class flamethrower : Interactable {
     }
 
     public override void Leave() {
-        cooldownTimer = cooldown;
-        user.unsetInteractingFlag();
+		cooldownTimer = cooldown;
+		user.unsetInteractingFlag();
 		inUse = false;
 		reticule.SetActive(false);
-        interacting = false;
+		user.interactAnim(false); //stop animation
 
 		playerUsing.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
 		interacting = false;
+
+		if (user.getFirstInteractable() == this) {
+			user.removeInteractable(gameObject);
+		}
 	}
 }
