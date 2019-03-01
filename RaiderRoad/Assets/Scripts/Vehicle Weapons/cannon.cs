@@ -13,6 +13,7 @@ public class cannon : Interactable {
 	public GameObject weapon;
 	public GameObject smokeBurst;
 	public Animator myAni;
+    public bool isOccupied = false;
 
 	// gameplay values
 	public float reticuleMoveSpeed;

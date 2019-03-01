@@ -7,6 +7,7 @@ using UnityEngine;
 /// </summary>
 public class Wall : ConstructableGen<BuildNode>
 {
+    public bool isOccupied = false;
     public override void OnStart()
     {
         // Do nothing
@@ -16,12 +17,9 @@ public class Wall : ConstructableGen<BuildNode>
     {
         // Do nothing
     }
-
-    /// <summary>
-    /// On break hook to spawn particles
-    /// </summary>
+    
     public override void OnBreak()
     {
-		Instantiate(objectBreakParticles, transform.position, Quaternion.identity);
+        // Nothing
 	}
 }

@@ -448,10 +448,8 @@ public class StatefulEnemyAI : EnemyAI {
         {
             //Debug.Log("HIT");
             damageMeter = damageMeter + (100 * Time.deltaTime);
-            other.gameObject.GetComponent<Constructable>().isOccupied = true;
             if (damageMeter >= 100)
             {
-                other.gameObject.GetComponent<Constructable>().isOccupied = false;
                 other.gameObject.GetComponent<Wall>().Damage(100f);
                 damageMeter = 0;
             }
