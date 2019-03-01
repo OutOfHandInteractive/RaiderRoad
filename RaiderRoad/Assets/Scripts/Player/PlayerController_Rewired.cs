@@ -54,6 +54,7 @@ public class PlayerController_Rewired : MonoBehaviour
 
     // object interaction
     public bool interacting = false;
+	private Interactable objectInUse;
     private List<GameObject> interactables = new List<GameObject>();
     private List<GameObject> downedPlayers = new List<GameObject>();
 
@@ -323,6 +324,9 @@ public class PlayerController_Rewired : MonoBehaviour
             myAni.SetBool("downed", true);
 
             state = playerStates.down;
+			if(interacting) {
+				objectInUse.Leave();
+			}
             g.playerDowned();
         }
     }
@@ -404,6 +408,10 @@ public class PlayerController_Rewired : MonoBehaviour
 
 	public Interactable getFirstInteractable() {
 		return interactables[0].GetComponent<Interactable>();
+	}
+
+	public void setObjectInUse(Interactable obj) {
+		objectInUse = obj;
 	}
 
     public void clearInteractable()

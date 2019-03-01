@@ -118,6 +118,7 @@ public class Driving : Interactable
         playerUsing = user.gameObject;
         user.setInteractingFlag();
         user.interactAnim(true); //start animation
+		user.setObjectInUse(this);
 
         inUse = true;
     }
@@ -134,5 +135,6 @@ public class Driving : Interactable
         inUse = false;
         user.interactAnim(false); //stop animation
         moveVector = Vector3.zero;
+		user.setObjectInUse(null);
     }
 }
