@@ -54,6 +54,7 @@ public class PlayerController_Rewired : MonoBehaviour
 
     // object interaction
     public bool interacting = false;
+	private Interactable objectInUse;
     private List<GameObject> interactables = new List<GameObject>();
     private List<GameObject> downedPlayers = new List<GameObject>();
 
@@ -156,6 +157,7 @@ public class PlayerController_Rewired : MonoBehaviour
                     if (!interactables[0].GetComponent<Interactable>().Occupied())
                     {
                         interactables[0].GetComponent<Interactable>().Interact(this);
+						Debug.Log("trying to interact");
                     }
                 }
             }
@@ -257,7 +259,7 @@ public class PlayerController_Rewired : MonoBehaviour
         }
         if (collision.gameObject.tag == "road")
         {
-            takeDamage(2f);
+            takeDamage(Constants.PLAYER_FALL_DAMAGE);
             transform.position = GameObject.Find("player1Spawn").transform.position;
         }
     }
@@ -322,13 +324,16 @@ public class PlayerController_Rewired : MonoBehaviour
             myAni.SetBool("downed", true);
 
             state = playerStates.down;
+			if(interacting) {
+				objectInUse.Leave();
+			}
             g.playerDowned();
         }
     }
 
-    public void RoadRash(float damage = 2.0f)
+    public void RoadRash()
     {
-        takeDamage(damage);
+        takeDamage(Constants.PLAYER_FALL_DAMAGE);
         transform.position = GameObject.Find("player1Spawn").transform.position;
     }
 
@@ -400,6 +405,14 @@ public class PlayerController_Rewired : MonoBehaviour
         Debug.Log("removed weapon");
         interactables.Remove(i);
     }
+
+	public Interactable getFirstInteractable() {
+		return interactables[0].GetComponent<Interactable>();
+	}
+
+	public void setObjectInUse(Interactable obj) {
+		objectInUse = obj;
+	}
 
     public void clearInteractable()
     {
