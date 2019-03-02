@@ -14,6 +14,8 @@ public class Driving : Interactable
     public float accel;
     public float maxSpeed;
     public float change;
+    public float leftClamp, rightClamp;
+    public float enemyCountL, enemyCountR;
 
     //--------------------
     // Private Variables
@@ -38,6 +40,24 @@ public class Driving : Interactable
         if (isOnCooldown())
         {
             cooldownTimer -= Time.deltaTime;
+        }
+
+        if (enemyCountL > 0)
+        {
+            leftClamp = -17;
+        }
+        else
+        {
+            leftClamp = -21;
+        }
+
+        if (enemyCountR > 0)
+        {
+            rightClamp = 17;
+        }
+        else
+        {
+            rightClamp = 21;
         }
 
         GetInput();
@@ -88,7 +108,7 @@ public class Driving : Interactable
     {
         rv.Translate(moveVector.x, 0, moveVector.y, Space.World);
         Vector3 clampedPosition = rv.transform.position;
-        clampedPosition.x = Mathf.Clamp(rv.transform.position.x, -21f, 21f);
+        clampedPosition.x = Mathf.Clamp(rv.transform.position.x, leftClamp, rightClamp);
         clampedPosition.z = Mathf.Clamp(rv.transform.position.z, -10f, 10f);
         rv.transform.position = clampedPosition;
     }
