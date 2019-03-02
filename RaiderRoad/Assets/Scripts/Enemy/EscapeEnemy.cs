@@ -34,11 +34,15 @@ public class EscapeEnemy : JumpEnemy {
         if(IsNull(vehicle))
         {
             Debug.Log("Received null vehicle! " + vehicle.ToString());
-            return;
+            cObject.GetComponent<StatefulEnemyAI>().EnterFight();
         }
-        cSide = vehicle.Side();
-        //Debug.Log("Roger!");
-        eVehicle = vehicle.GetObject();
+        else
+        {
+            cSide = vehicle.Side();
+            //Debug.Log("Roger!");
+            eVehicle = vehicle.GetObject();
+            Debug.Log(eVehicle);
+        }
     }
 
     /// <summary>
@@ -50,8 +54,8 @@ public class EscapeEnemy : JumpEnemy {
         if (eVehicle == null) {
 
             //Todo enter fight function
-            //cObject.GetComponent<StatefulEnemyAI>().EnterFight();
-            return;
+            cObject.GetComponent<StatefulEnemyAI>().EnterFight();
+            //return;
         }
         //TODO: move to the same side as the vehicle
         float movement = speed * Time.deltaTime;
@@ -86,6 +90,7 @@ public class EscapeEnemy : JumpEnemy {
         {
             agent.isStopped = false;
         }
+        yield return new WaitForSeconds(5);
         eVehicle.GetComponent<VehicleAI>().EnterWander();
         yield return new WaitForSeconds(5);
         eVehicle.GetComponent<VehicleAI>().EnterLeave();
