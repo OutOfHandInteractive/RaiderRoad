@@ -27,7 +27,6 @@ public class PlayerController_Rewired : MonoBehaviour
 
     // ----------------------- Private Variables --------------------------
     private Player player;
-	private PlayerPlacement_Rewired pPlacement;
     private Vector2 moveVector;
 
     private Vector3 rotateVector;
@@ -88,17 +87,13 @@ public class PlayerController_Rewired : MonoBehaviour
 
         //Get game manager for reference
         g = GameManager.GameManagerInstance;
-
-		// get reference to PlayerPlacement
-		pPlacement = view.GetComponent<PlayerPlacement_Rewired>();
-
-	}
+    }
 
     void Initialize()
     {
         // Get the Rewired Player object for this player.
         player = ReInput.players.GetPlayer(playerId);
-        pPlacement.SetId(playerId);
+        view.GetComponent<PlayerPlacement_Rewired>().SetId(playerId);
 
         initialized = true;
     }
@@ -153,12 +148,12 @@ public class PlayerController_Rewired : MonoBehaviour
                 Debug.Log("pressing button");
                 if (downedPlayers.Count > 0)
                 {
-                    pPlacement.SheathWeapon();
+                    view.GetComponent<PlayerPlacement_Rewired>().SheathWeapon();
                     startRevive(downedPlayers[0].GetComponent<PlayerController_Rewired>());
                 }
                 else if (interactables.Count > 0 && !interactables[0].GetComponent<Interactable>().isOnCooldown())
                 {
-                    pPlacement.SheathWeapon();
+                    view.GetComponent<PlayerPlacement_Rewired>().SheathWeapon();
                     if (!interactables[0].GetComponent<Interactable>().Occupied())
                     {
                         interactables[0].GetComponent<Interactable>().Interact(this);
@@ -323,7 +318,16 @@ public class PlayerController_Rewired : MonoBehaviour
         currentHealth -= _damage;
         if (currentHealth <= 0)
         {
-			goDown();
+            //Color deathColor = myOrigColor * 0.5f;        //Replace with proper death feedback
+            //myMat.color = deathColor;
+            view.GetComponent<PlayerPlacement_Rewired>().SheathWeapon();
+            myAni.SetBool("downed", true);
+
+            state = playerStates.down;
+			if(interacting) {
+				objectInUse.Leave();
+			}
+            g.playerDowned();
         }
     }
 
@@ -332,21 +336,6 @@ public class PlayerController_Rewired : MonoBehaviour
         takeDamage(Constants.PLAYER_FALL_DAMAGE);
         transform.position = GameObject.Find("player1Spawn").transform.position;
     }
-
-	private void goDown() {
-		//Color deathColor = myOrigColor * 0.5f;        //Replace with proper death feedback
-		//myMat.color = deathColor;
-		pPlacement.SheathWeapon();
-		pPlacement.dropItem();
-		myAni.SetBool("downed", true);
-
-
-		state = playerStates.down;
-		if (interacting) {
-			objectInUse.Leave();
-		}
-		g.playerDowned();
-	}
 
     // --------------------- Getters / Setters ----------------------
     public void SetId(int id)

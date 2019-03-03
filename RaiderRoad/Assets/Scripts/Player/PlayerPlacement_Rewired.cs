@@ -185,34 +185,28 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
 
         if (player.GetButton("Use"))
         {
-			//GETTING RID OF HOLD TO DROP
-			//holdTime += Time.deltaTime;
-			//if (holdTime > timeToDrop)
-			//{
-			dropItem();
+            //GETTING RID OF HOLD TO DROP
+            //holdTime += Time.deltaTime;
+            //if (holdTime > timeToDrop)
+            //{
+                GameObject dropItem = heldItem.GetComponent<Constructable>().drop;
+                //if (heldItem.tag == "Trap") dropItem = heldItem.GetComponent<Trap>().drop; //get the drop prefab item from item's script
+                //if (heldItem.tag == "Engine") dropItem = heldItem.GetComponent<Engine>().drop;
+                // more ifs for other items
+                GameObject item = Instantiate(dropItem, new Vector3(transform.parent.position.x, transform.parent.position.y + 0.3f, transform.parent.position.z) + transform.parent.forward * 1.7f, Quaternion.identity);
+                //create drop item in front of player (needs to be parent to get exact position in world space)
+                item.name = heldItem.name + " Drop";
+
+                heldItem = null;
+                hasItem = false;
+                Destroy(floatingItem);
+                buildMode = false;
+                holdTime = 0f;
+                
+                myAni.SetBool("isHolding", false);
             //}
         }
     }
-
-	public void dropItem() {
-		if (heldItem != null) {
-			GameObject dropItem = heldItem.GetComponent<Constructable>().drop;
-			//if (heldItem.tag == "Trap") dropItem = heldItem.GetComponent<Trap>().drop; //get the drop prefab item from item's script
-			//if (heldItem.tag == "Engine") dropItem = heldItem.GetComponent<Engine>().drop;
-			// more ifs for other items
-			GameObject item = Instantiate(dropItem, new Vector3(transform.parent.position.x, transform.parent.position.y + 0.3f, transform.parent.position.z) + transform.parent.forward * 1.7f, Quaternion.identity);
-			//create drop item in front of player (needs to be parent to get exact position in world space)
-			item.name = heldItem.name + " Drop";
-
-			heldItem = null;
-			hasItem = false;
-			Destroy(floatingItem);
-			buildMode = false;
-			holdTime = 0f;
-
-			myAni.SetBool("isHolding", false);
-		}
-	}
 
     private void SetSpringTrapPosition(GameObject obj)
     {
@@ -283,7 +277,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
     {
         if (player.GetButton("Build Mode"))
         {
-            if (!buildMode && wallInventory > 0 && pController.state == PlayerController_Rewired.playerStates.up)
+            if (!buildMode && wallInventory > 0)
             {
                 //When switching out of build mode, attack will get stuck in InvalidOperationException: List has changed. This helps
                 if (buildMode) attackRange = new List<GameObject>();
