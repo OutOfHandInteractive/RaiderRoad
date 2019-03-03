@@ -60,7 +60,7 @@ public class lobbyManager : MonoBehaviour
 
     public void PlayersReady()
     {
-        sceneManage.OverrideNextScene("EnemyAI"); //Temporary Fix, Scene flow needs overhaul
+        sceneManage.OverrideNextScene("MainScene"); //Temporary Fix, Scene flow needs overhaul
         sceneManage.PlaySelDone(chara1players.ToArray(), chara2players.ToArray(), chara3players.ToArray(), chara4players.ToArray());
     }
 }
