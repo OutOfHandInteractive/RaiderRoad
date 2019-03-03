@@ -22,4 +22,7 @@ public class Constants : MonoBehaviour
 	public static int LIGHT_VEHICLE_BASE_THREAT = 1;
 	public static int MEDIUM_VEHICLE_BASE_THREAT = 6;
     public static int HEAVY_VEHICLE_BASE_THREAT = 12;
+
+	// misc
+	public static float PLAYER_ROAD_DAMAGE = 50f;
 }

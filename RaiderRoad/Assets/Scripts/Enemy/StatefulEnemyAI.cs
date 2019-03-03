@@ -429,7 +429,7 @@ public class StatefulEnemyAI : EnemyAI {
         yield return new WaitForSeconds(.5f);
         if(inRange)
         {
-            fight.HitPlayer(other);
+            fight.HitPlayer(other, damagePower);
         }
         else
         {
