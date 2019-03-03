@@ -35,6 +35,10 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
     public float timeTilSheath;
     public float sheathAnimTime;
 
+    //particles
+    public ParticleSystem charaHitPart;
+    public ParticleSystem objHitPart;
+
     //--------------------
     // Private Variables
     //--------------------
@@ -356,7 +360,8 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         {
             if(part!=null)
             {
-                if(part.GetComponent<DestructiblePart>().takeDamage(1) <= 0)
+                Instantiate(objHitPart, transform.position, Quaternion.identity); //temporary solution, also placed slightly to left for some reason
+                if (part.GetComponent<DestructiblePart>().takeDamage(1) <= 0)
                 {
                     destructableParts.Remove(part);
                 }
@@ -390,10 +395,12 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
                 if (item.CompareTag("Weapon"))
                 {
                     item.GetComponent<Weapon>().Damage(damage, gameObject.transform.parent.gameObject);
+                    Instantiate(objHitPart, item.transform.position, Quaternion.identity);
                 }
                 else if ((construct = item.GetComponent<Constructable>()) != null)
                 {
                     construct.Damage(damage);
+                    Instantiate(objHitPart, item.transform.position, Quaternion.identity);
                 }
                 else if (item.CompareTag("Enemy"))
                 {
@@ -403,6 +410,8 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
                     item.GetComponent<StatefulEnemyAI>().takeDamage(damage);
                     item.GetComponent<StatefulEnemyAI>().Stunned();
                     //Debug.Log(dir);
+
+                    Instantiate(charaHitPart, item.transform.position, Quaternion.identity);
                 }
             }
         }

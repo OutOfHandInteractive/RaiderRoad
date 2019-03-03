@@ -4776,6 +4776,7 @@ GameObject:
   - component: {fileID: 4538686906404878}
   - component: {fileID: 198034682921769922}
   - component: {fileID: 199045112088050412}
+  - component: {fileID: 2861467453953732084}
   m_Layer: 0
   m_Name: Dust_Landing
   m_TagString: Untagged
@@ -9531,3 +9532,16 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &2861467453953732084
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1764789250816754}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1438f612fc14f874b8f45dfb53c137ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fx: {fileID: 198034682921769922}

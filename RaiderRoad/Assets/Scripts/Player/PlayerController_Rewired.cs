@@ -22,6 +22,10 @@ public class PlayerController_Rewired : MonoBehaviour
     public float jumpForce;
     public float distToGround = 0.9f;
     public bool isOccupied = false;
+
+    //particles
+    public ParticleSystem landingPart;
+
     // --------------------------------------------------------------------
 
 
@@ -64,6 +68,7 @@ public class PlayerController_Rewired : MonoBehaviour
     private Color myOrigColor;
 
     private bool jumped = false;
+    private bool animJumped = false; //Jumped can be called at weird points, animJumped is a more accurate version for animation/particle purposes
 
     // ----------------------------------------------------------------------
 
@@ -175,6 +180,7 @@ public class PlayerController_Rewired : MonoBehaviour
                 myAni.SetTrigger("jump");
                 myAni.SetBool("land", false);
                 jumped = true;
+                animJumped = true;
             }
         }
 
@@ -251,15 +257,18 @@ public class PlayerController_Rewired : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        if (IsGrounded() && animJumped == true){
+            animJumped = false;
+            myAni.SetBool("land", true);
+            Instantiate(landingPart, transform.position, landingPart.gameObject.transform.rotation);
+        }
         jumped = false;
-        myAni.SetBool("land", true);
         //Debug.Log(collision.gameObject.name);
         if (collision.gameObject.tag == "RV" || collision.gameObject.tag == "eVehicle")
         {
             //Debug.Log("Can jump");
             transform.parent = collision.transform.root;
             jumped = false;
-            myAni.SetBool("land", true);
             //rb.isKinematic = true;
         }
         if (collision.gameObject.tag == "road")
