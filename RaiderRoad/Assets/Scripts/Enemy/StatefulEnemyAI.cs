@@ -300,7 +300,7 @@ public class StatefulEnemyAI : EnemyAI {
     public void EnterFight()
     {
         currentState = State.Fight;
-        fight.StartFight(enemy, vehicle);
+        fight.StartFight(enemy);
         enemy.GetComponent<Renderer>().material.color = Color.red;
     }
 
@@ -406,7 +406,7 @@ public class StatefulEnemyAI : EnemyAI {
         //Check if you hit the player and do action
         if (other.gameObject.tag == "Player" && currentState == State.Fight)
         {   
-            StartCoroutine(WindUp(other));
+            vehicle.StartCoroutine(WindUp(other));
         }
         if (other.gameObject.tag == "EnemyInteract" && currentState == State.Wait)
         {
