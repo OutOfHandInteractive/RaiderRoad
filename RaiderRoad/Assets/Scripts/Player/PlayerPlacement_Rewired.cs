@@ -327,7 +327,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
                 Destroy(floatingItem);
             }
         }
-        else if (player.GetButtonDown("Attack") && canAttack)
+        else if (player.GetButtonDown("Attack") && canAttack && pController.state == PlayerController_Rewired.playerStates.up)
         {
             Attack();
         }
