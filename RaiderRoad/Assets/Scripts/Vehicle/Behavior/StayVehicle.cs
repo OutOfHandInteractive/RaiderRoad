@@ -86,8 +86,15 @@ public class StayVehicle : MonoBehaviour {
 
 
         bool leave = false;
-        int extantEnemies = GameObject.FindGameObjectsWithTag("Enemy").Length;
-        if (extantEnemies <= 0)
+        GameObject[] extantEnemies = GameObject.FindGameObjectsWithTag("Enemy");
+        for(int i=0;i<extantEnemies.Length;i++)
+        {
+            if((extantEnemies.Length <= 0 || extantEnemies[i].transform.root.tag == "eVehicle") && (extantEnemies[i].GetComponent<StatefulEnemyAI>().GetState() == StatefulEnemyAI.State.Escape))
+            {
+                leave = true;
+            }
+        }
+        if (extantEnemies.Length <= 0)
         {
             leave = true;
         }
@@ -106,7 +113,7 @@ public class StayVehicle : MonoBehaviour {
                 Radio.GetRadio().ReadyForEvac(this);
                 calledRadio = true;
             }
-            else if(CountEnemiesOnBoard() >= System.Math.Min(5, extantEnemies)) //TODO this limit should depend on size of vehicle
+            else if(CountEnemiesOnBoard() >= System.Math.Min(5, extantEnemies.Length)) //TODO this limit should depend on size of vehicle
             {
                 Debug.Log("All loaded up and ready to go!");
                 leave = true;

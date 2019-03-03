@@ -11,6 +11,12 @@ public class Driving : Interactable
     public Transform rv;
     public float moveSpeed = 10f;
 
+    public float accel;
+    public float maxSpeed;
+    public float change;
+    public float leftClamp, rightClamp;
+    public float enemyCountL, enemyCountR;
+
     //--------------------
     // Private Variables
     //--------------------
@@ -36,6 +42,24 @@ public class Driving : Interactable
             cooldownTimer -= Time.deltaTime;
         }
 
+        if (enemyCountL > 0)
+        {
+            leftClamp = -17;
+        }
+        else
+        {
+            leftClamp = -21;
+        }
+
+        if (enemyCountR > 0)
+        {
+            rightClamp = 17;
+        }
+        else
+        {
+            rightClamp = 21;
+        }
+
         GetInput();
         ProcessInput();
     }
@@ -44,25 +68,49 @@ public class Driving : Interactable
     {
         if (!paused && inUse)
         {
+            if ((moveVector.x != 0.0f || moveVector.y != 0.0f) && (accel < maxSpeed))
+            {
+                accel += Time.deltaTime * change;
+            }
+
             playerUsing.transform.position = transform.position;
             playerUsing.transform.rotation = transform.rotation;
-            moveVector.x = player.GetAxis("Move Horizontal") * Time.deltaTime * moveSpeed;
-            moveVector.y = player.GetAxis("Move Vertical") * Time.deltaTime * moveSpeed;
 
-            if (player.GetButtonDown("Exit Interactable"))
+            moveVector.x = player.GetAxis("Move Horizontal") * Time.deltaTime * moveSpeed * accel;
+            moveVector.y = player.GetAxis("Move Vertical") * Time.deltaTime * moveSpeed * accel;
+
+            if (player.GetButtonDown("Exit Interactable") || Input.GetKeyDown("k"))
             {
                 Leave();
+                accel = 0;
                 playerUsing.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
             }
+            if ((moveVector.x == 0.0f && moveVector.y == 0.0f) && (accel >= 0))
+            {
+                accel -= Time.deltaTime * (change * 5);
+            }
+        }
+    }
+
+    IEnumerator smoothSteppin(float a, float dur)
+    {
+        float timer = 10f;
+        float timeToTake = 10f;
+        while (timer >= 0)
+        {
+            accel = Mathf.SmoothStep(a, 0, timer / timeToTake);
+            timer -= Time.deltaTime;
+            yield return null;
         }
     }
 
     private void ProcessInput()
     {
-        if (moveVector.x != 0.0f || moveVector.y != 0.0f)
-        {
-            rv.Translate(moveVector.x, 0, moveVector.y, Space.World);
-        }
+        rv.Translate(moveVector.x, 0, moveVector.y, Space.World);
+        Vector3 clampedPosition = rv.transform.position;
+        clampedPosition.x = Mathf.Clamp(rv.transform.position.x, leftClamp, rightClamp);
+        clampedPosition.z = Mathf.Clamp(rv.transform.position.z, -10f, 10f);
+        rv.transform.position = clampedPosition;
     }
 
     public float VerticalAxis()
@@ -91,7 +139,8 @@ public class Driving : Interactable
         playerUsing = user.gameObject;
         user.setInteractingFlag();
         user.interactAnim(true); //start animation
-        
+		user.setObjectInUse(this);
+
         inUse = true;
     }
 
@@ -107,5 +156,6 @@ public class Driving : Interactable
         inUse = false;
         user.interactAnim(false); //stop animation
         moveVector = Vector3.zero;
+		user.setObjectInUse(null);
     }
 }

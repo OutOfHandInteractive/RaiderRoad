@@ -13,6 +13,7 @@ public class cannon : Interactable {
 	public GameObject weapon;
 	public GameObject smokeBurst;
 	public Animator myAni;
+    public bool isOccupied = false;
 
 	// gameplay values
 	public float reticuleMoveSpeed;
@@ -31,6 +32,7 @@ public class cannon : Interactable {
 	private Vector3 forwardDir;
 	private Vector3 dist;
 	private bool interacting = false;
+    private AudioSource audio;
 
 	// updating variables
 	private float firingCooldownTimer;
@@ -48,6 +50,7 @@ public class cannon : Interactable {
 		userPlayerId = -1;
 		cooldownTimer = cooldown;
 		firingCooldownTimer = firingCooldown;
+        audio = GetComponent<AudioSource>();
 
 		//forwardDir = transform.forward;
 		maxRange = getMaxRange();
@@ -77,8 +80,6 @@ public class cannon : Interactable {
 
 			if (player.GetButtonDown("Exit Interactable") && interacting) {
 				Leave();
-                playerUsing.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
-                interacting = false;
 			}
 
 			if (player.GetButtonDown("Shoot Weapon") && !isOnFiringCooldown()) {
@@ -97,6 +98,7 @@ public class cannon : Interactable {
 		}
 	}
 
+	// reticule gets fucky around corners of cone
 	private void ProcessInput() {
 		// If the player has given input, move the reticule accordingly
 		if (moveVector.x != 0.0f || moveVector.y != 0.0f) {
@@ -126,6 +128,7 @@ public class cannon : Interactable {
         playerUsing = user.gameObject;
 		user.setInteractingFlag();
         user.interactAnim(true); //start animation
+		user.setObjectInUse(this);
 
         inUse = true;
 		reticule.SetActive(true);
@@ -137,12 +140,24 @@ public class cannon : Interactable {
     }
 
     public override void Leave() {
-		cooldownTimer = cooldown;
-		user.unsetInteractingFlag();
-		inUse = false;
-		reticule.SetActive(false);
-        user.interactAnim(false); //stop animation
-    }
+        if(user != null)
+        {
+            cooldownTimer = cooldown;
+            user.unsetInteractingFlag();
+		    inUse = false;
+		    reticule.SetActive(false);
+            user.interactAnim(false); //stop animation
+		    user.setObjectInUse(null);
+
+		    playerUsing.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
+		    interacting = false;
+
+		    if (user.getFirstInteractable() == this) {
+			    user.removeInteractable(gameObject);
+		    }
+        }
+		
+	}
 
 	private bool isOnFiringCooldown() {
 		if (firingCooldownTimer > 0)
@@ -156,6 +171,8 @@ public class cannon : Interactable {
 
 		// wait time so shot happens at right point in animation
 		yield return new WaitForSecondsRealtime(7f / 24f);
+
+        audio.Play();
 
 		proj = Instantiate(munitions.gameObject, barrel.transform.position, Quaternion.identity);
 		proj.GetComponent<cannonball>().launch(reticule.transform.position, barrel.transform.position, weapon.transform.forward);

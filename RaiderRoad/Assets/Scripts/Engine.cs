@@ -11,7 +11,7 @@ public class Engine : DurableConstructGen<PoiNode> {
     /// Transform for the health bar for obstacles/raider vehicles on the RV
     /// </summary>
     public Transform myHealthTrans;
-
+    public bool isOccupied = false;
     /// <summary>
     /// Start() hook that just initializes the health bar
     /// </summary>

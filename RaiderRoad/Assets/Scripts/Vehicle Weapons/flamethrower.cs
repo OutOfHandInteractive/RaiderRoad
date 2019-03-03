@@ -15,14 +15,15 @@ public class flamethrower : Interactable {
     public Material normalMat;
     public Material overheatMat;
 	public GameObject fireFX;
-	public GameObject damageCollider;
+	public GameObject damageCollider, damageColliderEnemy;
+    public bool isOccupied = false;
     
 	// gameplay values
 	public float reticuleMoveSpeed;
     public float coneAngle;
 	public float overheatTime;
 	public float overheatCooldown;
-	public float tickDamage;	// damage between ticks
+	public float tickDamage, tickDamageEnemy;	// damage per ticks
 	public float tickTime;		// amount of seconds between ticks
 
 	// ----------------------------------------------------------------------
@@ -41,6 +42,8 @@ public class flamethrower : Interactable {
     private bool interacting = false;
 	private ParticleSystem fireInstance;
 	private flamethrowerDamage damage;
+	private flamethrowerDamageEnemy damageEnemy;
+    private AudioSource audio;
     
 	[System.NonSerialized]
         private bool initialized;
@@ -60,12 +63,18 @@ public class flamethrower : Interactable {
         overheated = false;
         firing = false;
         cooldownTimer = cooldown;
+        audio = GetComponent<AudioSource>();
 
 		damage = damageCollider.GetComponent<flamethrowerDamage>();
 		damage.setTickDamage(tickDamage);
 		damage.setTickTime(tickTime);
 
+		damageEnemy = damageColliderEnemy.GetComponent<flamethrowerDamageEnemy>();
+		damageEnemy.setTickDamage(tickDamageEnemy);
+		damageEnemy.setTickTime(tickTime);
+
 		damageCollider.SetActive(false);
+		damageColliderEnemy.SetActive(false);
 	}
     
 	// Update is called once per frame
@@ -85,25 +94,59 @@ public class flamethrower : Interactable {
         CheckOverheat();
 	}
 
+    /// <summary>
+    /// Begin firing using the anti-raider hitbox
+    /// </summary>
     public void StartFiring()
     {
-        fireInstance.Play();
-        firing = true;
-        damageCollider.SetActive(true);
+        StartFiring(damageCollider);
     }
 
+    /// <summary>
+    /// Start firing using the anti-player hitbox
+    /// </summary>
+	public void StartFiringEnemy()
+    {
+        StartFiring(damageColliderEnemy);
+	}
+
+    /// <summary>
+    /// Stop firing
+    /// </summary>
+	public void StopFiringEnemy()
+    {
+        StopFiring();
+	}
+    
+    private void StartFiring(GameObject collider)
+    {
+        audio.Play();
+        fireInstance.Play();
+        firing = true;
+        collider.SetActive(true);
+    }
+
+    /// <summary>
+    /// Stop firing
+    /// </summary>
     public void StopFiring()
     {
+        audio.Stop();
         fireInstance.Stop();
         firing = false;
         damageCollider.SetActive(false);
+        damageColliderEnemy.SetActive(false);
     }
 
-    public void SetRotation(Quaternion rot)
+	public void SetRotation(Quaternion rot)
     {
         fireInstance.transform.rotation = rot;
     }
 
+    /// <summary>
+    /// Returns true if this flaethrower is overheated
+    /// </summary>
+    /// <returns>true if this flaethrower is overheated</returns>
     public bool isOverheated()
     {
         return overheated;
@@ -116,7 +159,6 @@ public class flamethrower : Interactable {
             
 			if (player.GetButtonDown("Exit Interactable") && interacting) {
 				Leave();
-                Debug.Log("Left Flamethrower");
 			}
             
 			if (player.GetButtonDown("Shoot Weapon") && !overheated)
@@ -170,9 +212,7 @@ public class flamethrower : Interactable {
         if (overheatCount <= 0.0f)
         {
             overheated = true;
-            firing = false;
-			damageCollider.SetActive(false);
-			fireInstance.Stop();
+            StopFiring();
 			//weapon.GetComponent<MeshRenderer>().material = overheatMat;
 			cooldownCount = overheatCooldown;
             overheatCount = overheatTime;
@@ -207,8 +247,11 @@ public class flamethrower : Interactable {
 		user = pController;
 		player = user.GetPlayer();
 		userPlayerId = user.playerId;
+		playerUsing = user.gameObject;
 		user.setInteractingFlag();
-        
+		user.interactAnim(true); //start animation
+		user.setObjectInUse(this);
+
 		inUse = true;
 		reticule.SetActive(true);
 	}
@@ -219,10 +262,22 @@ public class flamethrower : Interactable {
     }
 
     public override void Leave() {
-        cooldownTimer = cooldown;
-        user.unsetInteractingFlag();
-		inUse = false;
-		reticule.SetActive(false);
-        interacting = false;
+        if (user != null)
+        {
+            cooldownTimer = cooldown;
+            user.unsetInteractingFlag();
+            inUse = false;
+            reticule.SetActive(false);
+            user.interactAnim(false); //stop animation
+            user.setObjectInUse(null);
+
+            playerUsing.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
+            interacting = false;
+
+            if (user.getFirstInteractable() == this)
+            {
+                user.removeInteractable(gameObject);
+            }
+        }
 	}
 }

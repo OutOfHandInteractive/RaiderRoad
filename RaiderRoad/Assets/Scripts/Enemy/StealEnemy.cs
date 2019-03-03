@@ -9,15 +9,18 @@ public class StealEnemy : EnemyAI {
     //enemy, speed
     private GameObject cObject;
     public bool hasStolen = false;
+    private GameObject[] drops;
+    private GameObject drop;
     public void StartSteal(GameObject enemy)
     {
         cObject = enemy;
+        drops = GameObject.FindGameObjectsWithTag("Drops");
+        drop = Closest(cObject.transform.position, drops);
     }
 
     public void Steal()
     {
         //Set wall gameobject
-        GameObject[] drops = GameObject.FindGameObjectsWithTag("Drops");
         //Set movement speed of enemy
         float movement = speed * Time.deltaTime;
 
@@ -35,7 +38,6 @@ public class StealEnemy : EnemyAI {
         else
         {
             //Find wall and go to it
-            GameObject drop = Closest(cObject.transform.position, drops);
             if(drop != null)
             {
                 cObject.transform.LookAt(drop.transform);

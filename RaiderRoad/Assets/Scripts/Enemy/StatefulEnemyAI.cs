@@ -300,7 +300,7 @@ public class StatefulEnemyAI : EnemyAI {
     public void EnterFight()
     {
         currentState = State.Fight;
-        fight.StartFight(enemy);
+        fight.StartFight(enemy, vehicle);
         enemy.GetComponent<Renderer>().material.color = Color.red;
     }
 
@@ -406,7 +406,7 @@ public class StatefulEnemyAI : EnemyAI {
         //Check if you hit the player and do action
         if (other.gameObject.tag == "Player" && currentState == State.Fight)
         {   
-            vehicle.StartCoroutine(WindUp(other));
+            StartCoroutine(WindUp(other));
         }
         if (other.gameObject.tag == "EnemyInteract" && currentState == State.Wait)
         {
@@ -429,7 +429,7 @@ public class StatefulEnemyAI : EnemyAI {
         yield return new WaitForSeconds(.5f);
         if(inRange)
         {
-            fight.HitPlayer(other);
+            fight.HitPlayer(other, damagePower);
         }
         else
         {
@@ -448,10 +448,8 @@ public class StatefulEnemyAI : EnemyAI {
         {
             //Debug.Log("HIT");
             damageMeter = damageMeter + (100 * Time.deltaTime);
-            other.gameObject.GetComponent<Constructable>().isOccupied = true;
             if (damageMeter >= 100)
             {
-                other.gameObject.GetComponent<Constructable>().isOccupied = false;
                 other.gameObject.GetComponent<Wall>().Damage(100f);
                 damageMeter = 0;
             }

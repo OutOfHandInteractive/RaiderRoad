@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// This class is for enemies posted on vehicle weapons.
+/// </summary>
 public class WeaponAttackEnemy : EnemyAI {
 
     private GameObject fireFX;
@@ -12,11 +15,21 @@ public class WeaponAttackEnemy : EnemyAI {
     private GameObject cannon;
     private GameObject barrel;
     private flamethrower flamer;
+	private bool isFiringFlamethrower = false;
     private GameObject flamethrowerBody;
     private bool fired = false;
     private bool firing = false;
     private ParticleSystem fireInstance;
     private bool created = false;
+
+    /// <summary>
+    /// Initializes this state
+    /// </summary>
+    /// <param name="enemy"></param>
+    /// <param name="vehicle"></param>
+    /// <param name="munnitions"></param>
+    /// <param name="fire"></param>
+    /// <param name="side"></param>
     public void StartWeapon(GameObject enemy, VehicleAI vehicle, GameObject munnitions, GameObject fire, string side)
     {
         cObject = enemy;
@@ -77,7 +90,9 @@ public class WeaponAttackEnemy : EnemyAI {
         }
     }
 
-    // Update is called once per frame
+    /// <summary>
+    /// Perform the Weapon actions
+    /// </summary>
     public void Weapon()
     {
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
@@ -147,11 +162,15 @@ public class WeaponAttackEnemy : EnemyAI {
         flamer.SetRotation(barrel.transform.rotation);
         flamer.CheckOverheat();
         //flamer.GetComponentInChildren<flamethrowerDamage>().enabled = false;
-        if (!flamer.isOverheated())
+        if (!flamer.isOverheated() && !isFiringFlamethrower)	// yeah we cant do this. should probably be more like if there is a player in range
         {
-            flamer.StartFiring();
+            flamer.StartFiringEnemy();
+			isFiringFlamethrower = true;
             //flamer.GetComponentInChildren<flamethrowerDamage>().enabled = true;
         }
+		else if (flamer.isOverheated() && isFiringFlamethrower) {
+			isFiringFlamethrower = false;
+		}
     }
 
     public GameObject getWeapon()
@@ -167,6 +186,10 @@ public class WeaponAttackEnemy : EnemyAI {
         return null;
     }
 
+    /// <summary>
+    /// Find and target the nearest player. Rotates the weapon to face them.
+    /// </summary>
+    /// <param name="weapons"></param>
     public void LookAtPlayer(GameObject weapons)
     {
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
