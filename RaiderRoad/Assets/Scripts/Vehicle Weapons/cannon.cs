@@ -140,19 +140,23 @@ public class cannon : Interactable {
     }
 
     public override void Leave() {
-		cooldownTimer = cooldown;
-		user.unsetInteractingFlag();
-		inUse = false;
-		reticule.SetActive(false);
-        user.interactAnim(false); //stop animation
-		user.setObjectInUse(null);
+        if(user != null)
+        {
+            cooldownTimer = cooldown;
+            user.unsetInteractingFlag();
+		    inUse = false;
+		    reticule.SetActive(false);
+            user.interactAnim(false); //stop animation
+		    user.setObjectInUse(null);
 
-		playerUsing.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
-		interacting = false;
+		    playerUsing.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
+		    interacting = false;
 
-		if (user.getFirstInteractable() == this) {
-			user.removeInteractable(gameObject);
-		}
+		    if (user.getFirstInteractable() == this) {
+			    user.removeInteractable(gameObject);
+		    }
+        }
+		
 	}
 
 	private bool isOnFiringCooldown() {
