@@ -380,6 +380,8 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         myWeapon.transform.localScale = MeleeWeapScale;
         sheathTimer = timeTilSheath;
 
+        //Debug.Log("attackRange Count:" + attackRange.Count);
+
         if (!AttackVehicleParts())
         {
             Util.RemoveNulls(attackRange);
@@ -511,12 +513,12 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
             }
 			
 		}
-        /*
+
         if (other.gameObject.CompareTag("Weapon"))
         {
-            pController.addInteractable(other.gameObject);
+            attackRange.Add(other.gameObject);
         }
-        */
+
 		if (other.gameObject.CompareTag("Player")) {
 			if (other.GetComponent<PlayerController_Rewired>().getState() == PlayerController_Rewired.playerStates.down) {
 				Debug.Log("adding downed player");
