@@ -32,7 +32,6 @@ public class cannon : Interactable {
 	private Vector3 forwardDir;
 	private Vector3 dist;
 	private bool interacting = false;
-    private AudioSource audio;
 
 	// updating variables
 	private float firingCooldownTimer;
@@ -50,7 +49,6 @@ public class cannon : Interactable {
 		userPlayerId = -1;
 		cooldownTimer = cooldown;
 		firingCooldownTimer = firingCooldown;
-        audio = GetComponent<AudioSource>();
 
 		//forwardDir = transform.forward;
 		maxRange = getMaxRange();
@@ -171,8 +169,6 @@ public class cannon : Interactable {
 
 		// wait time so shot happens at right point in animation
 		yield return new WaitForSecondsRealtime(7f / 24f);
-
-        audio.Play();
 
 		proj = Instantiate(munitions.gameObject, barrel.transform.position, Quaternion.identity);
 		proj.GetComponent<cannonball>().launch(reticule.transform.position, barrel.transform.position, weapon.transform.forward);

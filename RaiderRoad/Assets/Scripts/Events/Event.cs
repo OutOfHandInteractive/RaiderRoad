@@ -50,10 +50,11 @@ public class Event : MonoBehaviour {
 
     public void oSpawn(GameObject obstacle)
     {
-        int i = Random.Range(1, 6);
+        int i = Random.Range(0, 5);
         Vector3 spawnPoint = spawnPoints[i].transform.position;
         GameObject newObstacle = Instantiate(obstacle,spawnPoint,Quaternion.identity);    /////need obstacle prefab
         newObstacle.GetComponentInChildren<eventObject>().setCluster(this.gameObject);
+        newObstacle.transform.Rotate(0f,90f,0f);    //kinda a bullshit fix for now - i'll explain and fix better at testing
     }
 
     public void spawn(VehicleFactoryManager factory)
