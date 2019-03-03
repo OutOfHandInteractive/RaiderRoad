@@ -113,7 +113,7 @@ public class EventManager : MonoBehaviour {
             //Debug.Log("creating event ");
             //determine etype - temporary
             randNum = UnityEngine.Random.Range(1,10);
-            if(randNum % 7 == 0){	// Im assuming this is a percentage - can we get it put in constants to avoid magic numbers?
+            if(randNum % 1 == 0){	// Im assuming this is a percentage - can we get it put in constants to avoid magic numbers?
                 etype = EventManager.eventTypes.obstacle;
             }else{
 				etype = EventManager.eventTypes.vehicle;

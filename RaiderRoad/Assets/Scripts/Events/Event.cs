@@ -54,6 +54,7 @@ public class Event : MonoBehaviour {
         Vector3 spawnPoint = spawnPoints[i].transform.position;
         GameObject newObstacle = Instantiate(obstacle,spawnPoint,Quaternion.identity);    /////need obstacle prefab
         newObstacle.GetComponentInChildren<eventObject>().setCluster(this.gameObject);
+        newObstacle.transform.Rotate(0f,90f,0f);    //kinda a bullshit fix for now - i'll explain and fix better at testing
     }
 
     public void spawn(VehicleFactoryManager factory)
