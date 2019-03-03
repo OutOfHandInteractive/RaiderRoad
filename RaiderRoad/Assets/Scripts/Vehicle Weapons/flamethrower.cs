@@ -135,7 +135,6 @@ public class flamethrower : Interactable {
             
 			if (player.GetButtonDown("Exit Interactable") && interacting) {
 				Leave();
-                Debug.Log("Left Flamethrower");
 			}
             
 			if (player.GetButtonDown("Shoot Weapon") && !overheated)
@@ -227,8 +226,11 @@ public class flamethrower : Interactable {
 		user = pController;
 		player = user.GetPlayer();
 		userPlayerId = user.playerId;
+		playerUsing = user.gameObject;
 		user.setInteractingFlag();
-        
+		user.interactAnim(true); //start animation
+		user.setObjectInUse(this);
+
 		inUse = true;
 		reticule.SetActive(true);
 	}
@@ -239,10 +241,22 @@ public class flamethrower : Interactable {
     }
 
     public override void Leave() {
-        cooldownTimer = cooldown;
-        user.unsetInteractingFlag();
-		inUse = false;
-		reticule.SetActive(false);
-        interacting = false;
+        if (user != null)
+        {
+            cooldownTimer = cooldown;
+            user.unsetInteractingFlag();
+            inUse = false;
+            reticule.SetActive(false);
+            user.interactAnim(false); //stop animation
+            user.setObjectInUse(null);
+
+            playerUsing.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
+            interacting = false;
+
+            if (user.getFirstInteractable() == this)
+            {
+                user.removeInteractable(gameObject);
+            }
+        }
 	}
 }

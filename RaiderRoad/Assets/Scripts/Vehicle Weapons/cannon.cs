@@ -78,8 +78,6 @@ public class cannon : Interactable {
 
 			if (player.GetButtonDown("Exit Interactable") && interacting) {
 				Leave();
-                playerUsing.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
-                interacting = false;
 			}
 
 			if (player.GetButtonDown("Shoot Weapon") && !isOnFiringCooldown()) {
@@ -98,6 +96,7 @@ public class cannon : Interactable {
 		}
 	}
 
+	// reticule gets fucky around corners of cone
 	private void ProcessInput() {
 		// If the player has given input, move the reticule accordingly
 		if (moveVector.x != 0.0f || moveVector.y != 0.0f) {
@@ -127,6 +126,7 @@ public class cannon : Interactable {
         playerUsing = user.gameObject;
 		user.setInteractingFlag();
         user.interactAnim(true); //start animation
+		user.setObjectInUse(this);
 
         inUse = true;
 		reticule.SetActive(true);
@@ -138,12 +138,24 @@ public class cannon : Interactable {
     }
 
     public override void Leave() {
-		cooldownTimer = cooldown;
-		user.unsetInteractingFlag();
-		inUse = false;
-		reticule.SetActive(false);
-        user.interactAnim(false); //stop animation
-    }
+        if(user != null)
+        {
+            cooldownTimer = cooldown;
+            user.unsetInteractingFlag();
+		    inUse = false;
+		    reticule.SetActive(false);
+            user.interactAnim(false); //stop animation
+		    user.setObjectInUse(null);
+
+		    playerUsing.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
+		    interacting = false;
+
+		    if (user.getFirstInteractable() == this) {
+			    user.removeInteractable(gameObject);
+		    }
+        }
+		
+	}
 
 	private bool isOnFiringCooldown() {
 		if (firingCooldownTimer > 0)
