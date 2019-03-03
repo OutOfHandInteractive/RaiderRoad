@@ -7,6 +7,7 @@ using UnityEngine;
 /// </summary>
 public class FightEnemy : EnemyAI {
 
+    //This is for a test commit
     //Enemy and enemy speed
     private GameObject cObject;
     private GameObject fightRange;
@@ -78,6 +79,7 @@ public class FightEnemy : EnemyAI {
     /// </summary>
     public void WindupAttack()
     {
+        
         fightRange.GetComponent<Renderer>().material.color = new Color(255f, 150f, 0f, .5f);
         chasing = false;
         //cObject.transform.position = Vector3.zero;
