@@ -43,7 +43,6 @@ public class flamethrower : Interactable {
 	private ParticleSystem fireInstance;
 	private flamethrowerDamage damage;
 	private flamethrowerDamageEnemy damageEnemy;
-    private AudioSource audio;
     
 	[System.NonSerialized]
         private bool initialized;
@@ -63,7 +62,6 @@ public class flamethrower : Interactable {
         overheated = false;
         firing = false;
         cooldownTimer = cooldown;
-        audio = GetComponent<AudioSource>();
 
 		damage = damageCollider.GetComponent<flamethrowerDamage>();
 		damage.setTickDamage(tickDamage);
@@ -94,59 +92,37 @@ public class flamethrower : Interactable {
         CheckOverheat();
 	}
 
-    /// <summary>
-    /// Begin firing using the anti-raider hitbox
-    /// </summary>
     public void StartFiring()
     {
-        StartFiring(damageCollider);
-    }
-
-    /// <summary>
-    /// Start firing using the anti-player hitbox
-    /// </summary>
-	public void StartFiringEnemy()
-    {
-        StartFiring(damageColliderEnemy);
-	}
-
-    /// <summary>
-    /// Stop firing
-    /// </summary>
-	public void StopFiringEnemy()
-    {
-        StopFiring();
-	}
-    
-    private void StartFiring(GameObject collider)
-    {
-        audio.Play();
         fireInstance.Play();
         firing = true;
-        collider.SetActive(true);
+        damageCollider.SetActive(true);
     }
 
-    /// <summary>
-    /// Stop firing
-    /// </summary>
     public void StopFiring()
     {
-        audio.Stop();
         fireInstance.Stop();
         firing = false;
         damageCollider.SetActive(false);
-        damageColliderEnemy.SetActive(false);
     }
+
+	public void StartFiringEnemy() {
+		fireInstance.Play();
+		firing = true;
+		damageColliderEnemy.SetActive(true);
+	}
+
+	public void StopFiringEnemy() {
+		fireInstance.Stop();
+		firing = false;
+		damageColliderEnemy.SetActive(false);
+	}
 
 	public void SetRotation(Quaternion rot)
     {
         fireInstance.transform.rotation = rot;
     }
 
-    /// <summary>
-    /// Returns true if this flaethrower is overheated
-    /// </summary>
-    /// <returns>true if this flaethrower is overheated</returns>
     public bool isOverheated()
     {
         return overheated;
@@ -212,7 +188,10 @@ public class flamethrower : Interactable {
         if (overheatCount <= 0.0f)
         {
             overheated = true;
-            StopFiring();
+            firing = false;
+			damageCollider.SetActive(false);
+			damageColliderEnemy.SetActive(false);
+			fireInstance.Stop();
 			//weapon.GetComponent<MeshRenderer>().material = overheatMat;
 			cooldownCount = overheatCooldown;
             overheatCount = overheatTime;

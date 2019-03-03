@@ -20,9 +20,6 @@ public class Constants : MonoBehaviour
 	// difficulty ratings
 	public static int SMALL_OBSTACLE_BASE_THREAT = 1;
 	public static int LIGHT_VEHICLE_BASE_THREAT = 1;
-	public static int MEDIUM_VEHICLE_BASE_THREAT = 3;
-    public static int HEAVY_VEHICLE_BASE_THREAT = 5;
-
-	// misc
-	public static float PLAYER_FALL_DAMAGE = 50f;
+	public static int MEDIUM_VEHICLE_BASE_THREAT = 6;
+    public static int HEAVY_VEHICLE_BASE_THREAT = 12;
 }

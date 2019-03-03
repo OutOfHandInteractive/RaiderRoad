@@ -580,17 +580,12 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
 		}
 	}
 
-    /// <summary>
-    /// Change inventory in text only after building wall, saves overhead
-    /// </summary>
-    public void changeInventory()
+    public void changeInventory() //change inventory in text only after building wall, saves overhead
     {
         inventoryText.text = wallInventory.ToString();
     }
 
-    /// <summary>
-    /// Using it for re-entering wall build mode
-    /// </summary>
+    //Using it for re-entering wall build mode
     private void checkHologram()
     {
         if(nodes.Count <= 1 && nodes.Count > 0) //previously didn't include > 0, but you need a node to pass
@@ -606,10 +601,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         }
     }
 
-    /// <summary>
-    /// Shows Building mode text above the player
-    /// Once "Building" is Officially no longer going to be displayed, DELETE function
-    /// </summary>
+    //Once "Building" is Officially no longer going to be displayed, DELETE function
     void displayMode()
     {
         if (buildMode) mode.text = "Building";
@@ -617,10 +609,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         //mode.text = "Build Mode: " + buildMode;
     }
 
-    /// <summary>
-    /// Makes held item float and spin above player
-    /// </summary>
-    public void floatItem()
+    public void floatItem() //makes held item float and spin above player
     {
         if (!hasItem)
         {
@@ -645,35 +634,20 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
 
     }
 
-    /// <summary>
-    /// Set the player ID for Rewired.
-    /// </summary>
-    /// <param name="id">The player ID</param>
     public void SetId(int id)
     {
         playerId = id;
         initialized = false;
     }
 
-    /// <summary>
-    /// Add the given destructable part to an internal list
-    /// </summary>
-    /// <param name="p">The part to add</param>
 	public void addDestructableVehiclePart(GameObject p) {
 		destructableParts.Add(p);
 	}
 
-    /// <summary>
-    /// Remove the given destructable part from the internal list
-    /// </summary>
-    /// <param name="p">The part to remove</param>
 	public void removeDestructableVehiclePart(GameObject p) {
 		destructableParts.Remove(p);
 	}
 
-    /// <summary>
-    /// Puts away the player's weapon
-    /// </summary>
     public void SheathWeapon(){
         myWeapon.SetActive(false);
         sheathTimer = 0f;

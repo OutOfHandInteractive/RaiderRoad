@@ -264,7 +264,7 @@ public class PlayerController_Rewired : MonoBehaviour
         }
         if (collision.gameObject.tag == "road")
         {
-            takeDamage(Constants.PLAYER_FALL_DAMAGE);
+            takeDamage(2f);
             transform.position = GameObject.Find("player1Spawn").transform.position;
         }
     }
@@ -327,9 +327,9 @@ public class PlayerController_Rewired : MonoBehaviour
         }
     }
 
-    public void RoadRash()
+    public void RoadRash(float damage = 2.0f)
     {
-        takeDamage(Constants.PLAYER_FALL_DAMAGE);
+        takeDamage(damage);
         transform.position = GameObject.Find("player1Spawn").transform.position;
     }
 
