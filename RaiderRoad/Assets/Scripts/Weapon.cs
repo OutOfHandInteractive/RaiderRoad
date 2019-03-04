@@ -32,7 +32,6 @@ public class Weapon : ConstructableGen<BuildNode> {
     /// </summary>
     public override void OnBreak()
     {
-        //Debug.Log(myAttacker.GetComponent<PlayerController_Rewired>() + "jdsfijdfidsfjdiofjdsifds");
         if (myAttacker.GetComponent<PlayerController_Rewired>() != null)
         {
             myAttacker.GetComponent<PlayerController_Rewired>().clearInteractable();

@@ -87,11 +87,11 @@ public class FightEnemy : EnemyAI {
     /// Punch the given player collider
     /// </summary>
     /// <param name="other">The player to hit</param>
-    public void HitPlayer(Collider other, float damagePower)
+    public void HitPlayer(Collider other, float damage)
     {
-        playerDamage += damagePower;
+        playerDamage += damage;
         fightRange.GetComponent<Renderer>().material.color = new Color(255f, 0f, 0f, .5f);
-        other.gameObject.GetComponent<PlayerController_Rewired>().takeDamage(damagePower);
+        other.gameObject.GetComponent<PlayerController_Rewired>().takeDamage(damage);
         Vector3 dir = other.transform.position - cObject.transform.position;
         dir = Vector3.Normalize(new Vector3(dir.x, 0.0f, dir.z));
         other.GetComponent<Rigidbody>().AddForce(dir * knockback_force);

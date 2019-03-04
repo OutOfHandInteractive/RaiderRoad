@@ -24,6 +24,8 @@ public class VehicleAI : MonoBehaviour {
     private string side;
     private bool hasWeapon;
     public ParticleSystem collision;
+    public ParticleSystem deathMiniExplosions;
+    public ParticleSystem deathBigExplosion;
 
     //Statistics
     public float maxHealth;
@@ -187,11 +189,15 @@ public class VehicleAI : MonoBehaviour {
             pc.RoadRash();
             pc.transform.parent = null;
         }
+        Instantiate(deathBigExplosion, transform.position, Quaternion.identity);
         Destroy(gameObject);
     }
 
     private void DelayedDeath()
     {
+        ParticleSystem myMiniXplos = Instantiate(deathMiniExplosions, transform.position, Quaternion.identity);
+        myMiniXplos.transform.parent = transform;
+
         StartCoroutine(WaitToDie());
     }
 
