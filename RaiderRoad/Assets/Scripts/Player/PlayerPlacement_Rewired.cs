@@ -535,25 +535,31 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         // Pick Up
         //if (other.gameObject.CompareTag("Drops"))
         //{
-        if (other.tag == "WallDrop")
+        ItemDrop drop = other.GetComponent<ItemDrop>();
+        if(drop != null && !drop.isTaken)
         {
-            wallInventory++;
-            Destroy(other.gameObject);
-        }
-        else if(other.tag == "Drops" && !heldItem)
-        {
-            heldItem = other.GetComponent<ItemDrop>().item;
-            floatItem();
-            //pass durabilty if needed (POI)
-            DurableConstruct construct = floatingItem.GetComponent<DurableConstruct>();
-            if (construct != null)
+            if (other.tag == "WallDrop")
             {
-                construct.SetDurability(other.GetComponent<ItemDrop>().myItemDur);
+                drop.isTaken = true;
+                wallInventory++;
+                Destroy(other.gameObject);
             }
+            else if (other.tag == "Drops" && !heldItem)
+            {
+                drop.isTaken = true;
+                heldItem = other.GetComponent<ItemDrop>().item;
+                floatItem();
+                //pass durabilty if needed (POI)
+                DurableConstruct construct = floatingItem.GetComponent<DurableConstruct>();
+                if (construct != null)
+                {
+                    construct.SetDurability(other.GetComponent<ItemDrop>().myItemDur);
+                }
 
-            Destroy(other.gameObject);
-            myAni.SetBool("isHolding", true);
-            buildMode = true;
+                Destroy(other.gameObject);
+                myAni.SetBool("isHolding", true);
+                buildMode = true;
+            }
         }
 
         //}
