@@ -1,6 +1,9 @@
 ﻿@startuml
 hide empty description
 '' Enemy AI State Diagram
+skinparam backgroundColor transparent
+skinparam monochrome true
+skinparam shadowing false
 
 [*] --> Wander
 Wander --> Ram : Rnd
