@@ -50,7 +50,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
     private List<GameObject> nodes = new List<GameObject>();      //probably better way to do this, REVISIT!
     private List<GameObject> trapNodes = new List<GameObject>();
     private List<GameObject> engineNodes = new List<GameObject>();
-    private List<GameObject> attackRange = new List<GameObject>();
+    [SerializeField] private List<GameObject> attackRange = new List<GameObject>();
 	private List<GameObject> destructableParts = new List<GameObject>();
 	private bool hasItem = false;
     private GameObject floatingItem;
@@ -513,11 +513,6 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
             }
 			
 		}
-
-        if (other.gameObject.CompareTag("Weapon"))
-        {
-            attackRange.Add(other.gameObject);
-        }
 
 		if (other.gameObject.CompareTag("Player")) {
 			if (other.GetComponent<PlayerController_Rewired>().getState() == PlayerController_Rewired.playerStates.down) {
