@@ -7,10 +7,10 @@ public class JumpEnemy : EnemyAI
     protected Rigidbody cRb;
     private float initialAngle;
     private bool hasJumped = false;
-    protected string cSide;
+    protected VehicleAI.Side cSide;
     protected int action;
 
-    public virtual void StartJump(GameObject enemy, Rigidbody rb, string side, int stateChance)
+    public virtual void StartJump(GameObject enemy, Rigidbody rb, VehicleAI.Side side, int stateChance)
     {
         cObject = enemy;
         cRb = rb;

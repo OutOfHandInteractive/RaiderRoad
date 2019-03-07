@@ -19,7 +19,7 @@ public class AttackVehicle : MonoBehaviour{
     private bool hasHit = false;
 
     //Initialize agent and attack points
-    public void StartAttack(NavMeshAgent agent, GameObject enemy, Rigidbody rb, string side)
+    public void StartAttack(NavMeshAgent agent, GameObject enemy, Rigidbody rb, VehicleAI.Side side)
     {
         cEnemy = agent;
         cObject = enemy;
@@ -27,7 +27,7 @@ public class AttackVehicle : MonoBehaviour{
         cRb = rb;
         mass = cRb.mass;
         //Find random attack point
-        if (side.Equals("left"))
+        if (side == VehicleAI.Side.Left)
         {
             WallsRV = GameObject.Find("NodesLeft");
             attackPosition = GameObject.Find("AttackLeft");

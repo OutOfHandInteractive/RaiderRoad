@@ -15,9 +15,9 @@ public class VehicleFactoryL : VehicleFactory_I {
 
 	//attach enemy to cab
 	public override void AttachPayload(GameObject cargo) {
-		GameObject payload = Instantiate(selectPayload());
-		payload.transform.SetParent(cargo.GetComponent<Cargo>().payloadNode.transform);
-		payload.transform.position = payload.transform.parent.transform.position;
+		GameObject payload = Instantiate(selectPayload(), cargo.GetComponent<Cargo>().payloadNode.transform);
+		//payload.transform.SetParent(cargo.GetComponent<Cargo>().payloadNode.transform);
+		//payload.transform.position = payload.transform.parent.transform.position;
 		payload.GetComponent<PayloadL>().populate();
 	}
 
@@ -26,9 +26,9 @@ public class VehicleFactoryL : VehicleFactory_I {
 		GameObject wheelToUse = selectWheel();
 		GameObject wheel;
 		for (int i = 0; i < WHEEL_COUNT_L; i++) {
-			wheel = Instantiate(wheelToUse);
-			wheel.transform.SetParent(chassis.GetComponent<ChassisL>().wheelNodes[i].transform);
-			wheel.transform.position = wheel.transform.parent.transform.position;
+			wheel = Instantiate(wheelToUse, chassis.GetComponent<ChassisL>().wheelNodes[i].transform);
+			//wheel.transform.SetParent(chassis.GetComponent<ChassisL>().wheelNodes[i].transform);
+			//wheel.transform.position = wheel.transform.parent.transform.position;
 			if (i % 2 == 1) { // even-numbered wheels are driver-side, so odd need to be scaled to -1 in X
 				wheel.transform.localScale = new Vector3(-1 * wheel.transform.localScale.x, 1 * wheel.transform.localScale.y, 1 * wheel.transform.localScale.z);
 			}

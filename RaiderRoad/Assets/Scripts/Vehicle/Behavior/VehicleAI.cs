@@ -6,6 +6,7 @@ using UnityEngine.AI;
 public class VehicleAI : MonoBehaviour {
     //States
     public enum State { Wander, Chase, Stay, Attack, Leave };
+    public enum Side { Left, Right };
 
     //State Classes
     private WanderVehicle wander;
@@ -21,7 +22,7 @@ public class VehicleAI : MonoBehaviour {
     private Rigidbody rb;
     private int attackPoint;
 
-    private string side;
+    private Side side;
     private bool hasWeapon;
     public ParticleSystem collision;
     public ParticleSystem deathMiniExplosions;
@@ -58,10 +59,7 @@ public class VehicleAI : MonoBehaviour {
 
 		front_attachment = GetComponentInChildren<Attachment>();
 
-        if(GetComponentInChildren<HasWeapon>() != null)
-        {
-            hasWeapon = true;
-        }
+        hasWeapon = (GetComponentInChildren<HasWeapon>() != null);
         Debug.Log(side);
         //Start wander state
         EnterWander();
@@ -249,10 +247,17 @@ public class VehicleAI : MonoBehaviour {
 
     public void setSide(string _side)
     {
-        side = _side;
+        if(_side == "left")
+        {
+            side = Side.Left;
+        }
+        else
+        {
+            side = Side.Right;
+        }
     }
 
-    public string getSide()
+    public Side getSide()
     {
         return side;
     }

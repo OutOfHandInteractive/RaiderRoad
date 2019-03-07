@@ -18,7 +18,7 @@ public class WeaponAttackEnemy : EnemyAI {
     private bool firing = false;
     private ParticleSystem fireInstance;
     private bool created = false;
-    public void StartWeapon(GameObject enemy, VehicleAI vehicle, GameObject munnitions, GameObject fire, string side)
+    public void StartWeapon(GameObject enemy, VehicleAI vehicle, GameObject munnitions, GameObject fire, VehicleAI.Side side)
     {
         cObject = enemy;
         eVehicle = vehicle;
@@ -62,7 +62,7 @@ public class WeaponAttackEnemy : EnemyAI {
 
 			if (!created)
             {
-                if (side.Equals("right"))
+                if (side == VehicleAI.Side.Right)
                 {
                     fireInstance = Object.Instantiate(fireFX, barrel.transform.position, fireFX.transform.rotation, barrel.transform).GetComponent<ParticleSystem>();
                 }

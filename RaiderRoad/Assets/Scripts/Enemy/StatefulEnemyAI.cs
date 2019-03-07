@@ -35,7 +35,7 @@ public class StatefulEnemyAI : EnemyAI {
 
     //Vehicle variables
     private VehicleAI vehicle;
-    private string side;
+    private VehicleAI.Side side;
     public GameObject munnitions;
     public GameObject fire;
     private GameObject interactable;
@@ -374,7 +374,7 @@ public class StatefulEnemyAI : EnemyAI {
         //Change transform to stay on vehicles
         if (collision.gameObject.tag == "eVehicle" && gameObject.tag != "usingWeapon")
         {
-            transform.parent = parent.transform;
+            transform.parent = collision.gameObject.transform;
         }
         if (collision.gameObject.tag == "RV")
         {

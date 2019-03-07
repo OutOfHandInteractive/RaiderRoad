@@ -18,7 +18,7 @@ public class EscapeEnemy : JumpEnemy {
     /// <param name="rb">The rigid body</param>
     /// <param name="side">The side of the RV we're on</param>
     /// <param name="stateChance"></param>
-    public override void StartJump(GameObject enemy, Rigidbody rb, string side, int stateChance)
+    public override void StartJump(GameObject enemy, Rigidbody rb, VehicleAI.Side side, int stateChance)
     {
         base.StartJump(enemy, rb, side, stateChance);
         Radio.GetRadio().CallForEvac(this);
@@ -65,7 +65,7 @@ public class EscapeEnemy : JumpEnemy {
         {
             //Enemy vehicle destination position
             Vector3 pos = eVehicle.transform.position;
-            float zSign = cSide.Equals("left") ? -1 : 1;
+            float zSign = cSide == VehicleAI.Side.Left ? -1 : 1;
             Jump(pos, zSign);
         }
         else

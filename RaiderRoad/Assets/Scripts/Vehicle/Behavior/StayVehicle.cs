@@ -12,9 +12,9 @@ public class StayVehicle : MonoBehaviour {
     private NavMeshAgent cEnemy;
     private GameObject cObject;
     private GameObject player;
-    private string cSide;
+    private VehicleAI.Side cSide;
     private bool calledRadio = false;
-    public void StartStay(NavMeshAgent agent, GameObject enemy, string side, int stickPoint)
+    public void StartStay(NavMeshAgent agent, GameObject enemy, VehicleAI.Side side, int stickPoint)
     {
         cEnemy = agent;
         cObject = enemy;
@@ -22,7 +22,7 @@ public class StayVehicle : MonoBehaviour {
         cSide = side;
         cEnemy.speed = 6f;
         //Find random attack point
-        if (side.Equals("left"))
+        if (side == VehicleAI.Side.Left)
         {
             WallsRV = GameObject.Find("NodesLeft");
             attackPosition = GameObject.Find("AttackLeft");
@@ -48,7 +48,7 @@ public class StayVehicle : MonoBehaviour {
         return cObject;
     }
 
-    public string Side()
+    public VehicleAI.Side Side()
     {
         return cSide;
     }

@@ -21,14 +21,18 @@ public abstract class VehicleFactory_I : MonoBehaviour {
 		rand = new System.Random();
 	}
 
-	public GameObject AssembleVehicle(int modifier) {
+	public GameObject AssembleVehicle(int modifier, Vector3 position) {
 		float armorStacks = 0f;
 		float ramDamageStacks = 0f;
 		float speedStacks = 0f;
         int threatMod = modifier;
 
 		GameObject vehicle, chassis, cab, cargo;
-		vehicle = Instantiate(VehicleBase, new Vector3(0, 0, 0), Quaternion.identity);
+		vehicle = Instantiate<GameObject>(VehicleBase, position, Quaternion.identity);
+        if(vehicle.transform.position != position)
+        {
+            Debug.LogError("WTF");
+        }
 		VehicleAI vAI = vehicle.GetComponent<VehicleAI>();
 
 		chassis = AttachChassis(vehicle, vAI);
@@ -53,9 +57,9 @@ public abstract class VehicleFactory_I : MonoBehaviour {
 
 	// set up chassis
 	public GameObject AttachChassis(GameObject vehicle, VehicleAI v) {
-		GameObject chassis = Instantiate(selectChassis());
-		chassis.transform.SetParent(vehicle.transform);
-		chassis.transform.position = Vector3.zero;
+		GameObject chassis = Instantiate(selectChassis(), vehicle.transform);
+		//chassis.transform.SetParent(vehicle.transform);
+		//chassis.transform.position = Vector3.zero;
 
 		Chassis chassisScript = chassis.GetComponent<Chassis>();
 
@@ -66,9 +70,9 @@ public abstract class VehicleFactory_I : MonoBehaviour {
 
 	// attach cab to chassis
 	public GameObject AttachCab(GameObject chassis, VehicleAI v, ref float armorStacks, ref float ramDamageStacks, ref float speedStacks) {
-		GameObject cab = Instantiate(selectCab());
-		cab.transform.SetParent(chassis.GetComponent<Chassis>().cabNode.transform);
-		cab.transform.position = cab.transform.parent.transform.position;
+		GameObject cab = Instantiate(selectCab(), chassis.GetComponent<Chassis>().cabNode.transform);
+		//cab.transform.SetParent(chassis.GetComponent<Chassis>().cabNode.transform);
+		//cab.transform.position = cab.transform.parent.transform.position;
 		Cab cabScript = cab.GetComponent<Cab>();
 
 		armorStacks += cabScript.armorStacks;
@@ -79,9 +83,9 @@ public abstract class VehicleFactory_I : MonoBehaviour {
 
 	// attach cargo to cab
 	public GameObject AttachCargo(GameObject cab, VehicleAI v, ref float armorStacks, ref float ramDamageStacks, ref float speedStacks) {
-		GameObject cargo = Instantiate(selectCargo());
-		cargo.transform.SetParent(cab.GetComponent<Cab>().cargoNode.transform);
-		cargo.transform.position = cargo.transform.parent.transform.position;
+		GameObject cargo = Instantiate(selectCargo(), cab.GetComponent<Cab>().cargoNode.transform);
+		//cargo.transform.SetParent(cab.GetComponent<Cab>().cargoNode.transform);
+		//cargo.transform.position = cargo.transform.parent.transform.position;
 		Cargo cargoScript = cargo.GetComponent<Cargo>();
 
 		armorStacks += cargoScript.armorStacks;
@@ -92,9 +96,9 @@ public abstract class VehicleFactory_I : MonoBehaviour {
 
 	// attach attachment to cab
 	public void AttachAttachment(GameObject cab, VehicleAI v, ref float armorStacks, ref float ramDamageStacks, ref float speedStacks) {
-		GameObject front_attachment = Instantiate(selectAttachment());
-		front_attachment.transform.SetParent(cab.GetComponent<Cab>().front_attachmentNode.transform);
-		front_attachment.transform.position = front_attachment.transform.parent.transform.position;
+		GameObject front_attachment = Instantiate(selectAttachment(), cab.GetComponent<Cab>().front_attachmentNode.transform);
+		//front_attachment.transform.SetParent(cab.GetComponent<Cab>().front_attachmentNode.transform);
+		//front_attachment.transform.position = front_attachment.transform.parent.transform.position;
 		Attachment attachmentScript = front_attachment.GetComponent<Attachment>();
 
 		ramDamageStacks += attachmentScript.ramDamageStacks;

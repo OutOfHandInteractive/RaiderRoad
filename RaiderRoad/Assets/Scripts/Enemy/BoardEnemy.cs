@@ -24,11 +24,11 @@ public class BoardEnemy : JumpEnemy {
     private Vector3 GetTarget(Vector3 planePos)
     {
         Debug.Log(cSide);
-        if (cSide == "left")
+        if (cSide == VehicleAI.Side.Left)
         {
             return Closest(planePos, GameObject.FindGameObjectsWithTag("JumpL")).transform.position;
         }
-        else if (cSide == "right")
+        else if (cSide == VehicleAI.Side.Right)
         {
             return Closest(planePos, GameObject.FindGameObjectsWithTag("JumpR")).transform.position;
         }
@@ -43,7 +43,7 @@ public class BoardEnemy : JumpEnemy {
         //RV destination position
         Vector3 planePos = new Vector3(cObject.transform.position.x, 0, cObject.transform.position.z);
         Vector3 pos = GetTarget(planePos);
-        float zSign = cSide.Equals("left") ? 1 : -1;
+        float zSign = cSide == VehicleAI.Side.Left ? 1 : -1;
 
         Jump(pos, zSign);
 
