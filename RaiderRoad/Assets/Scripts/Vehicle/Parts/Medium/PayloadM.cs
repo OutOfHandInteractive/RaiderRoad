@@ -15,26 +15,37 @@ public class PayloadM : Payload {
 	public override void populate() {
         GameObject[] nodes = { enemyNode01, enemyNode02, enemyNode03, enemyNode04 };
         populate(nodes);
-		//for (int i = 0; i < PAYLOAD_SIZE; i++) {
-		//	if (payloadCode[i] == payloadTypes.enemy)
-		//		payloadInstance.Add(Instantiate(SelectEnemies().gameObject));
-  //          if (payloadCode[i] == payloadTypes.weapon)
-  //          {
-  //              payloadInstance.Add(Instantiate(SelectInteractable().gameObject));
-  //          }
-  //      }
+        //for (int i = 0; i < PAYLOAD_SIZE; i++) {
+        //	if (payloadCode[i] == payloadTypes.enemy)
+        //		payloadInstance.Add(Instantiate(SelectEnemies().gameObject));
+        //          if (payloadCode[i] == payloadTypes.weapon)
+        //          {
+        //              payloadInstance.Add(Instantiate(SelectInteractable().gameObject));
+        //          }
+        //      }
 
-		//payloadInstance[0].transform.SetParent(enemyNode01.transform);
-		//payloadInstance[0].transform.position = new Vector3(0, 1f, 0);
+        //payloadInstance[0].transform.SetParent(enemyNode01.transform);
+        //payloadInstance[0].transform.position = new Vector3(0, 1f, 0);
 
-		//payloadInstance[1].transform.SetParent(enemyNode02.transform);
-		//payloadInstance[1].transform.position = new Vector3(1f, 1f, 0);
+        //payloadInstance[1].transform.SetParent(enemyNode02.transform);
+        //payloadInstance[1].transform.position = new Vector3(1f, 1f, 0);
 
-		//payloadInstance[2].transform.SetParent(enemyNode03.transform);
-		//payloadInstance[2].transform.position = new Vector3(-1f, 1f, 0);
+        //payloadInstance[2].transform.SetParent(enemyNode03.transform);
+        //payloadInstance[2].transform.position = new Vector3(-1f, 1f, 0);
 
-		//payloadInstance[3].transform.SetParent(enemyNode04.transform);
-		//payloadInstance[3].transform.position = new Vector3(0, 1f, -1f);
+        //payloadInstance[3].transform.SetParent(enemyNode04.transform);
+        //payloadInstance[3].transform.position = new Vector3(0, 1f, -1f);
+    }
+
+    protected override Vector3 payloadOffset(int i)
+    {
+        switch (i)
+        {
+            case 1: return new Vector3(1f, 1f, 0);
+            case 2: return new Vector3(-1f, 1f, 0);
+            case 3: return new Vector3(0, 1f, -1f);
+        }
+        return base.payloadOffset(i);
     }
 
     protected override int GetSize()

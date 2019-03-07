@@ -12,7 +12,7 @@ public abstract class Payload : MonoBehaviour {
 
     protected abstract int GetSize();
 
-    protected void populate(GameObject[] nodes)
+    protected List<GameObject> populate(GameObject[] nodes)
     {
         List<GameObject> payloadInstance = new List<GameObject>();
         for (int i = 0; i < GetSize(); i++)
@@ -23,7 +23,13 @@ public abstract class Payload : MonoBehaviour {
             {
                 payloadInstance.Add(Instantiate(SelectInteractable().gameObject, nodes[i].transform));
             }
-            payloadInstance[i].transform.position += new Vector3(0, 1f, 0);
+            payloadInstance[i].transform.localPosition = payloadOffset(i);
         }
+        return payloadInstance;
+    }
+
+    protected virtual Vector3 payloadOffset(int i)
+    {
+        return new Vector3(0, 1f, 0);
     }
 }
