@@ -20,9 +20,9 @@ public abstract class Payload : MonoBehaviour {
             Vector3 localPos = Vector3.zero;
             if (payloadCode[i] == payloadTypes.enemy)
             {
-                payloadInstance.Add(Instantiate(SelectEnemies().gameObject, nodes[i].transform.position, Quaternion.identity, nodes[i].transform));
+                payloadInstance.Add(Instantiate(SelectEnemies().gameObject,  nodes[i].transform));
                 // HACK HACK HACK!!
-                //localPos = new Vector3(0, -0.5f, 0.5f);
+                localPos = new Vector3(0, 0.42f, 0);
             }
             else if (payloadCode[i] == payloadTypes.weapon)
             {
