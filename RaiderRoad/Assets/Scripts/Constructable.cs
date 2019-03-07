@@ -114,7 +114,7 @@ public abstract class Constructable : MonoBehaviour
 
     private void spawnDrop()
     {
-        GameObject item = Instantiate(drop, gameObject.transform.parent);
+        GameObject item = Instantiate(drop, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity, transform.parent);
         item.name = drop.name;
         OnDrop(item);
         if(myNode != null)
