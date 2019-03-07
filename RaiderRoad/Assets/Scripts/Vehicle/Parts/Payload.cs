@@ -18,12 +18,19 @@ public abstract class Payload : MonoBehaviour {
         for (int i = 0; i < GetSize(); i++)
         {
             if (payloadCode[i] == payloadTypes.enemy)
+            {
                 payloadInstance.Add(Instantiate(SelectEnemies().gameObject, nodes[i].transform));
-            if (payloadCode[i] == payloadTypes.weapon)
+            }
+            else if (payloadCode[i] == payloadTypes.weapon)
             {
                 payloadInstance.Add(Instantiate(SelectInteractable().gameObject, nodes[i].transform));
             }
-            payloadInstance[i].transform.localPosition = payloadOffset(i);
+            else
+            {
+                throw new System.Exception("Unknown payload code: " + payloadCode[i]);
+            }
+            payloadInstance[i].transform.localPosition = Vector3.zero;
+            //payloadInstance[i].transform.position += payloadOffset(i);
         }
         return payloadInstance;
     }

@@ -71,12 +71,12 @@ public class Event : MonoBehaviour {
         //Debug.Log("spawn called");
         //based on type, call proper function - for now just creates light vehicle
         Vector3 pos = spawnPoints[numPoints].transform.position;
-        Debug.LogWarning(pos);
+        //Debug.LogWarning(pos);
         e = factory.newConstructVehicle(_vtype,_mod, pos);
-        if (e.transform.position != pos)
-        {
-            Debug.LogError("WTF");
-        }
+        //if (e.transform.position != pos)
+        //{
+        //    Debug.LogError("WTF");
+        //}
         e.GetComponent<VehicleAI>().setSide(spawnPoints[numPoints].name);
         //e.transform.position = spawnPoints[numPoints].transform.position;
         e.GetComponentInChildren<eventObject>().setCluster(this.gameObject);
