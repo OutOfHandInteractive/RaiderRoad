@@ -41,6 +41,11 @@ public class Weapon : ConstructableGen<BuildNode> {
 		interactableWeapon.Leave();
 	}
 
+    public override bool isPlaced()
+    {
+        return base.isPlaced() || Util.IsVehicleRecursive(gameObject);
+    }
+
     /// <summary>
     /// Extension to Damage() that takes a source
     /// </summary>
