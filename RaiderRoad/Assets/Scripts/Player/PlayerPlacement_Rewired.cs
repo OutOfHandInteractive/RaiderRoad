@@ -55,6 +55,9 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
 	private bool hasItem = false;
     private GameObject floatingItem;
 
+    public AudioClip swingSound;
+    private AudioSource audio;
+
     private bool myInteracting = false;
 
     private Color currentAttColor; //for temporary attack for prototype
@@ -91,6 +94,8 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
 
         MeleeWeapScale = myWeapon.transform.localScale;
         myWeapon.SetActive(false);
+
+        audio = GetComponent<AudioSource>();
 
         g = GameManager.GameManagerInstance;
     }
@@ -382,7 +387,8 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
 
         //Debug.Log("attackRange Count:" + attackRange.Count);
 
-        if (!AttackVehicleParts())
+        bool hit = AttackVehicleParts();
+        if (!hit)
         {
             Util.RemoveNulls(attackRange);
             foreach (GameObject item in attackRange)
@@ -398,11 +404,13 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
                 {
                     item.GetComponent<Weapon>().Damage(damage, gameObject.transform.parent.gameObject);
                     Instantiate(objHitPart, item.transform.position, Quaternion.identity);
+                    hit = true;
                 }
                 else if ((construct = item.GetComponent<Constructable>()) != null)
                 {
                     construct.Damage(damage);
                     Instantiate(objHitPart, item.transform.position, Quaternion.identity);
+                    hit = true;
                 }
                 else if (item.CompareTag("Enemy"))
                 {
@@ -414,12 +422,21 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
                     //Debug.Log(dir);
 
                     Instantiate(charaHitPart, item.transform.position, Quaternion.identity);
+                    hit = true;
                 }
             }
         }
 
+        audio.PlayOneShot(swingSound);
+        if (hit)
+        {
+            audio.PlayDelayed(hitOffset);
+        }
+
         currentAttColor.a = 0.5f; //setting attack model's mat to 1/2 visible
     }
+
+    [SerializeField] private float hitOffset;
 
     private void CheckBuildNodes()
     {
