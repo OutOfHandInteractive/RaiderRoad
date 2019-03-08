@@ -14,6 +14,8 @@ public class Driving : Interactable
     public float accel;
     public float maxSpeed;
     public float change;
+    public float leftClamp, rightClamp;
+    public float enemyCountL, enemyCountR;
 
     //--------------------
     // Private Variables
@@ -40,6 +42,24 @@ public class Driving : Interactable
             cooldownTimer -= Time.deltaTime;
         }
 
+        if (enemyCountL > 0)
+        {
+            leftClamp = -17;
+        }
+        else
+        {
+            leftClamp = -21;
+        }
+
+        if (enemyCountR > 0)
+        {
+            rightClamp = 17;
+        }
+        else
+        {
+            rightClamp = 21;
+        }
+
         GetInput();
         ProcessInput();
     }
@@ -59,14 +79,15 @@ public class Driving : Interactable
             moveVector.x = player.GetAxis("Move Horizontal") * Time.deltaTime * moveSpeed * accel;
             moveVector.y = player.GetAxis("Move Vertical") * Time.deltaTime * moveSpeed * accel;
 
-            if (player.GetButtonDown("Exit Interactable"))
+            if (player.GetButtonDown("Exit Interactable") || Input.GetKeyDown("k"))
             {
                 Leave();
+                accel = 0;
                 playerUsing.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
             }
             if ((moveVector.x == 0.0f && moveVector.y == 0.0f) && (accel >= 0))
             {
-                accel -= Time.deltaTime * (change * 4);
+                accel -= Time.deltaTime * (change * 5);
             }
         }
     }
@@ -87,7 +108,7 @@ public class Driving : Interactable
     {
         rv.Translate(moveVector.x, 0, moveVector.y, Space.World);
         Vector3 clampedPosition = rv.transform.position;
-        clampedPosition.x = Mathf.Clamp(rv.transform.position.x, -21f, 21f);
+        clampedPosition.x = Mathf.Clamp(rv.transform.position.x, leftClamp, rightClamp);
         clampedPosition.z = Mathf.Clamp(rv.transform.position.z, -10f, 10f);
         rv.transform.position = clampedPosition;
     }
@@ -120,7 +141,9 @@ public class Driving : Interactable
         user.interactAnim(true); //start animation
 		user.setObjectInUse(this);
 
-        inUse = true;
+		playerUsing.GetComponent<Rigidbody>().isKinematic = true;
+
+		inUse = true;
     }
 
     public override bool Occupied()
@@ -136,5 +159,7 @@ public class Driving : Interactable
         user.interactAnim(false); //stop animation
         moveVector = Vector3.zero;
 		user.setObjectInUse(null);
-    }
+
+		playerUsing.GetComponent<Rigidbody>().isKinematic = false;
+	}
 }

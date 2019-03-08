@@ -17,13 +17,14 @@ public class FightEnemy : EnemyAI {
     private int playerHit = 0;
     private GameObject[] players;
     private GameObject player;
+    private GameObject eVehicle;
 
     /// <summary>
     /// Initialize this state
     /// </summary>
     /// <param name="enemy">This enemy</param>
     /// <param name="target">The target to attack, if any</param>
-    public void StartFight(GameObject enemy, GameObject target = null)
+    public void StartFight(GameObject enemy, VehicleAI vehicle, GameObject target = null)
     {
         //Initialized enemy
         players = GameObject.FindGameObjectsWithTag("Player");
@@ -31,6 +32,7 @@ public class FightEnemy : EnemyAI {
         _target = target;
         fightRange = cObject.transform.Find("EnemyAttack").gameObject;
         player = GetTarget();
+        eVehicle = vehicle.gameObject;
     }
 
     private GameObject GetTarget()
@@ -57,7 +59,7 @@ public class FightEnemy : EnemyAI {
         GameObject[] vehicles = GameObject.FindGameObjectsWithTag("eVehicle");
         float movement = speed * Time.deltaTime;
         //If doesnt exist or if player has been hit go into escape state
-        if (!player || playerDamage >= 4f || cObject.GetComponent<StatefulEnemyAI>().currentHealth <= 25f)
+        if ((!player || playerDamage >= 4f || cObject.GetComponent<StatefulEnemyAI>().currentHealth <= 25f) && eVehicle != null)
         {
             cObject.GetComponent<StatefulEnemyAI>().EnterEscape();
         }
@@ -85,11 +87,11 @@ public class FightEnemy : EnemyAI {
     /// Punch the given player collider
     /// </summary>
     /// <param name="other">The player to hit</param>
-    public void HitPlayer(Collider other, float damagePower)
+    public void HitPlayer(Collider other, float damage)
     {
-        playerDamage += damagePower;
+        playerDamage += damage;
         fightRange.GetComponent<Renderer>().material.color = new Color(255f, 0f, 0f, .5f);
-        other.gameObject.GetComponent<PlayerController_Rewired>().takeDamage(damagePower);
+        other.gameObject.GetComponent<PlayerController_Rewired>().takeDamage(damage);
         Vector3 dir = other.transform.position - cObject.transform.position;
         dir = Vector3.Normalize(new Vector3(dir.x, 0.0f, dir.z));
         other.GetComponent<Rigidbody>().AddForce(dir * knockback_force);

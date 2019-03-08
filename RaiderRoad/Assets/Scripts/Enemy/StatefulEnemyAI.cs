@@ -35,7 +35,7 @@ public class StatefulEnemyAI : EnemyAI {
 
     //Vehicle variables
     private VehicleAI vehicle;
-    private string side;
+    private VehicleAI.Side side;
     public GameObject munnitions;
     public GameObject fire;
     private GameObject interactable;
@@ -300,7 +300,7 @@ public class StatefulEnemyAI : EnemyAI {
     public void EnterFight()
     {
         currentState = State.Fight;
-        fight.StartFight(enemy);
+        fight.StartFight(enemy, vehicle);
         enemy.GetComponent<Renderer>().material.color = Color.red;
     }
 
@@ -372,9 +372,9 @@ public class StatefulEnemyAI : EnemyAI {
             Destroy(gameObject);
         }
         //Change transform to stay on vehicles
-        if (collision.gameObject.tag == "eVehicle" && gameObject.tag != "usingWeapon")
+        if (Util.IsVehicleRecursive(collision.gameObject) && gameObject.tag != "usingWeapon")
         {
-            transform.parent = parent.transform;
+            transform.parent = collision.gameObject.transform;
         }
         if (collision.gameObject.tag == "RV")
         {
@@ -406,7 +406,7 @@ public class StatefulEnemyAI : EnemyAI {
         //Check if you hit the player and do action
         if (other.gameObject.tag == "Player" && currentState == State.Fight)
         {   
-            vehicle.StartCoroutine(WindUp(other));
+            StartCoroutine(WindUp(other));
         }
         if (other.gameObject.tag == "EnemyInteract" && currentState == State.Wait)
         {

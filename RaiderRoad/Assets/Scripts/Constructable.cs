@@ -93,7 +93,7 @@ public abstract class Constructable : MonoBehaviour
     /// Checks if the object has been placed on a node
     /// </summary>
     /// <returns>True if and only if myNode is valid and occupied</returns>
-    public bool isPlaced()
+    public virtual bool isPlaced()
     {
         return myNode != null && GetNodeComp(myNode).occupied;
     }
@@ -114,7 +114,7 @@ public abstract class Constructable : MonoBehaviour
 
     private void spawnDrop()
     {
-        GameObject item = Instantiate(drop, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
+        GameObject item = Instantiate(drop, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity, transform.parent);
         item.name = drop.name;
         OnDrop(item);
         if(myNode != null)

@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-/// <summary>
-/// This class is for enemies posted on vehicle weapons.
-/// </summary>
 public class WeaponAttackEnemy : EnemyAI {
 
     private GameObject fireFX;
@@ -21,16 +18,7 @@ public class WeaponAttackEnemy : EnemyAI {
     private bool firing = false;
     private ParticleSystem fireInstance;
     private bool created = false;
-
-    /// <summary>
-    /// Initializes this state
-    /// </summary>
-    /// <param name="enemy"></param>
-    /// <param name="vehicle"></param>
-    /// <param name="munnitions"></param>
-    /// <param name="fire"></param>
-    /// <param name="side"></param>
-    public void StartWeapon(GameObject enemy, VehicleAI vehicle, GameObject munnitions, GameObject fire, string side)
+    public void StartWeapon(GameObject enemy, VehicleAI vehicle, GameObject munnitions, GameObject fire, VehicleAI.Side side)
     {
         cObject = enemy;
         eVehicle = vehicle;
@@ -74,7 +62,7 @@ public class WeaponAttackEnemy : EnemyAI {
 
 			if (!created)
             {
-                if (side.Equals("right"))
+                if (side == VehicleAI.Side.Right)
                 {
                     fireInstance = Object.Instantiate(fireFX, barrel.transform.position, fireFX.transform.rotation, barrel.transform).GetComponent<ParticleSystem>();
                 }
@@ -90,9 +78,7 @@ public class WeaponAttackEnemy : EnemyAI {
         }
     }
 
-    /// <summary>
-    /// Perform the Weapon actions
-    /// </summary>
+    // Update is called once per frame
     public void Weapon()
     {
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
@@ -186,10 +172,6 @@ public class WeaponAttackEnemy : EnemyAI {
         return null;
     }
 
-    /// <summary>
-    /// Find and target the nearest player. Rotates the weapon to face them.
-    /// </summary>
-    /// <param name="weapons"></param>
     public void LookAtPlayer(GameObject weapons)
     {
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");

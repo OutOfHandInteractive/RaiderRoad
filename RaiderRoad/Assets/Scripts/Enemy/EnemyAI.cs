@@ -86,6 +86,14 @@ public abstract class EnemyAI : MonoBehaviour
                     minDist = dist;
                 }
             }
+            else if (wall.gameObject.tag == "JumpL" || wall.gameObject.tag == "JumpR")
+            {
+                if (closest == null || dist < minDist)
+                {
+                    closest = wall;
+                    minDist = dist;
+                }
+            }
         }
         return closest;
     }

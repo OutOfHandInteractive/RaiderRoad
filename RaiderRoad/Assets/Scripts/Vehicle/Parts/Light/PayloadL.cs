@@ -13,24 +13,31 @@ public class PayloadL : Payload {
 	private System.Random rand = new System.Random();
 
 	public override void populate() {
-		for (int i=0; i < PAYLOAD_SIZE; i++) {
-			if (payloadCode[i] == payloadTypes.enemy)
-				payloadInstance.Add(Instantiate(SelectEnemies().gameObject));
-            if (payloadCode[i] == payloadTypes.weapon)
-            {
-                payloadInstance.Add(Instantiate(SelectInteractable().gameObject));
-            }
+        GameObject[] nodes = { enemyNode01, enemyNode02 };
+        populate(nodes);
+		//for (int i=0; i < PAYLOAD_SIZE; i++) {
+		//	if (payloadCode[i] == payloadTypes.enemy)
+		//		payloadInstance.Add(Instantiate(SelectEnemies().gameObject));
+  //          if (payloadCode[i] == payloadTypes.weapon)
+  //          {
+  //              payloadInstance.Add(Instantiate(SelectInteractable().gameObject));
+  //          }
  
-		}
+		//}
 
-		payloadInstance[0].transform.SetParent(enemyNode01.transform);
-		payloadInstance[0].transform.position = new Vector3(0, 1f, 0);
+		//payloadInstance[0].transform.SetParent(enemyNode01.transform);
+		//payloadInstance[0].transform.position = new Vector3(0, 1f, 0);
 
-		payloadInstance[1].transform.SetParent(enemyNode02.transform);
-		payloadInstance[1].transform.position = new Vector3(0, 1f, 0);
-	}
+		//payloadInstance[1].transform.SetParent(enemyNode02.transform);
+		//payloadInstance[1].transform.position = new Vector3(0, 1f, 0);
+    }
 
-	protected override StatefulEnemyAI SelectEnemies() {
+    protected override int GetSize()
+    {
+        return PAYLOAD_SIZE;
+    }
+
+    protected override StatefulEnemyAI SelectEnemies() {
 		int selectedIndex = rand.Next(0, enemies.Count);
 		return enemies[selectedIndex];
 	}

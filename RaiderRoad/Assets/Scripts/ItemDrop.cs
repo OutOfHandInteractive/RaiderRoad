@@ -7,6 +7,7 @@ public class ItemDrop : MonoBehaviour {
     public GameObject item;
     public float myItemDur = -1f;
     public bool isOccupied = false;
+    public bool isTaken = false;
     private void Start()
     {
         if(myItemDur < 0 && item.GetComponent<DurableConstruct>() != null)

@@ -124,10 +124,10 @@ public class EventManager : MonoBehaviour {
             if (etype == EventManager.eventTypes.vehicle)
             {
 				//determine vehicle type --- need to implement, for now just does medium and light randomly
-                /*if(difficultyRating >= Constants.HEAVY_VEHICLE_BASE_THREAT){
+                if(difficultyRating >= Constants.HEAVY_VEHICLE_BASE_THREAT){
                     randNum = UnityEngine.Random.Range((int)VehicleFactoryManager.vehicleTypes.light, (int)VehicleFactoryManager.vehicleTypes.heavy + 1);
                 }
-                else */if (difficultyRating >= Constants.MEDIUM_VEHICLE_BASE_THREAT) {
+                else if (difficultyRating >= Constants.MEDIUM_VEHICLE_BASE_THREAT) {
 					randNum = UnityEngine.Random.Range((int)VehicleFactoryManager.vehicleTypes.light, (int)VehicleFactoryManager.vehicleTypes.medium + 1);
 				}
 				else {
