@@ -10,7 +10,6 @@ public class EscapeEnemy : JumpEnemy {
 
     //Gameobject, rigidbody, vehicle, initialangle for jump, if enemy jumped, current side 
     private GameObject eVehicle;
-
     /// <summary>
     /// Initializes this state
     /// </summary>
@@ -18,9 +17,9 @@ public class EscapeEnemy : JumpEnemy {
     /// <param name="rb">The rigid body</param>
     /// <param name="side">The side of the RV we're on</param>
     /// <param name="stateChance"></param>
-    public override void StartJump(GameObject enemy, Rigidbody rb, VehicleAI.Side side, int stateChance)
+    public override void StartJump(GameObject enemy, Rigidbody rb, VehicleAI.Side side,NavMeshAgent agent, int stateChance)
     {
-        base.StartJump(enemy, rb, side, stateChance);
+        base.StartJump(enemy, rb, side, agent, stateChance);
         Radio.GetRadio().CallForEvac(this);
         Debug.Log("I need evac!!");
     }
@@ -72,7 +71,8 @@ public class EscapeEnemy : JumpEnemy {
         {
             Vector3 targetPosition = new Vector3(eVehicle.transform.position.x, cObject.transform.position.y, eVehicle.transform.position.z);
             cObject.transform.LookAt(targetPosition);
-            cObject.transform.position = Vector3.MoveTowards(cObject.transform.position, eVehicle.transform.position, movement);
+            
+            //cObject.transform.position = Vector3.MoveTowards(cObject.transform.position, eVehicle.transform.position, movement);
         }
         Debug.Log(cObject.transform.tag + " HEEEEEEEEY");
         if(cObject.transform.root.tag == "eVehicle" && cObject.transform.parent != null)

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 /// <summary>
 /// This enemy just wants to destroy things and pick fights
@@ -19,14 +20,16 @@ public class DestroyEnemy : EnemyAI {
     private GameObject[] engines;
     private GameObject wall;
     private GameObject engine;
+    private NavMeshAgent agent;
 
     /// <summary>
     /// Initializes this state
     /// </summary>
     /// <param name="enemy">This enemy (Deprecated)</param>
-    public void StartDestroy(GameObject enemy)
+    public void StartDestroy(GameObject enemy, NavMeshAgent _agent)
     {
         cObject = enemy;
+        agent = _agent;
         action = Random.Range(0, 100);
         walls = GameObject.FindGameObjectsWithTag("Wall");
         engines = GameObject.FindGameObjectsWithTag("Engine");
@@ -80,12 +83,12 @@ public class DestroyEnemy : EnemyAI {
                 }
                 else
                 {
-                    MoveToward(engine);
+                    agent.SetDestination(engine.transform.position);
                 }
             }
             else
             {
-                MoveToward(wall);
+                agent.SetDestination(wall.transform.position);
             }
         }
         else
@@ -96,7 +99,7 @@ public class DestroyEnemy : EnemyAI {
             }
             else
             {
-                MoveToward(engine);
+                agent.SetDestination(engine.transform.position);
             }
         }
     }

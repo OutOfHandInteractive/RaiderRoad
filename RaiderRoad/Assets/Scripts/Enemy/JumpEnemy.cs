@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.AI;
 
 public class JumpEnemy : EnemyAI
 {
@@ -9,10 +10,12 @@ public class JumpEnemy : EnemyAI
     private bool hasJumped = false;
     protected VehicleAI.Side cSide;
     protected int action;
+    protected NavMeshAgent agent;
 
-    public virtual void StartJump(GameObject enemy, Rigidbody rb, VehicleAI.Side side, int stateChance)
+    public virtual void StartJump(GameObject enemy, Rigidbody rb, VehicleAI.Side side, NavMeshAgent _agent, int stateChance)
     {
         cObject = enemy;
+        agent = _agent;
         cRb = rb;
         cSide = side;
         action = stateChance;

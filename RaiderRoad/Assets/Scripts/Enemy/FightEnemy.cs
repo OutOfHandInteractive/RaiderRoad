@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 /// <summary>
 /// This is for enemies that want to seek out and beat up players.
@@ -18,16 +19,18 @@ public class FightEnemy : EnemyAI {
     private GameObject[] players;
     private GameObject player;
     private GameObject eVehicle;
+    private NavMeshAgent agent;
 
     /// <summary>
     /// Initialize this state
     /// </summary>
     /// <param name="enemy">This enemy</param>
     /// <param name="target">The target to attack, if any</param>
-    public void StartFight(GameObject enemy, VehicleAI vehicle, GameObject target = null)
+    public void StartFight(GameObject enemy, VehicleAI vehicle,NavMeshAgent _agent, GameObject target = null)
     {
         //Initialized enemy
         players = GameObject.FindGameObjectsWithTag("Player");
+        agent = _agent;
         cObject = enemy;
         _target = target;
         fightRange = cObject.transform.Find("EnemyAttack").gameObject;
@@ -68,7 +71,8 @@ public class FightEnemy : EnemyAI {
             //Look at player and move towards them
             Vector3 targetPosition = new Vector3(player.transform.position.x, cObject.transform.position.y, player.transform.position.z);
             cObject.transform.LookAt(targetPosition);
-            cObject.transform.position = Vector3.MoveTowards(cObject.transform.position, player.transform.position, movement);
+            agent.SetDestination(targetPosition);
+            //cObject.transform.position = Vector3.MoveTowards(cObject.transform.position, player.transform.position, movement);
 
         }
     }
