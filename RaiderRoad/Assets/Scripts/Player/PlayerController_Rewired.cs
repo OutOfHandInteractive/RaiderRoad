@@ -22,11 +22,16 @@ public class PlayerController_Rewired : MonoBehaviour
     public float jumpForce;
     public float distToGround = 0.9f;
     public bool isOccupied = false;
+
+    //particles
+    public ParticleSystem landingPart;
+
     // --------------------------------------------------------------------
 
 
     // ----------------------- Private Variables --------------------------
     private Player player;
+	private PlayerPlacement_Rewired pPlacement;
     private Vector2 moveVector;
 
     private Vector3 rotateVector;
@@ -54,6 +59,7 @@ public class PlayerController_Rewired : MonoBehaviour
 
     // object interaction
     public bool interacting = false;
+	private Interactable objectInUse;
     private List<GameObject> interactables = new List<GameObject>();
     private List<GameObject> downedPlayers = new List<GameObject>();
 
@@ -62,6 +68,7 @@ public class PlayerController_Rewired : MonoBehaviour
     private Color myOrigColor;
 
     private bool jumped = false;
+    private bool animJumped = false; //Jumped can be called at weird points, animJumped is a more accurate version for animation/particle purposes
 
     // ----------------------------------------------------------------------
 
@@ -86,13 +93,17 @@ public class PlayerController_Rewired : MonoBehaviour
 
         //Get game manager for reference
         g = GameManager.GameManagerInstance;
-    }
+
+		// get reference to PlayerPlacement
+		pPlacement = view.GetComponent<PlayerPlacement_Rewired>();
+
+	}
 
     void Initialize()
     {
         // Get the Rewired Player object for this player.
         player = ReInput.players.GetPlayer(playerId);
-        view.GetComponent<PlayerPlacement_Rewired>().SetId(playerId);
+        pPlacement.SetId(playerId);
 
         initialized = true;
     }
@@ -147,12 +158,12 @@ public class PlayerController_Rewired : MonoBehaviour
                 Debug.Log("pressing button");
                 if (downedPlayers.Count > 0)
                 {
-                    view.GetComponent<PlayerPlacement_Rewired>().SheathWeapon();
+                    pPlacement.SheathWeapon();
                     startRevive(downedPlayers[0].GetComponent<PlayerController_Rewired>());
                 }
                 else if (interactables.Count > 0 && !interactables[0].GetComponent<Interactable>().isOnCooldown())
                 {
-                    view.GetComponent<PlayerPlacement_Rewired>().SheathWeapon();
+                    pPlacement.SheathWeapon();
                     if (!interactables[0].GetComponent<Interactable>().Occupied())
                     {
                         interactables[0].GetComponent<Interactable>().Interact(this);
@@ -169,6 +180,7 @@ public class PlayerController_Rewired : MonoBehaviour
                 myAni.SetTrigger("jump");
                 myAni.SetBool("land", false);
                 jumped = true;
+                animJumped = true;
             }
         }
 
@@ -245,20 +257,23 @@ public class PlayerController_Rewired : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        if (IsGrounded() && animJumped == true){
+            animJumped = false;
+            myAni.SetBool("land", true);
+            Instantiate(landingPart, transform.position, landingPart.gameObject.transform.rotation);
+        }
         jumped = false;
-        myAni.SetBool("land", true);
         //Debug.Log(collision.gameObject.name);
         if (collision.gameObject.tag == "RV" || collision.gameObject.tag == "eVehicle")
         {
             //Debug.Log("Can jump");
             transform.parent = collision.transform.root;
             jumped = false;
-            myAni.SetBool("land", true);
             //rb.isKinematic = true;
         }
         if (collision.gameObject.tag == "road")
         {
-            takeDamage(Constants.PLAYER_FALL_DAMAGE);
+            takeDamage(Constants.PLAYER_ROAD_DAMAGE);
             transform.position = GameObject.Find("player1Spawn").transform.position;
         }
     }
@@ -317,21 +332,30 @@ public class PlayerController_Rewired : MonoBehaviour
         currentHealth -= _damage;
         if (currentHealth <= 0)
         {
-            //Color deathColor = myOrigColor * 0.5f;        //Replace with proper death feedback
-            //myMat.color = deathColor;
-            view.GetComponent<PlayerPlacement_Rewired>().SheathWeapon();
-            myAni.SetBool("downed", true);
-
-            state = playerStates.down;
-            g.playerDowned();
+			goDown();
         }
     }
 
     public void RoadRash()
     {
-        takeDamage(Constants.PLAYER_FALL_DAMAGE);
+        takeDamage(Constants.PLAYER_ROAD_DAMAGE);
         transform.position = GameObject.Find("player1Spawn").transform.position;
     }
+
+	private void goDown() {
+		//Color deathColor = myOrigColor * 0.5f;        //Replace with proper death feedback
+		//myMat.color = deathColor;
+		pPlacement.SheathWeapon();
+		pPlacement.dropItem();
+		myAni.SetBool("downed", true);
+
+
+		state = playerStates.down;
+		if (interacting) {
+			objectInUse.Leave();
+		}
+		g.playerDowned();
+	}
 
     // --------------------- Getters / Setters ----------------------
     public void SetId(int id)
@@ -401,6 +425,14 @@ public class PlayerController_Rewired : MonoBehaviour
         Debug.Log("removed weapon");
         interactables.Remove(i);
     }
+
+	public Interactable getFirstInteractable() {
+		return interactables[0].GetComponent<Interactable>();
+	}
+
+	public void setObjectInUse(Interactable obj) {
+		objectInUse = obj;
+	}
 
     public void clearInteractable()
     {

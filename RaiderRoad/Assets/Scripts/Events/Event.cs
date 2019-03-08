@@ -50,10 +50,18 @@ public class Event : MonoBehaviour {
 
     public void oSpawn(GameObject obstacle)
     {
-        int i = Random.Range(1, 6);
+        int i = Random.Range(0, 5);
         Vector3 spawnPoint = spawnPoints[i].transform.position;
-        GameObject newObstacle = Instantiate(obstacle,spawnPoint,Quaternion.identity);    /////need obstacle prefab
-        newObstacle.GetComponentInChildren<eventObject>().setCluster(this.gameObject);
+        if(obstacle != null)
+        {
+            GameObject newObstacle = Instantiate(obstacle, spawnPoint, Quaternion.identity);    /////need obstacle prefab
+            newObstacle.GetComponentInChildren<eventObject>().setCluster(this.gameObject);
+            newObstacle.transform.Rotate(0f, 90f, 0f);    //kinda a bullshit fix for now - i'll explain and fix better at testing
+        }
+        else
+        {
+            Debug.LogError("No obstacle object assigned! Did someone fuck up the prefab?");
+        }
     }
 
     public void spawn(VehicleFactoryManager factory)
@@ -62,9 +70,15 @@ public class Event : MonoBehaviour {
         Debug.Log("spawn = " + numPoints);
         //Debug.Log("spawn called");
         //based on type, call proper function - for now just creates light vehicle
-        e = factory.newConstructVehicle(_vtype,_mod);
+        Vector3 pos = spawnPoints[numPoints].transform.position;
+        //Debug.LogWarning(pos);
+        e = factory.newConstructVehicle(_vtype,_mod, pos);
+        //if (e.transform.position != pos)
+        //{
+        //    Debug.LogError("WTF");
+        //}
         e.GetComponent<VehicleAI>().setSide(spawnPoints[numPoints].name);
-        e.transform.position = spawnPoints[numPoints].transform.position;
+        //e.transform.position = spawnPoints[numPoints].transform.position;
         e.GetComponentInChildren<eventObject>().setCluster(this.gameObject);
 		difficultyRating = e.GetComponentInChildren<eventObject>().getDifficulty();
         //GameObject.CreatePrimitive(PrimitiveType.Cube);

@@ -14,18 +14,34 @@ public class ChaseVehicle : MonoBehaviour {
     private GameObject cObject;
     private float timer = 0f;
     //Initialize agent
-    public virtual void StartChase(NavMeshAgent agent, GameObject enemy, string side)
+    public virtual void StartChase(NavMeshAgent agent, GameObject enemy, VehicleAI.Side side)
     {
         cEnemy = agent;
         cObject = enemy;
         attackList = new List<Transform>();
-        if (side.Equals("left"))
+        if (enemy.GetComponentInChildren<cannon>() != null)
         {
-            WallsRV = GameObject.Find("WeaponsLeft");
+            if (side == VehicleAI.Side.Left)
+            {
+                WallsRV = GameObject.Find("CannonsLeft");
+            }
+            else
+            {
+                WallsRV = GameObject.Find("CannonsRight");
+            }
+
         }
-        else
+        else if (enemy.GetComponentInChildren<flamethrower>() != null)
         {
-            WallsRV = GameObject.Find("WeaponsRight");
+            if (side == VehicleAI.Side.Left)
+            {
+                WallsRV = GameObject.Find("FireLeft");
+            }
+            else
+            {
+                WallsRV = GameObject.Find("FireRight");
+            }
+
         }
 
         //Get all building points
@@ -36,7 +52,7 @@ public class ChaseVehicle : MonoBehaviour {
 
     }
 
-    public void Chase(string side)
+    public void Chase(VehicleAI.Side side)
     {
         //Stop completely when next to spot
         //cEnemy.autoBraking = true;

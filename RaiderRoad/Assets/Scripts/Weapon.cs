@@ -32,7 +32,6 @@ public class Weapon : ConstructableGen<BuildNode> {
     /// </summary>
     public override void OnBreak()
     {
-        //Debug.Log(myAttacker.GetComponent<PlayerController_Rewired>() + "jdsfijdfidsfjdiofjdsifds");
         if (myAttacker.GetComponent<PlayerController_Rewired>() != null)
         {
             myAttacker.GetComponent<PlayerController_Rewired>().clearInteractable();
@@ -41,6 +40,11 @@ public class Weapon : ConstructableGen<BuildNode> {
 		// have player drop weapon so they don't get stuck
 		interactableWeapon.Leave();
 	}
+
+    public override bool isPlaced()
+    {
+        return base.isPlaced() || Util.IsVehicleRecursive(gameObject);
+    }
 
     /// <summary>
     /// Extension to Damage() that takes a source
