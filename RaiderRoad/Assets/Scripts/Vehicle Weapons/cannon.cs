@@ -128,7 +128,9 @@ public class cannon : Interactable {
         user.interactAnim(true); //start animation
 		user.setObjectInUse(this);
 
-        inUse = true;
+		playerUsing.GetComponent<Rigidbody>().isKinematic = true;
+
+		inUse = true;
 		reticule.SetActive(true);
 	}
 
@@ -148,6 +150,7 @@ public class cannon : Interactable {
 		    user.setObjectInUse(null);
 
 		    playerUsing.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
+			playerUsing.GetComponent<Rigidbody>().isKinematic = false;
 		    interacting = false;
 
 		    if (user.getFirstInteractable() == this) {

@@ -231,6 +231,8 @@ public class flamethrower : Interactable {
 		user.interactAnim(true); //start animation
 		user.setObjectInUse(this);
 
+		playerUsing.GetComponent<Rigidbody>().isKinematic = true;
+
 		inUse = true;
 		reticule.SetActive(true);
 	}
@@ -251,7 +253,9 @@ public class flamethrower : Interactable {
             user.setObjectInUse(null);
 
             playerUsing.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
-            interacting = false;
+			playerUsing.GetComponent<Rigidbody>().isKinematic = false;
+
+			interacting = false;
 
             if (user.getFirstInteractable() == this)
             {

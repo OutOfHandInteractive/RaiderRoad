@@ -141,7 +141,9 @@ public class Driving : Interactable
         user.interactAnim(true); //start animation
 		user.setObjectInUse(this);
 
-        inUse = true;
+		playerUsing.GetComponent<Rigidbody>().isKinematic = true;
+
+		inUse = true;
     }
 
     public override bool Occupied()
@@ -157,5 +159,7 @@ public class Driving : Interactable
         user.interactAnim(false); //stop animation
         moveVector = Vector3.zero;
 		user.setObjectInUse(null);
-    }
+
+		playerUsing.GetComponent<Rigidbody>().isKinematic = false;
+	}
 }
