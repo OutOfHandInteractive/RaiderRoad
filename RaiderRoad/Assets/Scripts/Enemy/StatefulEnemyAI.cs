@@ -381,7 +381,7 @@ public class StatefulEnemyAI : EnemyAI {
         if (collision.gameObject.tag == "RV")
         {
             transform.parent = collision.transform.root;
-            //agent.enabled = true;
+            agent.enabled = true;
             //currentState = State.Destroy;
         }
     }
