@@ -78,7 +78,7 @@ public class EventManager : MonoBehaviour {
     IEnumerator initialize()
     {
         onDeck = generate(difficultyRating);                //create event cluster at starting difficulty and set as on-deck
-        yield return new WaitForSecondsRealtime(10);       //delay for some short time - let's say 30 seconds for now/10 for testing
+        yield return new WaitForSecondsRealtime(10);       //delay for some short time - let's say 10 seconds
         lastDone();                                     //switches on-deck to active, deploys it, and creates new on-deck cluster
     }
 
