@@ -436,7 +436,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         currentAttColor.a = 0.5f; //setting attack model's mat to 1/2 visible
     }
 
-    [SerializeField] private float hitOffset;
+    [SerializeField] private float hitOffset = 0.5f;
 
     private void CheckBuildNodes()
     {
