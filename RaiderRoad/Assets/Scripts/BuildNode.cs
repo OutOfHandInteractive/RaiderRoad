@@ -72,7 +72,6 @@ public class BuildNode : AbstractBuildNode {
 			item = Instantiate(objectToPlace, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.LookRotation(dir));
 			item.transform.localScale = new Vector3(1.5f, 0.7f, 0.7f);
 			item.transform.parent = spawnNode.transform;
-			item.transform.localPosition = new Vector3(item.transform.localPosition.x, objectToPlace.transform.position.y, item.transform.localPosition.z);
 
 			RemoveShow();	// get rid of holo when item is placed
 
