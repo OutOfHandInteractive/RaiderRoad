@@ -54,9 +54,8 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
 	private List<GameObject> destructableParts = new List<GameObject>();
 	private bool hasItem = false;
     private GameObject floatingItem;
-
-    public AudioClip swingSound;
-    private AudioSource audio;
+    
+    private PlayerAudio myAudio;
 
     private bool myInteracting = false;
 
@@ -427,16 +426,10 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
             }
         }
 
-        audio.PlayOneShot(swingSound);
-        if (hit)
-        {
-            audio.PlayDelayed(hitOffset);
-        }
+        myAudio.Swing(hit);
 
         currentAttColor.a = 0.5f; //setting attack model's mat to 1/2 visible
     }
-
-    [SerializeField] private float hitOffset = 0.5f;
 
     private void CheckBuildNodes()
     {
