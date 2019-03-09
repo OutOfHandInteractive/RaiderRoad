@@ -142,7 +142,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6460048298713719536}
   m_Layer: 0
-  m_Name: FlameThroweModel
+  m_Name: Model
   m_TagString: Weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -170,13 +170,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6460048298713719536}
     m_Modifications:
+    - target: {fileID: 100020, guid: eefa3a1cb4600634797a269c12472372, type: 3}
+      propertyPath: m_Name
+      value: FlameThrower
+      objectReference: {fileID: 0}
     - target: {fileID: 400020, guid: eefa3a1cb4600634797a269c12472372, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.01
       objectReference: {fileID: 0}
     - target: {fileID: 400020, guid: eefa3a1cb4600634797a269c12472372, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.426
       objectReference: {fileID: 0}
     - target: {fileID: 400020, guid: eefa3a1cb4600634797a269c12472372, type: 3}
       propertyPath: m_LocalPosition.z
@@ -225,10 +229,6 @@ PrefabInstance:
     - target: {fileID: 400020, guid: eefa3a1cb4600634797a269c12472372, type: 3}
       propertyPath: m_LocalScale.z
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 100020, guid: eefa3a1cb4600634797a269c12472372, type: 3}
-      propertyPath: m_Name
-      value: FlameThrower
       objectReference: {fileID: 0}
     - target: {fileID: 2300000, guid: eefa3a1cb4600634797a269c12472372, type: 3}
       propertyPath: m_Materials.Array.data[0]
