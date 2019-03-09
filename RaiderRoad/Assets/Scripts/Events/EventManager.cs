@@ -56,6 +56,15 @@ public class EventManager : MonoBehaviour {
     private int hThreatMax = 7;
     private int oThreat = 1;
 
+    //spawn delay bounds
+    private float delayLower = 2f;  //will not be lower
+    [SerializeField]
+    private float curDelay = 15f;     //upperBound of 15 - will not exceed this
+    private float betweenDelayAdjust = 20f;  //delay will be adjusted every 20 seconds
+    private float factor = 0.85f;        //to start, decrementing to 85% every 20 seconds will hit the lower bound at approximately 4 minutes in
+    
+
+
 
     void Start(){
         //StartCoroutine(difficultyManager());
@@ -73,6 +82,21 @@ public class EventManager : MonoBehaviour {
         }
 		StartCoroutine(difficultyManager());
 		StartCoroutine(initialize());                   //initializes first cluster
+        StartCoroutine(reduceSpawnTime());            //start cycle of spawn delay reduction
+    }
+
+    IEnumerator reduceSpawnTime()       //over time, reduce interval between spawns (passed to event clusters when created)
+    {
+        yield return new WaitForSeconds(betweenDelayAdjust);        //wait allocated time
+        while(true){
+            if (curDelay*factor > delayLower){      //if next iteration is greater than lower bound...
+                curDelay = curDelay * factor;       //...decrement
+            }
+            else{
+                curDelay = delayLower;              //else, reduce to lower bound
+            }
+            yield return new WaitForSeconds(betweenDelayAdjust);        //wait allocated time
+        }
     }
 
     IEnumerator initialize()
@@ -167,7 +191,7 @@ public class EventManager : MonoBehaviour {
             }
             _new.Add(_nE);          //uses current dif rate, [for now] default spawn position, [for now] default enemy to create an event
         }
-        newEC.GetComponent<EventCluster>().startUp(_new, vFactory);
+        newEC.GetComponent<EventCluster>().startUp(_new, vFactory, curDelay);
         return newEC;
     }
 

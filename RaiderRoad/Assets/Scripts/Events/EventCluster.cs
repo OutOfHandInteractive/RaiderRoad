@@ -23,14 +23,17 @@ public class EventCluster : MonoBehaviour {
     [SerializeField] private float weight;
     [SerializeField] private float threshold;
     private bool spawnFlag = true;
-    [SerializeField] private float delay = 15;   //for testing 15, seconds
+    [SerializeField] private float delay = 15;   //to start 15, seconds
     //private int i = 0;          //needed to have this outside a function so that the coroutine doesn't mess up its value
+    private float delayLower = 1f;  //delay will not be less than this
+    private float factor = 0.9f;    //less than overall so the spawns don't increase as fast (since the starting point will keep dropping from manager)
 
-    public void startUp(List<Event> sequence, VehicleFactoryManager factory)
+    public void startUp(List<Event> sequence, VehicleFactoryManager factory, float nuDelay)
     {
         manager = GameObject.Find("EventManager");
 		vFactory = factory;
         events = sequence;
+        delay = nuDelay;                //update delay to proper val from manager
         initSize = events.Count;        //get number of events in cluster
         weight = 1.0f / initSize;             //determine weight of a single event for completeness
         threshold = weight * (initSize-1);      //this should probably be replaced with something better but for now it works
@@ -45,6 +48,7 @@ public class EventCluster : MonoBehaviour {
     {
         //start spawning
         StartCoroutine(dispense());
+        StartCoroutine(reduceDelay());      //start reducing time between spawns
     }
 
     //spawning coroutine
@@ -53,6 +57,21 @@ public class EventCluster : MonoBehaviour {
             callEvent(e);
             yield return new WaitForSeconds(delay);     //call next event after delay
         }
+    }
+    
+    //delay reduction coroutine
+    IEnumerator reduceDelay()
+    {
+        yield return new WaitForSeconds(delay);        //wait allocated time
+        while(true){
+            if (delay*factor > delayLower){      //if next iteration is greater than lower bound...
+                delay = delay * factor;       //...decrement
+            }
+            else{
+                delay = delayLower;              //else, reduce to lower bound
+            }
+            yield return new WaitForSeconds(delay);        //wait allocated time
+        }        
     }
 
     //increase completeness of cluster - called from vehicle on destroy
