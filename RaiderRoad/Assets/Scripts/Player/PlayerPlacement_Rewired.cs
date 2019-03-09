@@ -94,7 +94,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         MeleeWeapScale = myWeapon.transform.localScale;
         myWeapon.SetActive(false);
 
-        audio = GetComponent<AudioSource>();
+        myAudio = GetComponent<PlayerAudio>();
 
         g = GameManager.GameManagerInstance;
     }
