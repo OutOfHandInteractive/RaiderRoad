@@ -58,10 +58,7 @@ public class BuildNode : AbstractBuildNode {
                 occupied = true;
             }
 
-			//Material tempMat = item.GetComponent<Renderer>().material;
-            //outline = Instantiate(tempMat);
-            //item.GetComponent<Renderer>().material = outline;
-            //outline.SetFloat("_Active", 0.0f);
+            SetOutlineActive(item, 0.0f);
 
             item.GetComponent<Wall>().myNode = gameObject;
         }

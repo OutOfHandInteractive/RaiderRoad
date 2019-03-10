@@ -50,7 +50,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
     private List<GameObject> nodes = new List<GameObject>();      //probably better way to do this, REVISIT!
     private List<GameObject> trapNodes = new List<GameObject>();
     private List<GameObject> engineNodes = new List<GameObject>();
-    [SerializeField] private List<GameObject> attackRange = new List<GameObject>();
+    private List<GameObject> attackRange = new List<GameObject>();
 	private List<GameObject> destructableParts = new List<GameObject>();
 	private bool hasItem = false;
     private GameObject floatingItem;
@@ -202,6 +202,9 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Drops the currently held item, if any.
+    /// </summary>
 	public void dropItem() {
 		if (heldItem != null) {
 			GameObject dropItem = heldItem.GetComponent<Constructable>().drop;
@@ -289,7 +292,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
 
     private void NotHoldingItem()
     {
-        if (player.GetButton("Build Mode") && pController.state == PlayerController_Rewired.playerStates.up)
+        if (player.GetButton("Build Mode") && pController.state == PlayerController_Rewired.playerStates.up && wallInventory>0)
         {
             buildMode = true;
 
@@ -427,34 +430,32 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
 
     private void CheckBuildNodes()
     {
-        if (buildMode)
+
+        bool isWall;
+        GameObject item;
+        if (heldItem == null && buildMode)
         {
-            bool isWall;
-            GameObject item;
-            if (heldItem == null)
+            item = wall;
+            isWall = wallInventory > 0;
+        }
+        else if (heldItem != null && heldItem.CompareTag("Weapon"))
+        {
+            item = heldItem;
+            isWall = false;
+        }
+        else
+        {
+            return;
+        }
+        bool found = false;
+        foreach (GameObject obj in nodes)
+        {
+            BuildNode node = obj.GetComponent<BuildNode>();
+            node.RemoveShow();
+            if (!found && !node.occupied && (isWall || node.canPlaceWeapon))
             {
-                item = wall;
-                isWall = wallInventory > 0;
-            }
-            else if (heldItem != null && heldItem.CompareTag("Weapon"))
-            {
-                item = heldItem;
-                isWall = false;
-            }
-            else
-            {
-                return;
-            }
-            bool found = false;
-            foreach (GameObject obj in nodes)
-            {
-                BuildNode node = obj.GetComponent<BuildNode>();
-                node.RemoveShow();
-                if (!found && !node.occupied && (isWall || node.canPlaceWeapon))
-                {
-                    node.Show(item);
-                    found = true;
-                }
+                node.Show(item);
+                found = true;
             }
         }
     }
