@@ -41,6 +41,7 @@ public class WanderVehicle : MonoBehaviour {
 
     public void Wander()
     {
+        cEnemy.radius = 5f;
         //Return null if no patrol points
         if (patrols.Count == 0)
             return;

@@ -17,9 +17,10 @@ public class EscapeEnemy : JumpEnemy {
     /// <param name="rb">The rigid body</param>
     /// <param name="side">The side of the RV we're on</param>
     /// <param name="stateChance"></param>
-    public override void StartJump(GameObject enemy, Rigidbody rb, VehicleAI.Side side,NavMeshAgent agent, int stateChance)
+    public override void StartJump(GameObject enemy, Rigidbody rb, VehicleAI.Side side,NavMeshAgent agent, int stateChance, VehicleAI _vehicle)
     {
-        base.StartJump(enemy, rb, side, agent, stateChance);
+        base.StartJump(enemy, rb, side, agent, stateChance, _vehicle);
+        eVehicle = _vehicle.gameObject;
         Radio.GetRadio().CallForEvac(this);
         Debug.Log("I need evac!!");
     }
@@ -49,6 +50,7 @@ public class EscapeEnemy : JumpEnemy {
     /// </summary>
     public void Escape()
     {
+        Debug.Log(eVehicle);
         // Wait to recieve vehicle
         if (eVehicle == null) {
 
@@ -63,6 +65,7 @@ public class EscapeEnemy : JumpEnemy {
         if (Vector3.Distance(transform.position, eVehicle.transform.position) < 3f)
         {
             //Enemy vehicle destination position
+            agent.enabled = false;
             Vector3 pos = eVehicle.transform.position;
             float zSign = cSide == VehicleAI.Side.Left ? -1 : 1;
             Jump(pos, zSign);
@@ -71,7 +74,7 @@ public class EscapeEnemy : JumpEnemy {
         {
             Vector3 targetPosition = new Vector3(eVehicle.transform.position.x, cObject.transform.position.y, eVehicle.transform.position.z);
             cObject.transform.LookAt(targetPosition);
-            
+            agent.SetDestination(targetPosition);
             //cObject.transform.position = Vector3.MoveTowards(cObject.transform.position, eVehicle.transform.position, movement);
         }
         Debug.Log(cObject.transform.tag + " HEEEEEEEEY");

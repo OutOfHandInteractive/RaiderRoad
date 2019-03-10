@@ -59,7 +59,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1695861254108760}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -94,6 +94,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   drop: {fileID: 1412282026529114, guid: c4b78f547f7592d42867fc5a56f7cc72, type: 3}
+  dropOffset: {x: 0, y: 2, z: -1}
   objWithMat: []
   maxHealth: 0
   ramDamageStacks: 0
@@ -154,6 +155,35 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 3.0463674, y: 0.51760626, z: 0.1404171}
   m_Center: {x: -0.00000011920929, y: 0.25095153, z: -3.3}
+--- !u!114 &2286024615905907023
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 630761032226556628}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AgentTypeID: 0
+  m_CollectObjects: 2
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_UseGeometry: 0
+  m_DefaultArea: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.16666667
+  m_BuildHeightMesh: 0
+  m_NavMeshData: {fileID: 23800000, guid: cea6cc35f5964ba4a8df711f673957d7, type: 2}
 --- !u!1 &1175367538721084667
 GameObject:
   m_ObjectHideFlags: 0
@@ -236,18 +266,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 400010, guid: f885909f6ad297e419b60c591e5b2639, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 400010, guid: f885909f6ad297e419b60c591e5b2639, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 400010, guid: f885909f6ad297e419b60c591e5b2639, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 100010, guid: f885909f6ad297e419b60c591e5b2639, type: 3}
       propertyPath: m_Name
       value: L_Cargo_Open
@@ -257,6 +275,12 @@ PrefabInstance:
 --- !u!4 &630761032226330366 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400010, guid: f885909f6ad297e419b60c591e5b2639,
+    type: 3}
+  m_PrefabInstance: {fileID: 630761032226458740}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &630761032226556628 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 100000, guid: f885909f6ad297e419b60c591e5b2639,
     type: 3}
   m_PrefabInstance: {fileID: 630761032226458740}
   m_PrefabAsset: {fileID: 0}

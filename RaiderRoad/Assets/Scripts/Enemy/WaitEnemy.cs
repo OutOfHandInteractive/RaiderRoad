@@ -17,7 +17,7 @@ public class WaitEnemy : MonoBehaviour {
     {
         Debug.Log(cVehicle.getState());
         //Enter board state after 15 seconds
-        if (cVehicle.getState() == VehicleAI.State.Attack)
+        if (cVehicle.getState() == VehicleAI.State.Stay)
         {
             Debug.Log("SYAAAAAAAAAAAAAAAAAAAAAAAAY");
             cObject.GetComponent<StatefulEnemyAI>().EnterBoard();

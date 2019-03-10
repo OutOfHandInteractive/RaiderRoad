@@ -11,8 +11,9 @@ public class JumpEnemy : EnemyAI
     protected VehicleAI.Side cSide;
     protected int action;
     protected NavMeshAgent agent;
+    protected VehicleAI vehicle;
 
-    public virtual void StartJump(GameObject enemy, Rigidbody rb, VehicleAI.Side side, NavMeshAgent _agent, int stateChance)
+    public virtual void StartJump(GameObject enemy, Rigidbody rb, VehicleAI.Side side, NavMeshAgent _agent, int stateChance, VehicleAI _vehicle)
     {
         cObject = enemy;
         agent = _agent;
@@ -20,6 +21,7 @@ public class JumpEnemy : EnemyAI
         cSide = side;
         action = stateChance;
         initialAngle = 75f;
+        vehicle = _vehicle;
     }
 
     protected void Jump(Vector3 pos, float zSign)
@@ -56,6 +58,7 @@ public class JumpEnemy : EnemyAI
         Vector3 finalVelocity = Quaternion.AngleAxis(angleBetweenObjects, Vector3.up) * velocity;
 
         cRb.AddForce(finalVelocity * cRb.mass, ForceMode.Impulse);
+        //agent.SetDestination(pos);
         hasJumped = true;
     }
 }

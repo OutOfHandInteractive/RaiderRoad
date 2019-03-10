@@ -62,8 +62,15 @@ public class FightEnemy : EnemyAI {
         GameObject[] vehicles = GameObject.FindGameObjectsWithTag("eVehicle");
         float movement = speed * Time.deltaTime;
         //If doesnt exist or if player has been hit go into escape state
-        if ((!player || playerDamage >= 4f || cObject.GetComponent<StatefulEnemyAI>().currentHealth <= 25f) && eVehicle != null)
+        if(cObject.transform.tag == "eVehicle")
         {
+            Vector3 targetPosition = new Vector3(player.transform.position.x, cObject.transform.position.y, player.transform.position.z);
+            cObject.transform.LookAt(targetPosition);
+            cObject.transform.position = Vector3.MoveTowards(cObject.transform.position, player.transform.position, movement);
+        }
+        else if ((!player || playerDamage >= 4f || cObject.GetComponent<StatefulEnemyAI>().currentHealth <= 25f) && eVehicle != null && cObject.transform.tag != "eVehicle")
+        {
+            Debug.Log("reached");
             cObject.GetComponent<StatefulEnemyAI>().EnterEscape();
         }
         else if(chasing)
