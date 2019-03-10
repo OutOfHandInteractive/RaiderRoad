@@ -289,28 +289,15 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
 
     private void NotHoldingItem()
     {
-        if (player.GetButton("Build Mode"))
+        if (player.GetButton("Build Mode") && pController.state == PlayerController_Rewired.playerStates.up)
         {
-            if (!buildMode && wallInventory > 0 && pController.state == PlayerController_Rewired.playerStates.up)
-            {
-                //When switching out of build mode, attack will get stuck in InvalidOperationException: List has changed. This helps
-                if (buildMode) attackRange = new List<GameObject>();
-                buildMode = !buildMode;
+            buildMode = true;
 
-                checkHologram();
-                SheathWeapon();
-                myAni.SetBool("isHolding", true);
-            }
+            checkHologram();
+            SheathWeapon();
+            myAni.SetBool("isHolding", true);
         } else {
-            if (nodes.Count > 0) { //If showing holo wall, turn off every holo wall currently being displayed
-                for(int i = 0; i < nodes.Count; i++){ 
-                    nodes[i].GetComponent<BuildNode>().RemoveShow();
-                }
-            }
-            buildMode = false;
-            myAni.SetBool("isHolding", false);
-            hasItem = false;
-            Destroy(floatingItem);
+            LeaveBuildMode();
         }
         if (buildMode)
         {
@@ -320,25 +307,32 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
             {
                 BuildWall();
             }
-            if (wallInventory <= 0)
-            {
-                buildMode = false; //leave wall build mode if you have no wall (needs more feedback)
-
-                if (nodes.Count > 0) { //If showing holo wall, turn off every holo wall currently being displayed
-                    for(int i = 0; i < nodes.Count; i++){ 
-                        nodes[i].GetComponent<BuildNode>().RemoveShow();
-                    }
-                }
-                buildMode = false;
-                myAni.SetBool("isHolding", false);
-                hasItem = false;
-                Destroy(floatingItem);
-            }
         }
         else if (player.GetButtonDown("Attack") && canAttack && pController.state == PlayerController_Rewired.playerStates.up)
         {
             Attack();
         }
+    }
+
+    private void LeaveBuildMode()
+    {
+        if (!buildMode)
+        {
+            return;
+        }
+        //When switching out of build mode, attack will get stuck in InvalidOperationException: List has changed. This helps
+        //attackRange = new List<GameObject>();
+        if (nodes.Count > 0)
+        { //If showing holo wall, turn off every holo wall currently being displayed
+            for (int i = 0; i < nodes.Count; i++)
+            {
+                nodes[i].GetComponent<BuildNode>().RemoveShow();
+            }
+        }
+        buildMode = false;
+        myAni.SetBool("isHolding", false);
+        hasItem = false;
+        Destroy(floatingItem);
     }
 
     private void BuildWall()
@@ -551,6 +545,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
             }
             else if (other.tag == "Drops" && !heldItem)
             {
+                LeaveBuildMode();
                 drop.isTaken = true;
                 heldItem = other.GetComponent<ItemDrop>().item;
                 floatItem();
