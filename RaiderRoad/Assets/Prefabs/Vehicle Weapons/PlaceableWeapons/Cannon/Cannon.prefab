@@ -1,4 +1,4 @@
-%YAML 1.1
+	%YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
 --- !u!1 &1123776588226578
 GameObject:
@@ -235,7 +235,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1254693024698736}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 5.44, y: 0.44, z: -1.32}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.5, y: 0.7, z: 0.7}
   m_Children:
   - {fileID: 4200285022262352}
@@ -342,7 +342,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7562824434165114937, guid: a7d0881e16c90624da37d8b25470992b,
+    - target: {fileID: 5222681178123176756, guid: a7d0881e16c90624da37d8b25470992b,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4753073195345321156, guid: a7d0881e16c90624da37d8b25470992b,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4753073195345150180, guid: a7d0881e16c90624da37d8b25470992b,
         type: 3}
       propertyPath: m_TagString
       value: WeaponBarrel
