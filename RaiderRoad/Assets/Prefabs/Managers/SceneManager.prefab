@@ -1,21 +1,11 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &100100000
-Prefab:
-  m_ObjectHideFlags: 1
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications: []
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1778446165539740}
-  m_IsPrefabAsset: 1
 --- !u!1 &1778446165539740
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4983501267160178}
@@ -29,9 +19,10 @@ GameObject:
   m_IsActive: 1
 --- !u!4 &4983501267160178
 Transform:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1778446165539740}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -42,9 +33,10 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &114186623430276952
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1778446165539740}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -53,12 +45,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NeedPlaySelScene:
   - EnemyAI
-  character1: {fileID: 4914171367738596, guid: 51b5e7053239d5248984cbc45edb9802, type: 2}
-  character2: {fileID: 4914171367738596, guid: 51b5e7053239d5248984cbc45edb9802, type: 2}
-  character3: {fileID: 4914171367738596, guid: 51b5e7053239d5248984cbc45edb9802, type: 2}
-  character4: {fileID: 4914171367738596, guid: 51b5e7053239d5248984cbc45edb9802, type: 2}
+  character1: {fileID: 4914171367738596, guid: 51b5e7053239d5248984cbc45edb9802, type: 3}
+  character2: {fileID: 4914171367738596, guid: 03763bb978d6fb24089f4c5bf6c8c1a4, type: 3}
+  character3: {fileID: 4914171367738596, guid: 2721ab5305266f346b565de76f6ea535, type: 3}
+  character4: {fileID: 4914171367738596, guid: c4f03d9e40e961741aaa2a3afae40b26, type: 3}
   charaMatArray:
   - {fileID: 2100000, guid: 66c2ca5b6eb2c64419a8e6a46e68030c, type: 2}
   - {fileID: 2100000, guid: eb79eaeb956d25b43b3411caea748546, type: 2}
   - {fileID: 2100000, guid: 7960cd9395a2b8645b34c62abd6d9f4b, type: 2}
   - {fileID: 2100000, guid: a393c8d78b218e0449861c3b3290e450, type: 2}
+  playersInScene: []

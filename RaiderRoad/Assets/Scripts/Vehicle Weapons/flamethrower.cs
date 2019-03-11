@@ -43,6 +43,7 @@ public class flamethrower : Interactable {
 	private ParticleSystem fireInstance;
 	private flamethrowerDamage damage;
 	private flamethrowerDamageEnemy damageEnemy;
+    private AudioSource audio;
     
 	[System.NonSerialized]
         private bool initialized;
@@ -62,6 +63,7 @@ public class flamethrower : Interactable {
         overheated = false;
         firing = false;
         cooldownTimer = cooldown;
+        audio = GetComponent<AudioSource>();
 
 		damage = damageCollider.GetComponent<flamethrowerDamage>();
 		damage.setTickDamage(tickDamage);
@@ -94,29 +96,30 @@ public class flamethrower : Interactable {
 
     public void StartFiring()
     {
-        fireInstance.Play();
-        firing = true;
-        damageCollider.SetActive(true);
+        StartFiring(damageCollider);
     }
 
     public void StopFiring()
     {
+        audio.Stop();
         fireInstance.Stop();
         firing = false;
         damageCollider.SetActive(false);
+        damageColliderEnemy.SetActive(false);
     }
 
-	public void StartFiringEnemy() {
-		fireInstance.Play();
-		firing = true;
-		damageColliderEnemy.SetActive(true);
+	public void StartFiringEnemy()
+    {
+        StartFiring(damageColliderEnemy);
 	}
 
-	public void StopFiringEnemy() {
-		fireInstance.Stop();
-		firing = false;
-		damageColliderEnemy.SetActive(false);
-	}
+    private void StartFiring(GameObject collider)
+    {
+        audio.Play();
+        fireInstance.Play();
+        firing = true;
+        collider.SetActive(true);
+    }
 
 	public void SetRotation(Quaternion rot)
     {
@@ -188,10 +191,7 @@ public class flamethrower : Interactable {
         if (overheatCount <= 0.0f)
         {
             overheated = true;
-            firing = false;
-			damageCollider.SetActive(false);
-			damageColliderEnemy.SetActive(false);
-			fireInstance.Stop();
+            StopFiring();
 			//weapon.GetComponent<MeshRenderer>().material = overheatMat;
 			cooldownCount = overheatCooldown;
             overheatCount = overheatTime;

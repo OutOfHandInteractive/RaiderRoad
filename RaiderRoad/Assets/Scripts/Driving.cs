@@ -85,6 +85,14 @@ public class Driving : Interactable
                 accel = 0;
                 playerUsing.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
             }
+            if (player.GetButtonDown("Jump"))
+            {
+                CarAudio audio = rv.GetComponentInChildren<CarAudio>();
+                if (audio != null)
+                {
+                    audio.Honk();
+                }
+            }
             if ((moveVector.x == 0.0f && moveVector.y == 0.0f) && (accel >= 0))
             {
                 accel -= Time.deltaTime * (change * 5);

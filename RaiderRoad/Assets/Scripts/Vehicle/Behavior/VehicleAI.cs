@@ -28,6 +28,8 @@ public class VehicleAI : MonoBehaviour {
     public ParticleSystem deathMiniExplosions;
     public ParticleSystem deathBigExplosion;
 
+    public GameObject explosionSound;
+
     //Statistics
     public float maxHealth;
 	[SerializeField] private float ramDamage;
@@ -187,6 +189,7 @@ public class VehicleAI : MonoBehaviour {
             pc.RoadRash();
             pc.transform.parent = null;
         }
+        Instantiate(explosionSound, transform.position, Quaternion.identity);
         Instantiate(deathBigExplosion, transform.position, Quaternion.identity);
         Destroy(gameObject);
     }

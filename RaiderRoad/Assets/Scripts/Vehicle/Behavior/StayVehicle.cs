@@ -74,6 +74,7 @@ public class StayVehicle : MonoBehaviour {
 
     public void Stay()
     {
+        cEnemy.radius = 1f;
         Debug.Log("STAY STATE");
         //Stop completely when next to spot
         //cEnemy.autoBraking = true;
