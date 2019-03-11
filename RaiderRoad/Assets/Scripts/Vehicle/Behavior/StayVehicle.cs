@@ -14,6 +14,7 @@ public class StayVehicle : MonoBehaviour {
     private GameObject player;
     private VehicleAI.Side cSide;
     private bool calledRadio = false;
+    private bool leave = false;
     public void StartStay(NavMeshAgent agent, GameObject enemy, VehicleAI.Side side, int stickPoint)
     {
         cEnemy = agent;
@@ -74,7 +75,7 @@ public class StayVehicle : MonoBehaviour {
 
     public void Stay()
     {
-        cEnemy.radius = 1f;
+        cEnemy.radius = .1f;
         Debug.Log("STAY STATE");
         //Stop completely when next to spot
         //cEnemy.autoBraking = true;
@@ -86,10 +87,13 @@ public class StayVehicle : MonoBehaviour {
 
 
 
-        bool leave = false;
         GameObject[] extantEnemies = GameObject.FindGameObjectsWithTag("Enemy");
         for(int i=0;i<extantEnemies.Length;i++)
         {
+            if(extantEnemies[i].transform.root.tag != "RV")
+            {
+                StartCoroutine(waitFailSafe());
+            }
             if((extantEnemies.Length <= 0 || extantEnemies[i].transform.root.tag == "eVehicle") && (extantEnemies[i].GetComponent<StatefulEnemyAI>().GetState() == StatefulEnemyAI.State.Escape))
             {
                 leave = true;
@@ -144,9 +148,16 @@ public class StayVehicle : MonoBehaviour {
 
     IEnumerator waitToLeave()
     {
+        yield return new WaitForSeconds(5);
         cObject.GetComponent<VehicleAI>().EnterWander();
         yield return new WaitForSeconds(5);
         cObject.GetComponent<VehicleAI>().EnterLeave();
 
+    }
+
+    IEnumerator waitFailSafe()
+    {
+        yield return new WaitForSeconds(20);
+        leave = true;
     }
 }

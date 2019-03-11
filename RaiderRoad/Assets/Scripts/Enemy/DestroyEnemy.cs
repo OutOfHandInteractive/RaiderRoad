@@ -54,7 +54,11 @@ public class DestroyEnemy : EnemyAI {
         }
 
         //If there are no more walls, go to Fight state, else keep going for walls
-        if (engineKill && cObject.transform.parent != null)
+        if (engineKill && cObject.GetComponent<lightEnemy>())
+        {
+            cObject.GetComponent<StatefulEnemyAI>().EnterSteal();
+        }
+        else if (engineKill && cObject.transform.parent != null)
         {
             cObject.GetComponent<StatefulEnemyAI>().EnterFight();
         }else

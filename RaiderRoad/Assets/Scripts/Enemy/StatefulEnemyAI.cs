@@ -466,6 +466,12 @@ public class StatefulEnemyAI : EnemyAI {
             if (damageMeter >= 100)
             {
                 other.gameObject.GetComponent<Wall>().Damage(100f);
+                if (gameObject.GetComponent<lightEnemy>())
+                {
+                    Debug.Log("STEAL THE WALL DUDE");
+                    EnterSteal();
+                    damageMeter = 0;
+                }
                 damageMeter = 0;
             }
         }
