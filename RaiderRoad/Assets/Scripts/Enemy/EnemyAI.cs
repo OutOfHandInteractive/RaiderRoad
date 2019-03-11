@@ -70,7 +70,7 @@ public abstract class EnemyAI : MonoBehaviour
                     minDist = dist;
                 }
             }
-            else if (wall.GetComponent<PlayerController_Rewired>() != null)
+            else if (wall.GetComponent<PlayerController_Rewired>() != null && wall.GetComponent<PlayerController_Rewired>().state == PlayerController_Rewired.playerStates.up)
             {
                 if ((closest == null || dist < minDist))
                 {
