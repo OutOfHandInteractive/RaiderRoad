@@ -41,6 +41,7 @@ public class WanderVehicle : MonoBehaviour {
 
     public void Wander()
     {
+        cEnemy.radius = 5f;
         //Return null if no patrol points
         if (patrols.Count == 0)
             return;
@@ -48,7 +49,13 @@ public class WanderVehicle : MonoBehaviour {
         cEnemy.SetDestination(patrols[wanderPoints].position);
         //Choose random patrol point
         wanderPoints = Random.Range(0, patrols.Count);
-
+        if (GetComponentInChildren<EnemyAI>() == null && !hasWeapon)
+        {
+            if (GetComponentInChildren<PlayerController_Rewired>() == null)
+            {
+                cObject.GetComponent<VehicleAI>().EnterLeave();
+            }
+        }
         //Chance to attack or chase the RV
         if (hasWeapon)
         {

@@ -99,6 +99,14 @@ public class pauseController : MonoBehaviour
         SceneManager.LoadScene("playerLobby", LoadSceneMode.Single);
     }
 
+    public void quitToMenu()
+    {
+        Time.timeScale = 1;
+        sceneManagerScript sceneManage = sceneManagerScript.Instance;
+        sceneManage.ResetPlayerList();
+        SceneManager.LoadScene("MainMenu");
+    }
+
     IEnumerator highlightBtn()
     {
         myEventSystem.SetSelectedGameObject(null);
