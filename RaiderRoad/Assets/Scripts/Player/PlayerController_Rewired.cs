@@ -244,12 +244,14 @@ public class PlayerController_Rewired : MonoBehaviour
         jumpIndicator.transform.position = new Vector3(transform.position.x, jumpIndicator.transform.position.y, transform.position.z);
 
         // On ground
+        int layerMask = 1 << 10; // Ignore Layer NavMesh
+        layerMask = ~layerMask;
         RaycastHit hit;
         //Debug.DrawRay(transform.position, -Vector3.up, Color.green);
-        if (Physics.Raycast(new Vector3(transform.position.x, transform.position.y + .5f, transform.position.z), -Vector3.up, out hit))
+        if (Physics.Raycast(new Vector3(transform.position.x, transform.position.y + .5f, transform.position.z), -Vector3.up, out hit, Mathf.Infinity, layerMask))
         {
-            //Debug.Log(hit.collider);
-            Vector3 pos = hit.point + hit.normal * 0.01f;
+            Debug.Log("Jump Hit Collider..." + hit.collider);
+            Vector3 pos = hit.point + hit.normal * 0.05f;
             jumpIndicator.transform.position = pos;
             //jumpIndicator.transform.position = new Vector3(jumpIndicator.transform.position.x, pos, jumpIndicator.transform.position.z);
         }

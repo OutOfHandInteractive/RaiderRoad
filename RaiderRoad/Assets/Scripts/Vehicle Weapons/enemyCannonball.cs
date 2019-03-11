@@ -36,7 +36,7 @@ public class enemyCannonball : AbstractCannonball
             Collider[] splashTargets = Physics.OverlapSphere(transform.position, splashRadius);
             foreach (Collider target in splashTargets)
             {
-                int layerMask = 1 << 10;
+                int layerMask = 1 << 10; // Ignore Layer NavMesh
                 layerMask = ~layerMask;
 
                 RaycastHit hit;
