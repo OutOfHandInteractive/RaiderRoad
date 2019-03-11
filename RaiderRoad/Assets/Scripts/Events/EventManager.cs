@@ -52,8 +52,8 @@ public class EventManager : MonoBehaviour {
     private int lThreatMax = 3;
     private int mThreatMin = 3;
     private int mThreatMax = 5;
-    //private int hThreatMin = 
-    //priavte int hThreatMax = 
+    private int hThreatMin = 5;
+    private int hThreatMax = 7;
     private int oThreat = 1;
 
 
@@ -124,10 +124,10 @@ public class EventManager : MonoBehaviour {
             if (etype == EventManager.eventTypes.vehicle)
             {
 				//determine vehicle type --- need to implement, for now just does medium and light randomly
-                //if(difficultyRating >= Constants.HEAVY_VEHICLE_BASE_THREAT)
-                //randNum = UnityEngine.Random.Range((int)VehicleFactoryManager.vehicleTypes.heavy, (int)VehicleFactoryManager.vehicleTypes.heavy + 1);
-                //}else
-                if (difficultyRating >= Constants.MEDIUM_VEHICLE_BASE_THREAT) {
+                if(difficultyRating >= Constants.HEAVY_VEHICLE_BASE_THREAT){
+                    randNum = UnityEngine.Random.Range((int)VehicleFactoryManager.vehicleTypes.light, (int)VehicleFactoryManager.vehicleTypes.heavy + 1);
+                }
+                else if (difficultyRating >= Constants.MEDIUM_VEHICLE_BASE_THREAT) {
 					randNum = UnityEngine.Random.Range((int)VehicleFactoryManager.vehicleTypes.light, (int)VehicleFactoryManager.vehicleTypes.medium + 1);
 				}
 				else {
@@ -143,10 +143,10 @@ public class EventManager : MonoBehaviour {
                     vThreat = Constants.MEDIUM_VEHICLE_BASE_THREAT;
                     vMod = UnityEngine.Random.Range(mThreatMin, mThreatMax);
                 }
-                //else if(vtype == VehicleFactoryManager.vehicleTypes.heavy){   //this is for heavies when we get those in
-                //  vThreat = Constants.HEAVY_VEHICLE_BASE_THREAT;
-                //  vMod = UnityEngine.Random.Range(hThreatMin, hThreatMax);
-                //}
+                else if(vtype == VehicleFactoryManager.vehicleTypes.heavy){   //this is for heavies when we get those in
+                    vThreat = Constants.HEAVY_VEHICLE_BASE_THREAT;
+                    vMod = UnityEngine.Random.Range(hThreatMin, hThreatMax);
+                }
                 //---------------------------------------------------------------------------------------------------------
                 difficultySpace = difficultySpace - vThreat;  //subtract threat from difSpace
                 sPoints = vspawnPoints;

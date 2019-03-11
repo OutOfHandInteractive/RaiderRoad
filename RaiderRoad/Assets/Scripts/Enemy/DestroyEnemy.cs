@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 /// <summary>
 /// This enemy just wants to destroy things and pick fights
@@ -15,14 +16,27 @@ public class DestroyEnemy : EnemyAI {
     /// </summary>
     public bool engineKill = false;
 
+    private GameObject[] walls;
+    private GameObject[] engines;
+    private GameObject wall;
+    private GameObject engine;
+    private NavMeshAgent agent;
+
     /// <summary>
     /// Initializes this state
     /// </summary>
     /// <param name="enemy">This enemy (Deprecated)</param>
-    public void StartDestroy(GameObject enemy)
+    public void StartDestroy(GameObject enemy, NavMeshAgent _agent)
     {
         cObject = enemy;
+        agent = _agent;
         action = Random.Range(0, 100);
+        walls = GameObject.FindGameObjectsWithTag("Wall");
+        engines = GameObject.FindGameObjectsWithTag("Engine");
+        Debug.Log(engines[0]);
+        wall = Closest(cObject.transform.position, walls);
+        engine = Closest(cObject.transform.position, engines);
+        Debug.Log(engine);
     }
 
     /// <summary>
@@ -31,8 +45,6 @@ public class DestroyEnemy : EnemyAI {
     public void Destroy()
     {
         //Set wall gameobject
-        GameObject[] walls = GameObject.FindGameObjectsWithTag("Wall");
-        GameObject[] engines = GameObject.FindGameObjectsWithTag("Engine");
         //Set movement speed of enemy
         float movement = speed * Time.deltaTime;
 
@@ -64,18 +76,31 @@ public class DestroyEnemy : EnemyAI {
         {
             if(walls.Length <= 0)
             {
-                cObject.GetComponent<StatefulEnemyAI>().EnterFight();
+                Debug.Log(engine);
+                if(engines.Length <= 0)
+                {
+                    cObject.GetComponent<StatefulEnemyAI>().EnterFight();
+                }
+                else
+                {
+                    agent.SetDestination(engine.transform.position);
+                }
             }
             else
             {
-                GameObject wall = Closest(cObject.transform.position, walls);
-                MoveToward(wall);
+                agent.SetDestination(wall.transform.position);
             }
         }
         else
         {
-            GameObject engine = Closest(cObject.transform.position, engines);
-            MoveToward(engine);
+            if (engines.Length <= 0)
+            {
+                cObject.GetComponent<StatefulEnemyAI>().EnterFight();
+            }
+            else
+            {
+                agent.SetDestination(engine.transform.position);
+            }
         }
     }
 }

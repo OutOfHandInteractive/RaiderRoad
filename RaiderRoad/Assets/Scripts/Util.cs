@@ -48,7 +48,7 @@ public class Util
         return new Vector3(vector.x, vector.y);
     }
 
-    public static void RemoveNulls<T>(IList<T> list)
+    public static void RemoveNulls<T>(ICollection<T> list) where T : Object
     {
         List<T> drop = new List<T>();
         foreach(T obj in list){
@@ -61,5 +61,10 @@ public class Util
         {
             list.Remove(obj);
         }
+    }
+
+    public static void RemoveAll<T>(ICollection<T> list, T remove)
+    {
+        while (list.Remove(remove)) { }
     }
 }

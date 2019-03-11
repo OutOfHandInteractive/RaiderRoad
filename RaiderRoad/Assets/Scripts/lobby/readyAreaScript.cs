@@ -12,6 +12,7 @@ public class readyAreaScript : MonoBehaviour
     private IEnumerator myCour;
     private float myTimer;
     private bool timerDone = false;
+    private bool timerRunning = false;
     public int inReadyArea = 0;
     // Start is called before the first frame update
     void Start()
@@ -23,12 +24,12 @@ public class readyAreaScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        CheckReadyArea();
     }
 
     void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "Player")
+        if(Util.isPlayer(other.gameObject))
         {
             inReadyArea++;
             CheckReadyArea();
@@ -37,7 +38,7 @@ public class readyAreaScript : MonoBehaviour
 
     void OnTriggerExit(Collider other)
     {
-        if(other.tag == "Player")
+        if(Util.isPlayer(other.gameObject))
         {
             inReadyArea--;
             CheckReadyArea();
@@ -48,9 +49,14 @@ public class readyAreaScript : MonoBehaviour
     {
         if (inReadyArea >= myLobbyManager.joinedPlayers && inReadyArea > 0)
         {
-            myTimer = countdownTime;
-            StartCoroutine(myCour);
+            if (!timerRunning)
+            {
+                myTimer = countdownTime;
+                timerRunning = true;
+                StartCoroutine(myCour);
+            }
         } else{
+            timerRunning = false;
             StopCoroutine(myCour);
             myCountdownText.text = "";
         }
@@ -58,6 +64,7 @@ public class readyAreaScript : MonoBehaviour
 
     IEnumerator CountDownToPlay()
     {
+        timerRunning = true;
         while (!timerDone)
         {
             myTimer -= Time.deltaTime;
@@ -70,5 +77,6 @@ public class readyAreaScript : MonoBehaviour
 
             yield return null;
         }
+        timerRunning = false;
     }
 }

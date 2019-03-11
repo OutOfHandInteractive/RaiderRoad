@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 3336761934474863090}
   - component: {fileID: 7391814575118812368}
   - component: {fileID: 9013214042989908397}
+  - component: {fileID: 842390742424586100}
   m_Layer: 0
   m_Name: EnemyH
   m_TagString: Enemy
@@ -31,7 +32,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1145464498855594}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.98, y: 0.6, z: -1.18}
+  m_LocalPosition: {x: -0, y: 0, z: 0}
   m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
   m_Children:
   - {fileID: 4542716768122778}
@@ -140,12 +141,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c43ede2cde11c342b4e7c156609578e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentState: 0
   munnitions: {fileID: 1036905886357580, guid: 99112baa6cba41b4b844ca7fe6d5cb38, type: 3}
   fire: {fileID: 1395703786283796, guid: e3957306ac6e4004abce694a03535b94, type: 3}
   dropOnDeath: {fileID: 1412282026529114, guid: c4b78f547f7592d42867fc5a56f7cc72,
     type: 3}
   maxHealth: 125
-  damagePower: 0
+  damagePower: 20
   currentHealth: 0
   damageMeter: 0
   stateChance: 0
@@ -162,6 +164,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemySpeed: 1
+--- !u!195 &842390742424586100
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1145464498855594}
+  m_Enabled: 0
+  m_AgentTypeID: 0
+  m_Radius: 0.49999997
+  m_Speed: 2
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 1.9999999
+  m_BaseOffset: 0.99999994
+  m_WalkableMask: 7
+  m_ObstacleAvoidanceType: 4
 --- !u!1 &1319280960510912
 GameObject:
   m_ObjectHideFlags: 0

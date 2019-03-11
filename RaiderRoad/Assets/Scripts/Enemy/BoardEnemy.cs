@@ -12,6 +12,7 @@ public class BoardEnemy : JumpEnemy {
     //private int action;
 
     private float survey = 0;
+    private Transform parent = null;
     //public override void StartJump(GameObject enemy, Rigidbody rb, string side, int stateChance)
     //{
     //    base.StartJump(enemy, rb, side, stateChance);
@@ -23,7 +24,16 @@ public class BoardEnemy : JumpEnemy {
 
     private Vector3 GetTarget(Vector3 planePos)
     {
-        return Closest(planePos, GameObject.FindGameObjectsWithTag("floor")).transform.position;
+        Debug.Log(cSide);
+        if (cSide == VehicleAI.Side.Left)
+        {
+            return Closest(planePos, GameObject.FindGameObjectsWithTag("JumpL")).transform.position;
+        }
+        else if (cSide == VehicleAI.Side.Right)
+        {
+            return Closest(planePos, GameObject.FindGameObjectsWithTag("JumpR")).transform.position;
+        }
+        return new Vector3(0, 0, 0);
     }
 
     /// <summary>
@@ -31,34 +41,37 @@ public class BoardEnemy : JumpEnemy {
     /// </summary>
     public void Board()
     {
+        //agent.enabled = true;
         //RV destination position
         Vector3 planePos = new Vector3(cObject.transform.position.x, 0, cObject.transform.position.z);
         Vector3 pos = GetTarget(planePos);
-        float zSign = cSide.Equals("left") ? 1 : -1;
-
+        float zSign = cSide == VehicleAI.Side.Left ? 1 : -1;
+        Debug.Log(zSign + " THIS IS THE SIGN");
         Jump(pos, zSign);
 
         //40% chance to go into Destroy State or Fight State, 20% to go into steal
         string actionStr = (action < 50) ? "EnterDestroy" : "EnterFight";
         StatefulEnemyAI ai = cObject.GetComponent<StatefulEnemyAI>();
-        Transform parent = gameObject.transform.parent;
-        if(parent != null && parent.tag == "RV")
+        if(transform.parent != null)
         {
-            survey += Time.deltaTime;
-            Debug.Log(survey);
-            if (survey > 1f)
+            if(transform.parent.tag == "RV")
             {
-                if (action < 40)
+                survey += Time.deltaTime;
+                Debug.Log(survey);
+                if (survey > 1f)
                 {
-                    ai.EnterDestroy();
-                }
-                else if (action > 40 && action < 80)
-                {
-                    ai.EnterFight();
-                }
-                else
-                {
-                    ai.EnterSteal();
+                    if (action < 40)
+                    {
+                        ai.EnterDestroy();
+                    }
+                    else if (action > 40 && action < 80)
+                    {
+                        ai.EnterFight();
+                    }
+                    else
+                    {
+                        ai.EnterSteal();
+                    }
                 }
             }
         }

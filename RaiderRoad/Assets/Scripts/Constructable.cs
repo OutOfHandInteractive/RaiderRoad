@@ -41,7 +41,7 @@ public abstract class Constructable : MonoBehaviour
     /// <summary>
     /// Boolean flag that indicates whether this object is currently being attacked by a raider
     /// </summary>
-    public bool isOccupied = false;
+    //public bool isOccupied = false;
 
 	// -------------- nonpublic variables ----------------
 	[SerializeField] protected ParticleSystem objectBreakParticles;
@@ -60,6 +60,7 @@ public abstract class Constructable : MonoBehaviour
         if (hits <= 0 || health <= 0) //can probably move this outside update
         {
             OnBreak();
+            BreakParticles();
             spawnDrop();
         }
     }
@@ -92,7 +93,7 @@ public abstract class Constructable : MonoBehaviour
     /// Checks if the object has been placed on a node
     /// </summary>
     /// <returns>True if and only if myNode is valid and occupied</returns>
-    public bool isPlaced()
+    public virtual bool isPlaced()
     {
         return myNode != null && GetNodeComp(myNode).occupied;
     }
@@ -106,9 +107,14 @@ public abstract class Constructable : MonoBehaviour
         // Do nothing by default
     }
 
+    protected virtual void BreakParticles()
+    {
+        Instantiate(objectBreakParticles, transform.position, Quaternion.identity);
+    }
+
     private void spawnDrop()
     {
-        GameObject item = Instantiate(drop, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
+        GameObject item = Instantiate(drop, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity, transform.parent);
         item.name = drop.name;
         OnDrop(item);
         if(myNode != null)
@@ -131,10 +137,13 @@ public abstract class Constructable : MonoBehaviour
         gameObject.GetComponent<BoxCollider>().enabled = false;
         foreach(Renderer renderer in gameObject.GetComponentsInChildren<Renderer>())
         {
-            Material myMat = renderer.material;
-            Color tempColor = myMat.color;
-            tempColor.a = 0.4f;
-            myMat.color = tempColor;
+            if(! (renderer is LineRenderer))
+            {
+                Material myMat = renderer.material;
+                Color tempColor = myMat.color;
+                tempColor.a = 0.4f;
+                myMat.color = tempColor;
+            }
         }
     }
 }

@@ -6,6 +6,8 @@ using System.Collections;
 /// </summary>
 public abstract class DurabilityBuildNode : AbstractBuildNode
 {
+
+
     private GameObject holo;
     private GameObject item;
 
@@ -14,37 +16,36 @@ public abstract class DurabilityBuildNode : AbstractBuildNode
     /// </summary>
     /// <param name="objToBuild">The object to build</param>
     /// <param name="durability">The durability to use</param>
-    public void Build(GameObject objToBuild, float durability)
+    /// <returns>The built object</returns>
+    public GameObject Build(GameObject objToBuild, float durability)
     {
         Vector3 dir = gameObject.transform.forward;
         item = Instantiate(objToBuild, new Vector3(transform.position.x, transform.position.y, transform.position.z),
             Quaternion.identity);
         item.transform.parent = this.gameObject.transform;
-        Material tempMat = item.GetComponent<Renderer>().material;
-        if(tempMat.shader.name == "Outlined/Uniform")
-        {
-            Material outline = Instantiate(tempMat);
-            item.GetComponent<Renderer>().material = outline;
-            outline.SetFloat("_Active", 0.0f);
-        }
+        SetOutlineActive(item, 0.0f);
 
         occupied = true;
-        item.GetComponent<DurableConstruct>().myNode = gameObject;
-        item.GetComponent<DurableConstruct>().SetDurability(durability);
+        DurableConstruct construct = item.GetComponent<DurableConstruct>();
+        construct.myNode = gameObject;
+        construct.SetDurability(durability);
+        RemoveShow();
+        return item;
     }
 
     /// <summary>
     /// Shows a hologram of the given item
     /// </summary>
     /// <param name="objToShow"></param>
-    public void Show(GameObject objToShow)
+    /// <returns>The hologram</returns>
+    public GameObject Show(GameObject objToShow)
     { //hologram function, not efficient/working properly
-
         RemoveShow();
         holo = Instantiate(objToShow, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
 
         holo.GetComponent<DurableConstruct>().isHolo = true;
         holo.transform.parent = this.gameObject.transform;
+        return holo;
     }
 
     /// <summary>

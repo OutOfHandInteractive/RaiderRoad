@@ -34,6 +34,11 @@ public class LureTrap : Trap
         return false;
     }
 
+    public override void Damage(float damage)
+    {
+        base.Damage(damage);
+    }
+
     /// <summary>
     /// On activation, this trap puts the enemy into the Lure state
     /// </summary>

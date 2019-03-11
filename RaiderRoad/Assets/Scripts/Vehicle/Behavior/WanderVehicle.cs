@@ -12,7 +12,7 @@ public class WanderVehicle : MonoBehaviour {
     private GameObject cObject;
     private int action;
     private bool hasWeapon;
-    public void StartWander(NavMeshAgent agent, GameObject enemy, string side, bool weapon)
+    public void StartWander(NavMeshAgent agent, GameObject enemy, VehicleAI.Side side, bool weapon)
     {
         //Set it to the VehicleAI
         cEnemy = agent;
@@ -23,7 +23,7 @@ public class WanderVehicle : MonoBehaviour {
         patrols = new List<Transform>();
 
         //Choose to patrol left or right, random chance
-        if (side.Equals("left"))
+        if (side == VehicleAI.Side.Left)
         {
             patrolList = GameObject.Find("Patrol Left");
         }
@@ -41,6 +41,7 @@ public class WanderVehicle : MonoBehaviour {
 
     public void Wander()
     {
+        cEnemy.radius = 5f;
         //Return null if no patrol points
         if (patrols.Count == 0)
             return;
@@ -48,7 +49,13 @@ public class WanderVehicle : MonoBehaviour {
         cEnemy.SetDestination(patrols[wanderPoints].position);
         //Choose random patrol point
         wanderPoints = Random.Range(0, patrols.Count);
-
+        if (GetComponentInChildren<EnemyAI>() == null && !hasWeapon)
+        {
+            if (GetComponentInChildren<PlayerController_Rewired>() == null)
+            {
+                cObject.GetComponent<VehicleAI>().EnterLeave();
+            }
+        }
         //Chance to attack or chase the RV
         if (hasWeapon)
         {

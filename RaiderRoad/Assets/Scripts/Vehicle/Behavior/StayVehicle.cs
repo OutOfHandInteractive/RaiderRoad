@@ -12,9 +12,9 @@ public class StayVehicle : MonoBehaviour {
     private NavMeshAgent cEnemy;
     private GameObject cObject;
     private GameObject player;
-    private string cSide;
+    private VehicleAI.Side cSide;
     private bool calledRadio = false;
-    public void StartStay(NavMeshAgent agent, GameObject enemy, string side, int stickPoint)
+    public void StartStay(NavMeshAgent agent, GameObject enemy, VehicleAI.Side side, int stickPoint)
     {
         cEnemy = agent;
         cObject = enemy;
@@ -22,7 +22,7 @@ public class StayVehicle : MonoBehaviour {
         cSide = side;
         cEnemy.speed = 6f;
         //Find random attack point
-        if (side.Equals("left"))
+        if (side == VehicleAI.Side.Left)
         {
             WallsRV = GameObject.Find("NodesLeft");
             attackPosition = GameObject.Find("AttackLeft");
@@ -48,7 +48,7 @@ public class StayVehicle : MonoBehaviour {
         return cObject;
     }
 
-    public string Side()
+    public VehicleAI.Side Side()
     {
         return cSide;
     }
@@ -74,6 +74,7 @@ public class StayVehicle : MonoBehaviour {
 
     public void Stay()
     {
+        cEnemy.radius = 1f;
         Debug.Log("STAY STATE");
         //Stop completely when next to spot
         //cEnemy.autoBraking = true;
@@ -86,8 +87,15 @@ public class StayVehicle : MonoBehaviour {
 
 
         bool leave = false;
-        int extantEnemies = GameObject.FindGameObjectsWithTag("Enemy").Length;
-        if (extantEnemies <= 0)
+        GameObject[] extantEnemies = GameObject.FindGameObjectsWithTag("Enemy");
+        for(int i=0;i<extantEnemies.Length;i++)
+        {
+            if((extantEnemies.Length <= 0 || extantEnemies[i].transform.root.tag == "eVehicle") && (extantEnemies[i].GetComponent<StatefulEnemyAI>().GetState() == StatefulEnemyAI.State.Escape))
+            {
+                leave = true;
+            }
+        }
+        if (extantEnemies.Length <= 0)
         {
             leave = true;
         }
@@ -106,7 +114,7 @@ public class StayVehicle : MonoBehaviour {
                 Radio.GetRadio().ReadyForEvac(this);
                 calledRadio = true;
             }
-            else if(CountEnemiesOnBoard() >= System.Math.Min(5, extantEnemies)) //TODO this limit should depend on size of vehicle
+            else if(CountEnemiesOnBoard() >= System.Math.Min(5, extantEnemies.Length)) //TODO this limit should depend on size of vehicle
             {
                 Debug.Log("All loaded up and ready to go!");
                 leave = true;

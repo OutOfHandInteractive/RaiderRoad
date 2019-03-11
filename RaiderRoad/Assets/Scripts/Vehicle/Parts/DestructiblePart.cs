@@ -51,7 +51,14 @@ public abstract class DestructiblePart : MonoBehaviour {
 		currentHealth -= damageDone;
 		if (currentHealth <= 0) {
 			isIntact = false;
-			GameObject item = Instantiate(drop, transform.position + dropOffset, Quaternion.identity, transform);
+            if(drop != null)
+            {
+                GameObject item = Instantiate(drop, transform.position + dropOffset, Quaternion.identity, transform);
+            }
+            else
+            {
+                Debug.LogError("This DestructiblePart (of type "+this.GetType().FullName+") doesn't have a drop assigned to it. FIX THAT!");
+            }
 			//item.name = "Wall Drop";
 
 			// change texture to show destroyed

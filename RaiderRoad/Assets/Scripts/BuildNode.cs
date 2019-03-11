@@ -48,21 +48,17 @@ public class BuildNode : AbstractBuildNode {
             if (this.isHorizontal)
             {
                 item = Instantiate(objectToPlace, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
-                item.transform.localScale = new Vector3(1, 1, 0.1f);
                 item.transform.parent = spawnNode.transform;
                 occupied = true;
             }
             else
             {
                 item = Instantiate(objectToPlace, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.Euler(new Vector3(0, 90, 0)));
-                item.transform.localScale = new Vector3(1, 1, 0.1f);
                 item.transform.parent = spawnNode.transform;
                 occupied = true;
             }
-            Material tempMat = item.GetComponent<Renderer>().material;
-            outline = Instantiate(tempMat);
-            item.GetComponent<Renderer>().material = outline;
-            outline.SetFloat("_Active", 0.0f);
+
+            SetOutlineActive(item, 0.0f);
 
             item.GetComponent<Wall>().myNode = gameObject;
         }
@@ -72,7 +68,6 @@ public class BuildNode : AbstractBuildNode {
 			item = Instantiate(objectToPlace, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.LookRotation(dir));
 			item.transform.localScale = new Vector3(1.5f, 0.7f, 0.7f);
 			item.transform.parent = spawnNode.transform;
-			item.transform.localPosition = new Vector3(item.transform.localPosition.x, objectToPlace.transform.position.y, item.transform.localPosition.z);
 
 			RemoveShow();	// get rid of holo when item is placed
 

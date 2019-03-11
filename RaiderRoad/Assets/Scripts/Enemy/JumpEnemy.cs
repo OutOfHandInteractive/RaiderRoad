@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.AI;
 
 public class JumpEnemy : EnemyAI
 {
@@ -7,16 +8,20 @@ public class JumpEnemy : EnemyAI
     protected Rigidbody cRb;
     private float initialAngle;
     private bool hasJumped = false;
-    protected string cSide;
+    protected VehicleAI.Side cSide;
     protected int action;
+    protected NavMeshAgent agent;
+    protected VehicleAI vehicle;
 
-    public virtual void StartJump(GameObject enemy, Rigidbody rb, string side, int stateChance)
+    public virtual void StartJump(GameObject enemy, Rigidbody rb, VehicleAI.Side side, NavMeshAgent _agent, int stateChance, VehicleAI _vehicle)
     {
         cObject = enemy;
+        agent = _agent;
         cRb = rb;
         cSide = side;
         action = stateChance;
         initialAngle = 75f;
+        vehicle = _vehicle;
     }
 
     protected void Jump(Vector3 pos, float zSign)
@@ -53,6 +58,7 @@ public class JumpEnemy : EnemyAI
         Vector3 finalVelocity = Quaternion.AngleAxis(angleBetweenObjects, Vector3.up) * velocity;
 
         cRb.AddForce(finalVelocity * cRb.mass, ForceMode.Impulse);
+        //agent.SetDestination(pos);
         hasJumped = true;
     }
 }
