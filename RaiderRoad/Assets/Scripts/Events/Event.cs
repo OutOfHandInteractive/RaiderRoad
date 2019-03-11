@@ -64,7 +64,7 @@ public class Event : MonoBehaviour {
         }
     }
 
-    public void spawn(VehicleFactoryManager factory)
+    public void spawn(VehicleFactoryManager factory, float wepFreq)
     {
         numPoints = Random.Range(1, spawnPoints.Count);
         Debug.Log("spawn = " + numPoints);
@@ -72,7 +72,7 @@ public class Event : MonoBehaviour {
         //based on type, call proper function - for now just creates light vehicle
         Vector3 pos = spawnPoints[numPoints].transform.position;
         //Debug.LogWarning(pos);
-        e = factory.newConstructVehicle(_vtype,_mod, pos);
+        e = factory.newConstructVehicle(_vtype,_mod, pos, wepFreq);
         //if (e.transform.position != pos)
         //{
         //    Debug.LogError("WTF");

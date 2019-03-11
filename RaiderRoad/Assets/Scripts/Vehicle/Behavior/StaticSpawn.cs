@@ -19,7 +19,7 @@ public class StaticSpawn : MonoBehaviour {
         {
             types = (VehicleFactoryManager.vehicleTypes)Random.Range(0, 3);
             //Debug.Log(types);
-            GameObject vehicle = factory.newConstructVehicle(types,3, transform.position);  //3 = base medium threat, needed so this doesn't break
+            GameObject vehicle = factory.newConstructVehicle(types,3, transform.position, 0.25f);  //3 = base medium threat, needed so this doesn't break, 0.25 = 1/4 chance of getting a weapon
             vehicle.transform.position = transform.position;
         }
         

@@ -14,14 +14,14 @@ public abstract class VehicleFactory_I : MonoBehaviour {
 	public List<GameObject> Payload;
 
 	protected abstract GameObject selectChassis();
-	public abstract void AttachPayload(GameObject cargo);
+	public abstract void AttachPayload(GameObject cargo, float wChance);
 	public abstract void AttachWheels(GameObject chassis, VehicleAI v);
 
 	public VehicleFactory_I() {
 		rand = new System.Random();
 	}
 
-	public GameObject AssembleVehicle(int modifier, Vector3 position) {
+	public GameObject AssembleVehicle(int modifier, Vector3 position, float wChance) {
 		float armorStacks = 0f;
 		float ramDamageStacks = 0f;
 		float speedStacks = 0f;
@@ -39,7 +39,7 @@ public abstract class VehicleFactory_I : MonoBehaviour {
 		cab = AttachCab(chassis, vAI, ref armorStacks, ref ramDamageStacks, ref speedStacks);
 		cargo = AttachCargo(cab, vAI, ref armorStacks, ref ramDamageStacks, ref speedStacks);
 		AttachAttachment(cab, vAI, ref armorStacks, ref ramDamageStacks, ref speedStacks);
-		AttachPayload(cargo);
+		AttachPayload(cargo,wChance);
 		AttachWheels(chassis, vAI);
 
 		Chassis chassisScript = chassis.GetComponent<Chassis>();

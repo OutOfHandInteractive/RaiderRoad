@@ -23,17 +23,24 @@ public class EventCluster : MonoBehaviour {
     [SerializeField] private float weight;
     [SerializeField] private float threshold;
     private bool spawnFlag = true;
-    [SerializeField] private float delay = 15;   //to start 15, seconds
-    //private int i = 0;          //needed to have this outside a function so that the coroutine doesn't mess up its value
-    private float delayLower = 1f;  //delay will not be less than this
-    private float factor = 0.9f;    //less than overall so the spawns don't increase as fast (since the starting point will keep dropping from manager)
 
-    public void startUp(List<Event> sequence, VehicleFactoryManager factory, float nuDelay)
+    //spawn reduction variables
+    [SerializeField] private float sDelay = 15;   //to start 15, seconds
+    private float sDelayLower = 1f;  //delay will not be less than this
+    private float sFactor = 0.9f;    //less than overall so the spawns don't increase as fast (since the starting point will keep dropping from manager)
+
+    //weapon frequency
+    [SerializeField]
+    private float wChance;   //gets set by event manager
+
+
+    public void startUp(List<Event> sequence, VehicleFactoryManager factory, float _sDelay, float _wChance)
     {
         manager = GameObject.Find("EventManager");
 		vFactory = factory;
         events = sequence;
-        delay = nuDelay;                //update delay to proper val from manager
+        sDelay = _sDelay;                //update delay to proper val from manager
+        wChance = _wChance;               //set weapon chance from manager
         initSize = events.Count;        //get number of events in cluster
         weight = 1.0f / initSize;             //determine weight of a single event for completeness
         threshold = weight * (initSize-1);      //this should probably be replaced with something better but for now it works
@@ -55,24 +62,25 @@ public class EventCluster : MonoBehaviour {
     IEnumerator dispense(){
         foreach (Event e in events){
             callEvent(e);
-            yield return new WaitForSeconds(delay);     //call next event after delay
+            yield return new WaitForSeconds(sDelay);     //call next event after delay
         }
     }
     
     //delay reduction coroutine
     IEnumerator reduceDelay()
     {
-        yield return new WaitForSeconds(delay);        //wait allocated time
+        yield return new WaitForSeconds(sDelay);        //wait allocated time
         while(true){
-            if (delay*factor > delayLower){      //if next iteration is greater than lower bound...
-                delay = delay * factor;       //...decrement
+            if (sDelay*sFactor > sDelayLower){      //if next iteration is greater than lower bound...
+                sDelay = sDelay * sFactor;       //...decrement
             }
             else{
-                delay = delayLower;              //else, reduce to lower bound
+                sDelay = sDelayLower;              //else, reduce to lower bound
             }
-            yield return new WaitForSeconds(delay);        //wait allocated time
+            yield return new WaitForSeconds(sDelay);        //wait allocated time
         }        
     }
+
 
     //increase completeness of cluster - called from vehicle on destroy
     public void updatePercent(){
@@ -94,7 +102,7 @@ public class EventCluster : MonoBehaviour {
         }
         else if (eve._etype == EventManager.eventTypes.vehicle)
         {
-            eve.spawn(vFactory);
+            eve.spawn(vFactory, wChance);
         }
     }
 }
