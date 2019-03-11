@@ -2,8 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class enemyCannonball : MonoBehaviour {
-
+/// <summary>
+/// This class is for cannonballs fired by Raiders
+/// </summary>
+public class enemyCannonball : AbstractCannonball
+{
+    
     public float cannonDamage = 2f;
 	// Use this for initialization
 	void Start () {
@@ -18,14 +22,14 @@ public class enemyCannonball : MonoBehaviour {
     void OnCollisionEnter(Collision collision)
     {
         Debug.Log(collision.gameObject.tag);
-        if(collision.gameObject.tag == "Player")
+        if(Util.isPlayer(collision.gameObject))
         {
             collision.gameObject.GetComponent<PlayerController_Rewired>().takeDamage(cannonDamage);
-            Destroy(gameObject);
+            Explode();
         }
-        if(collision.gameObject.tag == "road" || collision.gameObject.tag == "RV")
+        else if(collision.gameObject.tag == "road" || Util.IsRV(collision.gameObject))
         {
-            Destroy(gameObject);
+            Explode();
         }
     }
 }

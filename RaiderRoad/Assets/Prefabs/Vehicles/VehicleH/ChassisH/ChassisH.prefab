@@ -42,6 +42,7 @@ GameObject:
   - component: {fileID: 33249476174727586}
   - component: {fileID: 23531741917395814}
   - component: {fileID: 114158346460189162}
+  - component: {fileID: 2707562127448663945}
   m_Layer: 0
   m_Name: ChassisH
   m_TagString: eVehicle
@@ -127,6 +128,19 @@ MonoBehaviour:
   - {fileID: 1930108933147958}
   baseSpeed: 2
   baseThreat: 5
+--- !u!65 &2707562127448663945
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1657344631570720}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 3.4440403, y: 0.16008425, z: 8.353004}
+  m_Center: {x: 0, y: 0.017193824, z: 0.15649557}
 --- !u!1 &1930108933147958
 GameObject:
   m_ObjectHideFlags: 0

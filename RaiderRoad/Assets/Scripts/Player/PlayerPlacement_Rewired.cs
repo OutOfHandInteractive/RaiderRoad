@@ -50,10 +50,12 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
     private List<GameObject> nodes = new List<GameObject>();      //probably better way to do this, REVISIT!
     private List<GameObject> trapNodes = new List<GameObject>();
     private List<GameObject> engineNodes = new List<GameObject>();
-    [SerializeField] private List<GameObject> attackRange = new List<GameObject>();
+    private List<GameObject> attackRange = new List<GameObject>();
 	private List<GameObject> destructableParts = new List<GameObject>();
 	private bool hasItem = false;
     private GameObject floatingItem;
+    
+    private PlayerAudio myAudio;
 
     private bool myInteracting = false;
 
@@ -91,6 +93,8 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
 
         MeleeWeapScale = myWeapon.transform.localScale;
         myWeapon.SetActive(false);
+
+        myAudio = GetComponent<PlayerAudio>();
 
         g = GameManager.GameManagerInstance;
     }
@@ -198,6 +202,9 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Drops the currently held item, if any.
+    /// </summary>
 	public void dropItem() {
 		if (heldItem != null) {
 			GameObject dropItem = heldItem.GetComponent<Constructable>().drop;
@@ -285,28 +292,15 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
 
     private void NotHoldingItem()
     {
-        if (player.GetButton("Build Mode"))
+        if (player.GetButton("Build Mode") && pController.state == PlayerController_Rewired.playerStates.up && wallInventory>0)
         {
-            if (!buildMode && wallInventory > 0 && pController.state == PlayerController_Rewired.playerStates.up)
-            {
-                //When switching out of build mode, attack will get stuck in InvalidOperationException: List has changed. This helps
-                if (buildMode) attackRange = new List<GameObject>();
-                buildMode = !buildMode;
+            buildMode = true;
 
-                checkHologram();
-                SheathWeapon();
-                myAni.SetBool("isHolding", true);
-            }
+            checkHologram();
+            SheathWeapon();
+            myAni.SetBool("isHolding", true);
         } else {
-            if (nodes.Count > 0) { //If showing holo wall, turn off every holo wall currently being displayed
-                for(int i = 0; i < nodes.Count; i++){ 
-                    nodes[i].GetComponent<BuildNode>().RemoveShow();
-                }
-            }
-            buildMode = false;
-            myAni.SetBool("isHolding", false);
-            hasItem = false;
-            Destroy(floatingItem);
+            LeaveBuildMode();
         }
         if (buildMode)
         {
@@ -316,25 +310,32 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
             {
                 BuildWall();
             }
-            if (wallInventory <= 0)
-            {
-                buildMode = false; //leave wall build mode if you have no wall (needs more feedback)
-
-                if (nodes.Count > 0) { //If showing holo wall, turn off every holo wall currently being displayed
-                    for(int i = 0; i < nodes.Count; i++){ 
-                        nodes[i].GetComponent<BuildNode>().RemoveShow();
-                    }
-                }
-                buildMode = false;
-                myAni.SetBool("isHolding", false);
-                hasItem = false;
-                Destroy(floatingItem);
-            }
         }
         else if (player.GetButtonDown("Attack") && canAttack && pController.state == PlayerController_Rewired.playerStates.up)
         {
             Attack();
         }
+    }
+
+    private void LeaveBuildMode()
+    {
+        if (!buildMode)
+        {
+            return;
+        }
+        //When switching out of build mode, attack will get stuck in InvalidOperationException: List has changed. This helps
+        //attackRange = new List<GameObject>();
+        if (nodes.Count > 0)
+        { //If showing holo wall, turn off every holo wall currently being displayed
+            for (int i = 0; i < nodes.Count; i++)
+            {
+                nodes[i].GetComponent<BuildNode>().RemoveShow();
+            }
+        }
+        buildMode = false;
+        myAni.SetBool("isHolding", false);
+        hasItem = false;
+        Destroy(floatingItem);
     }
 
     private void BuildWall()
@@ -382,7 +383,8 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
 
         //Debug.Log("attackRange Count:" + attackRange.Count);
 
-        if (!AttackVehicleParts())
+        bool hit = AttackVehicleParts();
+        if (!hit)
         {
             Util.RemoveNulls(attackRange);
             foreach (GameObject item in attackRange)
@@ -398,11 +400,13 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
                 {
                     item.GetComponent<Weapon>().Damage(damage, gameObject.transform.parent.gameObject);
                     Instantiate(objHitPart, item.transform.position, Quaternion.identity);
+                    hit = true;
                 }
                 else if ((construct = item.GetComponent<Constructable>()) != null)
                 {
                     construct.Damage(damage);
                     Instantiate(objHitPart, item.transform.position, Quaternion.identity);
+                    hit = true;
                 }
                 else if (item.CompareTag("Enemy"))
                 {
@@ -414,43 +418,44 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
                     //Debug.Log(dir);
 
                     Instantiate(charaHitPart, item.transform.position, Quaternion.identity);
+                    hit = true;
                 }
             }
         }
+
+        myAudio.Swing(hit);
 
         currentAttColor.a = 0.5f; //setting attack model's mat to 1/2 visible
     }
 
     private void CheckBuildNodes()
     {
-        if (buildMode)
+
+        bool isWall;
+        GameObject item;
+        if (heldItem == null && buildMode)
         {
-            bool isWall;
-            GameObject item;
-            if (heldItem == null)
+            item = wall;
+            isWall = wallInventory > 0;
+        }
+        else if (heldItem != null && heldItem.CompareTag("Weapon"))
+        {
+            item = heldItem;
+            isWall = false;
+        }
+        else
+        {
+            return;
+        }
+        bool found = false;
+        foreach (GameObject obj in nodes)
+        {
+            BuildNode node = obj.GetComponent<BuildNode>();
+            node.RemoveShow();
+            if (!found && !node.occupied && (isWall || node.canPlaceWeapon))
             {
-                item = wall;
-                isWall = wallInventory > 0;
-            }
-            else if (heldItem != null && heldItem.CompareTag("Weapon"))
-            {
-                item = heldItem;
-                isWall = false;
-            }
-            else
-            {
-                return;
-            }
-            bool found = false;
-            foreach (GameObject obj in nodes)
-            {
-                BuildNode node = obj.GetComponent<BuildNode>();
-                node.RemoveShow();
-                if (!found && !node.occupied && (isWall || node.canPlaceWeapon))
-                {
-                    node.Show(item);
-                    found = true;
-                }
+                node.Show(item);
+                found = true;
             }
         }
     }
@@ -541,6 +546,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
             }
             else if (other.tag == "Drops" && !heldItem)
             {
+                LeaveBuildMode();
                 drop.isTaken = true;
                 heldItem = other.GetComponent<ItemDrop>().item;
                 floatItem();
