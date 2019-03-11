@@ -115,6 +115,11 @@ public class sceneManagerScript : MonoBehaviour {
         g.restartMenu();
     }
 
+    public void ResetPlayerList()
+    {
+        playersInScene.Clear();
+    }
+
     void spawnChar1()
     {
         if (char1Players.Length > 0)
