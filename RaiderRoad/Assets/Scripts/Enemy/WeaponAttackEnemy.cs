@@ -21,6 +21,7 @@ public class WeaponAttackEnemy : EnemyAI {
     public void StartWeapon(GameObject enemy, VehicleAI vehicle, GameObject munnitions, GameObject fire, VehicleAI.Side side)
     {
         cObject = enemy;
+        cObject.GetComponent<StatefulEnemyAI>().getAnimator().SetBool("Running", false);
         eVehicle = vehicle;
         cMunnitions = munnitions;
         fireFX = fire;

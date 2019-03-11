@@ -79,6 +79,7 @@ public class FightEnemy : EnemyAI {
             Vector3 targetPosition = new Vector3(player.transform.position.x, cObject.transform.position.y, player.transform.position.z);
             cObject.transform.LookAt(targetPosition);
             agent.SetDestination(targetPosition);
+            cObject.GetComponent<StatefulEnemyAI>().getAnimator().SetBool("Running", true);
             //cObject.transform.position = Vector3.MoveTowards(cObject.transform.position, player.transform.position, movement);
 
         }

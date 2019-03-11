@@ -102,5 +102,6 @@ public class DestroyEnemy : EnemyAI {
                 agent.SetDestination(engine.transform.position);
             }
         }
+        cObject.GetComponent<StatefulEnemyAI>().getAnimator().SetBool("Running", true);
     }
 }
