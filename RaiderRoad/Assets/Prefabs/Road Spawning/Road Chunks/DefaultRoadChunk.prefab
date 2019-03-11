@@ -156,6 +156,7 @@ GameObject:
   - component: {fileID: 4533377773347037854}
   - component: {fileID: 2509798979841595027}
   - component: {fileID: 8401845275066095788}
+  - component: {fileID: 867149038821671327}
   m_Layer: 0
   m_Name: RoadRails
   m_TagString: Untagged
@@ -185,11 +186,11 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3650726196850897582}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1.9210818, y: 1, z: 1}
+  m_Center: {x: 0.46054012, y: 0, z: 0}
 --- !u!33 &4533377773347037854
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -251,6 +252,18 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 0
   m_Center: {x: 0, y: 0, z: 0}
   m_TimeToStationary: 0.5
+--- !u!114 &867149038821671327
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3650726196850897582}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4692e867c33efec43a93a993cb0a47dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7065094025453486750
 GameObject:
   m_ObjectHideFlags: 0
@@ -264,6 +277,7 @@ GameObject:
   - component: {fileID: 2394605898069690301}
   - component: {fileID: 4336143321945601359}
   - component: {fileID: 4790351252631274147}
+  - component: {fileID: 121615752664268728}
   m_Layer: 0
   m_Name: RoadRails
   m_TagString: Untagged
@@ -293,11 +307,11 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7065094025453486750}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1.9851284, y: 1, z: 1}
+  m_Center: {x: -0.4925634, y: 0, z: 0}
 --- !u!33 &2394605898069690301
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -359,6 +373,18 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 0
   m_Center: {x: 0, y: 0, z: 0}
   m_TimeToStationary: 0.5
+--- !u!114 &121615752664268728
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7065094025453486750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4692e867c33efec43a93a993cb0a47dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2027674647217687060
 PrefabInstance:
   m_ObjectHideFlags: 0

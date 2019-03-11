@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class cannonball : MonoBehaviour {
+public class cannonball : AbstractCannonball {
 	// ------------------- public variables --------------------
 	// references
-	public ParticleSystem explosion;
 
 	// gameplay variables
 	public float damage;
@@ -29,8 +28,12 @@ public class cannonball : MonoBehaviour {
 	private float xzAng;
 	private float oldY;
 
-	// Update is called once per frame
-	void Update () {
+    void Start()
+    {
+    }
+
+    // Update is called once per frame
+    void Update () {
 		timeRemaining -= Time.deltaTime;
 		timeElapsed = travelTime - timeRemaining;
 
@@ -49,19 +52,16 @@ public class cannonball : MonoBehaviour {
         if (directTarget.CompareTag("eVehicle") || directTarget.CompareTag("Destructable"))
         {
             directTarget.GetComponentInParent<VehicleAI>().takeDamage(damage);
-            Instantiate(explosion, transform.position, Quaternion.identity);
-            Destroy(gameObject);
+            Explode();
         }
         else if (directTarget.CompareTag("Enemy"))
         {
             directTarget.GetComponent<StatefulEnemyAI>().takeDamage(damage);
-            Instantiate(explosion, transform.position, Quaternion.identity);
-            Destroy(gameObject);
+            Explode();
         }
         else if (directTarget.CompareTag("road"))
         {
-            Instantiate(explosion, transform.position, Quaternion.identity);
-            Destroy(gameObject);
+            Explode();
         }
 
 
