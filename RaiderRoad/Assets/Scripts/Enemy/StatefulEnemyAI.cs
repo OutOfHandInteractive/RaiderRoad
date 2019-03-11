@@ -50,6 +50,9 @@ public class StatefulEnemyAI : EnemyAI {
     public int stateChance;
     private bool inRange;
 
+    //Animation
+    public Animator myAni;
+
     // Use this for initialization
     void Start () {
         currentHealth = maxHealth;
@@ -435,8 +438,10 @@ public class StatefulEnemyAI : EnemyAI {
     {
         Debug.Log(Time.time);
         fight.WindupAttack();
+        //myAni.SetTrigger("WindUp");
         yield return new WaitForSeconds(.5f);
-        if(inRange)
+        myAni.SetTrigger("Attack");
+        if (inRange)
         {
             fight.HitPlayer(other, damagePower);
         }
@@ -456,6 +461,7 @@ public class StatefulEnemyAI : EnemyAI {
         if (other.gameObject.tag == "Wall" && currentState == State.Destroy)
         {
             //Debug.Log("HIT");
+            myAni.SetTrigger("Attack"); //visual of enemy breaking object
             damageMeter = damageMeter + (100 * Time.deltaTime);
             if (damageMeter >= 100)
             {
@@ -465,6 +471,7 @@ public class StatefulEnemyAI : EnemyAI {
         }
         if (other.gameObject.tag == "Engine" && currentState == State.Destroy)
         {
+            myAni.SetTrigger("Attack");
             damageMeter = damageMeter + (100 * Time.deltaTime);
             if (damageMeter >= 100)
             {
@@ -512,5 +519,10 @@ public class StatefulEnemyAI : EnemyAI {
     public bool getDamaged()
     {
         return damaged;
+    }
+
+    public Animator getAnimator()
+    {
+        return myAni;
     }
 }

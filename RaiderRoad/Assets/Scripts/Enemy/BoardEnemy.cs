@@ -56,6 +56,7 @@ public class BoardEnemy : JumpEnemy {
         {
             if(transform.parent.tag == "RV")
             {
+                ai.getAnimator().SetBool("Grounded", true);
                 survey += Time.deltaTime;
                 Debug.Log(survey);
                 if (survey > 1f)

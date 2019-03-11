@@ -59,6 +59,9 @@ public class JumpEnemy : EnemyAI
 
         cRb.AddForce(finalVelocity * cRb.mass, ForceMode.Impulse);
         //agent.SetDestination(pos);
+        //animation
+        cObject.GetComponent<StatefulEnemyAI>().getAnimator().SetTrigger("Jump");
+        cObject.GetComponent<StatefulEnemyAI>().getAnimator().SetBool("Grounded", false);
         hasJumped = true;
     }
 }
