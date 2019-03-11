@@ -244,8 +244,7 @@ public class PlayerController_Rewired : MonoBehaviour
         jumpIndicator.transform.position = new Vector3(transform.position.x, jumpIndicator.transform.position.y, transform.position.z);
 
         // On ground
-        int layerMask = 1 << 10; // Ignore Layer NavMesh
-        layerMask = ~layerMask;
+        int layerMask = ~((1 << 2) | (1 << 10)); // Ignore Layer NavMesh
         RaycastHit hit;
         //Debug.DrawRay(transform.position, -Vector3.up, Color.green);
         if (Physics.Raycast(new Vector3(transform.position.x, transform.position.y + .5f, transform.position.z), -Vector3.up, out hit, Mathf.Infinity, layerMask))
