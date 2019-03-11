@@ -881,6 +881,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: -5487077368411116049, guid: 0000000000000000d000000000000000,
         type: 0}
+    - target: {fileID: 65879854558768282, guid: db5ed31c411315942b4614efcfa501d7,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 65879854558768282, guid: db5ed31c411315942b4614efcfa501d7,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1491666523518622, guid: db5ed31c411315942b4614efcfa501d7, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 8
@@ -3644,16 +3654,6 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 8
       objectReference: {fileID: 0}
-    - target: {fileID: 65879854558768282, guid: db5ed31c411315942b4614efcfa501d7,
-        type: 3}
-      propertyPath: m_IsTrigger
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 65879854558768282, guid: db5ed31c411315942b4614efcfa501d7,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3987259755773504076, guid: db5ed31c411315942b4614efcfa501d7,
         type: 3}
       propertyPath: m_RootOrder
@@ -4269,6 +4269,21 @@ PrefabInstance:
       propertyPath: pauseSignObject
       value: 
       objectReference: {fileID: 1579029891}
+    - target: {fileID: 4019754318803507902, guid: 25127a6c690960640a31e1576c7e2733,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4019754317219350579, guid: 25127a6c690960640a31e1576c7e2733,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: quitToMenu
+      objectReference: {fileID: 0}
+    - target: {fileID: 4019754318793034493, guid: 25127a6c690960640a31e1576c7e2733,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: quitToMenu
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 25127a6c690960640a31e1576c7e2733, type: 3}
 --- !u!1 &600527019 stripped

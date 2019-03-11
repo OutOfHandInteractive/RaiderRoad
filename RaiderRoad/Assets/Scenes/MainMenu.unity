@@ -569,7 +569,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400008, guid: dfd161fa22c37a74e954bf5fa0ce66af, type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 400008, guid: dfd161fa22c37a74e954bf5fa0ce66af, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -605,6 +605,63 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: a6c811f228390564fbc6bf9eca2f96eb, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dfd161fa22c37a74e954bf5fa0ce66af, type: 3}
+--- !u!1001 &802022173
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1778446165539740, guid: 3d495d7ec184bcf47916acef33f0921e, type: 3}
+      propertyPath: m_Name
+      value: SceneManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 4983501267160178, guid: 3d495d7ec184bcf47916acef33f0921e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4983501267160178, guid: 3d495d7ec184bcf47916acef33f0921e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4983501267160178, guid: 3d495d7ec184bcf47916acef33f0921e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4983501267160178, guid: 3d495d7ec184bcf47916acef33f0921e, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4983501267160178, guid: 3d495d7ec184bcf47916acef33f0921e, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4983501267160178, guid: 3d495d7ec184bcf47916acef33f0921e, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4983501267160178, guid: 3d495d7ec184bcf47916acef33f0921e, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4983501267160178, guid: 3d495d7ec184bcf47916acef33f0921e, type: 3}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4983501267160178, guid: 3d495d7ec184bcf47916acef33f0921e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4983501267160178, guid: 3d495d7ec184bcf47916acef33f0921e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4983501267160178, guid: 3d495d7ec184bcf47916acef33f0921e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 3d495d7ec184bcf47916acef33f0921e, type: 3}
 --- !u!1 &971779510
 GameObject:
   m_ObjectHideFlags: 0
@@ -663,7 +720,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 971779512}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1872474683}
+        m_MethodName: MenuLoadScene1
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &971779512
@@ -796,7 +864,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400008, guid: dfd161fa22c37a74e954bf5fa0ce66af, type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 400008, guid: dfd161fa22c37a74e954bf5fa0ce66af, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1179,7 +1247,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1660206690}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1872474683}
+        m_MethodName: QuitGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1660206690
@@ -1304,6 +1383,7 @@ GameObject:
   - component: {fileID: 1872474682}
   - component: {fileID: 1872474681}
   - component: {fileID: 1872474680}
+  - component: {fileID: 1872474683}
   m_Layer: 5
   m_Name: MainMenu_Canvas
   m_TagString: Untagged
@@ -1326,7 +1406,7 @@ RectTransform:
   - {fileID: 1227511851}
   - {fileID: 1660206688}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1393,6 +1473,20 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!114 &1872474683
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1872474678}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a71e914258aeaa846882994ca10f1a59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scene1: playerLobby
+  scene2: 
 --- !u!1 &1922886559
 GameObject:
   m_ObjectHideFlags: 0
@@ -1457,7 +1551,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2020091636
 PrefabInstance:
@@ -1532,7 +1626,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400008, guid: dfd161fa22c37a74e954bf5fa0ce66af, type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 400008, guid: dfd161fa22c37a74e954bf5fa0ce66af, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
