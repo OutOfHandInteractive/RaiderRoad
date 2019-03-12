@@ -30,19 +30,16 @@ public class VehicleGrind : MonoBehaviour
         {
             if (side == Side.left)
             {
-                float xVal = other.transform.position.x;
-                xVal -= 1.7f;
-                Vector3 place = new Vector3(xVal, other.transform.position.y, other.transform.position.z);
-                Instantiate(sparks, place, Quaternion.Euler(new Vector3(-90, 0, 0)), other.gameObject.transform);
+                Transform sparks = other.transform.Find("SparksL");
+                sparks.GetComponent<ParticleSystem>().Play();
+                //Instantiate(sparks, place, Quaternion.Euler(new Vector3(-90, 0, 0)), other.gameObject.transform);
             }
             else
             {
-                float xVal = other.transform.position.x;
-                xVal += 1.7f;
-                Vector3 place = new Vector3(xVal, other.transform.position.y, other.transform.position.z);
-                Instantiate(sparks, place, Quaternion.Euler(new Vector3(-90,0,0)), other.gameObject.transform);
+                Transform sparks = other.transform.Find("SparksR");
+                sparks.GetComponent<ParticleSystem>().Play();
+                //Instantiate(sparks, place, Quaternion.Euler(new Vector3(-90,0,0)), other.gameObject.transform);
             }
-            Debug.Log("added v to grind Trigger");
             vehicles.Add(other.gameObject.GetComponentInParent<VehicleAI>());
         }
     }
@@ -50,8 +47,20 @@ public class VehicleGrind : MonoBehaviour
     {
         if (other.gameObject.tag.Equals("eVehicle"))
         {
+            if (side == Side.left)
+            {
+                Transform sparks = other.transform.Find("SparksL");
+                sparks.GetComponent<ParticleSystem>().Stop();
+                //Instantiate(sparks, place, Quaternion.Euler(new Vector3(-90, 0, 0)), other.gameObject.transform);
+            }
+            else
+            {
+                Transform sparks = other.transform.Find("SparksR");
+                sparks.GetComponent<ParticleSystem>().Stop();
+                //Instantiate(sparks, place, Quaternion.Euler(new Vector3(-90,0,0)), other.gameObject.transform);
+            }
             Debug.Log("removed v from grind Trigger");
-            vehicles.Add(other.gameObject.GetComponentInParent<VehicleAI>());
+            vehicles.Remove(other.gameObject.GetComponentInParent<VehicleAI>());
         }
     }
 }
