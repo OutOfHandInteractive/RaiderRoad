@@ -21,6 +21,7 @@ public class sceneManagerScript : MonoBehaviour {
     public Transform character3;
     public Transform character4;
     public Material[] charaMatArray = new Material[4];
+    public Texture[] charaTexArray = new Texture[4];
     private Transform rv; //rv is reference to RV obj in scene
 
     public List<Transform> playersInScene;
@@ -114,6 +115,11 @@ public class sceneManagerScript : MonoBehaviour {
         g.restartMenu();
     }
 
+    public void ResetPlayerList()
+    {
+        playersInScene.Clear();
+    }
+
     void spawnChar1()
     {
         if (char1Players.Length > 0)
@@ -127,7 +133,7 @@ public class sceneManagerScript : MonoBehaviour {
                 player[i].gameObject.GetComponent<PlayerController_Rewired>().SetId(playId);
                 player[i].Find("View").gameObject.GetComponent<PlayerPlacement_Rewired>().SetId(playId);
 
-                AssignPlayMat(player[i].gameObject, playId);  //passing player gameObject and player id
+                AssignPlayMat(player[i].gameObject, playId, 0);  //passing player gameObject and player id
                 //Debug.Log(player[i]);
                 playersInScene.Add(player[i]);
             }
@@ -146,7 +152,7 @@ public class sceneManagerScript : MonoBehaviour {
                 player[i].gameObject.GetComponent<PlayerController_Rewired>().SetId(playId);
                 player[i].Find("View").gameObject.GetComponent<PlayerPlacement_Rewired>().SetId(playId);
 
-                AssignPlayMat(player[i].gameObject, playId);
+                AssignPlayMat(player[i].gameObject, playId, 1);
 
                 playersInScene.Add(player[i]);
             }
@@ -165,7 +171,7 @@ public class sceneManagerScript : MonoBehaviour {
                 player[i].gameObject.GetComponent<PlayerController_Rewired>().SetId(playId);
                 player[i].Find("View").gameObject.GetComponent<PlayerPlacement_Rewired>().SetId(playId);
 
-                AssignPlayMat(player[i].gameObject, playId);
+                AssignPlayMat(player[i].gameObject, playId, 2);
 
                 playersInScene.Add(player[i]);
             }
@@ -184,18 +190,20 @@ public class sceneManagerScript : MonoBehaviour {
                 player[i].gameObject.GetComponent<PlayerController_Rewired>().SetId(playId);
                 player[i].Find("View").gameObject.GetComponent<PlayerPlacement_Rewired>().SetId(playId);
 
-                AssignPlayMat(player[i].gameObject, playId);
+                AssignPlayMat(player[i].gameObject, playId, 3);
 
                 playersInScene.Add(player[i]);
             }
         }
     }
 
-    public void AssignPlayMat(GameObject PlayerParent, int playerNum)
+    public void AssignPlayMat(GameObject PlayerParent, int playerNum, int charNum)
     {
         Renderer[] myMats = PlayerParent.GetComponentsInChildren<Renderer>();   //assign materials of child objects
 
         Material InstMat = Instantiate(charaMatArray[playerNum]);
+        //switch materialto correct character's mat (right now mats determine color, not character stuff, may change)
+        InstMat.SetTexture("_MainTex", charaTexArray[charNum]);
 
         for (int j = 0; j < myMats.Length; j++)   //assign the same matterial to all the child objects
         {

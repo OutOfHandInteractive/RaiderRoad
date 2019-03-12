@@ -62,10 +62,11 @@ public class EscapeEnemy : JumpEnemy {
         float movement = speed * Time.deltaTime;
 
         //If a reasonable jumping distance to vehicle, escape
-        if (Vector3.Distance(transform.position, eVehicle.transform.position) < 3f)
+        if (Vector3.Distance(transform.position, eVehicle.transform.position) < 2f)
         {
             //Enemy vehicle destination position
             agent.enabled = false;
+            cObject.GetComponent<StatefulEnemyAI>().getAnimator().SetBool("Running", false);
             Vector3 pos = eVehicle.transform.position;
             float zSign = cSide == VehicleAI.Side.Left ? -1 : 1;
             Jump(pos, zSign);
@@ -75,12 +76,14 @@ public class EscapeEnemy : JumpEnemy {
             Vector3 targetPosition = new Vector3(eVehicle.transform.position.x, cObject.transform.position.y, eVehicle.transform.position.z);
             cObject.transform.LookAt(targetPosition);
             agent.SetDestination(targetPosition);
+            cObject.GetComponent<StatefulEnemyAI>().getAnimator().SetBool("Running", true);
             //cObject.transform.position = Vector3.MoveTowards(cObject.transform.position, eVehicle.transform.position, movement);
         }
         Debug.Log(cObject.transform.tag + " HEEEEEEEEY");
         if(cObject.transform.root.tag == "eVehicle" && cObject.transform.parent != null)
         {
             Debug.Log("HEYYYY");
+            cObject.GetComponent<StatefulEnemyAI>().getAnimator().SetBool("Grounded", true);
             StartCoroutine(waitToLeave());
         }
         //cObject.GetComponent<EnemyAI>().EnterWait();

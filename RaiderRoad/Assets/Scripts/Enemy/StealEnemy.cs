@@ -46,7 +46,7 @@ public class StealEnemy : EnemyAI {
             else
             {
                 movement /= 2;
-                cObject.GetComponent<StatefulEnemyAI>().EnterEscape();
+                cObject.GetComponent<StatefulEnemyAI>().EnterDestroy();
             }
 
         }

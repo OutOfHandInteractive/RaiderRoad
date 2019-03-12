@@ -70,7 +70,7 @@ public abstract class EnemyAI : MonoBehaviour
                     minDist = dist;
                 }
             }
-            else if (wall.GetComponent<PlayerController_Rewired>() != null)
+            else if (wall.GetComponent<PlayerController_Rewired>() != null && wall.GetComponent<PlayerController_Rewired>().state == PlayerController_Rewired.playerStates.up)
             {
                 if ((closest == null || dist < minDist))
                 {
@@ -115,6 +115,7 @@ public abstract class EnemyAI : MonoBehaviour
     public void MoveToward(GameObject target)
     {
         MoveToward(target.transform);
+        //Mark - Y? Y U DEW DIS? (why have a function that just calls another function)
     }
 
     /// <summary>
