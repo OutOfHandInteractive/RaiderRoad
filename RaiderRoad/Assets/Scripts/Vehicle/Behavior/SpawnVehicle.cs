@@ -32,7 +32,7 @@ public class SpawnVehicle : MonoBehaviour {
             //Debug.Log(numPoints);
             types = (VehicleFactoryManager.vehicleTypes)Random.Range(0,3);
             //Debug.Log(types);
-            GameObject vehicle = factory.newConstructVehicle(VehicleFactoryManager.vehicleTypes.medium,3, spawnPoints[numPoints].transform.position);  //3 is the minimum threat for light vehicles - need for construction
+            GameObject vehicle = factory.newConstructVehicle(VehicleFactoryManager.vehicleTypes.medium,3, spawnPoints[numPoints].transform.position, 0.25f);  //3 is the minimum threat for light vehicles - need for construction, 0.25 is a 1/4 chance of getting a weapon
             //GameObject vehicle = factory.newConstructVehicle(types);
             vehicle.GetComponent<VehicleAI>().setSide(spawnPoints[numPoints].name);
             vehicle.transform.position = spawnPoints[numPoints].transform.position;

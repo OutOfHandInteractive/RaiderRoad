@@ -10,7 +10,6 @@ public class EscapeEnemy : JumpEnemy {
 
     //Gameobject, rigidbody, vehicle, initialangle for jump, if enemy jumped, current side 
     private GameObject eVehicle;
-
     /// <summary>
     /// Initializes this state
     /// </summary>
@@ -18,9 +17,10 @@ public class EscapeEnemy : JumpEnemy {
     /// <param name="rb">The rigid body</param>
     /// <param name="side">The side of the RV we're on</param>
     /// <param name="stateChance"></param>
-    public override void StartJump(GameObject enemy, Rigidbody rb, VehicleAI.Side side, int stateChance)
+    public override void StartJump(GameObject enemy, Rigidbody rb, VehicleAI.Side side,NavMeshAgent agent, int stateChance, VehicleAI _vehicle)
     {
-        base.StartJump(enemy, rb, side, stateChance);
+        base.StartJump(enemy, rb, side, agent, stateChance, _vehicle);
+        eVehicle = _vehicle.gameObject;
         Radio.GetRadio().CallForEvac(this);
         Debug.Log("I need evac!!");
     }
@@ -50,6 +50,7 @@ public class EscapeEnemy : JumpEnemy {
     /// </summary>
     public void Escape()
     {
+        Debug.Log(eVehicle);
         // Wait to recieve vehicle
         if (eVehicle == null) {
 
@@ -61,9 +62,11 @@ public class EscapeEnemy : JumpEnemy {
         float movement = speed * Time.deltaTime;
 
         //If a reasonable jumping distance to vehicle, escape
-        if (Vector3.Distance(transform.position, eVehicle.transform.position) < 3f)
+        if (Vector3.Distance(transform.position, eVehicle.transform.position) < 2f)
         {
             //Enemy vehicle destination position
+            agent.enabled = false;
+            cObject.GetComponent<StatefulEnemyAI>().getAnimator().SetBool("Running", false);
             Vector3 pos = eVehicle.transform.position;
             float zSign = cSide == VehicleAI.Side.Left ? -1 : 1;
             Jump(pos, zSign);
@@ -72,12 +75,15 @@ public class EscapeEnemy : JumpEnemy {
         {
             Vector3 targetPosition = new Vector3(eVehicle.transform.position.x, cObject.transform.position.y, eVehicle.transform.position.z);
             cObject.transform.LookAt(targetPosition);
-            cObject.transform.position = Vector3.MoveTowards(cObject.transform.position, eVehicle.transform.position, movement);
+            agent.SetDestination(targetPosition);
+            cObject.GetComponent<StatefulEnemyAI>().getAnimator().SetBool("Running", true);
+            //cObject.transform.position = Vector3.MoveTowards(cObject.transform.position, eVehicle.transform.position, movement);
         }
         Debug.Log(cObject.transform.tag + " HEEEEEEEEY");
         if(cObject.transform.root.tag == "eVehicle" && cObject.transform.parent != null)
         {
             Debug.Log("HEYYYY");
+            cObject.GetComponent<StatefulEnemyAI>().getAnimator().SetBool("Grounded", true);
             StartCoroutine(waitToLeave());
         }
         //cObject.GetComponent<EnemyAI>().EnterWait();

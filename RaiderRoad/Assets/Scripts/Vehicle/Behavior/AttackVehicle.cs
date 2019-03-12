@@ -55,12 +55,14 @@ public class AttackVehicle : MonoBehaviour{
          //Go to attack point
         cEnemy.SetDestination(attackList[attackPoints].position);
 
+        //Debug.Log(Vector3.Distance(cEnemy.transform.position, attackList[attackPoints].position));
         //Check if vehicle hit, add "knockback"
-        if (Vector3.Distance(cEnemy.transform.position, attackList[attackPoints].position) < 1f && hasHit == false)
+        if (Vector3.Distance(cEnemy.transform.position, attackList[attackPoints].position) < 1.1f && hasHit == false)
         {
             //hitCount++;
             //cEnemy.SetDestination(attackPosition.transform.position);
             //StartCoroutine(Knockback());
+            Debug.Log("STAY STATE ACTIVE");
             GameObject.FindGameObjectWithTag("RV").GetComponent<rvHealth>().damagePOI(20f);
             cObject.GetComponent<VehicleAI>().EnterStay(attackPoints);
             hasHit = true;

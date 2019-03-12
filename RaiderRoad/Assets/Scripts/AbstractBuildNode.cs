@@ -6,6 +6,20 @@ using System.Collections;
 /// </summary>
 public abstract class AbstractBuildNode : MonoBehaviour
 {
+    public static void SetOutlineActive(GameObject item, float active)
+    {
+        foreach (Renderer renderer in item.GetComponentsInChildren<Renderer>())
+        {
+            Material tempMat = renderer.material;
+            if (tempMat.shader.name == "Outlined/Uniform")
+            {
+                Material outline = Instantiate(tempMat);
+                renderer.material = outline;
+                outline.SetFloat("_Active", active);
+            }
+        }
+    }
+
     /// <summary>
     /// Boolean flag that indicates whether this node is currently occupied.
     /// </summary>

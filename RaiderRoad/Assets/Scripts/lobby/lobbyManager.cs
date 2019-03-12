@@ -54,7 +54,7 @@ public class lobbyManager : MonoBehaviour
         newPlayer.gameObject.GetComponent<PlayerController_Rewired>().SetId(myId);
         newPlayer.Find("View").gameObject.GetComponent<PlayerPlacement_Rewired>().SetId(myId);
 
-        sceneManage.AssignPlayMat(newPlayer.gameObject, myId);
+        sceneManage.AssignPlayMat(newPlayer.gameObject, myId, myChara-1);
         CharaSelector.SetActive(false);
     }
 

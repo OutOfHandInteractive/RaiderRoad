@@ -25,6 +25,7 @@ public class StatefulEnemyAI : EnemyAI {
     private StunnedEnemy stun;
 
     //Enemy variables
+    protected NavMeshAgent agent;
     private GameObject enemy;
     [SerializeField]
     private State currentState;
@@ -49,6 +50,9 @@ public class StatefulEnemyAI : EnemyAI {
     public int stateChance;
     private bool inRange;
 
+    //Animation
+    public Animator myAni;
+
     // Use this for initialization
     void Start () {
         currentHealth = maxHealth;
@@ -57,6 +61,7 @@ public class StatefulEnemyAI : EnemyAI {
         damaged = false;
 
         enemy = gameObject;
+        agent = GetComponent<NavMeshAgent>();
         rb = GetComponent<Rigidbody>();
         wait = enemy.AddComponent<WaitEnemy>();
         board = enemy.AddComponent<BoardEnemy>();
@@ -261,7 +266,7 @@ public class StatefulEnemyAI : EnemyAI {
     public void EnterBoard()
     {
         currentState = State.Board;
-        board.StartJump(enemy, rb, side, stateChance);
+        board.StartJump(enemy, rb, side, agent, stateChance, vehicle);
         enemy.GetComponent<Renderer>().material.color = Color.green;
     }
 
@@ -290,7 +295,7 @@ public class StatefulEnemyAI : EnemyAI {
     public void EnterDestroy()
     {
         currentState = State.Destroy;
-        destroy.StartDestroy(enemy);
+        destroy.StartDestroy(enemy, agent);
         enemy.GetComponent<Renderer>().material.color = Color.yellow;
     }
 
@@ -300,7 +305,7 @@ public class StatefulEnemyAI : EnemyAI {
     public void EnterFight()
     {
         currentState = State.Fight;
-        fight.StartFight(enemy, vehicle);
+        fight.StartFight(enemy, vehicle, agent);
         enemy.GetComponent<Renderer>().material.color = Color.red;
     }
 
@@ -310,7 +315,7 @@ public class StatefulEnemyAI : EnemyAI {
     public void EnterEscape()
     {
         currentState = State.Escape;
-        escape.StartJump(enemy, rb, side, stateChance);
+        escape.StartJump(enemy, rb, side, agent, stateChance, vehicle);
         enemy.GetComponent<Renderer>().material.color = Color.blue;
     }
 
@@ -376,11 +381,12 @@ public class StatefulEnemyAI : EnemyAI {
         {
             transform.parent = collision.gameObject.transform;
         }
-        if (collision.gameObject.tag == "RV")
+        /*if (collision.gameObject.tag == "RV")
         {
             transform.parent = collision.transform.root;
+            agent.enabled = true;
             //currentState = State.Destroy;
-        }
+        }*/
     }
 
     private void OnCollisionStay(Collision collision)
@@ -395,15 +401,21 @@ public class StatefulEnemyAI : EnemyAI {
         {
             transform.parent = null;
         }
-        if (collision.gameObject.tag == "RV")
+        /*if (collision.gameObject.tag == "RV")
         {
+            //agent.enabled = false;
             transform.parent = null;
-        }
+        }*/
     }
 
     private void OnTriggerEnter(Collider other)
     {
         //Check if you hit the player and do action
+        if(other.gameObject.tag == "RV")
+        {
+            transform.parent = other.gameObject.transform;
+            agent.enabled = true;
+        }
         if (other.gameObject.tag == "Player" && currentState == State.Fight)
         {   
             StartCoroutine(WindUp(other));
@@ -426,8 +438,10 @@ public class StatefulEnemyAI : EnemyAI {
     {
         Debug.Log(Time.time);
         fight.WindupAttack();
+        //myAni.SetTrigger("WindUp");
         yield return new WaitForSeconds(.5f);
-        if(inRange)
+        myAni.SetTrigger("Attack");
+        if (inRange)
         {
             fight.HitPlayer(other, damagePower);
         }
@@ -447,15 +461,23 @@ public class StatefulEnemyAI : EnemyAI {
         if (other.gameObject.tag == "Wall" && currentState == State.Destroy)
         {
             //Debug.Log("HIT");
+            myAni.SetTrigger("Attack"); //visual of enemy breaking object
             damageMeter = damageMeter + (100 * Time.deltaTime);
             if (damageMeter >= 100)
             {
                 other.gameObject.GetComponent<Wall>().Damage(100f);
+                if (gameObject.GetComponent<lightEnemy>())
+                {
+                    Debug.Log("STEAL THE WALL DUDE");
+                    EnterSteal();
+                    damageMeter = 0;
+                }
                 damageMeter = 0;
             }
         }
         if (other.gameObject.tag == "Engine" && currentState == State.Destroy)
         {
+            myAni.SetTrigger("Attack");
             damageMeter = damageMeter + (100 * Time.deltaTime);
             if (damageMeter >= 100)
             {
@@ -474,6 +496,11 @@ public class StatefulEnemyAI : EnemyAI {
         if (other.gameObject.tag == "Player" && currentState == State.Fight)
         {
             inRange = false;
+        }
+        if (other.gameObject.tag == "RV")
+        {
+            //transform.parent = null;
+            //agent.enabled = true;
         }
     }
     // -------------------- Getters and Setters ----------------------
@@ -498,5 +525,10 @@ public class StatefulEnemyAI : EnemyAI {
     public bool getDamaged()
     {
         return damaged;
+    }
+
+    public Animator getAnimator()
+    {
+        return myAni;
     }
 }

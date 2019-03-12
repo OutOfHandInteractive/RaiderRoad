@@ -49,12 +49,26 @@ public class EventManager : MonoBehaviour {
 
     //threat ranges
     private int lThreatMin = 1;
-    private int lThreatMax = 3;
-    private int mThreatMin = 3;
-    private int mThreatMax = 5;
-    private int hThreatMin = 5;
-    private int hThreatMax = 7;
+    private int lThreatMax = 4;
+    private int mThreatMin = 4;
+    private int mThreatMax = 8;
+    private int hThreatMin = 8;
+    private int hThreatMax = 12;
     private int oThreat = 1;
+
+    //coroutine wait time
+    private float waitToStart = 20f;        //for the below coroutines, this has it so calculations don't being until events start spawning
+    //spawn delay bounds
+    private float delayLower = 2f;  //will not be lower
+    [SerializeField]
+    private float curDelay = 15f;     //upperBound of 15 - will not exceed this
+    private float betweenDelayAdjust = 20f;  //delay will be adjusted every 20 seconds
+    private float sFactor = 0.85f;        //to start, decrementing to 85% every 20 seconds will hit the lower bound at approximately 4 minutes in
+    //weapon frequency variables
+    private float wDelay = 12f; //time between weapon frequency adjustments
+    private float weaponRate = 0f; //minimum chance to get a weapon on a vehicle - updates over time from event manager
+    private float weaponRateUpper = 0.5f;   //max weapon chance - 50/50
+    private float wFactor = 0.022f;         //at this rate with this delay, weapon frequency reaches max at approximately 4 minutes in
 
 
     void Start(){
@@ -73,12 +87,46 @@ public class EventManager : MonoBehaviour {
         }
 		StartCoroutine(difficultyManager());
 		StartCoroutine(initialize());                   //initializes first cluster
+        StartCoroutine(reduceSpawnTime());            //start cycle of spawn delay reduction
+        StartCoroutine(weaponFrequency());             //start cycle of weapon frequency increase
+    }
+
+    IEnumerator reduceSpawnTime()       //over time, reduce interval between spawns (passed to event clusters when created)
+    {
+        yield return new WaitForSeconds(waitToStart);        //wait allocated time
+        while(true){
+            if (curDelay*sFactor > delayLower){      //if next iteration is greater than lower bound...
+                curDelay = curDelay * sFactor;       //...decrement
+            }
+            else{
+                curDelay = delayLower;              //else, reduce to lower bound
+            }
+            yield return new WaitForSeconds(betweenDelayAdjust);        //wait allocated time
+        }
+    }
+
+    //weapon frequency coroutine
+    IEnumerator weaponFrequency()
+    {
+        yield return new WaitForSeconds(waitToStart);        //wait allocated time
+        while (true)
+        {
+            if (weaponRate + wFactor > weaponRateUpper)
+            {      //if next iteration is less than upper bound...
+                weaponRate = weaponRate + wFactor;       //...increment
+            }
+            else
+            {
+                weaponRate = weaponRateUpper;              //else, keep at upper bound
+            }
+            yield return new WaitForSeconds(wDelay);        //wait allocated time
+        }
     }
 
     IEnumerator initialize()
     {
         onDeck = generate(difficultyRating);                //create event cluster at starting difficulty and set as on-deck
-        yield return new WaitForSecondsRealtime(10);       //delay for some short time - let's say 30 seconds for now/10 for testing
+        yield return new WaitForSecondsRealtime(10);       //delay for some short time - let's say 10 seconds
         lastDone();                                     //switches on-deck to active, deploys it, and creates new on-deck cluster
     }
 
@@ -167,7 +215,7 @@ public class EventManager : MonoBehaviour {
             }
             _new.Add(_nE);          //uses current dif rate, [for now] default spawn position, [for now] default enemy to create an event
         }
-        newEC.GetComponent<EventCluster>().startUp(_new, vFactory);
+        newEC.GetComponent<EventCluster>().startUp(_new, vFactory, curDelay, weaponRate);
         return newEC;
     }
 

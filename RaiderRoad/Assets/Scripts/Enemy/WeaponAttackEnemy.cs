@@ -21,6 +21,7 @@ public class WeaponAttackEnemy : EnemyAI {
     public void StartWeapon(GameObject enemy, VehicleAI vehicle, GameObject munnitions, GameObject fire, VehicleAI.Side side)
     {
         cObject = enemy;
+        cObject.GetComponent<StatefulEnemyAI>().getAnimator().SetBool("Running", false);
         eVehicle = vehicle;
         cMunnitions = munnitions;
         fireFX = fire;
@@ -78,7 +79,6 @@ public class WeaponAttackEnemy : EnemyAI {
         }
     }
 
-    // Update is called once per frame
     public void Weapon()
     {
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
@@ -114,8 +114,12 @@ public class WeaponAttackEnemy : EnemyAI {
     {
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
         GameObject player = Closest(cObject.transform.position, players);
+        Vector3 dir = (player.transform.position - barrel.transform.position);
+        dir.y = 0.0f;
+        Vector3 cannonBallSpeed = dir.normalized * 10f;
         proj = Instantiate(cMunnitions.gameObject, barrel.transform.position, Quaternion.identity);
-        proj.GetComponent<Rigidbody>().velocity = CannonVelocity(player, 75f);
+        //proj.GetComponent<Rigidbody>().velocity = CannonVelocity(player, 75f);
+        proj.GetComponent<Rigidbody>().velocity = cannonBallSpeed;
     }
 
     IEnumerator WaitToShoot()

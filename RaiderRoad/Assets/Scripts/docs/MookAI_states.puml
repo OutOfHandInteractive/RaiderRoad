@@ -1,6 +1,9 @@
 ﻿@startuml
 hide empty description
 '' Mook AI state diagram
+skinparam backgroundColor transparent
+skinparam monochrome true
+skinparam shadowing false
 
 [*] --> Wait
 Wait -> WeaponAttack : Vehicle threatened
