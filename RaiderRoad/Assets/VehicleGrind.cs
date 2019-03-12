@@ -6,7 +6,6 @@ public class VehicleGrind : MonoBehaviour
 {
     public enum Side { left, right };
     public Side side;
-    public ParticleSystem sparks;
     private List<VehicleAI> vehicles = new List<VehicleAI>();
 
     // Update is called once per frame
