@@ -22,8 +22,12 @@ public class DeathEnemy : MonoBehaviour {
     void spawnDrop(GameObject drop, GameObject enemy)
     {
         Debug.Log("Wall dropped!");
-        GameObject item = Instantiate(drop, new Vector3(enemy.transform.position.x, enemy.transform.position.y, enemy.transform.position.z), Quaternion.identity, transform.parent.transform);
-        item.name = "Wall Drop";
+        if(transform.parent != null) //REALLY SHOULDN'T STAY THIS WAY IMO
+        {
+            GameObject item = Instantiate(drop, new Vector3(enemy.transform.position.x, enemy.transform.position.y, enemy.transform.position.z), 
+                Quaternion.identity, transform.parent.transform);
+            item.name = "Wall Drop";
+        }
     }
     void stealDrop(GameObject enemy)
     {
