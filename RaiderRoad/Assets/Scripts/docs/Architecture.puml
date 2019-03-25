@@ -13,8 +13,8 @@ frame Hardware {
 
 frame RaiderRoad {
 	package Unity {
-		component Renderer
 		component Rewired <<External Plugin>>
+		component Renderer
 	}
 	package Scenes {
 		rectangle MainMenu
@@ -40,16 +40,16 @@ frame RaiderRoad {
 	}
 }
 
-Player --> Controller : Input
-Player <-- Monitor : Visual
+Player -> Controller : Input
+Player <- Monitor : Visual
 
-Controller --> Rewired
-Monitor <-- Renderer
+Controller -> Rewired
+Monitor <- Renderer
 
-Renderer <-- Scenes
+Scenes -right-> Renderer
 MainMenu -> Lobby
 Lobby -> Game
-Scenes --> GameObjects : Spawns
+Scenes -down-> GameObjects : Spawns
 
 Events -> VehicleFactory
 VehicleFactory --> Vehicles : Builds
