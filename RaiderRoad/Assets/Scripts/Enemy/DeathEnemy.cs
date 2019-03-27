@@ -5,18 +5,33 @@ using UnityEngine;
 /// <summary>
 /// This enemy just wants to die
 /// </summary>
-public class DeathEnemy : MonoBehaviour {
+public class DeathEnemy : EnemyAIState {
 
     /// <summary>
     /// Performs the raider death actions (ritual?)
     /// </summary>
     /// <param name="enemy"></param>
     /// <param name="drop"></param>
-    public void Death(GameObject enemy, GameObject drop)
+    private void Death(GameObject enemy, GameObject drop)
     {
         spawnDrop(drop, enemy);
         stealDrop(enemy);
         Destroy(enemy);
+    }
+
+    public override StatefulEnemyAI.State State()
+    {
+        return StatefulEnemyAI.State.Death;
+    }
+
+    public override Color StateColor()
+    {
+        return Color.gray;
+    }
+
+    public override void UpdateState()
+    {
+        Death(gameObject, master.dropOnDeath);
     }
 
     void spawnDrop(GameObject drop, GameObject enemy)

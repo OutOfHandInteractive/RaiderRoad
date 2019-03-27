@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WeaponAttackEnemy : EnemyAI {
+public class WeaponAttackEnemy : EnemyAIState {
 
     private GameObject fireFX;
     private GameObject cMunnitions;
     private GameObject proj;
-    private GameObject cObject;
     private VehicleAI eVehicle;
     private GameObject cannon;
     private GameObject barrel;
@@ -18,52 +17,61 @@ public class WeaponAttackEnemy : EnemyAI {
     private bool firing = false;
     private ParticleSystem fireInstance;
     private bool created = false;
-    public void StartWeapon(GameObject enemy, VehicleAI vehicle, GameObject munnitions, GameObject fire, VehicleAI.Side side)
+
+    protected override void OnEnter(StateContext context)
     {
-        cObject = enemy;
-        cObject.GetComponent<StatefulEnemyAI>().getAnimator().SetBool("Running", false);
-        eVehicle = vehicle;
-        cMunnitions = munnitions;
-        fireFX = fire;
-        if (vehicle.GetComponentInChildren<HasWeapon>().gameObject.tag == "Cannon")
+        base.OnEnter(context);
+        master.getAnimator().Running = false;
+        eVehicle = master.Vehicle;
+        cMunnitions = master.munnitions;
+        fireFX = master.fire;
+        if (eVehicle.GetComponentInChildren<HasWeapon>().gameObject.tag == "Cannon")
         {
-			Transform getCannon = eVehicle.GetComponentInChildren<cannon>().transform.Find("model");
-			Transform cannonBody = null;	// this is BAD
-			foreach (Transform child in getCannon) {
-				if (child.CompareTag("WeaponMount")) {
-					cannonBody = child.transform;
-				}
-			}
+            Transform getCannon = eVehicle.GetComponentInChildren<cannon>().transform.Find("model");
+            Transform cannonBody = null;    // this is BAD
+            foreach (Transform child in getCannon)
+            {
+                if (child.CompareTag("WeaponMount"))
+                {
+                    cannonBody = child.transform;
+                }
+            }
             cannon = cannonBody.gameObject;
 
-			foreach (Transform child in cannon.transform) {
-				if (child.CompareTag("WeaponBarrel")) {
-					barrel = child.gameObject;
-				}
-			}
+            foreach (Transform child in cannon.transform)
+            {
+                if (child.CompareTag("WeaponBarrel"))
+                {
+                    barrel = child.gameObject;
+                }
+            }
         }
-        else if (vehicle.GetComponentInChildren<HasWeapon>().gameObject.tag == "Fire")
+        else if (eVehicle.GetComponentInChildren<HasWeapon>().gameObject.tag == "Fire")
         {
             flamer = eVehicle.GetComponentInChildren<flamethrower>();
-			Transform getFlamethrower = eVehicle.GetComponentInChildren<flamethrower>().transform.Find("FlameThrowerWrapper").Find("model"); // this is WORSE
-			Transform flamethrower = null;
-			foreach (Transform child in getFlamethrower) {
-				if (child.CompareTag("WeaponMount")) {
-					flamethrower = child.transform;
-				}
-			}
-			flamethrowerBody = flamethrower.gameObject;
-
-			foreach (Transform child in flamethrowerBody.transform) {
-				if (child.CompareTag("WeaponBarrel")) {
-					barrel = child.gameObject;
-				}
-			}
-
-
-			if (!created)
+            Transform getFlamethrower = eVehicle.GetComponentInChildren<flamethrower>().transform.Find("FlameThrowerWrapper").Find("model"); // this is WORSE
+            Transform flamethrower = null;
+            foreach (Transform child in getFlamethrower)
             {
-                if (side == VehicleAI.Side.Right)
+                if (child.CompareTag("WeaponMount"))
+                {
+                    flamethrower = child.transform;
+                }
+            }
+            flamethrowerBody = flamethrower.gameObject;
+
+            foreach (Transform child in flamethrowerBody.transform)
+            {
+                if (child.CompareTag("WeaponBarrel"))
+                {
+                    barrel = child.gameObject;
+                }
+            }
+
+
+            if (!created)
+            {
+                if (master.Side == VehicleAI.Side.Right)
                 {
                     fireInstance = Object.Instantiate(fireFX, barrel.transform.position, fireFX.transform.rotation, barrel.transform).GetComponent<ParticleSystem>();
                 }
@@ -79,20 +87,18 @@ public class WeaponAttackEnemy : EnemyAI {
         }
     }
 
-    public void Weapon()
+    public override void UpdateState()
     {
-        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
-        GameObject player = Closest(cObject.transform.position, players);
-
-        //flamethrower.transform.LookAt(player.transform.position);
-
         Transform parent = eVehicle.GetComponentInChildren<HasWeapon>().transform;
         Debug.Log(parent);
         if(parent == null)
         {
-            gameObject.GetComponent<StatefulEnemyAI>().EnterDeath();
+            master.EnterDeath();
+            return;
         }
-        else if (parent.tag == "Cannon")
+        transform.position = parent.position;
+        LookAtPlayer();
+        if (parent.tag == Constants.CANNON_TAG)
         {
             Debug.Log("SHOOOOOOOOOOOOOOOOOOOT CANNNNNNNNNNNNON");
             if (!fired)
@@ -101,19 +107,16 @@ public class WeaponAttackEnemy : EnemyAI {
                 fired = true;
             }
         }
-        else if (parent.tag == "Fire")
+        else if (parent.tag == Constants.FIRE_TAG)
         {
             Debug.Log("SHOOOOOOOOOOOOOOOOOOOT FIREEEEEEEEEEEEEEEE");
             Flames();
         }
-
-
     }
 
     void CannonShoot()
     {
-        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
-        GameObject player = Closest(cObject.transform.position, players);
+        GameObject player = ClosestLivingPlayer();
         Vector3 dir = (player.transform.position - barrel.transform.position);
         dir.y = 0.0f;
         Vector3 cannonBallSpeed = dir.normalized * 10f;
@@ -176,15 +179,25 @@ public class WeaponAttackEnemy : EnemyAI {
         return null;
     }
 
-    public void LookAtPlayer(GameObject weapons)
+    private void LookAtPlayer()
     {
-        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
-        GameObject player = Closest(cObject.transform.position, players);
+        GameObject weapons = getWeapon();
+        GameObject player = ClosestLivingPlayer();
         if(player != null)
         {
             Vector3 targetPosition = new Vector3(player.transform.position.x, weapons.transform.position.y, player.transform.position.z);
-            cObject.transform.LookAt(targetPosition);
+            gameObject.transform.LookAt(targetPosition);
             weapons.transform.LookAt(targetPosition);
         }
+    }
+
+    public override Color StateColor()
+    {
+        return Color.gray;
+    }
+
+    public override StatefulEnemyAI.State State()
+    {
+        return StatefulEnemyAI.State.Weapon;
     }
 }

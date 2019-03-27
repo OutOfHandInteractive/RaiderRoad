@@ -499,7 +499,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
                 if (buildMode && !other.GetComponent<PoiNode>()) other.GetComponent<PoiNode>().Show(heldItem); //if player is in build mode, activate show wall in the build node script
             }
         }
-        if (Util.isEnemy(other.gameObject))
+        if (Util.IsEnemy(other.gameObject))
         {
             attackRange.Add(other.gameObject);
         }

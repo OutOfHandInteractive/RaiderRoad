@@ -3,52 +3,69 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class StealEnemy : EnemyAI {
+public class StealEnemy : EnemyAIState {
 
 
     //enemy, speed
-    private GameObject cObject;
     public bool hasStolen = false;
     private GameObject[] drops;
     private GameObject drop;
-    public void StartSteal(GameObject enemy)
+
+    protected override void OnEnter(StateContext context)
     {
-        cObject = enemy;
+        base.OnEnter(context);
         drops = GameObject.FindGameObjectsWithTag("Drops");
-        drop = Closest(cObject.transform.position, drops);
+        drop = Closest(gameObject.transform.position, drops);
     }
 
-    public void Steal()
+    public override void UpdateState()
     {
-        //Set wall gameobject
-        //Set movement speed of enemy
-        float movement = speed * Time.deltaTime;
-
-        if (cObject.GetComponent<StatefulEnemyAI>().getDamaged())
+        if (master.getDamaged())
         {
-            cObject.GetComponent<StatefulEnemyAI>().EnterFight();
+            master.EnterFight();
         }
 
         //If there are no more drops, go to Escape state, else keep going for drops
-        if (hasStolen && cObject.transform.GetComponentInChildren<ItemDrop>())
+        if (hasStolen && gameObject.transform.GetComponentInChildren<ItemDrop>())
         {
-            movement /= 2;
-            cObject.GetComponent<StatefulEnemyAI>().EnterEscape();
+            master.EnterEscape();
         }
         else
         {
             //Find wall and go to it
             if(drop != null)
             {
-                cObject.transform.LookAt(drop.transform);
-                cObject.transform.position = Vector3.MoveTowards(cObject.transform.position, drop.transform.position, movement);
+                MoveToward(drop);
             }
             else
             {
-                movement /= 2;
-                cObject.GetComponent<StatefulEnemyAI>().EnterDestroy();
+                master.EnterDestroy();
             }
 
         }
+    }
+
+    public override void TriggerEnter(Collider other)
+    {
+        base.TriggerEnter(other);
+        if (other.gameObject.tag == "Drops")
+        {
+            Debug.Log("HIT" + other.gameObject.name);
+            GameObject drop = other.gameObject;
+            Destroy(other.gameObject);
+            Instantiate(drop, transform);
+            //other.transform.position = new Vector3(0, 2, 0);
+            hasStolen = true;
+        }
+    }
+
+    public override Color StateColor()
+    {
+        return Color.magenta;
+    }
+
+    public override StatefulEnemyAI.State State()
+    {
+        return StatefulEnemyAI.State.Steal;
     }
 }

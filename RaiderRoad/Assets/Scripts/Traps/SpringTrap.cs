@@ -76,7 +76,7 @@ public class SpringTrap : Trap
     /// <returns>True if and only if the target is a player or an enemy</returns>
     public override bool CanTarget(GameObject target)
     {
-        return Util.isEnemy(target) || Util.isPlayer(target);
+        return Util.IsEnemy(target) || Util.IsPlayer(target);
     }
 
     /// <summary>
@@ -133,7 +133,7 @@ public class SpringTrap : Trap
     /// <param name="victim">The target to fling</param>
     public override void Activate(GameObject victim)
     {
-        if (Util.isPlayer(victim))
+        if (Util.IsPlayer(victim))
         {
             Debug.Log("Flinging player...");
         }

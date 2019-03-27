@@ -2,22 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StunnedEnemy : MonoBehaviour
+public class StunnedEnemy : EnemyAIState
 {
-    // Start is called before the first frame update
-    void Start()
+    public override StatefulEnemyAI.State State()
     {
-        
+        return StatefulEnemyAI.State.Stunned;
     }
 
-    // Update is called once per frame
-    void Update()
+    public override Color StateColor()
     {
-        
+        return Color.black;
     }
 
-    public void StartStun()
+    public override void UpdateState()
     {
-
+        // Nothing
     }
 }

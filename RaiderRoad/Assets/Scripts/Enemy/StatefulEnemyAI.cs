@@ -24,19 +24,47 @@ public class StatefulEnemyAI : EnemyAI {
     private LureEnemy lure;
     private StunnedEnemy stun;
 
+    private EnemyAIState currState;
+
     //Enemy variables
     protected NavMeshAgent agent;
+    public NavMeshAgent Agent {
+        get {
+            return agent;
+        }
+    }
     private GameObject enemy;
     [SerializeField]
     private State currentState;
     private Rigidbody rb;
+    public Rigidbody Rb
+    {
+        get
+        {
+            return rb;
+        }
+    }
     private GameObject parent;
     private Vector3 scale;
     private bool damaged;
 
     //Vehicle variables
     private VehicleAI vehicle;
+    public VehicleAI Vehicle
+    {
+        get
+        {
+            return vehicle;
+        }
+    }
     private VehicleAI.Side side;
+    public VehicleAI.Side Side
+    {
+        get
+        {
+            return side;
+        }
+    }
     public GameObject munnitions;
     public GameObject fire;
     private GameObject interactable;
@@ -52,6 +80,7 @@ public class StatefulEnemyAI : EnemyAI {
 
     //Animation
     public Animator myAni;
+    private EnemyAnimator enemyAnimator = new EnemyAnimator();
 
     // Use this for initialization
     void Start () {
@@ -88,11 +117,27 @@ public class StatefulEnemyAI : EnemyAI {
             interactable = null;
         }
 
+        enemyAnimator.animator = myAni;
+
         Debug.Log(interactable);
-
-
-        EnterWait();
-
+        Debug.Log(transform.parent);
+        if (interactable && !interactable.GetComponent<HasWeapon>().enemyUsing)
+        {
+            gameObject.tag = "usingWeapon";
+            interactable.GetComponent<HasWeapon>().enemyUsing = true;
+        }
+        if (gameObject.tag == "usingWeapon")
+        {
+            //transform.SetParent(interactable.transform, true);
+            //transform.rotation = Quaternion.identity;
+            //transform.localScale = scale;
+            //transform.localScale = transform.localScale;
+            EnterWeapon();
+        }
+        else
+        {
+            EnterWait();
+        }
     }
 
     /// <summary>
@@ -110,74 +155,11 @@ public class StatefulEnemyAI : EnemyAI {
         {
             EnterDeath();
         }
-
-        if (GetState() != State.Weapon && transform.root.GetComponentInChildren<PlayerController_Rewired>() && transform.root.tag == "eVehicle")
+        else if (GetState() != State.Weapon && Util.IsVehicle(transform.root.gameObject) && transform.root.GetComponentInChildren<PlayerController_Rewired>())
         {
             EnterFight();
         }
-        //Debug.Log(currentState);
-        //Go to weapon state when vehicle is ramming
-
-        Debug.Log(interactable);
-        Debug.Log(transform.parent);
-        if (interactable && !interactable.GetComponent<HasWeapon>().enemyUsing)
-        {
-            gameObject.tag = "usingWeapon";
-            interactable.GetComponent<HasWeapon>().enemyUsing = true;
-        }
-        if(gameObject.tag == "usingWeapon")
-        {
-            //transform.SetParent(interactable.transform, true);
-            //transform.rotation = Quaternion.identity;
-            //transform.localScale = scale;
-            //transform.localScale = transform.localScale;
-            weapon.StartWeapon(enemy, vehicle, munnitions, fire, side);
-            GameObject weapons = weapon.getWeapon();
-            weapon.LookAtPlayer(weapons);
-			transform.position = interactable.transform.position;
-        }
-        if (gameObject.tag == "usingWeapon" && vehicle.getState() == VehicleAI.State.Chase)
-        {
-            EnterWeapon();
-            weapon.Weapon();
-
-        }
-        else
-        {
-            switch (currentState)
-            {
-                case State.Wait:
-                    wait.Wait();
-                    break;
-                case State.Weapon:
-                    weapon.Weapon();
-                    break;
-                case State.Board:
-                    board.Board();
-                    break;
-                case State.Destroy:
-                    destroy.Destroy();
-                    break;
-                case State.Steal:
-                    steal.Steal();
-                    break;
-                case State.Fight:
-                    fight.Fight();
-                    break;
-                case State.Escape:
-                    escape.Escape();
-                    break;
-                case State.Death:
-                    death.Death(enemy, dropOnDeath);
-                    break;
-                case State.Lure:
-                    lure.Lure();
-                    break;
-                case State.Stunned:
-                    stun.StartStun();
-                    break;
-            }
-        }
+        currState.UpdateState();
 
     }
 
@@ -195,7 +177,31 @@ public class StatefulEnemyAI : EnemyAI {
         }
     }
 
+    private EnemyAIState GetByState(State state)
+    {
+        switch (state)
+        {
+            case State.Wait: return wait;
+            case State.Board: return board;
+            case State.Weapon: return weapon;
+            case State.Steal: return steal;
+            case State.Destroy: return destroy;
+            case State.Fight: return fight;
+            case State.Escape: return escape;
+            case State.Death: return death;
+            case State.Lure: return lure;
+            case State.Stunned: return stun;
+        }
+        return null;
+    }
+
+    public bool IsCurrent(EnemyAIState state)
+    {
+        return currState == state;
+    }
+
     //Methods to enter states, change color based on states
+
     /// <summary>
     /// Enter the given state if not already in it
     /// </summary>
@@ -216,37 +222,38 @@ public class StatefulEnemyAI : EnemyAI {
     {
         switch (state)
         {
-            case State.Wait:
-                EnterWait();
-                break;
-            case State.Board:
-                EnterBoard();
-                break;
-            case State.Weapon:
-                EnterWeapon();
-                break;
-            case State.Steal:
-                EnterSteal();
-                break;
-            case State.Destroy:
-                EnterDestroy();
-                break;
-            case State.Fight:
-                EnterFight();
-                break;
-            case State.Escape:
-                EnterEscape();
-                break;
-            case State.Death:
-                EnterDeath();
-                break;
-            case State.Lure:
-                EnterLure();
-                break;
-            case State.Stunned:
-                EnterStun();
-                break;
+            case State.Wait: EnterWait(); break;
+            case State.Board: EnterBoard(); break;
+            case State.Weapon: EnterWeapon(); break;
+            case State.Steal: EnterSteal(); break;
+            case State.Destroy: EnterDestroy(); break;
+            case State.Fight: EnterFight(); break;
+            case State.Escape: EnterEscape(); break;
+            case State.Death: EnterDeath(); break;
+            case State.Lure: EnterLure(); break;
+            case State.Stunned: EnterStun(); break;
         }
+    }
+
+    private StateContext LeaveContext(State state)
+    {
+        switch (state)
+        {
+            //TODO: Add cases as necessary for different states
+            default: return null;
+        }
+    }
+
+    private void Enter(EnemyAIState state, StateContext enterContext=null) 
+    {
+        if(currState != null)
+        {
+            currState.LeaveState(LeaveContext(currentState));
+        }
+        currState = state;
+        currentState = state.State();
+        state.EnterState(this, enterContext);
+        enemy.GetComponent<Renderer>().material.color = state.StateColor();
     }
 
     /// <summary>
@@ -254,10 +261,7 @@ public class StatefulEnemyAI : EnemyAI {
     /// </summary>
     public void EnterWait()
     {
-        currentState = State.Wait;
-        wait.StartWait(enemy, vehicle);
-        enemy.GetComponent<Renderer>().material.color = Color.white;
-        
+        Enter(wait);
     }
 
     /// <summary>
@@ -265,9 +269,7 @@ public class StatefulEnemyAI : EnemyAI {
     /// </summary>
     public void EnterBoard()
     {
-        currentState = State.Board;
-        board.StartJump(enemy, rb, side, agent, stateChance, vehicle);
-        enemy.GetComponent<Renderer>().material.color = Color.green;
+        Enter(board);
     }
 
     /// <summary>
@@ -275,8 +277,7 @@ public class StatefulEnemyAI : EnemyAI {
     /// </summary>
     public void EnterWeapon()
     {
-        currentState = State.Weapon;
-        enemy.GetComponent<Renderer>().material.color = Color.gray;
+        Enter(weapon);
     }
 
     /// <summary>
@@ -284,9 +285,7 @@ public class StatefulEnemyAI : EnemyAI {
     /// </summary>
     public void EnterSteal()
     {
-        currentState = State.Steal;
-        steal.StartSteal(enemy);
-        enemy.GetComponent<Renderer>().material.color = Color.magenta;
+        Enter(steal);
     }
 
     /// <summary>
@@ -294,9 +293,7 @@ public class StatefulEnemyAI : EnemyAI {
     /// </summary>
     public void EnterDestroy()
     {
-        currentState = State.Destroy;
-        destroy.StartDestroy(enemy, agent);
-        enemy.GetComponent<Renderer>().material.color = Color.yellow;
+        Enter(destroy);
     }
 
     /// <summary>
@@ -304,9 +301,7 @@ public class StatefulEnemyAI : EnemyAI {
     /// </summary>
     public void EnterFight()
     {
-        currentState = State.Fight;
-        fight.StartFight(enemy, vehicle, agent);
-        enemy.GetComponent<Renderer>().material.color = Color.red;
+        Enter(fight);
     }
 
     /// <summary>
@@ -314,9 +309,7 @@ public class StatefulEnemyAI : EnemyAI {
     /// </summary>
     public void EnterEscape()
     {
-        currentState = State.Escape;
-        escape.StartJump(enemy, rb, side, agent, stateChance, vehicle);
-        enemy.GetComponent<Renderer>().material.color = Color.blue;
+        Enter(escape);
     }
 
     /// <summary>
@@ -324,7 +317,7 @@ public class StatefulEnemyAI : EnemyAI {
     /// </summary>
     public void EnterDeath()
     {
-        currentState = State.Death;
+        Enter(death);
     }
 
     /// <summary>
@@ -332,10 +325,7 @@ public class StatefulEnemyAI : EnemyAI {
     /// </summary>
     public void EnterLure()
     {
-        State prev = currentState;
-        currentState = State.Lure;
-        lure.StartLure(prev);
-        enemy.GetComponent<Renderer>().material.color = Color.cyan;
+        Enter(lure, new LureEnemy.LureContext(currentState));
     }
 
     /// <summary>
@@ -343,9 +333,7 @@ public class StatefulEnemyAI : EnemyAI {
     /// </summary>
     public void EnterStun()
     {
-        currentState = State.Stunned;
-        stun.StartStun();
-        enemy.GetComponent<Renderer>().material.color = Color.black;
+        Enter(stun);
     }
 
     /// <summary>
@@ -372,14 +360,15 @@ public class StatefulEnemyAI : EnemyAI {
     private void OnCollisionEnter(Collision collision)
     {
         //Die if enemy touches road
-        if (collision.gameObject.tag == "road" /*currentState != State.Wait*/)
+        if (Util.IsRoad(collision.gameObject) /*currentState != State.Wait*/)
         {
-            Destroy(gameObject);
+            EnterDeath();
         }
         //Change transform to stay on vehicles
-        if (Util.IsVehicleRecursive(collision.gameObject) && gameObject.tag != "usingWeapon")
+        if (currentState != State.Weapon && Util.IsVehicleRecursive(collision.gameObject))
         {
             transform.parent = collision.gameObject.transform;
+            getAnimator().Grounded = true;
         }
         /*if (collision.gameObject.tag == "RV")
         {
@@ -397,7 +386,7 @@ public class StatefulEnemyAI : EnemyAI {
     private void OnCollisionExit(Collision collision)
     {
         //Change parent when not on vehicles
-        if (collision.gameObject.tag == "eVehicle")
+        if (Util.IsVehicle(collision.gameObject))
         {
             transform.parent = null;
         }
@@ -410,98 +399,22 @@ public class StatefulEnemyAI : EnemyAI {
 
     private void OnTriggerEnter(Collider other)
     {
-        //Check if you hit the player and do action
-        if(other.gameObject.tag == "RV")
+        if(Util.IsRV(other.gameObject))
         {
             transform.parent = other.gameObject.transform;
             agent.enabled = true;
+            getAnimator().Grounded = true;
         }
-        if (other.gameObject.tag == "Player" && currentState == State.Fight)
-        {   
-            StartCoroutine(WindUp(other));
-        }
-        if (other.gameObject.tag == "EnemyInteract" && currentState == State.Wait)
-        {
-            transform.parent = other.transform;
-        }
-        if (other.gameObject.tag == "Drops" && currentState == State.Steal)
-        {
-            Debug.Log("HIT" + other.gameObject.name);
-            GameObject drop = other.gameObject;
-            Destroy(other.gameObject);
-            Instantiate(drop, transform);
-            //other.transform.position = new Vector3(0, 2, 0);
-            steal.hasStolen = true;
-        }
-    }
-    IEnumerator WindUp(Collider other)
-    {
-        Debug.Log(Time.time);
-        fight.WindupAttack();
-        //myAni.SetTrigger("WindUp");
-        yield return new WaitForSeconds(.5f);
-        myAni.SetTrigger("Attack");
-        if (inRange)
-        {
-            fight.HitPlayer(other, damagePower);
-        }
-        else
-        {
-            fight.Missed();
-        }
-        Debug.Log(Time.time);
+        currState.TriggerEnter(other);
     }
     private void OnTriggerStay(Collider other)
     {
-        //Check if you hit a wall and destroy it
-        if (other.gameObject.tag == "Player" && currentState == State.Fight)
-        {
-            inRange = true;
-        }
-        if (other.gameObject.tag == "Wall" && currentState == State.Destroy)
-        {
-            //Debug.Log("HIT");
-            myAni.SetTrigger("Attack"); //visual of enemy breaking object
-            damageMeter = damageMeter + (100 * Time.deltaTime);
-            if (damageMeter >= 100)
-            {
-                other.gameObject.GetComponent<Wall>().Damage(100f);
-                if (gameObject.GetComponent<lightEnemy>())
-                {
-                    Debug.Log("STEAL THE WALL DUDE");
-                    EnterSteal();
-                    damageMeter = 0;
-                }
-                damageMeter = 0;
-            }
-        }
-        if (other.gameObject.tag == "Engine" && currentState == State.Destroy)
-        {
-            myAni.SetTrigger("Attack");
-            damageMeter = damageMeter + (100 * Time.deltaTime);
-            if (damageMeter >= 100)
-            {
-                other.gameObject.GetComponent<Engine>().Damage(100f);
-                damageMeter = 0;
-            }
-            if (other.gameObject.GetComponent<Engine>().health <= 0)
-            {
-                destroy.engineKill = true;
-            }
-        }
+        currState.TriggerStay(other);
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.tag == "Player" && currentState == State.Fight)
-        {
-            inRange = false;
-        }
-        if (other.gameObject.tag == "RV")
-        {
-            //transform.parent = null;
-            //agent.enabled = true;
-        }
+        currState.TriggerExit(other);
     }
     // -------------------- Getters and Setters ----------------------
     public State GetState()
@@ -527,8 +440,8 @@ public class StatefulEnemyAI : EnemyAI {
         return damaged;
     }
 
-    public Animator getAnimator()
+    public EnemyAnimator getAnimator()
     {
-        return myAni;
+        return enemyAnimator;
     }
 }

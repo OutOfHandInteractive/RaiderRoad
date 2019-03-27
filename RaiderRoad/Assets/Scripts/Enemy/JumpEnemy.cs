@@ -2,9 +2,8 @@
 using System.Collections;
 using UnityEngine.AI;
 
-public class JumpEnemy : EnemyAI
+public abstract class JumpEnemy : EnemyAIState
 {
-    protected GameObject cObject;
     protected Rigidbody cRb;
     private float initialAngle;
     private bool hasJumped = false;
@@ -13,15 +12,15 @@ public class JumpEnemy : EnemyAI
     protected NavMeshAgent agent;
     protected VehicleAI vehicle;
 
-    public virtual void StartJump(GameObject enemy, Rigidbody rb, VehicleAI.Side side, NavMeshAgent _agent, int stateChance, VehicleAI _vehicle)
+    protected override void OnEnter(StateContext context)
     {
-        cObject = enemy;
-        agent = _agent;
-        cRb = rb;
-        cSide = side;
-        action = stateChance;
+        base.OnEnter(context);
+        agent = master.Agent;
+        cRb = master.Rb;
+        cSide = master.Side;
+        action = master.stateChance;
         initialAngle = 75f;
-        vehicle = _vehicle;
+        vehicle = master.Vehicle;
     }
 
     protected void Jump(Vector3 pos, float zSign)
@@ -37,13 +36,13 @@ public class JumpEnemy : EnemyAI
         float angle = initialAngle * Mathf.Deg2Rad;
 
         //Positions of this object and the target on the same plane
-        Vector3 planePos = new Vector3(cObject.transform.position.x, 0, cObject.transform.position.z);
+        Vector3 planePos = new Vector3(gameObject.transform.position.x, 0, gameObject.transform.position.z);
         Vector3 planeTar = new Vector3(pos.x, 0, pos.z);
 
         //Planar distance between objects
         float distance = Vector3.Distance(planeTar, planePos);
         //Distance along the y axis between objects
-        float yOffset = cObject.transform.position.y - pos.y;
+        float yOffset = gameObject.transform.position.y - pos.y;
 
         //Equation to get initial velocity
         // vi = (1/cos(theta)) * sqrt((g * d^2 /2)/(d*tan(theta)+y))
@@ -60,8 +59,7 @@ public class JumpEnemy : EnemyAI
         cRb.AddForce(finalVelocity * cRb.mass, ForceMode.Impulse);
         //agent.SetDestination(pos);
         //animation
-        cObject.GetComponent<StatefulEnemyAI>().getAnimator().SetTrigger("Jump");
-        cObject.GetComponent<StatefulEnemyAI>().getAnimator().SetBool("Grounded", false);
+        master.getAnimator().Jump();
         hasJumped = true;
     }
 }

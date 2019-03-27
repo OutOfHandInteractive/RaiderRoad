@@ -10,19 +10,11 @@ public class EscapeEnemy : JumpEnemy {
 
     //Gameobject, rigidbody, vehicle, initialangle for jump, if enemy jumped, current side 
     private GameObject eVehicle;
-    /// <summary>
-    /// Initializes this state
-    /// </summary>
-    /// <param name="enemy">This enemy</param>
-    /// <param name="rb">The rigid body</param>
-    /// <param name="side">The side of the RV we're on</param>
-    /// <param name="stateChance"></param>
-    public override void StartJump(GameObject enemy, Rigidbody rb, VehicleAI.Side side,NavMeshAgent agent, int stateChance, VehicleAI _vehicle)
+
+    protected override void OnEnter(StateContext context)
     {
-        base.StartJump(enemy, rb, side, agent, stateChance, _vehicle);
-        eVehicle = _vehicle.gameObject;
-        Radio.GetRadio().CallForEvac(this);
-        Debug.Log("I need evac!!");
+        base.OnEnter(context);
+        //eVehicle = master.Vehicle.gameObject;
     }
 
     /// <summary>
@@ -34,56 +26,60 @@ public class EscapeEnemy : JumpEnemy {
         if(IsNull(vehicle))
         {
             Debug.Log("Received null vehicle! " + vehicle.ToString());
-            cObject.GetComponent<StatefulEnemyAI>().EnterFight();
+            master.EnterFight();
         }
         else
         {
             cSide = vehicle.Side();
             //Debug.Log("Roger!");
-            eVehicle = vehicle.GetObject();
+            eVehicle = vehicle.gameObject;
             Debug.Log(eVehicle);
+            if (master.GetState() == StatefulEnemyAI.State.Fight)
+            {
+                master.EnterEscape();
+            }
         }
     }
 
     /// <summary>
     /// Performs the escape actions
     /// </summary>
-    public void Escape()
+    public override void UpdateState()
     {
         Debug.Log(eVehicle);
         // Wait to recieve vehicle
-        if (eVehicle == null) {
-
-            //Todo enter fight function
-            cObject.GetComponent<StatefulEnemyAI>().EnterFight();
-            //return;
+        if (eVehicle == null)
+        {
+            Radio.GetRadio().CallForEvac(this);
+            Debug.Log("I need evac!!");
+            master.EnterFight();
+            return;
         }
-        //TODO: move to the same side as the vehicle
-        float movement = speed * Time.deltaTime;
 
         //If a reasonable jumping distance to vehicle, escape
         if (Vector3.Distance(transform.position, eVehicle.transform.position) < 2f)
         {
             //Enemy vehicle destination position
             agent.enabled = false;
-            cObject.GetComponent<StatefulEnemyAI>().getAnimator().SetBool("Running", false);
+            master.getAnimator().Running = false;
             Vector3 pos = eVehicle.transform.position;
             float zSign = cSide == VehicleAI.Side.Left ? -1 : 1;
             Jump(pos, zSign);
         }
         else
         {
-            Vector3 targetPosition = new Vector3(eVehicle.transform.position.x, cObject.transform.position.y, eVehicle.transform.position.z);
-            cObject.transform.LookAt(targetPosition);
+            agent.enabled = true;
+            Vector3 targetPosition = new Vector3(eVehicle.transform.position.x, gameObject.transform.position.y, eVehicle.transform.position.z);
+            gameObject.transform.LookAt(targetPosition);
             agent.SetDestination(targetPosition);
-            cObject.GetComponent<StatefulEnemyAI>().getAnimator().SetBool("Running", true);
+            master.getAnimator().Running = true;
             //cObject.transform.position = Vector3.MoveTowards(cObject.transform.position, eVehicle.transform.position, movement);
         }
-        Debug.Log(cObject.transform.tag + " HEEEEEEEEY");
-        if(cObject.transform.root.tag == "eVehicle" && cObject.transform.parent != null)
+        Debug.Log(gameObject.transform.tag + " HEEEEEEEEY");
+        if(gameObject.transform.root.tag == "eVehicle" && gameObject.transform.parent != null)
         {
             Debug.Log("HEYYYY");
-            cObject.GetComponent<StatefulEnemyAI>().getAnimator().SetBool("Grounded", true);
+            master.getAnimator().Grounded = true;
             StartCoroutine(waitToLeave());
         }
         //cObject.GetComponent<EnemyAI>().EnterWait();
@@ -101,5 +97,15 @@ public class EscapeEnemy : JumpEnemy {
         yield return new WaitForSeconds(5);
         eVehicle.GetComponent<VehicleAI>().EnterLeave();
 
+    }
+
+    public override Color StateColor()
+    {
+        return Color.blue;
+    }
+
+    public override StatefulEnemyAI.State State()
+    {
+        return StatefulEnemyAI.State.Escape;
     }
 }

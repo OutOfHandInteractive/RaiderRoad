@@ -2,25 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WaitEnemy : MonoBehaviour {
+public class WaitEnemy : EnemyAIState {
     //Current game object
-    private GameObject cObject;
     private VehicleAI cVehicle;
     //Set enemy to this script
-    public void StartWait(GameObject enemy, VehicleAI vehicle)
+
+    protected override void OnEnter(StateContext context)
     {
-        cObject = enemy;
-        cVehicle = vehicle;
+        base.OnEnter(context);
+        cVehicle = master.Vehicle;
     }
 
-    public void Wait()
+    public override void UpdateState()
     {
-        if(cObject != null) cObject.GetComponent<StatefulEnemyAI>().getAnimator().SetBool("Running", false);
-        if (cObject.transform.parent != null)
+        if(gameObject != null) master.getAnimator().Running = false;
+        if (gameObject.transform.parent != null)
         {
-            if(cObject.transform.parent.tag == "RV")
+            if(gameObject.transform.parent.tag == "RV")
             {
-                cObject.GetComponent<StatefulEnemyAI>().EnterFight();
+                master.EnterFight();
             }
         }
         Debug.Log(cVehicle.getState());
@@ -28,7 +28,26 @@ public class WaitEnemy : MonoBehaviour {
         if (cVehicle.getState() == VehicleAI.State.Stay)
         {
             Debug.Log("SYAAAAAAAAAAAAAAAAAAAAAAAAY");
-            cObject.GetComponent<StatefulEnemyAI>().EnterBoard();
+            master.EnterBoard();
         }
+    }
+
+    public override void TriggerEnter(Collider other)
+    {
+        base.TriggerEnter(other);
+        if (other.gameObject.tag == "EnemyInteract")
+        {
+            transform.parent = other.transform;
+        }
+    }
+
+    public override Color StateColor()
+    {
+        return Color.white;
+    }
+
+    public override StatefulEnemyAI.State State()
+    {
+        return StatefulEnemyAI.State.Wait;
     }
 }

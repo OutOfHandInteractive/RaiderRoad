@@ -8,19 +8,7 @@ using UnityEngine.AI;
 /// </summary>
 public class BoardEnemy : JumpEnemy {
 
-    //enemy, rigidbody,rv, angle to jump, if enemy jumped, chance to take action, current side 
-    //private int action;
-
     private float survey = 0;
-    private Transform parent = null;
-    //public override void StartJump(GameObject enemy, Rigidbody rb, string side, int stateChance)
-    //{
-    //    base.StartJump(enemy, rb, side, stateChance);
-    //    //action = stateChance;
-    //    //Set rv, enemy, rigidbody, current side, and angle to jump
-
-
-    //}
 
     private Vector3 GetTarget(Vector3 planePos)
     {
@@ -39,11 +27,11 @@ public class BoardEnemy : JumpEnemy {
     /// <summary>
     /// Performs the boarding action then switches to the next state
     /// </summary>
-    public void Board()
+    public override void UpdateState()
     {
         //agent.enabled = true;
         //RV destination position
-        Vector3 planePos = new Vector3(cObject.transform.position.x, 0, cObject.transform.position.z);
+        Vector3 planePos = new Vector3(gameObject.transform.position.x, 0, gameObject.transform.position.z);
         Vector3 pos = GetTarget(planePos);
         float zSign = cSide == VehicleAI.Side.Left ? 1 : -1;
         Debug.Log(zSign + " THIS IS THE SIGN");
@@ -51,34 +39,39 @@ public class BoardEnemy : JumpEnemy {
 
         //40% chance to go into Destroy State or Fight State, 20% to go into steal
         string actionStr = (action < 50) ? "EnterDestroy" : "EnterFight";
-        StatefulEnemyAI ai = cObject.GetComponent<StatefulEnemyAI>();
-        if(transform.parent != null)
+        StatefulEnemyAI ai = gameObject.GetComponent<StatefulEnemyAI>();
+        if (transform.parent != null && transform.parent.tag == "RV")
         {
-            if(transform.parent.tag == "RV")
+            ai.getAnimator().Grounded = true;
+            agent.velocity = Vector3.zero;
+            //agent.isStopped = true;
+            survey += Time.deltaTime;
+            Debug.Log(survey);
+            if (survey > 1f)
             {
-                ai.getAnimator().SetBool("Grounded", true);
-                agent.velocity = Vector3.zero;
-                //agent.isStopped = true;
-                survey += Time.deltaTime;
-                Debug.Log(survey);
-                if (survey > 1f)
+                if (action < 40)
                 {
-                    if (action < 40)
-                    {
-                        ai.EnterDestroy();
-                    }
-                    else if (action > 40 && action < 80)
-                    {
-                        ai.EnterFight();
-                    }
-                    else
-                    {
-                        ai.EnterSteal();
-                    }
+                    ai.EnterDestroy();
+                }
+                else if (action > 40 && action < 80)
+                {
+                    ai.EnterFight();
+                }
+                else
+                {
+                    ai.EnterSteal();
                 }
             }
         }
+    }
 
-        
+    public override Color StateColor()
+    {
+        return Color.green;
+    }
+
+    public override StatefulEnemyAI.State State()
+    {
+        return StatefulEnemyAI.State.Board;
     }
 }

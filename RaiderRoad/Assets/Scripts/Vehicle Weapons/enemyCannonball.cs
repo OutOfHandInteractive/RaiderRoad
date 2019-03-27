@@ -46,7 +46,7 @@ public class enemyCannonball : AbstractCannonball
                     Debug.Log(hit.collider + " and " + target);
                     if (hit.collider == target)
                     {
-                        if (Util.isPlayer(target.gameObject))
+                        if (Util.IsPlayer(target.gameObject))
                         {
                             target.gameObject.GetComponent<PlayerController_Rewired>().takeDamage(cannonDamage);
                         }

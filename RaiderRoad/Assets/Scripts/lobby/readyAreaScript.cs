@@ -29,7 +29,7 @@ public class readyAreaScript : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if(Util.isPlayer(other.gameObject))
+        if(Util.IsPlayer(other.gameObject))
         {
             inReadyArea++;
             CheckReadyArea();
@@ -38,7 +38,7 @@ public class readyAreaScript : MonoBehaviour
 
     void OnTriggerExit(Collider other)
     {
-        if(Util.isPlayer(other.gameObject))
+        if(Util.IsPlayer(other.gameObject))
         {
             inReadyArea--;
             CheckReadyArea();

@@ -25,4 +25,16 @@ public class Constants : MonoBehaviour
 
 	// misc
 	public static float PLAYER_ROAD_DAMAGE = 50f;
+
+    // ------------------- GameObject Tags ------------------------
+    public static string PLAYER_TAG = "Player";
+    public static string ENEMY_TAG = "Enemy";
+    public static string RV_TAG = "RV";
+    public static string VEHICLE_TAG = "eVehicle";
+    public static string CANNON_TAG = "Cannon";
+    public static string FIRE_TAG = "Fire";
+    public static string WALL_TAG = "Wall";
+    public static string ENGINE_TAG = "Engine";
+    public static string ROAD_TAG = "road";
+
 }

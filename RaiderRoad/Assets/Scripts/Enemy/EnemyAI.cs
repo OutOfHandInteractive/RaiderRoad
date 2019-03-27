@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 using System;
+using System.Linq;
 
 /// <summary>
 /// Super class for all Raider AI classes. Mostly just contains useful utility methods for basic things like movement or choosing nearby objects
@@ -18,81 +19,17 @@ public abstract class EnemyAI : MonoBehaviour
     /// <param name="myPos">The postition to search around</param>
     /// <param name="objects">THe list of objects to look through</param>
     /// <returns>The object closest to the given point</returns>
-    public GameObject Closest(Vector3 myPos, GameObject[] objects)
+    public GameObject Closest(Vector3 myPos, IEnumerable<GameObject> objects)
     {
         float minDist = 1 / 0f;
         GameObject closest = null;
         foreach (GameObject wall in objects)
         {
             float dist = Vector3.Distance(wall.transform.position, myPos);
-            if(wall.GetComponent<Wall>() != null)
+            if (closest == null || dist < minDist)
             {
-                if ((closest == null || dist < minDist) && wall.GetComponent<Wall>().isOccupied != true)
-                {
-                    wall.GetComponent<Wall>().isOccupied = true;
-                    closest = wall;
-                    minDist = dist;
-                }
-            }
-            else if (wall.GetComponent<Engine>() != null)
-            {
-                if ((closest == null || dist < minDist) && wall.GetComponent<Engine>().isOccupied != true)
-                {
-                    wall.GetComponent<Engine>().isOccupied = true;
-                    closest = wall;
-                    minDist = dist;
-                }
-            }
-            else if (wall.GetComponent<ItemDrop>() != null)
-            {
-                if ((closest == null || dist < minDist) && wall.GetComponent<ItemDrop>().isOccupied != true)
-                {
-                    wall.GetComponent<ItemDrop>().isOccupied = true;
-                    closest = wall;
-                    minDist = dist;
-                }
-            }
-            else if (wall.GetComponent<cannon>() != null)
-            {
-                if ((closest == null || dist < minDist) && wall.GetComponent<cannon>().isOccupied != true)
-                {
-                    wall.GetComponent<cannon>().isOccupied = true;
-                    closest = wall;
-                    minDist = dist;
-                }
-            }
-            else if (wall.GetComponent<flamethrower>() != null)
-            {
-                if ((closest == null || dist < minDist) && wall.GetComponent<flamethrower>().isOccupied != true)
-                {
-                    wall.GetComponent<flamethrower>().isOccupied = true;
-                    closest = wall;
-                    minDist = dist;
-                }
-            }
-            else if (wall.GetComponent<PlayerController_Rewired>() != null && wall.GetComponent<PlayerController_Rewired>().state == PlayerController_Rewired.playerStates.up)
-            {
-                if ((closest == null || dist < minDist))
-                {
-                    closest = wall;
-                    minDist = dist;
-                }
-            }
-            else if (wall.gameObject.tag == "floor")
-            {
-                if (closest == null || dist < minDist)
-                {
-                    closest = wall;
-                    minDist = dist;
-                }
-            }
-            else if (wall.gameObject.tag == "JumpL" || wall.gameObject.tag == "JumpR")
-            {
-                if (closest == null || dist < minDist)
-                {
-                    closest = wall;
-                    minDist = dist;
-                }
+                closest = wall;
+                minDist = dist;
             }
         }
         return closest;
@@ -103,9 +40,14 @@ public abstract class EnemyAI : MonoBehaviour
     /// </summary>
     /// <param name="objects">The objects to look through</param>
     /// <returns>The object closest to the enemy's position</returns>
-    public GameObject Closest(GameObject[] objects)
+    public GameObject Closest(IEnumerable<GameObject> objects)
     {
         return Closest(gameObject.transform.position, objects);
+    }
+
+    public GameObject ClosestLivingPlayer()
+    {
+        return Closest(from player in GameObject.FindGameObjectsWithTag(Constants.PLAYER_TAG) where Util.IsAlive(player) select player);
     }
 
     /// <summary>
@@ -116,17 +58,47 @@ public abstract class EnemyAI : MonoBehaviour
     {
         MoveToward(target.transform);
         //Mark - Y? Y U DEW DIS? (why have a function that just calls another function)
+        // It's a convenience function, Mark. It looks cleaner to say MoveToward(someObjective) than MoveToward(someObjective.transform.position) all the time
     }
 
     /// <summary>
     /// Point and move the enemy towrds the given transform
     /// </summary>
-    /// <param name="target">THe transform to move towards</param>
+    /// <param name="target">The transform to move towards</param>
     public void MoveToward(Transform target)
+    {
+        MoveToward(target.position);
+    }
+
+    /// <summary>
+    ///  Point and move the enemy towards the given transfrom
+    /// </summary>
+    /// <param name="target">The position to move towards</param>
+    public void MoveToward(Vector3 target)
     {
         float movement = speed * Time.deltaTime;
         gameObject.transform.LookAt(target);
-        gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, target.position, movement);
+        gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, target, movement);
+    }
+    
+    /// <summary>
+    /// Checks if the raider is on a vehicle
+    /// </summary>
+    /// <returns>true iff the raider is currently on a vehicle</returns>
+    public bool OnVehicle()
+    {
+        Transform parent = gameObject.transform.parent;
+        return parent != null && Util.IsVehicle(parent.gameObject);
+    }
+
+    /// <summary>
+    /// Checks if the raider is on the RV
+    /// </summary>
+    /// <returns>true iff the raider is currently on the RV</returns>
+    public bool OnRV()
+    {
+        Transform parent = gameObject.transform.parent;
+        return parent != null && Util.IsRV(parent.gameObject);
     }
 
     /// <summary>
@@ -143,6 +115,21 @@ public abstract class EnemyAI : MonoBehaviour
         }catch(NullReferenceException e)
         {
             return true;
+        }
+    }
+
+    public static bool Unoccupied(GameObject obj)
+    {
+        EnemyTarget target = obj.GetComponent<EnemyTarget>();
+        return target != null && !target.isOccupied;
+    }
+
+    public static void Occupy(GameObject obj)
+    {
+        if(obj != null)
+        {
+            EnemyTarget target = obj.GetComponent<EnemyTarget>();
+            target.isOccupied = true;
         }
     }
 }

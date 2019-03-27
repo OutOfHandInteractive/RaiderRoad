@@ -1,87 +1,137 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
 /// <summary>
 /// This is for enemies that want to seek out and beat up players.
 /// </summary>
-public class FightEnemy : EnemyAI {
+public class FightEnemy : TargetedEnemy {
+
+    public struct FightContext : StateContext
+    {
+        public GameObject target; 
+    }
 
     //Enemy and enemy speed
-    private GameObject cObject;
     private GameObject fightRange;
     private float playerDamage = 0;
     private bool chasing = true;
     private float knockback_force = 2000f;
     private GameObject _target;
     private int playerHit = 0;
-    private GameObject[] players;
-    private GameObject player;
     private GameObject eVehicle;
     private NavMeshAgent agent;
+    private HashSet<GameObject> inRange = new HashSet<GameObject>();
 
-    /// <summary>
-    /// Initialize this state
-    /// </summary>
-    /// <param name="enemy">This enemy</param>
-    /// <param name="target">The target to attack, if any</param>
-    public void StartFight(GameObject enemy, VehicleAI vehicle,NavMeshAgent _agent, GameObject target = null)
+    protected override void OnEnter(StateContext context)
     {
+        base.OnEnter(context);
         //Initialized enemy
-        players = GameObject.FindGameObjectsWithTag("Player");
-        agent = _agent;
-        cObject = enemy;
-        _target = target;
-        fightRange = cObject.transform.Find("EnemyAttack").gameObject;
-        player = GetTarget();
-        eVehicle = vehicle.gameObject;
-    }
-
-    private GameObject GetTarget()
-    {
-        if(_target == null)
+        agent = master.Agent;
+        if(context != null && context is FightContext)
         {
-            Debug.Log(players);
-            Debug.Log(players[0]);
-            _target = Closest(cObject.transform.position, players);
-            //PlayerController_Rewired.playerStates deadPlayer = _target.GetComponent<PlayerController_Rewired>().state;
-            //if(deadPlayer != PlayerController_Rewired.playerStates.down)
+            _target = ((FightContext)context).target;
         }
-        return _target;
+        else
+        {
+            _target = null;
+        }
+        fightRange = gameObject.transform.Find("EnemyAttack").gameObject;
+        //eVehicle = stateMachine.Vehicle.gameObject;
     }
 
-    /// <summary>
-    /// Perform the fight actions
-    /// </summary>
-    public void Fight()
+    protected override string[] TargetedTags()
+    {
+        return new string[] { "Player" };
+    }
+
+    protected override bool IsValidTarget(GameObject obj)
+    {
+        return obj != null && Util.IsAlive(obj);
+    }
+
+    public override void UpdateState()
     {
         //Get player object
+        GameObject player = GetTarget();
         //Get enemy speed
 
-        GameObject[] vehicles = GameObject.FindGameObjectsWithTag("eVehicle");
-        float movement = speed * Time.deltaTime;
         //If doesnt exist or if player has been hit go into escape state
-        if(cObject.transform.parent != null && cObject.transform.parent.tag == "eVehicle")
-        {
-            Vector3 targetPosition = new Vector3(player.transform.position.x, cObject.transform.position.y, player.transform.position.z);
-            cObject.transform.LookAt(targetPosition);
-            cObject.transform.position = Vector3.MoveTowards(cObject.transform.position, player.transform.position, movement);
-        }
-        else if ((!player || playerDamage >= 4f || cObject.GetComponent<StatefulEnemyAI>().currentHealth <= 25f) && eVehicle != null && cObject.transform.parent.tag != "eVehicle")
+        if (player == null || playerDamage >= 4f || master.currentHealth <= 25f)
         {
             Debug.Log("reached");
-            cObject.GetComponent<StatefulEnemyAI>().EnterEscape();
+            master.EnterEscape();
         }
-        else if(chasing)
+        else if (OnVehicle())
+        {
+            Vector3 targetPosition = new Vector3(player.transform.position.x, gameObject.transform.position.y, player.transform.position.z);
+            MoveToward(targetPosition);
+        }
+        else if (chasing && OnRV())
         {
             //Look at player and move towards them
-            Vector3 targetPosition = new Vector3(player.transform.position.x, cObject.transform.position.y, player.transform.position.z);
-            cObject.transform.LookAt(targetPosition);
+            Vector3 targetPosition = new Vector3(player.transform.position.x, gameObject.transform.position.y, player.transform.position.z);
+            gameObject.transform.LookAt(targetPosition);
             agent.SetDestination(targetPosition);
-            cObject.GetComponent<StatefulEnemyAI>().getAnimator().SetBool("Running", true);
-            //cObject.transform.position = Vector3.MoveTowards(cObject.transform.position, player.transform.position, movement);
+            master.getAnimator().Running = true;
+            //gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, player.transform.position, movement);
 
+        }
+    }
+
+    public override void TriggerEnter(Collider other)
+    {
+        base.TriggerEnter(other);
+        if (Util.IsPlayer(other.gameObject))
+        {
+            inRange.Add(other.gameObject);
+            if (!isWindingUp)
+            {
+                StartCoroutine(WindUp());
+            }
+        }
+    }
+
+    public override void TriggerExit(Collider other)
+    {
+        base.TriggerExit(other);
+        if (Util.IsPlayer(other.gameObject))
+        {
+            inRange.Remove(other.gameObject);
+        }
+    }
+
+    private bool isWindingUp = false;
+    IEnumerator WindUp()
+    {
+        Debug.Log(Time.time);
+        isWindingUp = true;
+        try
+        {
+            WindupAttack();
+            //myAni.SetTrigger("WindUp");
+            yield return new WaitForSeconds(.5f);
+            if (master.IsCurrent(this))
+            {
+                bool hit = false;
+                master.getAnimator().Attack();
+                foreach (GameObject other in inRange)
+                {
+                    HitPlayer(other, master.damagePower);
+                    hit = true;
+                }
+                if (!hit)
+                {
+                    Missed();
+                }
+            }
+            Debug.Log(Time.time);
+        }
+        finally
+        {
+            isWindingUp = false;
         }
     }
 
@@ -92,19 +142,19 @@ public class FightEnemy : EnemyAI {
     {
         fightRange.GetComponent<Renderer>().material.color = new Color(255f, 150f, 0f, .5f);
         chasing = false;
-        //cObject.transform.position = Vector3.zero;
+        //gameObject.transform.position = Vector3.zero;
     }
 
     /// <summary>
-    /// Punch the given player collider
+    /// Punch the given player
     /// </summary>
     /// <param name="other">The player to hit</param>
-    public void HitPlayer(Collider other, float damage)
+    public void HitPlayer(GameObject other, float damage)
     {
         playerDamage += damage;
         fightRange.GetComponent<Renderer>().material.color = new Color(255f, 0f, 0f, .5f);
         other.gameObject.GetComponent<PlayerController_Rewired>().takeDamage(damage);
-        Vector3 dir = other.transform.position - cObject.transform.position;
+        Vector3 dir = other.transform.position - gameObject.transform.position;
         dir = Vector3.Normalize(new Vector3(dir.x, 0.0f, dir.z));
         other.GetComponent<Rigidbody>().AddForce(dir * knockback_force);
         fightRange.GetComponent<Renderer>().material.color = new Color(255f, 150f, 0f, 0f);
@@ -118,5 +168,15 @@ public class FightEnemy : EnemyAI {
     {
         fightRange.GetComponent<Renderer>().material.color = new Color(255f, 150f, 0f, 0f);
         chasing = true;
+    }
+
+    public override Color StateColor()
+    {
+        return Color.red;
+    }
+
+    public override StatefulEnemyAI.State State()
+    {
+        return StatefulEnemyAI.State.Fight;
     }
 }

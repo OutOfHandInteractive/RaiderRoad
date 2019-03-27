@@ -1,111 +1,118 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
 /// <summary>
 /// This enemy just wants to destroy things and pick fights
 /// </summary>
-public class DestroyEnemy : EnemyAI {
+public class DestroyEnemy : TargetedEnemy {
     //enemy, speed
-    private GameObject cObject;
     private int action;
 
     /// <summary>
     /// TODO: Ernest please explain this
     /// </summary>
     public bool engineKill = false;
-
-    private GameObject[] walls;
-    private GameObject[] engines;
-    private GameObject wall;
-    private GameObject engine;
+    
     private NavMeshAgent agent;
 
-    /// <summary>
-    /// Initializes this state
-    /// </summary>
-    /// <param name="enemy">This enemy (Deprecated)</param>
-    public void StartDestroy(GameObject enemy, NavMeshAgent _agent)
+    protected override void OnEnter(StateContext context)
     {
-        cObject = enemy;
-        agent = _agent;
+        base.OnEnter(context);
+        agent = master.Agent;
         action = Random.Range(0, 100);
-        walls = GameObject.FindGameObjectsWithTag("Wall");
-        engines = GameObject.FindGameObjectsWithTag("Engine");
-        Debug.Log(engines[0]);
-        wall = Closest(cObject.transform.position, walls);
-        engine = Closest(cObject.transform.position, engines);
-        Debug.Log(engine);
     }
 
     /// <summary>
     /// Performs the destroy actions
     /// </summary>
-    public void Destroy()
+    public override void UpdateState()
     {
-        //Set wall gameobject
-        //Set movement speed of enemy
-        float movement = speed * Time.deltaTime;
 
-        if(cObject.GetComponent<StatefulEnemyAI>().getDamaged())
+        if (master.getDamaged())
         {
-            cObject.GetComponent<StatefulEnemyAI>().EnterFight();
+            master.EnterFight();
         }
 
         //If there are no more walls, go to Fight state, else keep going for walls
-        if (engineKill && cObject.GetComponent<lightEnemy>())
+        if (engineKill && gameObject.GetComponent<lightEnemy>())
         {
-            cObject.GetComponent<StatefulEnemyAI>().EnterSteal();
+            master.EnterSteal();
         }
-        else if (engineKill && cObject.transform.parent != null)
+        else if (engineKill && gameObject.transform.parent != null)
         {
-            cObject.GetComponent<StatefulEnemyAI>().EnterFight();
-        }else
-        {
-            //Find destroyable and go to it
-            ChanceDestroy(walls, engines, movement);
-        }
-    }
-
-    /// <summary>
-    /// TODO Explain this too, please, Erndog
-    /// </summary>
-    /// <param name="walls"></param>
-    /// <param name="engines"></param>
-    /// <param name="movement"></param>
-    public void ChanceDestroy(GameObject[] walls, GameObject[] engines, float movement)
-    {
-        if(action < 90)
-        {
-            if(walls.Length <= 0)
-            {
-                Debug.Log(engine);
-                if(engines.Length <= 0)
-                {
-                    cObject.GetComponent<StatefulEnemyAI>().EnterFight();
-                }
-                else
-                {
-                    agent.SetDestination(engine.transform.position);
-                }
-            }
-            else
-            {
-                agent.SetDestination(wall.transform.position);
-            }
+            master.EnterFight();
         }
         else
         {
-            if (engines.Length <= 0)
+            //Find destroyable and go to it
+            ChanceDestroy();
+        }
+    }
+
+    protected override string[] TargetedTags()
+    {
+        if(action < 90)
+        {
+            return new string[] { "Wall", "Engine" };
+        }
+        return new string[] { "Engine" };
+    }
+
+    protected override bool IsValidTarget(GameObject obj)
+    {
+        return obj != null && Unoccupied(obj);
+    }
+
+    private void ChanceDestroy()
+    {
+        GameObject _target = GetTarget();
+        if(_target != null)
+        {
+            Occupy(_target);
+            Util.AssertNotNull("Agent should not be null", agent);
+            agent.SetDestination(_target.transform.position);
+            master.getAnimator().Running = true;
+        }
+        else
+        {
+            master.EnterFight();
+        }
+    }
+
+    public override void TriggerStay(Collider other)
+    {
+        base.TriggerStay(other);
+        bool isWall = Util.IsWall(other.gameObject);
+        bool isEngine = Util.IsEngine(other.gameObject);
+        if (isWall || isEngine)
+        {
+            //Debug.Log("HIT");
+            master.getAnimator().Attack(); //visual of enemy breaking object
+            master.damageMeter += 100 * Time.deltaTime;
+            if (master.damageMeter >= 100)
             {
-                cObject.GetComponent<StatefulEnemyAI>().EnterFight();
-            }
-            else
-            {
-                agent.SetDestination(engine.transform.position);
+                other.gameObject.GetComponent<Constructable>().Damage(100f);
+                if (isWall && gameObject.GetComponent<lightEnemy>())
+                {
+                    Debug.Log("STEAL THE WALL DUDE");
+                    master.EnterSteal();
+                }
+                engineKill = engineKill || isEngine;
+                master.damageMeter = 0;
             }
         }
-        cObject.GetComponent<StatefulEnemyAI>().getAnimator().SetBool("Running", true);
+    }
+
+    public override Color StateColor()
+    {
+        return Color.yellow;
+    }
+
+    public override StatefulEnemyAI.State State()
+    {
+        return StatefulEnemyAI.State.Destroy;
     }
 }

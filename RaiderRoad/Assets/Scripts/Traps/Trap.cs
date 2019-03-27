@@ -69,7 +69,7 @@ public abstract class Trap : DurableConstructGen<TrapNode>
     /// <returns>True if and only if the trap should target them</returns>
     public virtual bool CanTarget(GameObject target)
     {
-        return Util.isEnemy(target);
+        return Util.IsEnemy(target);
     }
 
     /// <summary>
