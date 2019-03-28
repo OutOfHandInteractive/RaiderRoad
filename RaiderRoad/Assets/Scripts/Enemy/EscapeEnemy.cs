@@ -52,8 +52,12 @@ public class EscapeEnemy : JumpEnemy {
         {
             Radio.GetRadio().CallForEvac(this);
             Debug.Log("I need evac!!");
-            master.EnterFight();
-            return;
+            // If we don't get an immediate response, start fighting
+            if(eVehicle == null)
+            {
+                master.EnterFight();
+                return;
+            }
         }
 
         //If a reasonable jumping distance to vehicle, escape
