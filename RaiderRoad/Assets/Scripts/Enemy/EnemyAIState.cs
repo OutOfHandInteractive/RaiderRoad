@@ -5,6 +5,17 @@ public abstract class EnemyAIState : EnemyAI
 {
     protected StatefulEnemyAI master;
 
+    public override float Speed()
+    {
+        return master.Speed();
+    }
+
+    public override void MoveToward(Vector3 target)
+    {
+        base.MoveToward(target);
+        master.getAnimator().Running = true;
+    }
+
     public void EnterState(StatefulEnemyAI stateMachine, StateContext context = null)
     {
         this.master = stateMachine;

@@ -17,13 +17,11 @@ public class FightEnemy : TargetedEnemy {
     //Enemy and enemy speed
     private GameObject fightRange;
     private float playerDamage = 0;
-    private bool chasing = true;
     private float knockback_force = 2000f;
-    private GameObject _target;
-    private int playerHit = 0;
     private GameObject eVehicle;
     private NavMeshAgent agent;
     private HashSet<GameObject> inRange = new HashSet<GameObject>();
+    private bool isWindingUp = false;
 
     protected override void OnEnter(StateContext context)
     {
@@ -32,11 +30,7 @@ public class FightEnemy : TargetedEnemy {
         agent = master.Agent;
         if(context != null && context is FightContext)
         {
-            _target = ((FightContext)context).target;
-        }
-        else
-        {
-            _target = null;
+            SetTarget(((FightContext)context).target);
         }
         fightRange = gameObject.transform.Find("EnemyAttack").gameObject;
         //eVehicle = stateMachine.Vehicle.gameObject;
@@ -44,7 +38,7 @@ public class FightEnemy : TargetedEnemy {
 
     protected override string[] TargetedTags()
     {
-        return new string[] { "Player" };
+        return new string[] { Constants.PLAYER_TAG };
     }
 
     protected override bool IsValidTarget(GameObject obj)
@@ -54,6 +48,10 @@ public class FightEnemy : TargetedEnemy {
 
     public override void UpdateState()
     {
+        if (isWindingUp)
+        {
+            return;
+        }
         //Get player object
         GameObject player = GetTarget();
         //Get enemy speed
@@ -64,12 +62,16 @@ public class FightEnemy : TargetedEnemy {
             Debug.Log("reached");
             master.EnterEscape();
         }
+        else if(inRange.Count > 0)
+        {
+            StartCoroutine(WindUp());
+        }
         else if (OnVehicle())
         {
             Vector3 targetPosition = new Vector3(player.transform.position.x, gameObject.transform.position.y, player.transform.position.z);
             MoveToward(targetPosition);
         }
-        else if (chasing && OnRV())
+        else if (OnRV())
         {
             //Look at player and move towards them
             Vector3 targetPosition = new Vector3(player.transform.position.x, gameObject.transform.position.y, player.transform.position.z);
@@ -87,10 +89,6 @@ public class FightEnemy : TargetedEnemy {
         if (Util.IsPlayer(other.gameObject))
         {
             inRange.Add(other.gameObject);
-            if (!isWindingUp)
-            {
-                StartCoroutine(WindUp());
-            }
         }
     }
 
@@ -103,10 +101,9 @@ public class FightEnemy : TargetedEnemy {
         }
     }
 
-    private bool isWindingUp = false;
     IEnumerator WindUp()
     {
-        Debug.Log(Time.time);
+        //Debug.Log(Time.time);
         isWindingUp = true;
         try
         {
@@ -127,6 +124,10 @@ public class FightEnemy : TargetedEnemy {
                     Missed();
                 }
             }
+            else
+            {
+                Missed();
+            }
             Debug.Log(Time.time);
         }
         finally
@@ -140,8 +141,8 @@ public class FightEnemy : TargetedEnemy {
     /// </summary>
     public void WindupAttack()
     {
+        master.getAnimator().Running = false;
         fightRange.GetComponent<Renderer>().material.color = new Color(255f, 150f, 0f, .5f);
-        chasing = false;
         //gameObject.transform.position = Vector3.zero;
     }
 
@@ -158,7 +159,6 @@ public class FightEnemy : TargetedEnemy {
         dir = Vector3.Normalize(new Vector3(dir.x, 0.0f, dir.z));
         other.GetComponent<Rigidbody>().AddForce(dir * knockback_force);
         fightRange.GetComponent<Renderer>().material.color = new Color(255f, 150f, 0f, 0f);
-        chasing = true;
     }
 
     /// <summary>
@@ -167,7 +167,6 @@ public class FightEnemy : TargetedEnemy {
     public void Missed()
     {
         fightRange.GetComponent<Renderer>().material.color = new Color(255f, 150f, 0f, 0f);
-        chasing = true;
     }
 
     public override Color StateColor()

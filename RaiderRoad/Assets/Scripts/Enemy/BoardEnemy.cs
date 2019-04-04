@@ -10,6 +10,11 @@ public class BoardEnemy : JumpEnemy {
 
     private float survey = 0;
 
+    protected override void OnEnter(StateContext context)
+    {
+        base.OnEnter(context);
+    }
+
     private Vector3 GetTarget(Vector3 planePos)
     {
         Debug.Log(cSide);
@@ -38,7 +43,7 @@ public class BoardEnemy : JumpEnemy {
         Jump(pos, zSign);
 
         //40% chance to go into Destroy State or Fight State, 20% to go into steal
-        string actionStr = (action < 50) ? "EnterDestroy" : "EnterFight";
+        //string actionStr = (action < 50) ? "EnterDestroy" : "EnterFight";
         StatefulEnemyAI ai = gameObject.GetComponent<StatefulEnemyAI>();
         if (transform.parent != null && transform.parent.tag == "RV")
         {
@@ -49,18 +54,7 @@ public class BoardEnemy : JumpEnemy {
             Debug.Log(survey);
             if (survey > 1f)
             {
-                if (action < 40)
-                {
-                    ai.EnterDestroy();
-                }
-                else if (action > 40 && action < 80)
-                {
-                    ai.EnterFight();
-                }
-                else
-                {
-                    ai.EnterSteal();
-                }
+                master.EnterState(master.myType.BoardingChooser().Choose());
             }
         }
     }

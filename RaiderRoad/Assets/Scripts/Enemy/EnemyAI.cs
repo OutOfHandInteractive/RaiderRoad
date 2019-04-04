@@ -8,10 +8,8 @@ using System.Linq;
 /// </summary>
 public abstract class EnemyAI : MonoBehaviour
 {
-    /// <summary>
-    /// Enemy movement speed
-    /// </summary>
-    protected float speed = 2f;
+
+    public abstract float Speed();
 
     /// <summary>
     /// Gets the object from the list that is closest to the given position
@@ -74,9 +72,9 @@ public abstract class EnemyAI : MonoBehaviour
     ///  Point and move the enemy towards the given transfrom
     /// </summary>
     /// <param name="target">The position to move towards</param>
-    public void MoveToward(Vector3 target)
+    public virtual void MoveToward(Vector3 target)
     {
-        float movement = speed * Time.deltaTime;
+        float movement = Speed() * Time.deltaTime;
         gameObject.transform.LookAt(target);
         gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, target, movement);
     }
@@ -112,7 +110,7 @@ public abstract class EnemyAI : MonoBehaviour
         {
             obj.ToString();
             return false;
-        }catch(NullReferenceException e)
+        }catch(NullReferenceException)
         {
             return true;
         }
@@ -121,7 +119,7 @@ public abstract class EnemyAI : MonoBehaviour
     public static bool Unoccupied(GameObject obj)
     {
         EnemyTarget target = obj.GetComponent<EnemyTarget>();
-        return target != null && !target.isOccupied;
+        return target == null || !target.isOccupied;
     }
 
     public static void Occupy(GameObject obj)
@@ -129,6 +127,10 @@ public abstract class EnemyAI : MonoBehaviour
         if(obj != null)
         {
             EnemyTarget target = obj.GetComponent<EnemyTarget>();
+            if(target == null)
+            {
+                target = obj.AddComponent<EnemyTarget>();
+            }
             target.isOccupied = true;
         }
     }

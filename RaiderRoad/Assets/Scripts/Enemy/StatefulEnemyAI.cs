@@ -47,6 +47,7 @@ public class StatefulEnemyAI : EnemyAI {
     private GameObject parent;
     private Vector3 scale;
     private bool damaged;
+    public EnemyType myType;
 
     //Vehicle variables
     private VehicleAI vehicle;
@@ -75,17 +76,20 @@ public class StatefulEnemyAI : EnemyAI {
     public float damagePower;
     public float currentHealth;
     public float damageMeter;
-    public int stateChance;
-    private bool inRange;
+    public float speed = 2f;
 
     //Animation
     public Animator myAni;
     private EnemyAnimator enemyAnimator = new EnemyAnimator();
 
+    public override float Speed()
+    {
+        return speed;
+    }
+
     // Use this for initialization
     void Start () {
         currentHealth = maxHealth;
-        inRange = false;
         scale = transform.localScale;
         damaged = false;
 
@@ -102,6 +106,8 @@ public class StatefulEnemyAI : EnemyAI {
         death = enemy.AddComponent<DeathEnemy>();
         lure = enemy.AddComponent<LureEnemy>();
         stun = enemy.AddComponent<StunnedEnemy>();
+
+        myType = GetComponent<EnemyType>();
 
         //Get vehicle information, side
         vehicle = gameObject.GetComponentInParent<VehicleAI>();
@@ -159,6 +165,7 @@ public class StatefulEnemyAI : EnemyAI {
         {
             EnterFight();
         }
+        getAnimator().Running = false;
         currState.UpdateState();
 
     }
@@ -407,6 +414,7 @@ public class StatefulEnemyAI : EnemyAI {
         }
         currState.TriggerEnter(other);
     }
+
     private void OnTriggerStay(Collider other)
     {
         currState.TriggerStay(other);

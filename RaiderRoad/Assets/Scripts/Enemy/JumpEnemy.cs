@@ -8,7 +8,6 @@ public abstract class JumpEnemy : EnemyAIState
     private float initialAngle;
     private bool hasJumped = false;
     protected VehicleAI.Side cSide;
-    protected int action;
     protected NavMeshAgent agent;
     protected VehicleAI vehicle;
 
@@ -18,7 +17,6 @@ public abstract class JumpEnemy : EnemyAIState
         agent = master.Agent;
         cRb = master.Rb;
         cSide = master.Side;
-        action = master.stateChance;
         initialAngle = 75f;
         vehicle = master.Vehicle;
     }

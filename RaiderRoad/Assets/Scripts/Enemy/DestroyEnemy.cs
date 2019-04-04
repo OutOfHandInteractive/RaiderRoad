@@ -56,14 +56,19 @@ public class DestroyEnemy : TargetedEnemy {
     {
         if(action < 90)
         {
-            return new string[] { "Wall", "Engine" };
+            return new string[] { Constants.WALL_TAG, Constants.ENGINE_TAG };
         }
-        return new string[] { "Engine" };
+        return new string[] { Constants.ENGINE_TAG };
     }
 
     protected override bool IsValidTarget(GameObject obj)
     {
-        return obj != null && Unoccupied(obj);
+        return obj != null;
+    }
+
+    protected override bool SearchFilter(GameObject obj)
+    {
+        return base.SearchFilter(obj) && Unoccupied(obj);
     }
 
     private void ChanceDestroy()
