@@ -5,42 +5,24 @@ using UnityEngine;
 public class PayloadM : Payload {
 	private const int PAYLOAD_SIZE = 4;
 
+	#region Variable Declarations
+	// -------------------- public variables -----------------------
 	public GameObject enemyNode01, enemyNode02, enemyNode03, enemyNode04;
 	public List<StatefulEnemyAI> enemies;
     public List<Weapon> weapons;
 
+	// ------------------- nonpublic variables ---------------------
     private List<GameObject> payloadInstance = new List<GameObject>();
 	private System.Random rand = new System.Random();
+	#endregion
 
 	public override void Populate() {
         GameObject[] nodes = { enemyNode01, enemyNode02, enemyNode03, enemyNode04 };
         Populate(nodes);
-        //for (int i = 0; i < PAYLOAD_SIZE; i++) {
-        //	if (payloadCode[i] == payloadTypes.enemy)
-        //		payloadInstance.Add(Instantiate(SelectEnemies().gameObject));
-        //          if (payloadCode[i] == payloadTypes.weapon)
-        //          {
-        //              payloadInstance.Add(Instantiate(SelectInteractable().gameObject));
-        //          }
-        //      }
-
-        //payloadInstance[0].transform.SetParent(enemyNode01.transform);
-        //payloadInstance[0].transform.position = new Vector3(0, 1f, 0);
-
-        //payloadInstance[1].transform.SetParent(enemyNode02.transform);
-        //payloadInstance[1].transform.position = new Vector3(1f, 1f, 0);
-
-        //payloadInstance[2].transform.SetParent(enemyNode03.transform);
-        //payloadInstance[2].transform.position = new Vector3(-1f, 1f, 0);
-
-        //payloadInstance[3].transform.SetParent(enemyNode04.transform);
-        //payloadInstance[3].transform.position = new Vector3(0, 1f, -1f);
     }
 
-    protected override Vector3 PayloadOffset(int i)
-    {
-        switch (i)
-        {
+    protected override Vector3 PayloadOffset(int i) {
+        switch (i) {
             case 1: return new Vector3(1f, 1f, 0);
             case 2: return new Vector3(-1f, 1f, 0);
             case 3: return new Vector3(0, 1f, -1f);
@@ -48,8 +30,7 @@ public class PayloadM : Payload {
         return base.PayloadOffset(i);
     }
 
-    protected override int GetSize()
-    {
+    protected override int GetSize() {
         return PAYLOAD_SIZE;
     }
 
@@ -57,6 +38,7 @@ public class PayloadM : Payload {
 		int selectedIndex = rand.Next(0, enemies.Count); // error getting thrown here, null ref exception
 		return enemies[selectedIndex];
 	}
+
     protected override Weapon SelectInteractable()
     {
         int selectedIndex = rand.Next(0, weapons.Count);
