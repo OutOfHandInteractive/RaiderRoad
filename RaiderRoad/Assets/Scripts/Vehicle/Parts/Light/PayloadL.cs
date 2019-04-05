@@ -12,9 +12,9 @@ public class PayloadL : Payload {
 	private List<GameObject> payloadInstance = new List<GameObject>();
 	private System.Random rand = new System.Random();
 
-	public override void populate() {
+	public override void Populate() {
         GameObject[] nodes = { enemyNode01, enemyNode02 };
-        populate(nodes);
+        Populate(nodes);
 		//for (int i=0; i < PAYLOAD_SIZE; i++) {
 		//	if (payloadCode[i] == payloadTypes.enemy)
 		//		payloadInstance.Add(Instantiate(SelectEnemies().gameObject));

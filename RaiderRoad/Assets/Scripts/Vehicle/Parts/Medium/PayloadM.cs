@@ -12,9 +12,9 @@ public class PayloadM : Payload {
     private List<GameObject> payloadInstance = new List<GameObject>();
 	private System.Random rand = new System.Random();
 
-	public override void populate() {
+	public override void Populate() {
         GameObject[] nodes = { enemyNode01, enemyNode02, enemyNode03, enemyNode04 };
-        populate(nodes);
+        Populate(nodes);
         //for (int i = 0; i < PAYLOAD_SIZE; i++) {
         //	if (payloadCode[i] == payloadTypes.enemy)
         //		payloadInstance.Add(Instantiate(SelectEnemies().gameObject));
@@ -37,7 +37,7 @@ public class PayloadM : Payload {
         //payloadInstance[3].transform.position = new Vector3(0, 1f, -1f);
     }
 
-    protected override Vector3 payloadOffset(int i)
+    protected override Vector3 PayloadOffset(int i)
     {
         switch (i)
         {
@@ -45,7 +45,7 @@ public class PayloadM : Payload {
             case 2: return new Vector3(-1f, 1f, 0);
             case 3: return new Vector3(0, 1f, -1f);
         }
-        return base.payloadOffset(i);
+        return base.PayloadOffset(i);
     }
 
     protected override int GetSize()

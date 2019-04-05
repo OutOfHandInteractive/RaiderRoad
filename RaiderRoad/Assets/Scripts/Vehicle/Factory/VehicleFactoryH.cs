@@ -8,29 +8,25 @@ public class VehicleFactoryH : VehicleFactory_I {
 
 	public List<GameObject> Chassis;
 
-	protected override GameObject selectChassis() {
+	protected override GameObject SelectChassis() {
 		int selectedIndex = rand.Next(0, Chassis.Count);
 		return Chassis[selectedIndex];
 	}
 
 	//attach enemy to cab
 	public override void AttachPayload(GameObject cargo, float wChance) {
-		GameObject payload = Instantiate(selectPayload(), cargo.GetComponent<Cargo>().payloadNode.transform);
+		GameObject payload = Instantiate(SelectPayload(), cargo.GetComponent<Cargo>().payloadNode.transform);
         payload.transform.localPosition = Vector3.zero;
-        //payload.transform.SetParent(cargo.GetComponent<Cargo>().payloadNode.transform);
-        //payload.transform.position = payload.transform.parent.transform.position;
-        payload.GetComponent<PayloadH>().setWChance(wChance);
-        payload.GetComponent<PayloadH>().populate();
+        payload.GetComponent<PayloadH>().SetWChance(wChance);
+        payload.GetComponent<PayloadH>().Populate();
 	}
 
 	// attach wheel to frame
 	public override void AttachWheels(GameObject chassis, VehicleAI v) {
-		GameObject wheelToUse = selectWheel();
+		GameObject wheelToUse = SelectWheel();
 		GameObject wheel;
 		wheel = Instantiate(wheelToUse, chassis.GetComponent<Chassis>().wheelNodes[0].transform);
         wheel.transform.localPosition = Vector3.zero;
-        //wheel.transform.SetParent(chassis.GetComponent<Chassis>().wheelNodes[0].transform);
-        //wheel.transform.position = wheel.transform.parent.transform.position;
 
         Wheel wheelScript = wheelToUse.GetComponent<Wheel>();
 	}
