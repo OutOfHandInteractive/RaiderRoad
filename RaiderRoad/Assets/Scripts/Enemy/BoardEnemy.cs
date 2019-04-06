@@ -48,6 +48,8 @@ public class BoardEnemy : JumpEnemy {
         float zSign = cSide == VehicleAI.Side.Left ? 1 : -1;
         Debug.Log(zSign + " THIS IS THE SIGN");
         Jump(pos, zSign);
+        cObject.transform.position = Vector3.MoveTowards(cObject.transform.position, pos, Time.deltaTime*.1f);
+        
 
         //40% chance to go into Destroy State or Fight State, 20% to go into steal
         string actionStr = (action < 50) ? "EnterDestroy" : "EnterFight";

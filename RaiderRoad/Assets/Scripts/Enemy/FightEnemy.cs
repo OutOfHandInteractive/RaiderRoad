@@ -92,6 +92,7 @@ public class FightEnemy : EnemyAI {
     {
         fightRange.GetComponent<Renderer>().material.color = new Color(255f, 150f, 0f, .5f);
         chasing = false;
+        //agent.isStopped = true;
         //cObject.transform.position = Vector3.zero;
     }
 
