@@ -9961,10 +9961,8 @@ MonoBehaviour:
   basehealth: 100
   playerId: 0
   moveSpeed: 3
+  isFacingVertical: 0
   view: {fileID: 1757454909120126}
-  layerMask:
-    serializedVersion: 2
-    m_Bits: 1024
   jumpIndicator: {fileID: 1948074909491942}
   jumpIndicatorScaling: 5
   jumpForce: 22000
@@ -9976,6 +9974,8 @@ MonoBehaviour:
   myAni: {fileID: 7514131844276300948}
   prevMoveVal: 0
   currentHealth: 0
+  hp5: 10
+  healthRegenDelay: 5
   reviveCountdown: 0
   paused: 0
   reviving: 0
@@ -10745,11 +10745,11 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 30
       objectReference: {fileID: 0}
-    - target: {fileID: 2300000, guid: 0ec318ae8b9f8ff488a6058e7d3d2bb9, type: 3}
+    - target: {fileID: 2300002, guid: 0ec318ae8b9f8ff488a6058e7d3d2bb9, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 0316027083229bd419d4de42fa08f08d, type: 2}
-    - target: {fileID: 2300002, guid: 0ec318ae8b9f8ff488a6058e7d3d2bb9, type: 3}
+    - target: {fileID: 2300000, guid: 0ec318ae8b9f8ff488a6058e7d3d2bb9, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 0316027083229bd419d4de42fa08f08d, type: 2}

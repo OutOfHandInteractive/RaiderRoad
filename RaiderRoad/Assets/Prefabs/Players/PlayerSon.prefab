@@ -9961,10 +9961,8 @@ MonoBehaviour:
   basehealth: 100
   playerId: 0
   moveSpeed: 3
+  isFacingVertical: 0
   view: {fileID: 1757454909120126}
-  layerMask:
-    serializedVersion: 2
-    m_Bits: 1024
   jumpIndicator: {fileID: 1948074909491942}
   jumpIndicatorScaling: 5
   jumpForce: 22000
@@ -9976,6 +9974,8 @@ MonoBehaviour:
   myAni: {fileID: 4166680350119447590}
   prevMoveVal: 0
   currentHealth: 0
+  hp5: 10
+  healthRegenDelay: 5
   reviveCountdown: 0
   paused: 0
   reviving: 0

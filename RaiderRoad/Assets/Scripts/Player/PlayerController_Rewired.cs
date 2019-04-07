@@ -7,8 +7,8 @@ public class PlayerController_Rewired : MonoBehaviour
 {
     public enum playerStates { up, down };
 
-    // ----------------------- Public Variables ---------------------------
-    public float basehealth;
+	// ----------------------- Public Variables ---------------------------
+	public float basehealth;
 
     public int playerId = 0;
 
@@ -47,7 +47,12 @@ public class PlayerController_Rewired : MonoBehaviour
     private GameManager g;
     private bool myPauseInput = false;
 
+	// health
     public float currentHealth;
+	[SerializeField] private float hp5;	// health regen per 5 seconds
+	[SerializeField] private float healthRegenDelay;
+	private float healthRegenDelayCountdown;
+
     private float baseJumpInidicatorScale;
     private float baseJumpIndicatorDist;
     public float reviveCountdown;
@@ -137,6 +142,8 @@ public class PlayerController_Rewired : MonoBehaviour
         }
         */
         ScaleJumpIndicator();
+
+		HealthRegen();
     }
 
     private void GetInput()
@@ -357,6 +364,8 @@ public class PlayerController_Rewired : MonoBehaviour
     public void takeDamage(float _damage)
     {
         currentHealth -= _damage;
+		healthRegenDelayCountdown = healthRegenDelay;
+
         if (currentHealth <= 0)
         {
 			goDown();
@@ -382,6 +391,21 @@ public class PlayerController_Rewired : MonoBehaviour
 			objectInUse.Leave();
 		}
 		g.playerDowned();
+	}
+
+	private void HealthRegen() {
+		if (currentHealth < basehealth) {
+			if (healthRegenDelayCountdown <= 0) {
+				currentHealth += ((hp5 / 5) * Time.deltaTime);
+
+				if (currentHealth > basehealth) {
+					currentHealth = basehealth;
+				}
+			}
+			else {
+				healthRegenDelayCountdown -= Time.deltaTime;
+			}
+		}
 	}
 
     // --------------------- Getters / Setters ----------------------
