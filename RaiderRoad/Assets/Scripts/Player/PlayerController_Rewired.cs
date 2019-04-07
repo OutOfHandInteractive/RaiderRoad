@@ -154,9 +154,6 @@ public class PlayerController_Rewired : MonoBehaviour
 				angle = Mathf.Atan2(moveVector.y, moveVector.x) * Mathf.Rad2Deg;
 			}
 
-			Debug.Log("Angle: " + angle);
-			Debug.Log("isVertical: " + isFacingVertical);
-
 			// determine if the player is facing vertically or horizontally for wall placement
 			// adjust isFacingVertical accordingly, remove "wrong direction" nodes from view if
 			// changing from vertical to horizontal or vice versa
