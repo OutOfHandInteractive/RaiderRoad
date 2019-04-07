@@ -92,8 +92,10 @@ public class DestroyEnemy : TargetedEnemy {
         base.TriggerStay(other);
         bool isWall = Util.IsWall(other.gameObject);
         bool isEngine = Util.IsEngine(other.gameObject);
-        if (isWall || isEngine)
+        if (other.gameObject == GetTarget())
         {
+            agent.isStopped = true;
+            master.getAnimator().Running = false;
             //Debug.Log("HIT");
             master.getAnimator().Attack(); //visual of enemy breaking object
             master.damageMeter += 100f/3f * Time.deltaTime;
@@ -107,6 +109,7 @@ public class DestroyEnemy : TargetedEnemy {
                 }
                 engineKill = engineKill || isEngine;
                 master.damageMeter = 0;
+                agent.isStopped = false;
             }
         }
     }
