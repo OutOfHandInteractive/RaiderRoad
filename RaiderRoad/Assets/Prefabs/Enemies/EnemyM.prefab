@@ -235,6 +235,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: 0
+  myType: {fileID: 0}
   munnitions: {fileID: 1036905886357580, guid: 99112baa6cba41b4b844ca7fe6d5cb38, type: 3}
   fire: {fileID: 1395703786283796, guid: e3957306ac6e4004abce694a03535b94, type: 3}
   dropOnDeath: {fileID: 1412282026529114, guid: c4b78f547f7592d42867fc5a56f7cc72,
@@ -243,7 +244,7 @@ MonoBehaviour:
   damagePower: 15
   currentHealth: 0
   damageMeter: 0
-  stateChance: 0
+  speed: 2
   myAni: {fileID: 2369915903535075928}
 --- !u!114 &6508023441542975106
 MonoBehaviour:
@@ -274,7 +275,7 @@ NavMeshAgent:
   m_AngularSpeed: 120
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 0
+  m_AutoBraking: 1
   m_AutoRepath: 1
   m_Height: 2
   m_BaseOffset: 1
@@ -848,6 +849,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Thug
       objectReference: {fileID: 0}
+    - target: {fileID: 9500000, guid: a4ac68e3bc620ef4aa376fd0e57bbe9c, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 22100000, guid: 59ec63c7de948b145ba1f672b3e8977f,
+        type: 2}
     - target: {fileID: 400038, guid: a4ac68e3bc620ef4aa376fd0e57bbe9c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -892,11 +898,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 9500000, guid: a4ac68e3bc620ef4aa376fd0e57bbe9c, type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 22100000, guid: 59ec63c7de948b145ba1f672b3e8977f,
-        type: 2}
     - target: {fileID: 13700000, guid: a4ac68e3bc620ef4aa376fd0e57bbe9c, type: 3}
       propertyPath: m_Bones.Array.data[0]
       value: 

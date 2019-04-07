@@ -7,6 +7,11 @@ using UnityEngine;
 /// </summary>
 public class DeathEnemy : EnemyAIState {
 
+    protected override void OnEnter(StateContext context)
+    {
+        base.OnEnter(context);
+    }
+
     /// <summary>
     /// Performs the raider death actions (ritual?)
     /// </summary>
@@ -50,7 +55,7 @@ public class DeathEnemy : EnemyAIState {
         {
             if (child.tag == "Drops")
             {
-                child.parent = null;
+                child.parent = transform.parent;
             }
         }
     }

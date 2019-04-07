@@ -8,7 +8,10 @@ using System.Linq;
 /// </summary>
 public abstract class EnemyAI : MonoBehaviour
 {
-
+    /// <summary>
+    /// Get the raider movement speed
+    /// </summary>
+    /// <returns>The movement speed in meters/second</returns>
     public abstract float Speed();
 
     /// <summary>

@@ -1,9 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/// <summary>
+/// Adapter class to handle talking to the animator on the Raiders
+/// </summary>
 public class EnemyAnimator
 {
-    public Animator animator;
+    private Animator animator;
+
+    public EnemyAnimator(Animator animator)
+    {
+        this.animator = animator;
+    }
 
     public bool Running
     {

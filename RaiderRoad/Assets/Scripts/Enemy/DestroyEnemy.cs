@@ -96,7 +96,7 @@ public class DestroyEnemy : TargetedEnemy {
         {
             //Debug.Log("HIT");
             master.getAnimator().Attack(); //visual of enemy breaking object
-            master.damageMeter += 100 * Time.deltaTime;
+            master.damageMeter += 100f/3f * Time.deltaTime;
             if (master.damageMeter >= 100)
             {
                 other.gameObject.GetComponent<Constructable>().Damage(100f);

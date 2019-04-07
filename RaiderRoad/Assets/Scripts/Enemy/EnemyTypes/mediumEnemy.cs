@@ -5,7 +5,6 @@ using UnityEngine;
 public class mediumEnemy : EnemyType
 {
     public float enemySpeed = 2f;
-    private int actionChance = 0;
 
     public override RandomChoice<StatefulEnemyAI.State> BoardingChooser()
     {
@@ -17,9 +16,7 @@ public class mediumEnemy : EnemyType
     // Start is called before the first frame update
     void Start()
     {
-        actionChance = Random.Range(0, 50);
-        StatefulEnemyAI master = GetComponent<StatefulEnemyAI>();
-        master.speed = enemySpeed;
+        GetComponent<StatefulEnemyAI>().speed = enemySpeed;
     }
 
     // Update is called once per frame

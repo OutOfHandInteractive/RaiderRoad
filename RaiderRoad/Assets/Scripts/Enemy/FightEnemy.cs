@@ -20,17 +20,25 @@ public class FightEnemy : TargetedEnemy {
     private float knockback_force = 2000f;
     private GameObject eVehicle;
     private NavMeshAgent agent;
-    private HashSet<GameObject> inRange = new HashSet<GameObject>();
-    private bool isWindingUp = false;
+    private HashSet<GameObject> inRange;
+    [SerializeField] private bool isWindingUp = false;
+
+    [SerializeField] Vector3 targetPosition;
 
     protected override void OnEnter(StateContext context)
     {
         base.OnEnter(context);
         //Initialized enemy
+        inRange = new HashSet<GameObject>();
         agent = master.Agent;
         if(context != null && context is FightContext)
         {
             SetTarget(((FightContext)context).target);
+        }
+        else
+        {
+            // Reset targeter
+            SetTarget(null);
         }
         fightRange = gameObject.transform.Find("EnemyAttack").gameObject;
         //eVehicle = stateMachine.Vehicle.gameObject;
@@ -57,29 +65,39 @@ public class FightEnemy : TargetedEnemy {
         //Get enemy speed
 
         //If doesnt exist or if player has been hit go into escape state
-        if (player == null || playerDamage >= 4f || master.currentHealth <= 25f)
+        if(player == null)
+        {
+            return;
+        }
+        else if (playerDamage >= 4f || master.currentHealth <= 25f)
         {
             Debug.Log("reached");
-            master.EnterEscape();
+            master.CallEvac();
         }
-        else if(inRange.Count > 0)
+        if(inRange.Count > 0)
         {
             StartCoroutine(WindUp());
         }
-        else if (OnVehicle())
+        else
         {
-            Vector3 targetPosition = new Vector3(player.transform.position.x, gameObject.transform.position.y, player.transform.position.z);
-            MoveToward(targetPosition);
-        }
-        else if (OnRV())
-        {
-            //Look at player and move towards them
-            Vector3 targetPosition = new Vector3(player.transform.position.x, gameObject.transform.position.y, player.transform.position.z);
-            gameObject.transform.LookAt(targetPosition);
-            agent.SetDestination(targetPosition);
-            master.getAnimator().Running = true;
-            //gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, player.transform.position, movement);
+            targetPosition = new Vector3(player.transform.position.x, gameObject.transform.position.y, player.transform.position.z);
+            if (OnVehicle())
+            {
+                MoveToward(targetPosition);
+            }
+            else if (OnRV())
+            {
+                //Look at player and move towards them
+                gameObject.transform.LookAt(targetPosition);
+                agent.SetDestination(targetPosition);
+                master.getAnimator().Running = true;
+                //gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, player.transform.position, movement);
 
+            }
+            else
+            {
+                Debug.LogError("WTF? Not on vehicle or RV?");
+            }
         }
     }
 
@@ -105,35 +123,30 @@ public class FightEnemy : TargetedEnemy {
     {
         //Debug.Log(Time.time);
         isWindingUp = true;
-        try
+        WindupAttack();
+        //myAni.SetTrigger("WindUp");
+        yield return new WaitForSeconds(.5f);
+        if (master.IsCurrent(this))
         {
-            WindupAttack();
-            //myAni.SetTrigger("WindUp");
-            yield return new WaitForSeconds(.5f);
-            if (master.IsCurrent(this))
+            bool hit = false;
+            master.getAnimator().Attack();
+            foreach (GameObject other in inRange)
             {
-                bool hit = false;
-                master.getAnimator().Attack();
-                foreach (GameObject other in inRange)
-                {
-                    HitPlayer(other, master.damagePower);
-                    hit = true;
-                }
-                if (!hit)
-                {
-                    Missed();
-                }
+                HitPlayer(other, master.damagePower);
+                hit = true;
             }
-            else
+            if (!hit)
             {
                 Missed();
             }
-            Debug.Log(Time.time);
         }
-        finally
+        else
         {
-            isWindingUp = false;
+            Missed();
         }
+        //Debug.Log(Time.time);
+        agent.isStopped = false;
+        isWindingUp = false;
     }
 
     /// <summary>
@@ -141,6 +154,7 @@ public class FightEnemy : TargetedEnemy {
     /// </summary>
     public void WindupAttack()
     {
+        agent.isStopped = true;
         master.getAnimator().Running = false;
         fightRange.GetComponent<Renderer>().material.color = new Color(255f, 150f, 0f, .5f);
         //gameObject.transform.position = Vector3.zero;
@@ -153,8 +167,8 @@ public class FightEnemy : TargetedEnemy {
     public void HitPlayer(GameObject other, float damage)
     {
         playerDamage += damage;
-        fightRange.GetComponent<Renderer>().material.color = new Color(255f, 0f, 0f, .5f);
-        other.gameObject.GetComponent<PlayerController_Rewired>().takeDamage(damage);
+        //fightRange.GetComponent<Renderer>().material.color = new Color(255f, 0f, 0f, .5f);
+        other.GetComponent<PlayerController_Rewired>().takeDamage(damage);
         Vector3 dir = other.transform.position - gameObject.transform.position;
         dir = Vector3.Normalize(new Vector3(dir.x, 0.0f, dir.z));
         other.GetComponent<Rigidbody>().AddForce(dir * knockback_force);

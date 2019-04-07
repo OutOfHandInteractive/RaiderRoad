@@ -39,7 +39,7 @@ public class BoardEnemy : JumpEnemy {
         Vector3 planePos = new Vector3(gameObject.transform.position.x, 0, gameObject.transform.position.z);
         Vector3 pos = GetTarget(planePos);
         float zSign = cSide == VehicleAI.Side.Left ? 1 : -1;
-        Debug.Log(zSign + " THIS IS THE SIGN");
+        //Debug.Log(zSign + " THIS IS THE SIGN");
         Jump(pos, zSign);
 
         //40% chance to go into Destroy State or Fight State, 20% to go into steal
@@ -51,7 +51,7 @@ public class BoardEnemy : JumpEnemy {
             agent.velocity = Vector3.zero;
             //agent.isStopped = true;
             survey += Time.deltaTime;
-            Debug.Log(survey);
+            //Debug.Log(survey);
             if (survey > 1f)
             {
                 master.EnterState(master.myType.BoardingChooser().Choose());

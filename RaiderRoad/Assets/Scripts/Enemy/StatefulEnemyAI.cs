@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -80,7 +81,13 @@ public class StatefulEnemyAI : EnemyAI {
 
     //Animation
     public Animator myAni;
-    private EnemyAnimator enemyAnimator = new EnemyAnimator();
+
+    public void CallEvac()
+    {
+        escape.CallEvac();
+    }
+
+    private EnemyAnimator enemyAnimator;
 
     public override float Speed()
     {
@@ -123,7 +130,7 @@ public class StatefulEnemyAI : EnemyAI {
             interactable = null;
         }
 
-        enemyAnimator.animator = myAni;
+        enemyAnimator = new EnemyAnimator(myAni);
 
         Debug.Log(interactable);
         Debug.Log(transform.parent);

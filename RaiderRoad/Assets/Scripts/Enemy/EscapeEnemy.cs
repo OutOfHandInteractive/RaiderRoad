@@ -10,11 +10,22 @@ public class EscapeEnemy : JumpEnemy {
 
     //Gameobject, rigidbody, vehicle, initialangle for jump, if enemy jumped, current side 
     private GameObject eVehicle;
+    private bool calling = false;
 
     protected override void OnEnter(StateContext context)
     {
         base.OnEnter(context);
         //eVehicle = master.Vehicle.gameObject;
+    }
+
+    public void CallEvac()
+    {
+        if (!calling)
+        {
+            calling = true;
+            Radio.GetRadio().CallForEvac(this);
+            Debug.Log("I need evac!!");
+        }
     }
 
     /// <summary>
@@ -23,9 +34,10 @@ public class EscapeEnemy : JumpEnemy {
     /// <param name="vehicle">The vehicle the radio found</param>
     public void RadioEvacCallback(StayVehicle vehicle)
     {
+        calling = false;
         if(IsNull(vehicle))
         {
-            Debug.Log("Received null vehicle! " + vehicle.ToString());
+            Debug.LogError("Received null vehicle! " + vehicle.ToString());
             master.EnterFight();
         }
         else
@@ -50,14 +62,13 @@ public class EscapeEnemy : JumpEnemy {
         // Wait to recieve vehicle
         if (eVehicle == null)
         {
-            Radio.GetRadio().CallForEvac(this);
-            Debug.Log("I need evac!!");
-            // If we don't get an immediate response, start fighting
-            if(eVehicle == null)
-            {
-                master.EnterFight();
-                return;
-            }
+            CallEvac();
+        }
+
+        if (calling)
+        {
+            master.EnterFight();
+            return;
         }
 
         //If a reasonable jumping distance to vehicle, escape
