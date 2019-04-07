@@ -460,11 +460,12 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         }
     }
 
-    void OnTriggerEnter(Collider other)
+#region Detection Functions
+	void OnTriggerEnter(Collider other)
     {
-
         //Debug.Log(other.name);
-        if ((other.tag == "WallNode"))
+        if ((other.tag == "WallNodeVertical" && pController.isFacingVertical) || 
+			(other.tag == "WallNodeHorizontal" && !pController.isFacingVertical))
         {
             //Debug.Log("Added");
             if (!other.GetComponent<BuildNode>().occupied)
@@ -596,7 +597,9 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
 		}
 	}
 
-    public void changeInventory() //change inventory in text only after building wall, saves overhead
+#endregion
+
+	public void changeInventory() //change inventory in text only after building wall, saves overhead
     {
         inventoryText.text = wallInventory.ToString();
     }
@@ -668,4 +671,15 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         myWeapon.SetActive(false);
         sheathTimer = 0f;
     }
+
+	public void removeWrongDirectionWallNodes() {
+		foreach (GameObject node in nodes) {
+			if (pController.isFacingVertical && node.gameObject.tag == "WallNodeHorizontal") {
+				nodes.Remove(node);
+			}
+			else if (!pController.isFacingVertical && node.gameObject.tag == "WallNodeVertical") {
+				nodes.Remove(node);
+			}
+		}
+	}
 }

@@ -227,7 +227,7 @@ public class EventManager : MonoBehaviour {
         while (true)
         {
             difficultyRating = calculateDifficultyRating();
-            Debug.Log("difficulty: " + difficultyRating);
+            //Debug.Log("difficulty: " + difficultyRating);
 
             yield return new WaitForSecondsRealtime(TimeBetweenDifficultyAdjustment);
         }

@@ -13,8 +13,9 @@ public class PlayerController_Rewired : MonoBehaviour
     public int playerId = 0;
 
     public float moveSpeed = 10f;
+	public bool isFacingVertical;
 
-    public GameObject view;
+	public GameObject view;
     public GameObject jumpIndicator;
 
     public float jumpIndicatorScaling = 10f;
@@ -33,6 +34,7 @@ public class PlayerController_Rewired : MonoBehaviour
     private Player player;
 	private PlayerPlacement_Rewired pPlacement;
     private Vector2 moveVector;
+	private float angle;
 
     private Vector3 rotateVector;
 
@@ -142,11 +144,38 @@ public class PlayerController_Rewired : MonoBehaviour
         // main input
         if (!paused && !interacting && !reviving)
         {
+			// get movement directions and angles
             moveVector.x = player.GetAxis("Move Horizontal") * Time.deltaTime * moveSpeed;
             moveVector.y = player.GetAxis("Move Vertical") * Time.deltaTime * moveSpeed;
-
             myAni.SetFloat("speed", moveVector.magnitude/ Time.deltaTime);
 
+			// adjust player facing angle if they are moving
+			if (moveVector.magnitude > 0) {
+				angle = Mathf.Atan2(moveVector.y, moveVector.x) * Mathf.Rad2Deg;
+			}
+
+			Debug.Log("Angle: " + angle);
+			Debug.Log("isVertical: " + isFacingVertical);
+
+			// determine if the player is facing vertically or horizontally for wall placement
+			// adjust isFacingVertical accordingly, remove "wrong direction" nodes from view if
+			// changing from vertical to horizontal or vice versa
+			if ((angle >= Constants.FACING_VERTICAL_MINIMUM && angle <= Constants.FACING_VERTICAL_MAXIMUM) ||
+				(angle <= -Constants.FACING_VERTICAL_MINIMUM && angle >= -Constants.FACING_VERTICAL_MAXIMUM)) {
+				if (!isFacingVertical) {
+					pPlacement.removeWrongDirectionWallNodes();
+				}
+
+				isFacingVertical = true;
+			}
+			else {
+				if (isFacingVertical) {
+					pPlacement.removeWrongDirectionWallNodes();
+				}
+
+				isFacingVertical = false;
+			}
+			
             //Twin Stick Rotation
             //rotateVector = Vector3.right * player.GetAxis("Rotate Horizontal") + Vector3.forward * player.GetAxis("Rotate Vertical");
 
@@ -247,9 +276,7 @@ public class PlayerController_Rewired : MonoBehaviour
         int layerMask = ~((1 << 2) | (1 << 10)); // Ignore Layer NavMesh
         RaycastHit hit;
         //Debug.DrawRay(transform.position, -Vector3.up, Color.green);
-        if (Physics.Raycast(new Vector3(transform.position.x, transform.position.y + .5f, transform.position.z), -Vector3.up, out hit, Mathf.Infinity, layerMask))
-        {
-            Debug.Log("Jump Hit Collider..." + hit.collider);
+        if (Physics.Raycast(new Vector3(transform.position.x, transform.position.y + .5f, transform.position.z), -Vector3.up, out hit, Mathf.Infinity, layerMask)) {
             Vector3 pos = hit.point + hit.normal * 0.05f;
             jumpIndicator.transform.position = pos;
             //jumpIndicator.transform.position = new Vector3(jumpIndicator.transform.position.x, pos, jumpIndicator.transform.position.z);
