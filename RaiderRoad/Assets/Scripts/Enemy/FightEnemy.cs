@@ -96,7 +96,7 @@ public class FightEnemy : TargetedEnemy {
             }
             else
             {
-                Debug.LogError("WTF? Not on vehicle or RV?");
+                Debug.LogWarning("WTF? Not on vehicle or RV?");
             }
         }
     }
