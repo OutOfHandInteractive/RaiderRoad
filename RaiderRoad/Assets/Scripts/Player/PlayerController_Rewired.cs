@@ -149,9 +149,17 @@ public class PlayerController_Rewired : MonoBehaviour
             moveVector.y = player.GetAxis("Move Vertical") * Time.deltaTime * moveSpeed;
             myAni.SetFloat("speed", moveVector.magnitude/ Time.deltaTime);
 
-			// adjust player facing angle if they are moving
-			if (moveVector.magnitude > 0) {
-				angle = Mathf.Atan2(moveVector.y, moveVector.x) * Mathf.Rad2Deg;
+			//Twin Stick Rotation
+			//rotateVector = Vector3.right * player.GetAxis("Rotate Horizontal") + Vector3.forward * player.GetAxis("Rotate Vertical");
+
+			//Single Stick Rotation
+			if (!player.GetButton("Build Mode")) {
+				rotateVector = Vector3.right * player.GetAxis("Move Horizontal") + Vector3.forward * player.GetAxis("Move Vertical");
+				
+				// adjust player facing angle if they are moving
+				if (moveVector.magnitude > 0) {
+					angle = Mathf.Atan2(moveVector.y, moveVector.x) * Mathf.Rad2Deg;
+				}
 			}
 
 			// determine if the player is facing vertically or horizontally for wall placement
@@ -172,12 +180,6 @@ public class PlayerController_Rewired : MonoBehaviour
 
 				isFacingVertical = false;
 			}
-			
-            //Twin Stick Rotation
-            //rotateVector = Vector3.right * player.GetAxis("Rotate Horizontal") + Vector3.forward * player.GetAxis("Rotate Vertical");
-
-            //Single Stick Rotation
-            rotateVector = Vector3.right * player.GetAxis("Move Horizontal") + Vector3.forward * player.GetAxis("Move Vertical");
 
             if (player.GetButtonDown("Use"))
             {
