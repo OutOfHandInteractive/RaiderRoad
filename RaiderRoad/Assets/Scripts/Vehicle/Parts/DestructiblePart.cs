@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class DestructiblePart : MonoBehaviour {
-
+	#region variable declarations
 	// ---------------------- public variables -----------------------
 	// references
 	public GameObject drop;
@@ -30,6 +30,7 @@ public abstract class DestructiblePart : MonoBehaviour {
 
 	// abstract methods
 	protected abstract float GetMaxHealth();
+	#endregion
 
 	private void Start() {
 		maxHealth = GetMaxHealth() * (1 + armorStacks * Constants.ARMOR_PARTHEALTH_MODIFIER_PER_STACK);
@@ -47,7 +48,7 @@ public abstract class DestructiblePart : MonoBehaviour {
 	}
 
 	// ---------- Modifiers ----------
-	public float takeDamage(float damageDone) {
+	public float TakeDamage(float damageDone) {
 		currentHealth -= damageDone;
 		if (currentHealth <= 0) {
 			isIntact = false;
@@ -66,14 +67,14 @@ public abstract class DestructiblePart : MonoBehaviour {
 				myMat[i].color = destroyedColor;
 			}
 
-			vAI.destroyPart();
+			vAI.DestroyPart();
 		}
 
 		return currentHealth;
 	}
 
 	// ---------- Getters and Setters ----------
-	public float getHealth() {
+	public float GetHealth() {
 		return currentHealth;
 	}
 }

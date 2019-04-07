@@ -4,41 +4,42 @@ using UnityEngine;
 
 public abstract class Payload : MonoBehaviour {
 	public enum payloadTypes { enemy, weapon }
-	public abstract void populate();
+
+	#region Variable Declarations
+	// -------------------- public variables ---------------------
 	public List<payloadTypes> payloadCode;
 
+	// ------------------- nonpublic variables -------------------
+	protected float wChance = 0f;
+	#endregion
+
+	#region Abstract Methods
+	public abstract void Populate();
 	protected abstract StatefulEnemyAI SelectEnemies();
     protected abstract Weapon SelectInteractable();
-
     protected abstract int GetSize();
+	#endregion
 
-    protected float wChance = 0f;
-
-    protected List<GameObject> populate(GameObject[] nodes)
-    {
-        setPayloadCode(wChance);
+	protected List<GameObject> Populate(GameObject[] nodes) {
+        SetPayloadCode(wChance);
         Debug.Log("weapon chance: " + wChance);
         List<GameObject> payloadInstance = new List<GameObject>();
-        for (int i = 0; i < GetSize(); i++)
-        {
+
+        for (int i = 0; i < GetSize(); i++) {
             Vector3 localPos = Vector3.zero;
-            if (payloadCode[i] == payloadTypes.enemy)
-            {
+            if (payloadCode[i] == payloadTypes.enemy) {
                 payloadInstance.Add(Instantiate(SelectEnemies().gameObject,  nodes[i].transform));
                 // HACK HACK HACK!!
                 localPos = new Vector3(0, 0.42f, 0);
             }
-            else if (payloadCode[i] == payloadTypes.weapon)
-            {
+            else if (payloadCode[i] == payloadTypes.weapon) {
                 payloadInstance.Add(Instantiate(SelectInteractable().gameObject, nodes[i].transform));
                 // HACK HACK HACK!!
-                if(payloadInstance[i].GetComponentInChildren<cannon>() != null)
-                {
+                if(payloadInstance[i].GetComponentInChildren<cannon>() != null) {
                     localPos = new Vector3(0, 0.414f, 0);
                 }
             }
-            else
-            {
+            else {
                 throw new System.Exception("Unknown payload code: " + payloadCode[i]);
             }
             payloadInstance[i].transform.localPosition = localPos;
@@ -47,34 +48,31 @@ public abstract class Payload : MonoBehaviour {
         return payloadInstance;
     }
 
-    protected virtual Vector3 payloadOffset(int i)
-    {
+    protected virtual Vector3 PayloadOffset(int i) {
         return new Vector3(0, 1f, 0);
     }
 
-    protected void setPayloadCode(float wChance)
-    {
+    protected void SetPayloadCode(float wChance) {
         //randomly select possible weapon position
         int decided = Random.Range(0, GetSize() - 1);
-        //populate code
-        for (int i = 0; i < GetSize(); i++)
-        {
-            if(i == decided){   //if at position selected above
-                if(Random.value < wChance){         // if % chance of getting weapon reached
+        
+		//populate code
+        for (int i = 0; i < GetSize(); i++) {
+            if(i == decided) {   //if at position selected above
+                if(Random.value < wChance) {         // if % chance of getting weapon reached
                     payloadCode[i] = payloadTypes.weapon;    //set position to weapon
                 }
-                else{   //else
+                else {   //else
                     payloadCode[i] = payloadTypes.enemy;    //set to enemy (default)
                 }
             }
-            else{               //else
+            else {               //else
                 payloadCode[i] = payloadTypes.enemy;    //set to enemy (default)
             }
         }
     }
 
-    public void setWChance(float _WC)
-    {
+    public void SetWChance(float _WC) {
         wChance = _WC;
     }
 }

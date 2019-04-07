@@ -124,7 +124,7 @@ public class VehicleAI : MonoBehaviour {
         }
 	}
 
-	public void destroyPart() {
+	public void DestroyPart() {
 		takeDamage(maxHealth * 0.4f);
 	}
 
@@ -177,7 +177,7 @@ public class VehicleAI : MonoBehaviour {
 
 	#region Effect Functions
 	private void startHighDamageSmokeEffects() {
-		front_attachment.startHighDamageSmokeEffects();
+		front_attachment.StartHighDamageSmokeEffects();
 	}
 	#endregion
 
@@ -215,7 +215,7 @@ public class VehicleAI : MonoBehaviour {
 		return maxHealth;
 	}
 
-	public void setMaxHealth(float _maxHealth) {
+	public void SetMaxHealth(float _maxHealth) {
 		maxHealth = _maxHealth;
 		currentHealth = maxHealth;
 	}
@@ -228,7 +228,7 @@ public class VehicleAI : MonoBehaviour {
 		return ramDamage;
 	}
 
-	public void setRamDamage(float _ramDamage) {
+	public void SetRamDamage(float _ramDamage) {
 		ramDamage = _ramDamage;
 	}
 
@@ -236,7 +236,7 @@ public class VehicleAI : MonoBehaviour {
 		return speed;
 	}
 
-	public void setSpeed(float _speed) {
+	public void SetSpeed(float _speed) {
 		speed = _speed;
 	}
 
@@ -244,7 +244,7 @@ public class VehicleAI : MonoBehaviour {
 		return movementChance;
 	}
 
-	public void setMovementChance(float _chance) {
+	public void SetMovementChance(float _chance) {
 		movementChance = _chance;
 	}
 

@@ -2,25 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
-
 public class VehicleFactoryManager : MonoBehaviour {
 
 	public enum vehicleTypes { light, medium, heavy, _null };
 
-	public VehicleFactoryL l;
-	public VehicleFactoryM m;
-	public VehicleFactoryH h;
-
+	#region variable declarations
+	public VehicleFactoryL lVehicleFactory;
+	public VehicleFactoryM mVehicleFactory;
+	public VehicleFactoryH hVehicleFactory;
     public vehicleTypes getType;
+	#endregion
 
-    public GameObject newConstructVehicle(vehicleTypes type, int mod, Vector3 position, float wChance)
+	public GameObject NewConstructVehicle(vehicleTypes type, int mod, Vector3 position, float wChance)
     {
         if (type == vehicleTypes.light)
-            return l.AssembleVehicle(mod, position, wChance);
+            return lVehicleFactory.AssembleVehicle(mod, position, wChance);
         else if (type == vehicleTypes.medium)
-            return m.AssembleVehicle(mod, position, wChance);
+            return mVehicleFactory.AssembleVehicle(mod, position, wChance);
         else
-            return h.AssembleVehicle(mod, position, wChance);
+            return hVehicleFactory.AssembleVehicle(mod, position, wChance);
     }
 }

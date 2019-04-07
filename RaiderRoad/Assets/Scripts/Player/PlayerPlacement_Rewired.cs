@@ -362,7 +362,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
             if(part!=null)
             {
                 Instantiate(objHitPart, transform.position, Quaternion.identity); //temporary solution, also placed slightly to left for some reason
-                if (part.GetComponent<DestructiblePart>().takeDamage(1) <= 0)
+                if (part.GetComponent<DestructiblePart>().TakeDamage(1) <= 0)
                 {
                     destructableParts.Remove(part);
                 }

@@ -157,7 +157,6 @@ public class FightEnemy : TargetedEnemy {
         agent.isStopped = true;
         master.getAnimator().Running = false;
         fightRange.GetComponent<Renderer>().material.color = new Color(255f, 150f, 0f, .5f);
-        //gameObject.transform.position = Vector3.zero;
     }
 
     /// <summary>
