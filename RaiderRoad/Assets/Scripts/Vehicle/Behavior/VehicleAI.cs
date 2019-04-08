@@ -204,9 +204,16 @@ public class VehicleAI : MonoBehaviour {
 
     IEnumerator WaitToDie()
     {
-        agent.enabled = false;
+        agent.isStopped = true;
+        StartCoroutine(DeathMovement());
         yield return new WaitForSeconds(5);
         Die();
+    }
+
+    IEnumerator DeathMovement()
+    {
+        transform.Translate(Vector3.forward * Time.deltaTime * -1);
+        yield return null;
     }
 	#endregion
 

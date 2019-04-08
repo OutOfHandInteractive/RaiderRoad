@@ -10,18 +10,21 @@ public class Driving : Interactable
     public int playerId = 0;
     public Transform rv;
     public float moveSpeed = 10f;
-
+    public enum direction { left, right };
     public float accel;
     public float maxSpeed;
     public float change;
     public float leftClamp, rightClamp;
     public float enemyCountL, enemyCountR;
+    public direction prevDir;
+    public direction newDir;
 
     //--------------------
     // Private Variables
     //--------------------
     private bool paused = false;
     private Player player;
+    [SerializeField]
     private Vector2 moveVector;
 
     [System.NonSerialized]
@@ -76,7 +79,19 @@ public class Driving : Interactable
             playerUsing.transform.position = transform.position;
             playerUsing.transform.rotation = transform.rotation;
 
-            moveVector.x = player.GetAxis("Move Horizontal") * Time.deltaTime * moveSpeed * accel;
+            if(player.GetAxis("Move Horizontal") != 0)
+            {
+                moveVector.x = player.GetAxis("Move Horizontal") * Time.deltaTime * moveSpeed * accel;
+            }
+            else if(moveVector.x >= 0)
+            {
+                moveVector.x -= 0.001f; //MAGIC NUMBERS
+            }
+            else if(moveVector.x <= 0)
+            {
+                moveVector.x += 0.001f; //Fuck all these hacks and whoever wrote them (me)
+            }
+            
             moveVector.y = player.GetAxis("Move Vertical") * Time.deltaTime * moveSpeed * accel;
 
             if (player.GetButtonDown("Exit Interactable") || Input.GetKeyDown("k"))
@@ -97,10 +112,27 @@ public class Driving : Interactable
             {
                 accel -= Time.deltaTime * (change * 5);
             }
+
+            if(moveVector.x > 0)
+            {
+                newDir = direction.right;
+            }
+            else
+            {
+                newDir = direction.left;
+            }
+
+            if (newDir != prevDir) //slow down when changing direction
+            {
+                moveVector.x *= -1;
+                accel = accel * 0.20f;
+            }
+
+            prevDir = newDir;
         }
     }
 
-    IEnumerator smoothSteppin(float a, float dur)
+    IEnumerator SmoothSteppin(float a, float dur)
     {
         float timer = 10f;
         float timeToTake = 10f;
