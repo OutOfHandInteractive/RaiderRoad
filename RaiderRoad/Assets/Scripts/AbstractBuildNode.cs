@@ -6,6 +6,7 @@ using System.Collections;
 /// </summary>
 public abstract class AbstractBuildNode : MonoBehaviour
 {
+    // Obsolete after lightweight pipeline addition
     public static void SetOutlineActive(GameObject item, float active)
     {
         foreach (Renderer renderer in item.GetComponentsInChildren<Renderer>())
@@ -19,6 +20,7 @@ public abstract class AbstractBuildNode : MonoBehaviour
             }
         }
     }
+
 
     /// <summary>
     /// Boolean flag that indicates whether this node is currently occupied.

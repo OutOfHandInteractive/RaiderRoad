@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: wall
-  m_Shader: {fileID: 4800000, guid: 3b70fd09305e90f44a0bcd18e49405b6, type: 3}
+  m_Shader: {fileID: 4800000, guid: 10bdc6ac36676ec4db6df0d63ac8fc99, type: 3}
   m_ShaderKeywords: _ALPHAPREMULTIPLY_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -55,6 +55,18 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _itemAlbedo:
+        m_Texture: {fileID: 2800000, guid: 49f9634d48786144889a115f624d10ea, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _itemMetalSmooth:
+        m_Texture: {fileID: 2800000, guid: 214844c1f54f3a44b861efcb12c9f603, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _itemNormal:
+        m_Texture: {fileID: 2800000, guid: e0024976202705e448ded9adc3b19ec5, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Floats:
     - _Active: 1
     - _BumpScale: 1
@@ -75,7 +87,9 @@ Material:
     - _SrcBlend: 1
     - _UVSec: 0
     - _ZWrite: 0
+    - _holoInt: 0
     m_Colors:
     - _Color: {r: 1, g: 0.72272354, b: 0.2028302, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _OutlineColor: {r: 1, g: 0.14877309, b: 0, a: 1}
+    - _holoColor: {r: 1.498039, g: 0.08627451, b: 0, a: 1}

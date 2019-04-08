@@ -135,7 +135,7 @@ public abstract class Constructable : MonoBehaviour
     private void MakeHolo() // a function for making material holographic
     {
         gameObject.GetComponent<BoxCollider>().enabled = false;
-        foreach(Renderer renderer in gameObject.GetComponentsInChildren<Renderer>())
+        /*foreach(Renderer renderer in gameObject.GetComponentsInChildren<Renderer>())
         {
             if(! (renderer is LineRenderer))
             {
@@ -143,6 +143,16 @@ public abstract class Constructable : MonoBehaviour
                 Color tempColor = myMat.color;
                 tempColor.a = 0.4f;
                 myMat.color = tempColor;
+            }
+        }*/
+        foreach (Renderer renderer in gameObject.GetComponentsInChildren<Renderer>())
+        {
+            Material tempMat = renderer.material;
+            if (tempMat.shader.name == "Shader Graphs/ItemShader")
+            {
+                Material outline = Instantiate(tempMat);
+                renderer.material = outline;
+                outline.SetFloat("_holoInt", 1f);
             }
         }
     }

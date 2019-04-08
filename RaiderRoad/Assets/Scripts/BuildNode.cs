@@ -58,7 +58,7 @@ public class BuildNode : AbstractBuildNode {
                 occupied = true;
             }
 
-            SetOutlineActive(item, 0.0f);
+            //SetOutlineActive(item, 0.0f);
 
             item.GetComponent<Wall>().myNode = gameObject;
         }
@@ -99,7 +99,12 @@ public class BuildNode : AbstractBuildNode {
                 holo.transform.parent = this.gameObject.transform;
             }
             holo.GetComponent<Wall>().isHolo = true;
-        }else{
+            //Will eventually apply to all holos
+            //SetHoloActive(item, 1f);
+
+        }
+        else
+        {
             Vector3 dir = gameObject.transform.forward;
             holo = Instantiate(makeHolo, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.LookRotation(dir));
         }
