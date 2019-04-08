@@ -42,6 +42,14 @@ public class CameraPoint : MonoBehaviour
         else
         {
             newPosition = transform.position;
+            if (average.x < bottomLeft.x || average.x > topRight.x)
+            {
+                newPosition.z = average.z;
+            }
+            else if (average.z < bottomLeft.y || average.z > topRight.y)
+            {
+                newPosition.x = average.x;
+            }
         }
 
         transform.position = Vector3.SmoothDamp(transform.position, newPosition, ref velocity, smoothTime);
