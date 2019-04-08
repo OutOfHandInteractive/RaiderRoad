@@ -65,10 +65,10 @@ public class EventManager : MonoBehaviour {
     private float betweenDelayAdjust = 20f;  //delay will be adjusted every 20 seconds
     private float sFactor = 0.85f;        //to start, decrementing to 85% every 20 seconds will hit the lower bound at approximately 4 minutes in
     //weapon frequency variables
-    private float wDelay = 12f; //time between weapon frequency adjustments
-    private float weaponRate = 0f; //minimum chance to get a weapon on a vehicle - updates over time from event manager
+    private float wDelay = 15f; //time between weapon frequency adjustments
+    private float weaponRate = 0.1f; //minimum chance to get a weapon on a vehicle - updates over time from event manager [increased from 0]
     private float weaponRateUpper = 0.5f;   //max weapon chance - 50/50
-    private float wFactor = 0.022f;         //at this rate with this delay, weapon frequency reaches max at approximately 4 minutes in
+    private float wFactor = 0.05f;         //rate of increase in weapon frequency every update
 
 
     void Start(){
