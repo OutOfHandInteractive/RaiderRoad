@@ -48,7 +48,7 @@ public class BoardEnemy : JumpEnemy {
         float zSign = cSide == VehicleAI.Side.Left ? 1 : -1;
         Debug.Log(zSign + " THIS IS THE SIGN");
         Jump(pos, zSign);
-        cObject.transform.position = Vector3.MoveTowards(cObject.transform.position, pos, Time.deltaTime*.2f);
+        
         
 
         //40% chance to go into Destroy State or Fight State, 20% to go into steal
@@ -59,7 +59,7 @@ public class BoardEnemy : JumpEnemy {
             if(transform.parent.tag == "RV")
             {
                 ai.getAnimator().SetBool("Grounded", true);
-                agent.velocity = Vector3.zero;
+                //agent.speed = 0;
                 //agent.isStopped = true;
                 survey += Time.deltaTime;
                 Debug.Log(survey);
@@ -67,18 +67,25 @@ public class BoardEnemy : JumpEnemy {
                 {
                     if (action < 40)
                     {
+                        //agent.speed = speed;
                         ai.EnterDestroy();
                     }
                     else if (action > 40 && action < 80)
                     {
+                        //agent.speed = speed;
                         ai.EnterFight();
                     }
                     else
                     {
+                        //agent.speed = speed;
                         ai.EnterSteal();
                     }
                 }
             }
+        }
+        else if (transform.parent == null)
+        {
+            cObject.transform.position = Vector3.MoveTowards(cObject.transform.position, pos, Time.deltaTime * .5f);
         }
 
         
