@@ -267,6 +267,9 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         GameObject EngineBuild = engineNodes[0];
         BuildDurableConstruct(EngineBuild.GetComponent<PoiNode>());
 
+        //Tell node that battery is placed 
+        EngineBuild.GetComponent<PoiNode>().PoiPresent();
+
         myAni.SetTrigger("build");
         myAni.SetBool("isHolding", false);
     }

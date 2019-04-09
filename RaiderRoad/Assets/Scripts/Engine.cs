@@ -21,6 +21,13 @@ public class Engine : DurableConstructGen<PoiNode> {
         UpdateHealthBar();
     }
 
+    public override void Damage(float damage)
+    {
+        base.Damage(damage);
+        // tell POI node that battery was hit
+        myNode.GetComponent<PoiNode>().PoiHit();
+    }
+
     //Durability functions
 
     /// <summary>
@@ -32,6 +39,9 @@ public class Engine : DurableConstructGen<PoiNode> {
         DurabilityDamage(damage);
         //Debug.Log("Engine Health" + currDur);
         UpdateHealthBar();
+
+        // tell POI node that battery was hit
+        myNode.GetComponent<PoiNode>().PoiHit();
     }
     
     private void UpdateHealthBar()
@@ -47,5 +57,14 @@ public class Engine : DurableConstructGen<PoiNode> {
     public override void OnUpdate()
     {
         // Nothing
+    }
+
+    private void OnDestroy()
+    {
+        // tell POI node that battery is gone
+        if (myNode != null) // if no node set yet, ignore this
+        {
+            myNode.GetComponent<PoiNode>().PoiMissing();
+        }
     }
 }
