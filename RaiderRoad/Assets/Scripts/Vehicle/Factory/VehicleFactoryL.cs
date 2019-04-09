@@ -27,15 +27,8 @@ public class VehicleFactoryL : VehicleFactory_I {
 	public override void AttachWheels(GameObject chassis, VehicleAI v) {
 		GameObject wheelToUse = SelectWheel();
 		GameObject wheel;
-		for (int i = 0; i < WHEEL_COUNT_L; i++) {
-			wheel = Instantiate(wheelToUse, chassis.GetComponent<ChassisL>().wheelNodes[i].transform);
-            wheel.transform.localPosition = Vector3.zero;
-            //wheel.transform.SetParent(chassis.GetComponent<ChassisL>().wheelNodes[i].transform);
-            //wheel.transform.position = wheel.transform.parent.transform.position;
-            if (i % 2 == 1) { // even-numbered wheels are driver-side, so odd need to be scaled to -1 in X
-				wheel.transform.localScale = new Vector3(-1 * wheel.transform.localScale.x, 1 * wheel.transform.localScale.y, 1 * wheel.transform.localScale.z);
-			}
-		}
+		wheel = Instantiate(wheelToUse, chassis.GetComponent<Chassis>().wheelNodes[0].transform);
+		wheel.transform.localPosition = Vector3.zero;
 
 		Wheel wheelScript = wheelToUse.GetComponent<Wheel>();
 	}
