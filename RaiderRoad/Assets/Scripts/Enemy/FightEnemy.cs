@@ -68,7 +68,7 @@ public class FightEnemy : EnemyAI {
             cObject.transform.LookAt(targetPosition);
             cObject.transform.position = Vector3.MoveTowards(cObject.transform.position, player.transform.position, movement);
         }
-        else if ((!player || playerDamage >= 4f || cObject.GetComponent<StatefulEnemyAI>().currentHealth <= 25f) && eVehicle != null && cObject.transform.parent.tag != "eVehicle")
+        else if ((!player /*| playerDamage >= 4f*/ || cObject.GetComponent<StatefulEnemyAI>().currentHealth <= 25f) && eVehicle != null && cObject.transform.parent.tag != "eVehicle")
         {
             Debug.Log("reached");
             cObject.GetComponent<StatefulEnemyAI>().EnterEscape();
@@ -76,6 +76,7 @@ public class FightEnemy : EnemyAI {
         else if(chasing)
         {
             //Look at player and move towards them
+            agent.speed = speed;
             Vector3 targetPosition = new Vector3(player.transform.position.x, cObject.transform.position.y, player.transform.position.z);
             cObject.transform.LookAt(targetPosition);
             agent.SetDestination(targetPosition);
@@ -91,7 +92,9 @@ public class FightEnemy : EnemyAI {
     public void WindupAttack()
     {
         fightRange.GetComponent<Renderer>().material.color = new Color(255f, 150f, 0f, .5f);
-        chasing = false;
+        agent.speed = 0;
+        //chasing = false;
+        //agent.isStopped = true;
         //cObject.transform.position = Vector3.zero;
     }
 

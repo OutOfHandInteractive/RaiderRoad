@@ -62,7 +62,7 @@ public class EscapeEnemy : JumpEnemy {
         float movement = speed * Time.deltaTime;
 
         //If a reasonable jumping distance to vehicle, escape
-        if (Vector3.Distance(transform.position, eVehicle.transform.position) < 2f)
+        if (Vector3.Distance(transform.position, eVehicle.transform.position) < 1f)
         {
             //Enemy vehicle destination position
             agent.enabled = false;
@@ -70,6 +70,8 @@ public class EscapeEnemy : JumpEnemy {
             Vector3 pos = eVehicle.transform.position;
             float zSign = cSide == VehicleAI.Side.Left ? -1 : 1;
             Jump(pos, zSign);
+            agent.GetComponent<NavMeshAgent>().enabled = false;
+            cObject.transform.position = Vector3.MoveTowards(cObject.transform.position, eVehicle.transform.position, Time.deltaTime * 2);
         }
         else
         {
