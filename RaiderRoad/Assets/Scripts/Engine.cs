@@ -51,7 +51,17 @@ public class Engine : DurableConstructGen<PoiNode> {
 
     public override void OnBreak()
     {
-        // Nothing
+        myNode.GetComponent<PoiNode>().PoiMissing();
+    }
+
+    public override void CheckDur()
+    {
+        if (isPlaced() && currDur <= 0f)
+        {
+            myNode.GetComponent<PoiNode>().PoiMissing();
+        }
+
+        base.CheckDur();
     }
 
     public override void OnUpdate()
@@ -59,12 +69,4 @@ public class Engine : DurableConstructGen<PoiNode> {
         // Nothing
     }
 
-    private void OnDestroy()
-    {
-        // tell POI node that battery is gone
-        if (myNode != null) // if no node set yet, ignore this
-        {
-            myNode.GetComponent<PoiNode>().PoiMissing();
-        }
-    }
 }

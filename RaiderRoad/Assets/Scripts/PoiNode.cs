@@ -36,7 +36,7 @@ public class PoiNode : DurabilityBuildNode {
     {
         if (currCorou != null) StopCoroutine(currCorou);
         currCorou = IndicAlert();
-        StartCoroutine(currCorou); //this is called when scene is ended, likely because onDestroy() for engine. [Look into later]
+        StartCoroutine(currCorou);
     }
 
     public void PoiPresent()
