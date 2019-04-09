@@ -10,6 +10,7 @@ public class SpawnChunk : MonoBehaviour {
     public bool randomChunk = false;
     public float speed = -35.0f;
     public GameObject warningSprite;
+    public Transform warningCamvas;
     public GameObject rv;
     public float spawnDespawnZDistance = 100.0f;
 
@@ -67,11 +68,21 @@ public class SpawnChunk : MonoBehaviour {
     // Warning Arrows
     void OnTriggerEnter(Collider other)
     {
+        /*
         //Debug.Log(other + " has entered");
         if (other.gameObject.tag.Equals("Obstacle"))
         {
             warnings.Add(Instantiate(warningSprite, new Vector3(other.transform.position.x, warningSprite.transform.position.y, warningSprite.transform.position.z), Quaternion.identity));
             warnings[warnings.Count - 1].GetComponent<FollowCamera>().SetValues(rvZStart, rv);
+        }
+        */
+
+        if (other.gameObject.tag.Equals("Obstacle"))
+        {
+            warnings.Add(Instantiate(warningSprite, warningCamvas));
+            warnings[warnings.Count - 1].GetComponent<UiElementFollowObject>().SetObject(other.gameObject);
+            warnings[warnings.Count - 1].GetComponent<UiElementFollowObject>().SetCanvas(warningCamvas.GetComponent<RectTransform>());
+            warnings[warnings.Count - 1].GetComponent<UiElementFollowObject>().SetRv(rv);
         }
     }
 
