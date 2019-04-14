@@ -468,7 +468,8 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
     {
         //Debug.Log(other.name);
         if ((other.tag == "WallNodeVertical" && pController.isFacingVertical) || 
-			(other.tag == "WallNodeHorizontal" && !pController.isFacingVertical))
+			(other.tag == "WallNodeHorizontal" && !pController.isFacingVertical) ||
+			(heldItem != null && heldItem.CompareTag("Weapon") && other.tag == "WallNodeVertical"))
         {
             //Debug.Log("Added");
             if (!other.GetComponent<BuildNode>().occupied)
