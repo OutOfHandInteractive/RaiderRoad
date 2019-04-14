@@ -359,20 +359,22 @@ public class PlayerController_Rewired : MonoBehaviour
 		g.playerDowned();
 	}
 
-	// ------------------- misc health ---------------------
-	private void HealthRegen() {
-		if (currentHealth < basehealth) {
-			if (healthRegenDelayCountdown <= 0) {
-				currentHealth += ((hp5 / 5) * Time.deltaTime);
+    // ------------------- misc health ---------------------
+    private void HealthRegen() {
+        if (state != playerStates.down) { 
+            if (currentHealth < basehealth) {
+                if (healthRegenDelayCountdown <= 0) {
+                    currentHealth += ((hp5 / 5) * Time.deltaTime);
 
-				if (currentHealth > basehealth) {
-					currentHealth = basehealth;
-				}
-			}
-			else {
-				healthRegenDelayCountdown -= Time.deltaTime;
-			}
-		}
+                    if (currentHealth > basehealth) {
+                        currentHealth = basehealth;
+                    }
+                }
+                else {
+                    healthRegenDelayCountdown -= Time.deltaTime;
+                }
+            }
+        }
 	}
 	#endregion
 
