@@ -55,7 +55,7 @@ public class WanderVehicle : MonoBehaviour {
         if (Vector3.Distance(cObject.transform.position, patrols[wanderPoints].position) < 1f)
         {
             wanderPoints = Random.Range(0, patrols.Count);
-            //time = 0;
+            time = 0;
         }
         Debug.Log("PATROL!" + patrols[1].position);
         cObject.transform.position = Vector3.Lerp(cObject.transform.position, patrols[wanderPoints].position, time);

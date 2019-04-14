@@ -146,7 +146,7 @@ public class VehicleAI : MonoBehaviour {
     }
     public void EnterLeave()
     {
-        leave.StartLeave(agent);
+        leave.StartLeave(agent, enemy);
         currentState = State.Leave;
     }
 	#endregion
