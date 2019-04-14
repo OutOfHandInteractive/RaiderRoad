@@ -12,6 +12,7 @@ public class WanderVehicle : MonoBehaviour {
     private GameObject cObject;
     private int action;
     private bool hasWeapon;
+    private float timer = 0f;
     public void StartWander(NavMeshAgent agent, GameObject enemy, VehicleAI.Side side, bool weapon)
     {
         //Set it to the VehicleAI
@@ -37,18 +38,27 @@ public class WanderVehicle : MonoBehaviour {
             Debug.Log(child);
             patrols.Add(child);
         }
+        wanderPoints = Random.Range(0, patrols.Count);
     }
 
     public void Wander()
     {
-        cEnemy.radius = 5f;
+        Debug.Log("HELP");
         //Return null if no patrol points
         if (patrols.Count == 0)
             return;
+        float time = Mathf.SmoothStep(0, 1, 4*Time.deltaTime);
         //Have agent go to different points
-        cEnemy.SetDestination(patrols[wanderPoints].position);
+        /*cEnemy.SetDestination(patrols[wanderPoints].position);
         //Choose random patrol point
-        wanderPoints = Random.Range(0, patrols.Count);
+        */
+        if (Vector3.Distance(cObject.transform.position, patrols[wanderPoints].position) < 1f)
+        {
+            wanderPoints = Random.Range(0, patrols.Count);
+            //time = 0;
+        }
+        Debug.Log("PATROL!" + patrols[1].position);
+        cObject.transform.position = Vector3.Lerp(cObject.transform.position, patrols[wanderPoints].position, time);
         if (GetComponentInChildren<EnemyAI>() == null && !hasWeapon)
         {
             if (GetComponentInChildren<PlayerController_Rewired>() == null)

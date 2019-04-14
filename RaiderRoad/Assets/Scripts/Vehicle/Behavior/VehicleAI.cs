@@ -70,11 +70,6 @@ public class VehicleAI : MonoBehaviour {
     // Update is called once per frame
     void Update () {
         //Debug.Log(currentState);
-        if (!agent.enabled)
-        {
-            //Early exit
-            return;
-        }
         if (currentState == State.Attack)
         {
             agent.speed = 30;
@@ -90,8 +85,7 @@ public class VehicleAI : MonoBehaviour {
         switch (currentState)
         {
             case State.Wander:
-                if (!agent.pathPending && agent.remainingDistance < 0.5f)
-                    wander.Wander();
+                wander.Wander();
                 break;
             case State.Chase:
                 if (!agent.pathPending && agent.remainingDistance < 0.5f)

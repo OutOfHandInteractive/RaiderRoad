@@ -19,7 +19,7 @@ public class LeaveVehicle : MonoBehaviour {
     public void Leave()
     {
         cEnemy.radius = 5f;
-        cEnemy.SetDestination(exit.position);
+        //cEnemy.SetDestination(exit.position);
     }
 
 
