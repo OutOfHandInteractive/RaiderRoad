@@ -54,7 +54,8 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
 	private List<GameObject> destructableParts = new List<GameObject>();
 	private bool hasItem = false;
     private GameObject floatingItem;
-    
+    [SerializeField] private Transform myHoldObj;
+
     private PlayerAudio myAudio;
 
     private bool myInteracting = false;
@@ -639,16 +640,13 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
             GameObject myFloat = null;
             if (heldItem != null) {
                 myFloat = heldItem;
-                floatingItem = Instantiate(myFloat, //fix later for prettier
-                new Vector3(transform.parent.position.x, transform.parent.position.y, transform.parent.position.z), transform.parent.rotation, transform.parent);
+                floatingItem = Instantiate(myFloat, //place and position under the myHoldObj inside characters hand joint
+                new Vector3(myHoldObj.position.x, myHoldObj.position.y, myHoldObj.position.z), myHoldObj.rotation, myHoldObj);
             } else { //Else hold a wall piece
                 myFloat = wall;
-                floatingItem = Instantiate(myFloat, //fix later for prettier
-                new Vector3(transform.parent.position.x, transform.parent.position.y, transform.parent.position.z), transform.parent.rotation, transform.parent);
-                //wall is too big to carry, scaling down
-                floatingItem.transform.localScale *= 0.7f;
+                floatingItem = Instantiate(myFloat, //place and position under the myHoldObj inside characters hand joint
+                new Vector3(myHoldObj.position.x, myHoldObj.position.y, myHoldObj.position.z), myHoldObj.rotation, myHoldObj);
             }
-            floatingItem.transform.localPosition = new Vector3(0f, 1.1f, 0.5f); //NEED SOLUTION FOR ALL CHARACTER SIZES
 
             hasItem = true;
             floatingItem.tag = "Untagged";
