@@ -26,7 +26,7 @@ public abstract class DestructiblePart : MonoBehaviour {
 	private VehicleAI vAI;
 
 	// attributes
-	private float currentHealth;
+	public float currentHealth;
 
 	// abstract methods
 	protected abstract float GetMaxHealth();

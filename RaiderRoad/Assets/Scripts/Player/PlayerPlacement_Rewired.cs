@@ -374,9 +374,8 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         myWeapon.transform.localScale = MeleeWeapScale;
         sheathTimer = timeTilSheath;
 
-        //Debug.Log("attackRange Count:" + attackRange.Count);
-
-        bool hit = AttackVehicleParts();
+		//Debug.Log("attackRange Count:" + attackRange.Count);
+		bool hit = AttackVehicleParts();
         if (!hit) {
             Util.RemoveNulls(attackRange);
             foreach (GameObject item in attackRange) {
