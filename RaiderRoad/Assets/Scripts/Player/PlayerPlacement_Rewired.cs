@@ -37,7 +37,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
 
     //particles
     public ParticleSystem charaHitPart;
-    public ParticleSystem objHitPart;
+    public ParticleSystem objHitParticle;
 
     //--------------------
     // Private Variables
@@ -352,8 +352,8 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
 	private bool AttackVehicleParts() {
         foreach(GameObject part in destructableParts) {
             if(part!=null) {
-                Instantiate(objHitPart, transform.position, Quaternion.identity); //temporary solution, also placed slightly to left for some reason
-                if (part.GetComponent<DestructiblePart>().TakeDamage(1) <= 0) {
+                Instantiate(objHitParticle, transform.position, Quaternion.identity); //temporary solution, also placed slightly to left for some reason
+                if (part.GetComponent<DestructiblePart>().TakeDamage(10) <= 0) {	// MAGIC NUMBER ALERT
                     destructableParts.Remove(part);
                 }
                 return true;
@@ -371,9 +371,8 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         myWeapon.transform.localScale = MeleeWeapScale;
         sheathTimer = timeTilSheath;
 
-        //Debug.Log("attackRange Count:" + attackRange.Count);
-
-        bool hit = AttackVehicleParts();
+		//Debug.Log("attackRange Count:" + attackRange.Count);
+		bool hit = AttackVehicleParts();
         if (!hit) {
             Util.RemoveNulls(attackRange);
             foreach (GameObject item in attackRange) {
@@ -387,12 +386,12 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
 
                 if (item.CompareTag("Weapon")) {
                     item.GetComponent<Weapon>().Damage(damage, gameObject.transform.parent.gameObject);
-                    Instantiate(objHitPart, item.transform.position, Quaternion.identity);
+                    Instantiate(objHitParticle, item.transform.position, Quaternion.identity);
                     hit = true;
                 }
                 else if ((construct = item.GetComponent<Constructable>()) != null) {
                     construct.Damage(damage);
-                    Instantiate(objHitPart, item.transform.position, Quaternion.identity);
+                    Instantiate(objHitParticle, item.transform.position, Quaternion.identity);
                     hit = true;
                 }
                 else if (item.CompareTag("Enemy")) {

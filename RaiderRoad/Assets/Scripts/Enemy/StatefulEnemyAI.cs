@@ -118,8 +118,8 @@ public class StatefulEnemyAI : EnemyAI {
         //Debug.Log(currentState);
         //Go to weapon state when vehicle is ramming
 
-        Debug.Log(interactable);
-        Debug.Log(transform.parent);
+        //Debug.Log(interactable);
+       // Debug.Log(transform.parent);
         if (interactable && !interactable.GetComponent<HasWeapon>().enemyUsing)
         {
             gameObject.tag = "usingWeapon";

@@ -50,7 +50,7 @@ public class EscapeEnemy : JumpEnemy {
     /// </summary>
     public void Escape()
     {
-        Debug.Log(eVehicle);
+        //Debug.Log(eVehicle);
         // Wait to recieve vehicle
         if (eVehicle == null) {
 
@@ -81,7 +81,7 @@ public class EscapeEnemy : JumpEnemy {
             cObject.GetComponent<StatefulEnemyAI>().getAnimator().SetBool("Running", true);
             //cObject.transform.position = Vector3.MoveTowards(cObject.transform.position, eVehicle.transform.position, movement);
         }
-        Debug.Log(cObject.transform.tag + " HEEEEEEEEY");
+        //Debug.Log(cObject.transform.tag + " HEEEEEEEEY");
         if(cObject.transform.root.tag == "eVehicle" && cObject.transform.parent != null)
         {
             Debug.Log("HEYYYY");
