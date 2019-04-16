@@ -13,11 +13,14 @@ public class obstacleSpawner : MonoBehaviour
     [SerializeField]
     private List<Transform> ospawnPoints;
 <<<<<<< HEAD
+<<<<<<< HEAD
     private int startPos = 2;   //initial "lane" the RV starts in
     [SerializeField]
     private int rvPos = 2;  //default "lane" index
     private int upperBound;
     private int lowerBound;
+=======
+>>>>>>> parent of ce0b938... framework for limiting
 =======
 >>>>>>> parent of ce0b938... framework for limiting
 
@@ -36,16 +39,27 @@ public class obstacleSpawner : MonoBehaviour
     IEnumerator startup()
     {
         yield return new WaitForSeconds(startDelay);
+<<<<<<< HEAD
         //start spawning obstacles
         while (true)
         {
             oSpawn();
             yield return new WaitForSeconds(obstDelay);
         }
+=======
+        StartCoroutine(obstacleSpawn());
+    }
+
+    IEnumerator obstacleSpawn()
+    {
+        oSpawn();
+        yield return new WaitForSeconds(obstDelay);    
+>>>>>>> parent of ce0b938... framework for limiting
     }
 
     public void oSpawn()
     {
+<<<<<<< HEAD
 <<<<<<< HEAD
         //Debug.Log("oSpawn called");
         //GameObject obstacle = new GameObject();
@@ -84,6 +98,15 @@ public class obstacleSpawner : MonoBehaviour
             //newObstacle.GetComponentInChildren<eventObject>().setCluster(this.gameObject);
             
 =======
+            GameObject newObstacle = Instantiate(obstacle, spawnPoint, Quaternion.identity);    /////need obstacle prefab
+            newObstacle.GetComponentInChildren<eventObject>().setCluster(this.gameObject);
+            newObstacle.transform.Rotate(0f, 90f, 0f);    //kinda a bullshit fix for now - i'll explain and fix better at testing
+>>>>>>> parent of ce0b938... framework for limiting
+=======
+        int i = Random.Range(0, ospawnPoints.Count);
+        Vector3 spawnPoint = ospawnPoints[i].transform.position;
+        if (obstacle != null)
+        {
             GameObject newObstacle = Instantiate(obstacle, spawnPoint, Quaternion.identity);    /////need obstacle prefab
             newObstacle.GetComponentInChildren<eventObject>().setCluster(this.gameObject);
             newObstacle.transform.Rotate(0f, 90f, 0f);    //kinda a bullshit fix for now - i'll explain and fix better at testing
