@@ -34,12 +34,11 @@ public class PlayerController_Rewired : MonoBehaviour
     // ----------------------- Private Variables --------------------------
     private Player player;
 	private PlayerPlacement_Rewired pPlacement;
-    private Vector2 moveVector;
+
+	// Movement
+	private Vector2 moveVector;
 	private float angle;
-
     private Vector3 rotateVector;
-
-    [SerializeField] private float reviveTime;
 
     private Rigidbody rb;
     //Animator
@@ -53,10 +52,14 @@ public class PlayerController_Rewired : MonoBehaviour
 	[SerializeField] private float hp5;	// health regen per 5 seconds
 	[SerializeField] private float healthRegenDelay;
 	private float healthRegenDelayCountdown;
+	[SerializeField] private float reviveTime;
+	public float reviveCountdown;
 
-    private float baseJumpInidicatorScale;
+	private float baseJumpInidicatorScale;
     private float baseJumpIndicatorDist;
-    public float reviveCountdown;
+
+	// UI
+	[SerializeField] private GameObject reviveHelpIcon;
 
     // states and flags
     public bool paused = false;
@@ -321,11 +324,8 @@ public class PlayerController_Rewired : MonoBehaviour
     }
 
     public void revive(PlayerController_Rewired p) {
-        p.currentHealth = basehealth;
-        p.backToOrigAnim();
-        p.setState(playerStates.up); ;
+		p.getUp();
         reviving = false;
-        p.GetComponentInChildren<HealthBar_Player>().stopRevive();
     }
 
 	// ----------------------- damage -----------------------
@@ -351,12 +351,22 @@ public class PlayerController_Rewired : MonoBehaviour
 		pPlacement.dropItem();
 		myAni.SetBool("downed", true);
 
+		reviveHelpIcon.SetActive(true);
 
 		state = playerStates.down;
 		if (interacting) {
 			objectInUse.Leave();
 		}
 		g.playerDowned();
+	}
+
+	public void getUp() {
+		currentHealth = basehealth;
+		backToOrigAnim();
+		setState(playerStates.up);
+		gameObject.GetComponentInChildren<HealthBar_Player>().stopRevive();
+
+		reviveHelpIcon.SetActive(false);
 	}
 
     // ------------------- misc health ---------------------
