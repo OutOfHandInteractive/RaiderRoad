@@ -45,11 +45,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6d890c729807f04c9551eb96bbe4a09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roadChunks: []
-  randomChunk: 0
+  roadChunks:
+  - {fileID: 1672777320336460478, guid: ac010bfc507072346a11d5b98957d416, type: 3}
+  - {fileID: 1672777320336460478, guid: 7dbc7780010a6904e8075132135f4ea8, type: 3}
+  - {fileID: 1672777320336460478, guid: 1716964a46d219443983bb64e646695a, type: 3}
+  - {fileID: 1672777320336460478, guid: e7c348c4280077a4ebe7921226d53519, type: 3}
+  - {fileID: 1672777320336460478, guid: caa64bc220a74d143b608c2de04cddf0, type: 3}
+  randomChunk: 1
   speed: -35
   warningSprite: {fileID: 1962474547711424, guid: f179877d65f8ff249b5dca5a30158e93,
     type: 3}
+  warningCamvas: {fileID: 0}
   rv: {fileID: 0}
   spawnDespawnZDistance: 100
 --- !u!54 &54783569267135524

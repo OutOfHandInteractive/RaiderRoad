@@ -34,7 +34,7 @@ public class WanderVehicle : MonoBehaviour {
         //Get the patrol points
         foreach (Transform child in patrolList.transform)
         {
-            Debug.Log(child);
+            //Debug.Log(child);
             patrols.Add(child);
         }
     }
