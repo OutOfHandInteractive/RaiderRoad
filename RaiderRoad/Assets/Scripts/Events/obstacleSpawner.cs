@@ -5,8 +5,8 @@ using UnityEngine;
 public class obstacleSpawner : MonoBehaviour
 {
 
-    public float startDelay;//set to 30f in editor
-    public float obstDelay;//set to 23f in editor
+    public float startDelay = 30f;
+    public float obstDelay = 23f;
     [SerializeField]
     private GameObject smallObstacle;
     public GameObject oSpawnsParent;
@@ -14,33 +14,31 @@ public class obstacleSpawner : MonoBehaviour
     private List<Transform> ospawnPoints;
     private int startPos = 2;   //initial "lane" the RV starts in
     [SerializeField]
-    private int rvPos = 0;
+    private int rvPos = 2;  //default "lane" index
     private int upperBound;
     private int lowerBound;
 
     // Start is called before the first frame update
     void Start()
     {
-        rvPos = startPos;
         foreach (Transform child in oSpawnsParent.transform)      //get obstacle spawn points
         {
             //Debug.Log(child);
             ospawnPoints.Add(child);
         }
-        StartCoroutine(startupDelay());
+        StartCoroutine(startup());
 
     }
 
-    IEnumerator startupDelay()
+    IEnumerator startup()
     {
         yield return new WaitForSeconds(startDelay);
-        StartCoroutine(obstacleSpawn());
-    }
-
-    IEnumerator obstacleSpawn()
-    {
-        oSpawn();
-        yield return new WaitForSeconds(obstDelay);    
+        //start spawning obstacles
+        while (true)
+        {
+            oSpawn();
+            yield return new WaitForSeconds(obstDelay);
+        }
     }
 
     public void rvIndex(int curIndex)
@@ -74,13 +72,13 @@ public class obstacleSpawner : MonoBehaviour
             lowerBound = rvPos - 1;
         }
         int i = Random.Range(lowerBound, upperBound);
-        //Debug.Log(i);
+        Debug.Log("i = "+ i);
         Vector3 spawnPoint = ospawnPoints[i].transform.position;
         if (smallObstacle != null)
         {
             GameObject newObstacle = Instantiate(smallObstacle, spawnPoint, Quaternion.identity);    /////need obstacle prefab
             newObstacle.transform.Rotate(0f, -90f, 0f);    //kinda a bullshit fix for now - i'll explain and fix better at testing
-            newObstacle.GetComponentInChildren<eventObject>().setCluster(this.gameObject);
+            //newObstacle.GetComponentInChildren<eventObject>().setCluster(this.gameObject);
             
         }
         else
