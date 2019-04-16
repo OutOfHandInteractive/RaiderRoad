@@ -7,7 +7,7 @@ public class oSpawnIndex : MonoBehaviour
     public int index;
     public GameObject manager;
 
-    void OnCollisionEnter(Collision col)
+    void OnTriggerEnter(Collision col)
     {
         if (col.gameObject.tag == "RV")
         {
