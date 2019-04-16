@@ -34,7 +34,7 @@ public abstract class DurableConstruct : Constructable
         item.GetComponent<ItemDrop>().myItemDur = currDur; //give new drop item correct durabilty
     }
     
-    private void CheckDur()
+    public virtual void CheckDur() //originally not public or virtual (needed to change to be overrided in engine script)
     {
         if(currDur > durability)
         {

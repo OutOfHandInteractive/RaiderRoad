@@ -7,6 +7,7 @@ public class PlayerController_Rewired : MonoBehaviour
 {
     public enum playerStates { up, down };
 
+	#region Variable Declarations
 	// ----------------------- Public Variables ---------------------------
 	public float basehealth;
 
@@ -33,12 +34,11 @@ public class PlayerController_Rewired : MonoBehaviour
     // ----------------------- Private Variables --------------------------
     private Player player;
 	private PlayerPlacement_Rewired pPlacement;
-    private Vector2 moveVector;
+
+	// Movement
+	private Vector2 moveVector;
 	private float angle;
-
     private Vector3 rotateVector;
-
-    [SerializeField] private float reviveTime;
 
     private Rigidbody rb;
     //Animator
@@ -52,10 +52,14 @@ public class PlayerController_Rewired : MonoBehaviour
 	[SerializeField] private float hp5;	// health regen per 5 seconds
 	[SerializeField] private float healthRegenDelay;
 	private float healthRegenDelayCountdown;
+	[SerializeField] private float reviveTime;
+	public float reviveCountdown;
 
-    private float baseJumpInidicatorScale;
+	private float baseJumpInidicatorScale;
     private float baseJumpIndicatorDist;
-    public float reviveCountdown;
+
+	// UI
+	[SerializeField] private GameObject reviveHelpIcon;
 
     // states and flags
     public bool paused = false;
@@ -77,13 +81,14 @@ public class PlayerController_Rewired : MonoBehaviour
     private bool jumped = false;
     private bool animJumped = false; //Jumped can be called at weird points, animJumped is a more accurate version for animation/particle purposes
 
-    // ----------------------------------------------------------------------
+	// ----------------------------------------------------------------------
+	#endregion
 
-
-    [System.NonSerialized]
+	[System.NonSerialized]
     private bool initialized;
 
-    void Start()
+	#region System Functions
+	void Start()
     {
         currentHealth = basehealth;
         state = playerStates.up;
@@ -115,49 +120,38 @@ public class PlayerController_Rewired : MonoBehaviour
         initialized = true;
     }
 
-    void Update()
-    {
-        if (currentHealth <= 0)
-        {
+    void Update() {
+        if (currentHealth <= 0) {
             state = playerStates.down;
         }
-        if (!ReInput.isReady) return; // Exit if Rewired isn't ready. This would only happen during a script recompile in the editor.
-        if (!initialized) Initialize(); // Reinitialize after a recompile in the editor
 
-        if (g != null)
-        {
+        if (!ReInput.isReady) return; // Exit if Rewired isn't ready. This would only happen during a script recompile in the editor.
+
+		if (!initialized) Initialize(); // Reinitialize after a recompile in the editor
+
+        if (g != null) {
             myPauseInput = g.GetComponent<GameManager>().pauseInput;
         }
 
-        if (!interacting && state == playerStates.up && !myPauseInput)
-        {
+        if (!interacting && state == playerStates.up && !myPauseInput) {
             GetInput();
             ProcessInput();
         }
 
-        /*
-        if (!IsGrounded())
-        {
-            rb.isKinematic = false;
-        }
-        */
+		// ------------- "Maintenance" ------------
         ScaleJumpIndicator();
-
 		HealthRegen();
     }
+	#endregion
 
-    private void GetInput()
-    {
+	#region Input and Input Processing
+	private void GetInput() {
         // main input
-        if (!paused && !interacting && !reviving)
-        {
+        if (!paused && !interacting && !reviving) {
 			// get movement directions and angles
             moveVector.x = player.GetAxis("Move Horizontal") * Time.deltaTime * moveSpeed;
             moveVector.y = player.GetAxis("Move Vertical") * Time.deltaTime * moveSpeed;
             myAni.SetFloat("speed", moveVector.magnitude/ Time.deltaTime);
-
-			//Twin Stick Rotation
-			//rotateVector = Vector3.right * player.GetAxis("Rotate Horizontal") + Vector3.forward * player.GetAxis("Rotate Vertical");
 
 			//Single Stick Rotation
 			if (!player.GetButton("Build Mode")) {
@@ -177,40 +171,34 @@ public class PlayerController_Rewired : MonoBehaviour
 				if (!isFacingVertical) {
 					pPlacement.removeWrongDirectionWallNodes();
 				}
-
 				isFacingVertical = true;
 			}
 			else {
 				if (isFacingVertical) {
 					pPlacement.removeWrongDirectionWallNodes();
 				}
-
 				isFacingVertical = false;
 			}
 
-            if (player.GetButtonDown("Use"))
-            {
+			// ---- standard interaction ----
+            if (player.GetButtonDown("Use")) {
                 Debug.Log("pressing button");
-                if (downedPlayers.Count > 0)
-                {
+                if (downedPlayers.Count > 0) {
                     pPlacement.SheathWeapon();
                     startRevive(downedPlayers[0].GetComponent<PlayerController_Rewired>());
                 }
-                else if (interactables.Count > 0 && !interactables[0].GetComponent<Interactable>().isOnCooldown())
-                {
+                else if (interactables.Count > 0 && !interactables[0].GetComponent<Interactable>().isOnCooldown()) {
                     pPlacement.SheathWeapon();
-                    if (!interactables[0].GetComponent<Interactable>().Occupied())
-                    {
+                    if (!interactables[0].GetComponent<Interactable>().Occupied()) {
                         interactables[0].GetComponent<Interactable>().Interact(this);
 						Debug.Log("trying to interact");
                     }
                 }
             }
 
+			// ---- jumping ----
             Debug.DrawRay(transform.position + Vector3.up, -Vector3.up * (distToGround + 0.1f), Color.red);
-            if (player.GetButtonDown("Jump") && IsGrounded() && jumped == false)
-            {
-                //rb.isKinematic = false;
+            if (player.GetButtonDown("Jump") && IsGrounded() && jumped == false) {
                 rb.AddForce(transform.up * jumpForce);
                 myAni.SetTrigger("jump");
                 myAni.SetBool("land", false);
@@ -219,57 +207,40 @@ public class PlayerController_Rewired : MonoBehaviour
             }
         }
 
-        // reviving functions
-        if (player.GetButton("Use") && reviving)
-        {
+        // reviving other players
+        if (player.GetButton("Use") && reviving) {
+			if (downedPlayers.Count == 0) {	// if there are no downed players in range, stop the rez
+				stopRevive(null);
+			}
+
             reviveCountdown -= Time.deltaTime;
-            if (reviveCountdown <= 0)
-            {
+            if (reviveCountdown <= 0) {
                 revive(downedPlayers[0].GetComponent<PlayerController_Rewired>());
                 removeDownedPlayer(downedPlayers[0]);
             }
         }
-        else if (player.GetButtonUp("Use") && reviving)
-        {
+        else if (player.GetButtonUp("Use") && reviving) {
             stopRevive(downedPlayers[0].GetComponent<PlayerController_Rewired>());
         }
-
-        /*
-        if (player.GetButton("Start"))
-        {
-            paused = true;
-            player.controllers.maps.SetMapsEnabled(false, "Default");
-            player.controllers.maps.SetMapsEnabled(true, "UI");
-        }
-        else if (player.GetButton("UIStart"))
-        {
-            paused = false;
-            player.controllers.maps.SetMapsEnabled(true, "Default");
-            player.controllers.maps.SetMapsEnabled(false, "UI");
-        }
-        */
     }
 
-    private void ProcessInput()
-    {
-        if (moveVector.x != 0.0f || moveVector.y != 0.0f)
-        {
+    private void ProcessInput() {
+        if (moveVector.x != 0.0f || moveVector.y != 0.0f) {
             transform.Translate(moveVector.x, 0, moveVector.y, Space.World);
         }
 
-        if (rotateVector.sqrMagnitude > 0.0f)
-        {
+        if (rotateVector.sqrMagnitude > 0.0f) {
             transform.rotation = Quaternion.LookRotation(rotateVector, Vector3.up);
         }
     }
+	#endregion
 
-    private float map(float value, float from1, float to1, float from2, float to2)
-    {
+	#region Jump Indicator
+	private float map(float value, float from1, float to1, float from2, float to2) {
         return (value - from1) / (to1 - from1) * (to2 - from2) + from2;
     }
 
-    private void ScaleJumpIndicator()
-    {
+    private void ScaleJumpIndicator() {
         // Scale
         float dist = Vector3.Distance(transform.position, jumpIndicator.transform.position);
         dist = map(dist, baseJumpIndicatorDist, 3.0f, 1.0f, jumpIndicatorScaling);
@@ -288,33 +259,33 @@ public class PlayerController_Rewired : MonoBehaviour
             //jumpIndicator.transform.position = new Vector3(jumpIndicator.transform.position.x, pos, jumpIndicator.transform.position.z);
         }
     }
+	#endregion
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (IsGrounded() && animJumped == true){
+	#region Detection Functions
+	private void OnCollisionEnter(Collision collision) {
+        if (IsGrounded() && animJumped == true) {
             animJumped = false;
             myAni.SetBool("land", true);
             Instantiate(landingPart, transform.position, landingPart.gameObject.transform.rotation);
         }
         jumped = false;
+
         //Debug.Log(collision.gameObject.name);
-        if (collision.gameObject.tag == "RV" || collision.gameObject.tag == "eVehicle")
-        {
+        if (collision.gameObject.tag == "RV" || collision.gameObject.tag == "eVehicle") {
             //Debug.Log("Can jump");
             transform.parent = collision.transform.root;
             jumped = false;
             //rb.isKinematic = true;
         }
-        if (collision.gameObject.tag == "road")
-        {
+
+        if (collision.gameObject.tag == "road") {
             takeDamage(Constants.PLAYER_ROAD_DAMAGE);
             transform.position = GameObject.Find("player1Spawn").transform.position;
         }
     }
-    private void OnCollisionExit(Collision collision)
-    {
-        if (collision.gameObject.tag == "eVehicle")
-        {
+
+    private void OnCollisionExit(Collision collision) {
+        if (collision.gameObject.tag == "eVehicle") {
             //Debug.Log("Can jump");
             transform.parent = null;
         }
@@ -325,17 +296,16 @@ public class PlayerController_Rewired : MonoBehaviour
             rb.isKinematic = false;
         }
         */
-
     }
 
-    private bool IsGrounded()
-    {
+    private bool IsGrounded() {
         return Physics.Raycast(transform.position + Vector3.up, -Vector3.up, distToGround + 0.1f);
     }
+	#endregion
 
-    // ------------------------- reviving and damage --------------------------------
-    public void startRevive(PlayerController_Rewired p)
-    {
+	#region Health Related Functions
+	// ----------------------- reviving ----------------------------
+	public void startRevive(PlayerController_Rewired p) {
         reviving = true;
         reviveCountdown = reviveTime;
         p.GetComponentInChildren<HealthBar_Player>().startRevive(reviveTime);
@@ -345,22 +315,20 @@ public class PlayerController_Rewired : MonoBehaviour
         myAni.SetFloat("speed", moveVector.magnitude);
     }
 
-    public void stopRevive(PlayerController_Rewired p)
-    {
+    public void stopRevive(PlayerController_Rewired p) {
         reviving = false;
-        p.GetComponentInChildren<HealthBar_Player>().stopRevive();
 
+		if (p) {	// allows us to kill the revive if there is no player
+			p.GetComponentInChildren<HealthBar_Player>().stopRevive();
+		}
     }
 
-    public void revive(PlayerController_Rewired p)
-    {
-        p.currentHealth = basehealth;
-        p.backToOrigAnim();
-        p.setState(playerStates.up); ;
+    public void revive(PlayerController_Rewired p) {
+		p.getUp();
         reviving = false;
-        p.GetComponentInChildren<HealthBar_Player>().stopRevive();
     }
 
+	// ----------------------- damage -----------------------
     public void takeDamage(float _damage)
     {
         currentHealth -= _damage;
@@ -379,12 +347,11 @@ public class PlayerController_Rewired : MonoBehaviour
     }
 
 	private void goDown() {
-		//Color deathColor = myOrigColor * 0.5f;        //Replace with proper death feedback
-		//myMat.color = deathColor;
 		pPlacement.SheathWeapon();
 		pPlacement.dropItem();
 		myAni.SetBool("downed", true);
 
+		reviveHelpIcon.SetActive(true);
 
 		state = playerStates.down;
 		if (interacting) {
@@ -393,86 +360,85 @@ public class PlayerController_Rewired : MonoBehaviour
 		g.playerDowned();
 	}
 
-	private void HealthRegen() {
-		if (currentHealth < basehealth) {
-			if (healthRegenDelayCountdown <= 0) {
-				currentHealth += ((hp5 / 5) * Time.deltaTime);
+	public void getUp() {
+		currentHealth = basehealth;
+		backToOrigAnim();
+		setState(playerStates.up);
+		gameObject.GetComponentInChildren<HealthBar_Player>().stopRevive();
 
-				if (currentHealth > basehealth) {
-					currentHealth = basehealth;
-				}
-			}
-			else {
-				healthRegenDelayCountdown -= Time.deltaTime;
-			}
-		}
+		reviveHelpIcon.SetActive(false);
 	}
 
-    // --------------------- Getters / Setters ----------------------
-    public void SetId(int id)
-    {
+    // ------------------- misc health ---------------------
+    private void HealthRegen() {
+        if (state != playerStates.down) { 
+            if (currentHealth < basehealth) {
+                if (healthRegenDelayCountdown <= 0) {
+                    currentHealth += ((hp5 / 5) * Time.deltaTime);
+
+                    if (currentHealth > basehealth) {
+                        currentHealth = basehealth;
+                    }
+                }
+                else {
+                    healthRegenDelayCountdown -= Time.deltaTime;
+                }
+            }
+        }
+	}
+	#endregion
+
+	#region Getters and Setters
+	// ------------------ general player functions -------------------
+	public void SetId(int id) {
         playerId = id;
         initialized = false;
     }
 
-    public int GetId()
-    {
+    public int GetId() {
         return playerId;
     }
 
-    public Player GetPlayer()
-    {
+    public Player GetPlayer() {
         return player;
     }
 
-    public playerStates getState()
-    {
+    public playerStates getState() {
         return state;
     }
 
-    public void setState(playerStates s)
-    {
+    public void setState(playerStates s) {
         state = s;
     }
 
-    public void setInteractingFlag()
-    {
-        interacting = true;
-    }
-
-    public void unsetInteractingFlag()
-    {
-        interacting = false;
-    }
-
-    //Temporary anim function, needs features for full hand follows
-    public void interactAnim(bool animStat)
-    {
-        myAni.SetBool("aimWeapon", animStat);
-        myAni.SetFloat("speed", 0f);
-    }
-
-    public float getMaxHealth()
-    {
+	// ---------------------- health ---------------------
+    public float getMaxHealth() {
         return basehealth;
     }
 
-    public float getHealth()
-    {
+    public float getHealth() {
         return currentHealth;
     }
 
-    public void addInteractable(GameObject i)
-    {
-        if (!interactables.Contains(i))
-        {
+	// ---------------------- interaction -----------------------
+	// ---- setting flags ----
+	public void setInteractingFlag() {
+		interacting = true;
+	}
+
+	public void unsetInteractingFlag() {
+		interacting = false;
+	}
+
+	// ---- adding/removing ----
+	public void addInteractable(GameObject i) {
+        if (!interactables.Contains(i)) {
             Debug.Log("added weapon");
             interactables.Add(i);
         }
     }
 
-    public void removeInteractable(GameObject i)
-    {
+    public void removeInteractable(GameObject i) {
         Debug.Log("removed weapon");
         interactables.Remove(i);
     }
@@ -485,24 +451,28 @@ public class PlayerController_Rewired : MonoBehaviour
 		objectInUse = obj;
 	}
 
-    public void clearInteractable()
-    {
+    public void clearInteractable() {
         interactables.Clear();
         //Debug.Log("AHHHHHHHHHHHHHHH" + interactables.Count);
     }
 
-    public void addDownedPlayer(GameObject p)
-    {
+    public void addDownedPlayer(GameObject p) {
         downedPlayers.Add(p);
     }
 
-    public void removeDownedPlayer(GameObject p)
-    {
+    public void removeDownedPlayer(GameObject p) {
         downedPlayers.Remove(p);
     }
 
-    public void backToOrigAnim()
-    {
+	// ------------------------- animations -------------------------
+	//Temporary anim function, needs features for full hand follows
+	public void interactAnim(bool animStat) {
+		myAni.SetBool("aimWeapon", animStat);
+		myAni.SetFloat("speed", 0f);
+	}
+
+	public void backToOrigAnim() {
         myAni.SetBool("downed", false);
     }
+	#endregion
 }

@@ -11,6 +11,7 @@ public class Engine : DurableConstructGen<PoiNode> {
     /// Transform for the health bar for obstacles/raider vehicles on the RV
     /// </summary>
     public Transform myHealthTrans;
+    private Vector3 myHealthScale;
     public bool isOccupied = false;
     /// <summary>
     /// Start() hook that just initializes the health bar
@@ -18,7 +19,15 @@ public class Engine : DurableConstructGen<PoiNode> {
     public override void OnStart()
     {
         base.OnStart();
+        myHealthScale = myHealthTrans.localScale;
         UpdateHealthBar();
+    }
+
+    public override void Damage(float damage)
+    {
+        base.Damage(damage);
+        // tell POI node that battery was hit
+        myNode.GetComponent<PoiNode>().PoiHit();
     }
 
     //Durability functions
@@ -32,20 +41,34 @@ public class Engine : DurableConstructGen<PoiNode> {
         DurabilityDamage(damage);
         //Debug.Log("Engine Health" + currDur);
         UpdateHealthBar();
+
+        // tell POI node that battery was hit
+        myNode.GetComponent<PoiNode>().PoiHit();
     }
     
     private void UpdateHealthBar()
     {
-        myHealthTrans.localScale = new Vector3(currDur / durability, 1f, 1f); //reflect on health bar
+        myHealthTrans.localScale = new Vector3 ((currDur / durability) * myHealthScale.x, myHealthScale.y, myHealthScale.z); //reflect on health bar (multiplied by original health scale)
     }
 
     public override void OnBreak()
     {
-        // Nothing
+        myNode.GetComponent<PoiNode>().PoiMissing();
+    }
+
+    public override void CheckDur()
+    {
+        if (isPlaced() && currDur <= 0f)
+        {
+            myNode.GetComponent<PoiNode>().PoiMissing();
+        }
+
+        base.CheckDur();
     }
 
     public override void OnUpdate()
     {
         // Nothing
     }
+
 }

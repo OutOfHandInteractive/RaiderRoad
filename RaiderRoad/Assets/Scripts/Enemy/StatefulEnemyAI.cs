@@ -118,8 +118,8 @@ public class StatefulEnemyAI : EnemyAI {
         //Debug.Log(currentState);
         //Go to weapon state when vehicle is ramming
 
-        Debug.Log(interactable);
-        Debug.Log(transform.parent);
+        //Debug.Log(interactable);
+       // Debug.Log(transform.parent);
         if (interactable && !interactable.GetComponent<HasWeapon>().enemyUsing)
         {
             gameObject.tag = "usingWeapon";
@@ -463,8 +463,10 @@ public class StatefulEnemyAI : EnemyAI {
             //Debug.Log("HIT");
             myAni.SetTrigger("Attack"); //visual of enemy breaking object
             damageMeter = damageMeter + (100 * Time.deltaTime);
+            agent.speed = 0;
             if (damageMeter >= 100)
             {
+                agent.speed = speed;
                 other.gameObject.GetComponent<Wall>().Damage(100f);
                 if (gameObject.GetComponent<lightEnemy>())
                 {
@@ -479,8 +481,10 @@ public class StatefulEnemyAI : EnemyAI {
         {
             myAni.SetTrigger("Attack");
             damageMeter = damageMeter + (100 * Time.deltaTime);
+            agent.speed = 0;
             if (damageMeter >= 100)
             {
+                agent.speed = speed;
                 other.gameObject.GetComponent<Engine>().Damage(100f);
                 damageMeter = 0;
             }

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Flash : MonoBehaviour {
 
@@ -10,11 +11,11 @@ public class Flash : MonoBehaviour {
 
     private float cooldown;
     private bool isUp = true;
-    private SpriteRenderer sr;
+    private Image img;
 
     void Start()
     {
-        sr = gameObject.GetComponent<SpriteRenderer>();
+        img = gameObject.GetComponent<Image>();
         cooldown = upTime;
     }
 
@@ -27,13 +28,13 @@ public class Flash : MonoBehaviour {
             {
                 isUp = false;
                 cooldown = downTime;
-                sr.enabled = false;
+                img.enabled = false;
             }
             else
             {
                 isUp = true;
                 cooldown = upTime;
-                sr.enabled = true;
+                img.enabled = true;
             }
         }
 
