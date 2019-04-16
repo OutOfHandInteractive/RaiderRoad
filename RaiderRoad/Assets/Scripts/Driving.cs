@@ -108,7 +108,7 @@ public class Driving : Interactable
                     audio.Honk();
                 }
             }
-            if ((moveVector.x == 0.0f && moveVector.y == 0.0f) && (accel >= 0))
+            if ((player.GetAxis("Move Horizontal") == 0  && player.GetAxis("Move Vertical") == 0) && (accel >= 0))
             {
                 accel -= Time.deltaTime * (change * 5);
             }
@@ -124,7 +124,7 @@ public class Driving : Interactable
 
             if (newDir != prevDir) //slow down when changing direction
             {
-                moveVector.x *= -1;
+                moveVector.x *= 0;
                 accel = accel * 0.20f;
             }
 

@@ -27,6 +27,7 @@ public class VehicleGrind : MonoBehaviour
     {
         if (other.gameObject.tag.Equals("eVehicle"))
         {
+			Debug.Log("VEHICLE ON WALL");
             if (side == Side.left)
             {
                 Transform sparks = other.transform.Find("SparksL");

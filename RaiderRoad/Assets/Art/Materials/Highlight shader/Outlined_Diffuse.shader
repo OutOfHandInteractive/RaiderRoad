@@ -48,6 +48,7 @@
 			{
 				appdata original = v;
 				v.vertex.xyz += _OutlineWidth * normalize(v.vertex.xyz) * _Active;
+				v.vertex.z += 0.005 * normalize(v.vertex.z) * _Active;
 
 				v2f o;
 				o.pos = UnityObjectToClipPos(v.vertex);
