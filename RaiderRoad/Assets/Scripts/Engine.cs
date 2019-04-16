@@ -11,7 +11,6 @@ public class Engine : DurableConstructGen<PoiNode> {
     /// Transform for the health bar for obstacles/raider vehicles on the RV
     /// </summary>
     public Transform myHealthTrans;
-    private Vector3 myHealthScale;
     public bool isOccupied = false;
     /// <summary>
     /// Start() hook that just initializes the health bar
@@ -19,7 +18,6 @@ public class Engine : DurableConstructGen<PoiNode> {
     public override void OnStart()
     {
         base.OnStart();
-        myHealthScale = myHealthTrans.localScale;
         UpdateHealthBar();
     }
 
@@ -48,7 +46,7 @@ public class Engine : DurableConstructGen<PoiNode> {
     
     private void UpdateHealthBar()
     {
-        myHealthTrans.localScale = new Vector3 ((currDur / durability) * myHealthScale.x, myHealthScale.y, myHealthScale.z); //reflect on health bar (multiplied by original health scale)
+        myHealthTrans.localScale = new Vector3(currDur / durability, 1f, 1f); //reflect on health bar
     }
 
     public override void OnBreak()

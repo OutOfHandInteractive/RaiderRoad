@@ -33,8 +33,7 @@ public abstract class DestructiblePart : MonoBehaviour {
 	#endregion
 
 	private void Start() {
-		maxHealth = GetMaxHealth() + (armorStacks * Constants.ARMOR_PARTHEALTH_MODIFIER_PER_STACK);
-		currentHealth = maxHealth;
+		maxHealth = GetMaxHealth() * (1 + armorStacks * Constants.ARMOR_PARTHEALTH_MODIFIER_PER_STACK);
 
 		vAI = GetComponentInParent<VehicleAI>();
 
@@ -51,16 +50,17 @@ public abstract class DestructiblePart : MonoBehaviour {
 	// ---------- Modifiers ----------
 	public float TakeDamage(float damageDone) {
 		currentHealth -= damageDone;
-		Debug.Log("TAKING DAMAGE");
-
 		if (currentHealth <= 0) {
 			isIntact = false;
-            if(drop != null) {
+            if(drop != null)
+            {
                 GameObject item = Instantiate(drop, transform.position + dropOffset, Quaternion.identity, transform);
             }
-            else {
+            else
+            {
                 Debug.LogError("This DestructiblePart (of type "+this.GetType().FullName+") doesn't have a drop assigned to it. FIX THAT!");
             }
+			//item.name = "Wall Drop";
 
 			// change texture to show destroyed
 			for (int i = 0; i<myMat.Count; i++) {

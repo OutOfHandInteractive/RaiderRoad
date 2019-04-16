@@ -42,8 +42,8 @@ public class FightEnemy : EnemyAI {
     {
         if(_target == null)
         {
-            //Debug.Log(players);
-            //Debug.Log(players[0]);
+            Debug.Log(players);
+            Debug.Log(players[0]);
             _target = Closest(cObject.transform.position, players);
             //PlayerController_Rewired.playerStates deadPlayer = _target.GetComponent<PlayerController_Rewired>().state;
             //if(deadPlayer != PlayerController_Rewired.playerStates.down)

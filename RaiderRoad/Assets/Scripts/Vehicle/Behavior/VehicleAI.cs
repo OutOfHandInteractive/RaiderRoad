@@ -161,7 +161,7 @@ public class VehicleAI : MonoBehaviour {
     {
         //Destroy this when it goes off screen
         if (other.tag == "Exit")
-            Die();
+            Destroy(this.gameObject);
         if (other.gameObject.tag.Equals("Obstacle"))
         {
             Debug.Log("You Hit an Obstacle");

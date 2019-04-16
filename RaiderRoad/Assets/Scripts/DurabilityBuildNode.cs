@@ -23,8 +23,6 @@ public abstract class DurabilityBuildNode : AbstractBuildNode
         item = Instantiate(objToBuild, new Vector3(transform.position.x, transform.position.y, transform.position.z),
             Quaternion.identity);
         item.transform.parent = this.gameObject.transform;
-        item.transform.forward = this.gameObject.transform.forward;
-        item.transform.localScale = new Vector3(0.8f, 0.8f, 0.8f);
         SetOutlineActive(item, 0.0f);
 
         occupied = true;

@@ -34,11 +34,12 @@ public class PlayerController_Rewired : MonoBehaviour
     // ----------------------- Private Variables --------------------------
     private Player player;
 	private PlayerPlacement_Rewired pPlacement;
-
-	// Movement
-	private Vector2 moveVector;
+    private Vector2 moveVector;
 	private float angle;
+
     private Vector3 rotateVector;
+
+    [SerializeField] private float reviveTime;
 
     private Rigidbody rb;
     //Animator
@@ -52,14 +53,10 @@ public class PlayerController_Rewired : MonoBehaviour
 	[SerializeField] private float hp5;	// health regen per 5 seconds
 	[SerializeField] private float healthRegenDelay;
 	private float healthRegenDelayCountdown;
-	[SerializeField] private float reviveTime;
-	public float reviveCountdown;
 
-	private float baseJumpInidicatorScale;
+    private float baseJumpInidicatorScale;
     private float baseJumpIndicatorDist;
-
-	// UI
-	[SerializeField] private GameObject reviveHelpIcon;
+    public float reviveCountdown;
 
     // states and flags
     public bool paused = false;
@@ -324,8 +321,11 @@ public class PlayerController_Rewired : MonoBehaviour
     }
 
     public void revive(PlayerController_Rewired p) {
-		p.getUp();
+        p.currentHealth = basehealth;
+        p.backToOrigAnim();
+        p.setState(playerStates.up); ;
         reviving = false;
+        p.GetComponentInChildren<HealthBar_Player>().stopRevive();
     }
 
 	// ----------------------- damage -----------------------
@@ -351,7 +351,6 @@ public class PlayerController_Rewired : MonoBehaviour
 		pPlacement.dropItem();
 		myAni.SetBool("downed", true);
 
-		reviveHelpIcon.SetActive(true);
 
 		state = playerStates.down;
 		if (interacting) {
@@ -360,31 +359,20 @@ public class PlayerController_Rewired : MonoBehaviour
 		g.playerDowned();
 	}
 
-	public void getUp() {
-		currentHealth = basehealth;
-		backToOrigAnim();
-		setState(playerStates.up);
-		gameObject.GetComponentInChildren<HealthBar_Player>().stopRevive();
+	// ------------------- misc health ---------------------
+	private void HealthRegen() {
+		if (currentHealth < basehealth) {
+			if (healthRegenDelayCountdown <= 0) {
+				currentHealth += ((hp5 / 5) * Time.deltaTime);
 
-		reviveHelpIcon.SetActive(false);
-	}
-
-    // ------------------- misc health ---------------------
-    private void HealthRegen() {
-        if (state != playerStates.down) { 
-            if (currentHealth < basehealth) {
-                if (healthRegenDelayCountdown <= 0) {
-                    currentHealth += ((hp5 / 5) * Time.deltaTime);
-
-                    if (currentHealth > basehealth) {
-                        currentHealth = basehealth;
-                    }
-                }
-                else {
-                    healthRegenDelayCountdown -= Time.deltaTime;
-                }
-            }
-        }
+				if (currentHealth > basehealth) {
+					currentHealth = basehealth;
+				}
+			}
+			else {
+				healthRegenDelayCountdown -= Time.deltaTime;
+			}
+		}
 	}
 	#endregion
 
