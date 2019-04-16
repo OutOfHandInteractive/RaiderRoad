@@ -16,7 +16,7 @@ public class Obstacle : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.Translate(Vector3.right * Time.deltaTime * speed); //once bs is sorted out, will replace with vector3.forward
+        transform.Translate(Vector3.left * Time.deltaTime * speed); //once bs is sorted out, will replace with vector3.forward
         if(this.transform.position.z < -35f){
             Destroy(gameObject);
         }
