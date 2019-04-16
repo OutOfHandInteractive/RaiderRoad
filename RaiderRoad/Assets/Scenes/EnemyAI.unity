@@ -6697,10 +6697,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1643154692}
     m_Modifications:
-    - target: {fileID: 100014, guid: 6d12d16c6f4a0914a89b379dee956238, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 400014, guid: 6d12d16c6f4a0914a89b379dee956238, type: 3}
       propertyPath: m_LocalRotation.y
       value: 1
@@ -6724,6 +6720,10 @@ PrefabInstance:
     - target: {fileID: 400014, guid: 6d12d16c6f4a0914a89b379dee956238, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 180
+      objectReference: {fileID: 0}
+    - target: {fileID: 100014, guid: 6d12d16c6f4a0914a89b379dee956238, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2300000, guid: 6d12d16c6f4a0914a89b379dee956238, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -7590,6 +7590,12 @@ PrefabInstance:
       propertyPath: warningCamvas
       value: 
       objectReference: {fileID: 18708989}
+    - target: {fileID: 114926823874260802, guid: 4fb8873ddb37cfb4f8b2e371a04d062c,
+        type: 3}
+      propertyPath: warningSprite
+      value: 
+      objectReference: {fileID: 6276667122488782055, guid: c190f0d9195fa6d40b3782a36040bdab,
+        type: 3}
     - target: {fileID: 65677783782047942, guid: 4fb8873ddb37cfb4f8b2e371a04d062c,
         type: 3}
       propertyPath: m_Center.z
