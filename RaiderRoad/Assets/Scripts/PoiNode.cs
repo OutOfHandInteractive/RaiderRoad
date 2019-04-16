@@ -9,7 +9,9 @@ public class PoiNode : DurabilityBuildNode {
 
     // -------- POI Warning Indicator (flashing red square) --------
 
-    public Material myIndicMat;
+    [SerializeField] private Material myIndicMat;
+    [SerializeField] private Color warnCol;
+    [SerializeField] private Color missCol;
     private float quickFadeSpeed = 3f;
     private float fadeSpeed = 1.5f;
     private IEnumerator currCorou;
@@ -28,6 +30,8 @@ public class PoiNode : DurabilityBuildNode {
     public void PoiHit()
     {
         if(currCorou != null) StopCoroutine(currCorou);
+        myIndicMat.color = warnCol;
+
         currCorou = IndicFade();
         StartCoroutine(currCorou);
     }
@@ -35,6 +39,8 @@ public class PoiNode : DurabilityBuildNode {
     public void PoiMissing()
     {
         if (currCorou != null) StopCoroutine(currCorou);
+        myIndicMat.color = missCol;
+
         currCorou = IndicAlert();
         StartCoroutine(currCorou);
     }
