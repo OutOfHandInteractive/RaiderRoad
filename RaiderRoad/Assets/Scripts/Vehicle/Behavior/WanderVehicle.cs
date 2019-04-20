@@ -13,6 +13,7 @@ public class WanderVehicle : MonoBehaviour {
     private int action;
     private bool hasWeapon;
     private float timer = 0f;
+    private bool firstPos = false;
     public void StartWander(NavMeshAgent agent, GameObject enemy, VehicleAI.Side side, bool weapon)
     {
         //Set it to the VehicleAI
@@ -38,11 +39,17 @@ public class WanderVehicle : MonoBehaviour {
             Debug.Log(child);
             patrols.Add(child);
         }
-        wanderPoints = Random.Range(0, patrols.Count);
+        if(!firstPos)
+        {
+            wanderPoints = Random.Range(0, patrols.Count);
+            firstPos = true;
+        }
+
     }
 
     public void Wander()
     {
+        Debug.LogWarning(wanderPoints);
         Debug.Log("HELP");
         //Return null if no patrol points
         if (patrols.Count == 0)
@@ -54,6 +61,7 @@ public class WanderVehicle : MonoBehaviour {
         */
         if (Vector3.Distance(cObject.transform.position, patrols[wanderPoints].position) < 1f)
         {
+            Debug.LogWarning("CALLED");
             wanderPoints = Random.Range(0, patrols.Count);
             time = 0;
         }
@@ -74,6 +82,7 @@ public class WanderVehicle : MonoBehaviour {
         else
         {
             StartCoroutine(changeAttack());
+            //StartCoroutine(waitToLeave());
         }
 
     }
@@ -88,5 +97,14 @@ public class WanderVehicle : MonoBehaviour {
     {
         yield return new WaitForSeconds(10);
         cObject.GetComponent<VehicleAI>().EnterChase();
+
+    }
+    IEnumerator waitToLeave()
+    {
+        yield return new WaitForSeconds(5);
+        cObject.GetComponent<VehicleAI>().EnterWander();
+        yield return new WaitForSeconds(5);
+        cObject.GetComponent<VehicleAI>().EnterLeave();
+
     }
 }

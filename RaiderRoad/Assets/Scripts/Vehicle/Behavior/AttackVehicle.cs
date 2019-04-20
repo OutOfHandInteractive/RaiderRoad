@@ -79,7 +79,7 @@ public class AttackVehicle : MonoBehaviour{
     IEnumerator waitToLeave()
     {
         cEnemy.transform.parent = null;
-        cEnemy.transform.GetComponent<NavMeshAgent>().enabled = true;
+        //cEnemy.transform.GetComponent<NavMeshAgent>().enabled = true;
         cObject.GetComponent<VehicleAI>().EnterWander();
         yield return new WaitForSeconds(5);
         cObject.GetComponent<VehicleAI>().EnterLeave();

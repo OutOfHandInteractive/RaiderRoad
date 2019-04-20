@@ -5,10 +5,11 @@ using UnityEngine.AI;
 
 public class VehicleAI : MonoBehaviour {
     //States
-    public enum State { Wander, Chase, Stay, Attack, Leave };
+    public enum State { Wait, Wander, Chase, Stay, Attack, Leave };
     public enum Side { Left, Right };
 
     //State Classes
+    private WaitVehicle wait;
     private WanderVehicle wander;
     private ChaseVehicle chase;
     private StayVehicle stay;
@@ -52,6 +53,7 @@ public class VehicleAI : MonoBehaviour {
         //Initialize all the classes
         enemy = gameObject;
         agent = GetComponent<NavMeshAgent>();
+        wait = enemy.AddComponent<WaitVehicle>();
         wander = enemy.AddComponent<WanderVehicle>();
         chase = enemy.AddComponent<ChaseVehicle>();
         stay = enemy.AddComponent<StayVehicle>();
@@ -64,7 +66,7 @@ public class VehicleAI : MonoBehaviour {
         hasWeapon = (GetComponentInChildren<HasWeapon>() != null);
         Debug.Log(side);
         //Start wander state
-        EnterWander();
+        EnterWait();
     }
 
     // Update is called once per frame
@@ -84,12 +86,14 @@ public class VehicleAI : MonoBehaviour {
         }
         switch (currentState)
         {
+            case State.Wait:
+                wait.Wait();
+                break;
             case State.Wander:
                 wander.Wander();
                 break;
             case State.Chase:
-                if (!agent.pathPending && agent.remainingDistance < 0.5f)
-                    chase.Chase(side);
+                chase.Chase(side);
                 break;
             case State.Stay:
                 stay.Stay();
@@ -124,6 +128,11 @@ public class VehicleAI : MonoBehaviour {
 
 	#region state change functions
 	//Used to change state from different classes
+    public void EnterWait()
+    {
+        wait.StartWait(enemy);
+        currentState = State.Wait;
+    }
 	public void EnterWander()
     {
         wander.StartWander(agent, enemy, side, hasWeapon);
