@@ -357,7 +357,7 @@ public class PlayerController_Rewired : MonoBehaviour
 		if (interacting) {
 			objectInUse.Leave();
 		}
-		g.playerDowned();
+		g.PlayerDowned();
 	}
 
 	public void getUp() {
