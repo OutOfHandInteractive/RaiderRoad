@@ -25,4 +25,8 @@ public class Constants : MonoBehaviour
 
 	// misc
 	public static float PLAYER_ROAD_DAMAGE = 50f;
+
+	// player facing angles
+	public static float FACING_VERTICAL_MINIMUM = 45f;
+	public static float FACING_VERTICAL_MAXIMUM = 135f;
 }

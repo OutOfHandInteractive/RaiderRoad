@@ -7,7 +7,7 @@ public abstract class Attachment : DestructiblePart {
 
 	[SerializeField] private ParticleSystem highDamageSmokeEffects;
 
-	public void startHighDamageSmokeEffects() {
+	public void StartHighDamageSmokeEffects() {
 		highDamageSmokeEffects.Play();
 	}
 }

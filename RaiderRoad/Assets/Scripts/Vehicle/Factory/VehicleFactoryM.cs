@@ -8,7 +8,7 @@ public class VehicleFactoryM : VehicleFactory_I {
 
 	public List<GameObject> Chassis;
 
-	protected override GameObject selectChassis() {
+	protected override GameObject SelectChassis() {
 		int selectedIndex = rand.Next(0, Chassis.Count);
 
 		return Chassis[selectedIndex];
@@ -16,17 +16,17 @@ public class VehicleFactoryM : VehicleFactory_I {
 
 	//attach enemy to cab
 	public override void AttachPayload(GameObject cargo, float wChance) {
-		GameObject payload = Instantiate(selectPayload(), cargo.GetComponent<Cargo>().payloadNode.transform);
+		GameObject payload = Instantiate(SelectPayload(), cargo.GetComponent<Cargo>().payloadNode.transform);
         payload.transform.localPosition = Vector3.zero;
         //payload.transform.SetParent(cargo.GetComponent<Cargo>().payloadNode.transform);
         //payload.transform.position = payload.transform.parent.transform.position;
-        payload.GetComponent<PayloadM>().setWChance(wChance);
-        payload.GetComponent<PayloadM>().populate();
+        payload.GetComponent<PayloadM>().SetWChance(wChance);
+        payload.GetComponent<PayloadM>().Populate();
 	}
 
 	// attach wheel to frame
 	public override void AttachWheels(GameObject chassis, VehicleAI v) {
-		GameObject wheelToUse = selectWheel();
+		GameObject wheelToUse = SelectWheel();
 		GameObject wheel;
 		for (int i = 0; i < WHEEL_COUNT_M; i++) {
 			wheel = Instantiate(wheelToUse, chassis.GetComponent<Chassis>().wheelNodes[i].transform);

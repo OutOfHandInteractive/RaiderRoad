@@ -81,12 +81,13 @@ public class DestroyEnemy : EnemyAI {
             if(walls.Length <= 0)
             {
                 Debug.Log(engine);
-                if(engines.Length <= 0)
+                if(engines.Length <= 0 || engine == null)
                 {
                     cObject.GetComponent<StatefulEnemyAI>().EnterFight();
                 }
                 else
                 {
+                    Debug.Log(engine);
                     agent.SetDestination(engine.transform.position);
                 }
             }
@@ -97,7 +98,7 @@ public class DestroyEnemy : EnemyAI {
         }
         else
         {
-            if (engines.Length <= 0)
+            if (engines.Length <= 0 || engine == null)
             {
                 cObject.GetComponent<StatefulEnemyAI>().EnterFight();
             }

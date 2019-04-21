@@ -12,36 +12,9 @@ public class PayloadH : Payload {
     private List<GameObject> payloadInstance = new List<GameObject>();
 	private System.Random rand = new System.Random();
 
-	public override void populate() {
+	public override void Populate() {
         GameObject[] nodes = { enemyNode01, enemyNode02, enemyNode03, enemyNode04, enemyNode05, enemyNode06 };
-        populate(nodes);
-		//for (int i = 0; i < PAYLOAD_SIZE; i++) {
-		//	if (payloadCode[i] == payloadTypes.enemy)
-  //              payloadInstance.Add(Instantiate(SelectEnemies().gameObject, nodes[i].transform));
-  //          if (payloadCode[i] == payloadTypes.weapon)
-  //          {
-  //              payloadInstance.Add(Instantiate(SelectInteractable().gameObject));
-  //          }
-  //          payloadInstance[i].transform.localPosition = new Vector3(0, 1f, 0);
-  //      }
-
-		//payloadInstance[0].transform.SetParent(enemyNode01.transform);
-		//payloadInstance[0].transform.position = new Vector3(0, 1f, 0);
-
-		//payloadInstance[1].transform.SetParent(enemyNode02.transform);
-		//payloadInstance[1].transform.position = new Vector3(0, 1f, 0);
-
-		//payloadInstance[2].transform.SetParent(enemyNode03.transform);
-		//payloadInstance[2].transform.position = new Vector3(0, 1f, 0);
-
-		//payloadInstance[3].transform.SetParent(enemyNode04.transform);
-		//payloadInstance[3].transform.position = new Vector3(0, 1f, 0);
-
-		//payloadInstance[4].transform.SetParent(enemyNode05.transform);
-		//payloadInstance[4].transform.position = new Vector3(0, 1f, 0);
-
-		//payloadInstance[5].transform.SetParent(enemyNode06.transform);
-		//payloadInstance[5].transform.position = new Vector3(0, 1f, 0);
+        Populate(nodes);
 	}
 
     protected override int GetSize()
