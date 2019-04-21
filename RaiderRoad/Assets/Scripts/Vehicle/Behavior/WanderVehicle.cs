@@ -54,7 +54,7 @@ public class WanderVehicle : MonoBehaviour {
         //Return null if no patrol points
         if (patrols.Count == 0)
             return;
-        float time = Mathf.SmoothStep(0, 1, 4*Time.deltaTime);
+        float time = Mathf.SmoothStep(0, 1, 3*Time.deltaTime);
         //Have agent go to different points
         /*cEnemy.SetDestination(patrols[wanderPoints].position);
         //Choose random patrol point
