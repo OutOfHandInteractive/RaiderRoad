@@ -28,6 +28,8 @@ public class Radio
 
     private static List<PlayerController_Rewired> targets = new List<PlayerController_Rewired>();
 
+    private List<GameObject> vehicles = new List<GameObject>();
+
     /// <summary>
     /// This method is for escaping enemies to call for a vehicle to evacuate him
     /// </summary>
@@ -104,5 +106,31 @@ public class Radio
                 targets.RemoveAt(0);
             }
         }
+    }
+
+    public void AddVehicle(GameObject vehicle)
+    {
+        vehicles.Add(vehicle);
+        Debug.LogWarning(vehicles[0]);
+        Debug.LogWarning("COUNT: " + vehicles.Count);
+    }
+
+    public void RemoveVehicle(GameObject vehicle)
+    {
+        vehicles.Remove(vehicle);
+        Debug.LogWarning(vehicles[0]);
+        Debug.LogWarning("COUNT: " + vehicles.Count);
+    }
+
+    public bool checkState()
+    {
+        foreach (GameObject vehicle in vehicles)
+        {
+            if(vehicle.GetComponent<VehicleAI>().getState() == VehicleAI.State.Stay)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }

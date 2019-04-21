@@ -194,6 +194,7 @@ public class VehicleAI : MonoBehaviour {
         }
         Instantiate(explosionSound, transform.position, Quaternion.identity);
         Instantiate(deathBigExplosion, transform.position, Quaternion.identity);
+        Radio.GetRadio().RemoveVehicle(gameObject);
         Destroy(gameObject);
     }
 
