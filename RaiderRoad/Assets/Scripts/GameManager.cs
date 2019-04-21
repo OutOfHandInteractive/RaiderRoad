@@ -118,7 +118,7 @@ public class GameManager : MonoBehaviour {
 		return FinishTime - myTimer;
 	}
 
-	public void GetPlayers(List<Transform> playersList) {
+	public void SetPlayers(List<Transform> playersList) {
 		playersInScene = playersList;
 	}
 	#endregion
