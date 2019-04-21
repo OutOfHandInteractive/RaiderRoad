@@ -79,11 +79,11 @@ public class WanderVehicle : MonoBehaviour {
         {
             StartCoroutine(changeChase());
         }
-        else if (Radio.GetRadio().checkState())
+        /*else if (Radio.GetRadio().checkState())
         {
             Debug.LogWarning("TRUEEEEEEEEEEE");
             cObject.GetComponent<VehicleAI>().EnterWander();
-        }
+        }*/
         else
         {
             StartCoroutine(changeAttack());
