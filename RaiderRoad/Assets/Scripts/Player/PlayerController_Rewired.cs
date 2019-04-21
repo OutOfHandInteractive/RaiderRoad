@@ -22,6 +22,7 @@ public class PlayerController_Rewired : MonoBehaviour
     public float jumpIndicatorScaling = 10f;
 
     public float jumpForce;
+    public float counterJumpForce;
     public float distToGround = 0.9f;
     public bool isOccupied = false;
 
@@ -79,6 +80,7 @@ public class PlayerController_Rewired : MonoBehaviour
     private Color myOrigColor;
 
     private bool jumped = false;
+    private bool jumpHeld = false;
     private bool animJumped = false; //Jumped can be called at weird points, animJumped is a more accurate version for animation/particle purposes
 
 	// ----------------------------------------------------------------------
@@ -142,10 +144,22 @@ public class PlayerController_Rewired : MonoBehaviour
         ScaleJumpIndicator();
 		HealthRegen();
     }
-	#endregion
 
-	#region Input and Input Processing
-	private void GetInput() {
+    void FixedUpdate()
+    {
+        // ---- jumping ----
+        if (jumped)
+        {
+            if (!jumpHeld && Vector3.Dot(rb.velocity, transform.up) > 0)
+            {
+                rb.AddForce(transform.up * counterJumpForce * rb.mass);
+            }
+        }
+    }
+    #endregion
+
+    #region Input and Input Processing
+    private void GetInput() {
         // main input
         if (!paused && !interacting && !reviving) {
 			// get movement directions and angles
@@ -196,6 +210,7 @@ public class PlayerController_Rewired : MonoBehaviour
                 }
             }
 
+            /*
 			// ---- jumping ----
             Debug.DrawRay(transform.position + Vector3.up, -Vector3.up * (distToGround + 0.1f), Color.red);
             if (player.GetButtonDown("Jump") && IsGrounded() && jumped == false) {
@@ -204,6 +219,26 @@ public class PlayerController_Rewired : MonoBehaviour
                 myAni.SetBool("land", false);
                 jumped = true;
                 animJumped = true;
+            }
+            */
+
+            // ---- jumping ----
+            Debug.DrawRay(transform.position + Vector3.up, -Vector3.up * (distToGround + 0.1f), Color.red);
+            if (player.GetButtonDown("Jump"))
+            {
+                jumpHeld = true;
+                if (IsGrounded())
+                {
+                    jumped = true;
+                    animJumped = true;
+                    rb.AddForce(transform.up * jumpForce * rb.mass, ForceMode.Impulse);
+                    myAni.SetTrigger("jump");
+                    myAni.SetBool("land", false);
+                }
+            }
+            else if (player.GetButtonUp("Jump"))
+            {
+                jumpHeld = false;
             }
         }
 
