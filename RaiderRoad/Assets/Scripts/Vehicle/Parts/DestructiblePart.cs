@@ -27,6 +27,7 @@ public abstract class DestructiblePart : MonoBehaviour {
 
 	// attributes
 	private float currentHealth;
+	[SerializeField] private List<int> WallDropCount;
 
 	// abstract methods
 	protected abstract float GetMaxHealth();
