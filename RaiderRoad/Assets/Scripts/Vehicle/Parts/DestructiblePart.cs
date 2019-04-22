@@ -6,6 +6,7 @@ public abstract class DestructiblePart : MonoBehaviour {
 	#region variable declarations
 	// ---------------------- public variables -----------------------
 	// references
+	public Constants.vehicleClass vehicleClass;
 	public GameObject drop;
     public Vector3 dropOffset = new Vector3(0, 0.75f, -1);
 	public List<GameObject> objWithMat;
@@ -27,7 +28,6 @@ public abstract class DestructiblePart : MonoBehaviour {
 
 	// attributes
 	private float currentHealth;
-	[SerializeField] private List<int> WallDropCount;
 
 	// abstract methods
 	protected abstract float GetMaxHealth();
@@ -57,7 +57,9 @@ public abstract class DestructiblePart : MonoBehaviour {
 		if (currentHealth <= 0) {
 			isIntact = false;
             if(drop != null) {
-                GameObject item = Instantiate(drop, transform.position + dropOffset, Quaternion.identity, transform);
+				for (int i = 0; i < Constants.WallDropsByVehicleClass[vehicleClass]; i++) {
+					Instantiate(drop, transform.position + dropOffset, Quaternion.identity, transform);
+				}
             }
             else {
                 Debug.LogError("This DestructiblePart (of type "+this.GetType().FullName+") doesn't have a drop assigned to it. FIX THAT!");
