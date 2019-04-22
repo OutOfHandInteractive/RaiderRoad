@@ -6,7 +6,11 @@ public class obstacleSpawner : MonoBehaviour
 {
 
     public float startDelay = 30f;
-    public float obstDelay = 23f;
+    [SerializeField]
+    private float obstDelay;
+    //these two numbers can be tweaked later, but for now they prove the functionality
+    private int obstLow = 17;
+    private int obstHigh = 23;
     [SerializeField]
     private GameObject smallObstacle;
     public GameObject oSpawnsParent;
@@ -14,8 +18,10 @@ public class obstacleSpawner : MonoBehaviour
     private List<Transform> ospawnPoints;
     private int startPos = 2;   //initial "lane" the RV starts in
     [SerializeField]
-    private int rvPos = 2;  //default "lane" index
+    private int rvPos = 2;  //default/center "lane" index
+    [SerializeField]
     private int upperBound;
+    [SerializeField]
     private int lowerBound;
 
     // Start is called before the first frame update
@@ -37,6 +43,7 @@ public class obstacleSpawner : MonoBehaviour
         while (true)
         {
             oSpawn();
+            setObstDelay();
             yield return new WaitForSeconds(obstDelay);
         }
     }
@@ -44,6 +51,11 @@ public class obstacleSpawner : MonoBehaviour
     public void rvIndex(int curIndex)
     {
         rvPos = curIndex;
+    }
+
+    private void setObstDelay()
+    {
+        obstDelay = Random.Range(obstLow,obstHigh);
     }
 
     public void oSpawn()
