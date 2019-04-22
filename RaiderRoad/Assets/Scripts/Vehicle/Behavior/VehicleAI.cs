@@ -196,42 +196,43 @@ public class VehicleAI : MonoBehaviour {
 	#region death functions
 	private void Die()
     {
-        // Battery Drop
-        float rand = Random.value; // Battery Drop Chance
-        if (side == Side.Left)
+        
+        if (currentState != State.Leave)
         {
-            if (rand <= batteryDropChance)
-            {
-                GameObject battery = Instantiate(batteryDrop, transform.position, Quaternion.identity);
-                battery.GetComponent<DropExplosion>().Eject(1f);
-            }
-        }
-        else
-        {
-            if (rand <= batteryDropChance)
-            {
-                GameObject battery = Instantiate(batteryDrop, transform.position, Quaternion.identity);
-                battery.GetComponent<DropExplosion>().Eject(-1f);
-            }
-        }
-
-        foreach (PlayerController_Rewired pc in gameObject.GetComponentsInChildren<PlayerController_Rewired>())
-        {
-            /* Old Code
-            pc.RoadRash();
-            pc.transform.parent = null;
-            */
-
-            pc.transform.parent = null;            
+            // Battery Drop
+            float rand = Random.value; // Battery Drop Chance
             if (side == Side.Left)
             {
-                pc.Eject(1f);
+                if (rand <= batteryDropChance)
+                {
+                    GameObject battery = Instantiate(batteryDrop, transform.position, Quaternion.identity);
+                    battery.GetComponent<DropExplosion>().Eject(1f);
+                }
             }
             else
             {
-                pc.Eject(-1f);
+                if (rand <= batteryDropChance)
+                {
+                    GameObject battery = Instantiate(batteryDrop, transform.position, Quaternion.identity);
+                    battery.GetComponent<DropExplosion>().Eject(-1f);
+                }
+            }
+
+            // Player Eject
+            foreach (PlayerController_Rewired pc in gameObject.GetComponentsInChildren<PlayerController_Rewired>())
+            {
+                pc.transform.parent = null;
+                if (side == Side.Left)
+                {
+                    pc.Eject(1f);
+                }
+                else
+                {
+                    pc.Eject(-1f);
+                }
             }
         }
+        
         Instantiate(explosionSound, transform.position, Quaternion.identity);
         Instantiate(deathBigExplosion, transform.position, Quaternion.identity);
         Destroy(gameObject);
