@@ -168,9 +168,35 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
             hasItem = false;
             Destroy(floatingItem);
             buildMode = false;
+
+            //Tell node that battery is placed 
+            node.GetComponent<PoiNode>().PoiPresent();
+
+            myAni.SetTrigger("build");
+            myAni.SetBool("isHolding", false);
         }
         else {
-            Debug.Log("Occupied >:(");
+            //Healing Mechanic, if occupied, heal for what health is missing
+            if(node.GetComponentInChildren<Engine>() != null) {
+                Engine targetEngine = node.GetComponentInChildren<Engine>();
+
+                if(targetEngine.currentDurVal() < targetEngine.durability)
+                { // healing existing engine
+                    targetEngine.EngineHeal(floatingItem.GetComponent<DurableConstruct>().GetDurability());
+                    heldItem = null;
+                    hasItem = false;
+                    Destroy(floatingItem);
+                    buildMode = false;
+
+                    myAni.SetTrigger("build");
+                    myAni.SetBool("isHolding", false);
+
+                } else {
+                    // if engine is at full health, do not heal
+                    node.GetComponent<PoiNode>().PoiFlash(Color.gray);
+
+                }
+            }
         }
     }
 
@@ -194,11 +220,6 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         GameObject EngineBuild = engineNodes[0];
         BuildDurableConstruct(EngineBuild.GetComponent<PoiNode>());
 
-        //Tell node that battery is placed 
-        EngineBuild.GetComponent<PoiNode>().PoiPresent();
-
-        myAni.SetTrigger("build");
-        myAni.SetBool("isHolding", false);
     }
 
     private void BuildWeapon(GameObject toBuild) {
@@ -506,7 +527,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
             {
                 //Debug.Log("Trap node added");
                 engineNodes.Add(other.gameObject);
-                if (buildMode && !other.GetComponent<PoiNode>()) other.GetComponent<PoiNode>().Show(heldItem); //if player is in build mode, activate show wall in the build node script
+                if (buildMode) other.GetComponent<PoiNode>().Show(heldItem); //if player is in build mode, activate show engine in the build node script
             }
         }
         if (Util.isEnemy(other.gameObject))
@@ -516,7 +537,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         else
         {
             Constructable construct = other.GetComponent<Constructable>();
-            if (construct != null && !construct.isHolo && construct.isPlaced())
+            if (construct != null && !construct.isHolo && construct.isPlaced() && other.tag != "Engine") //other.tag check prevents hitting Engine, remove to break engine
             {
                 attackRange.Add(other.gameObject);
             }

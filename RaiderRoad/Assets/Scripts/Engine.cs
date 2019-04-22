@@ -43,9 +43,24 @@ public class Engine : DurableConstructGen<PoiNode> {
         UpdateHealthBar();
 
         // tell POI node that battery was hit
-        myNode.GetComponent<PoiNode>().PoiHit();
+        if(currDur > 0f) {
+            myNode.GetComponent<PoiNode>().PoiHit();
+        } else {
+            myNode.GetComponent<PoiNode>().PoiMissing();
+        }
     }
     
+    //heal durability by set value
+    public void EngineHeal(float heal)
+    {
+        currDur += heal;
+        if (currDur > durability) {
+            currDur = durability;
+        }
+        CheckDur();
+        UpdateHealthBar();
+    }
+
     private void UpdateHealthBar()
     {
         myHealthTrans.localScale = new Vector3 ((currDur / durability) * myHealthScale.x, myHealthScale.y, myHealthScale.z); //reflect on health bar (multiplied by original health scale)
