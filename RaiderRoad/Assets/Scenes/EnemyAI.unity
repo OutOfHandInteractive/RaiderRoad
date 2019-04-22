@@ -4532,7 +4532,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 506410720}
-  m_LocalRotation: {x: 0.4985767, y: -0.0000000162632, z: 0.000000010922251, w: 0.86684567}
+  m_LocalRotation: {x: 0.4985767, y: 0.000000013567355, z: -0.000000006235152, w: 0.86684567}
   m_LocalPosition: {x: 0, y: 23, z: -13.38}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -6093,13 +6093,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0d495be93d3f6a49a9ffddc652476e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startDelay: 30
+  startDelay: 2
   obstDelay: 23
   smallObstacle: {fileID: 749651974465715671, guid: e5f5c47b3bc08b749b45beaaddcd17b8,
     type: 3}
   oSpawnsParent: {fileID: 272707667}
   ospawnPoints: []
   rvPos: 2
+  upperBound: 0
+  lowerBound: 0
 --- !u!1 &1507497333
 GameObject:
   m_ObjectHideFlags: 0
@@ -6562,7 +6564,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1643154686}
-  m_LocalRotation: {x: 0.4985767, y: -0.0000000162632, z: 0.000000010922251, w: 0.86684567}
+  m_LocalRotation: {x: 0.4985767, y: 0.000000013567355, z: -0.000000006235152, w: 0.86684567}
   m_LocalPosition: {x: 0, y: 23, z: -13.38}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
