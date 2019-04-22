@@ -448,14 +448,22 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
     }
 
 	public void removeWrongDirectionWallNodes() {
-		foreach (GameObject node in nodes) {
-			if (pController.isFacingVertical && node.gameObject.tag == "WallNodeHorizontal") {
-				nodes.Remove(node);
-			}
-			else if (!pController.isFacingVertical && node.gameObject.tag == "WallNodeVertical") {
-				nodes.Remove(node);
-			}
-		}
+        if (heldItem != null && heldItem.CompareTag("Weapon")){
+            foreach (GameObject node in nodes) {
+			    if (node.gameObject.tag == "WallNodeHorizontal") {
+				    nodes.Remove(node);
+			    }
+		    }
+        } else { //for walls
+            foreach (GameObject node in nodes) {
+			    if (pController.isFacingVertical && node.gameObject.tag == "WallNodeHorizontal") {
+				    nodes.Remove(node);
+			    }
+			    else if (!pController.isFacingVertical && node.gameObject.tag == "WallNodeVertical") {
+				    nodes.Remove(node);
+			    }
+		    }
+        }
 	}
 	#endregion
 
@@ -464,8 +472,8 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
     {
         //Debug.Log(other.name);
         if ((other.tag == "WallNodeVertical" && pController.isFacingVertical) || 
-			(other.tag == "WallNodeHorizontal" && !pController.isFacingVertical) ||
-			(heldItem != null && heldItem.CompareTag("Weapon") && other.tag == "WallNodeVertical"))
+			(other.tag == "WallNodeHorizontal" && !pController.isFacingVertical & (heldItem == null || !heldItem.CompareTag("Weapon")) ) || //need
+            (heldItem != null && heldItem.CompareTag("Weapon") && other.tag == "WallNodeVertical"))
         {
             // This thing adds nodes to the view if they correspond to the facing direction of the player
 			// or if they player is holding a weapon (so that weapon placement doesnt feel weird)

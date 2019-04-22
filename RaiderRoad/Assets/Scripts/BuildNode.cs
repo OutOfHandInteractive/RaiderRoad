@@ -114,6 +114,8 @@ public class BuildNode : AbstractBuildNode {
                 SetOutlineActive(holo, 1f);
             } else {
                 SetOutlineActiveOverride(holo, 1f, Color.red);
+                //not rotated correctly, quick fix
+                holo.transform.rotation = Quaternion.Euler(new Vector3(0, 90, 0));
             }
         }
         
