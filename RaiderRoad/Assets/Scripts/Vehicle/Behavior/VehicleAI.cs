@@ -30,6 +30,11 @@ public class VehicleAI : MonoBehaviour {
 
     public GameObject explosionSound;
 
+    public float batteryDropChance = 1.0f;
+    public GameObject batteryDrop;
+    
+    public bool testDeath = false;
+
     //Statistics
     public float maxHealth;
 	[SerializeField] private float ramDamage;
@@ -106,6 +111,13 @@ public class VehicleAI : MonoBehaviour {
             case State.Leave:
                 leave.Leave();
                 break;
+        }
+
+        // Test Death
+        if (testDeath)
+        {
+            //DelayedDeath();
+            Die();
         }
     }
 
@@ -184,11 +196,43 @@ public class VehicleAI : MonoBehaviour {
 	#region death functions
 	private void Die()
     {
-        foreach (PlayerController_Rewired pc in gameObject.GetComponentsInChildren<PlayerController_Rewired>())
+        
+        if (currentState != State.Leave)
         {
-            pc.RoadRash();
-            pc.transform.parent = null;
+            // Battery Drop
+            float rand = Random.value; // Battery Drop Chance
+            if (side == Side.Left)
+            {
+                if (rand <= batteryDropChance)
+                {
+                    GameObject battery = Instantiate(batteryDrop, transform.position, Quaternion.identity);
+                    battery.GetComponent<DropExplosion>().Eject(1f);
+                }
+            }
+            else
+            {
+                if (rand <= batteryDropChance)
+                {
+                    GameObject battery = Instantiate(batteryDrop, transform.position, Quaternion.identity);
+                    battery.GetComponent<DropExplosion>().Eject(-1f);
+                }
+            }
+
+            // Player Eject
+            foreach (PlayerController_Rewired pc in gameObject.GetComponentsInChildren<PlayerController_Rewired>())
+            {
+                pc.transform.parent = null;
+                if (side == Side.Left)
+                {
+                    pc.Eject(1f);
+                }
+                else
+                {
+                    pc.Eject(-1f);
+                }
+            }
         }
+        
         Instantiate(explosionSound, transform.position, Quaternion.identity);
         Instantiate(deathBigExplosion, transform.position, Quaternion.identity);
         Destroy(gameObject);

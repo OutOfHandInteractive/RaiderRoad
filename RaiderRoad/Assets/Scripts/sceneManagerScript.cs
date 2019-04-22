@@ -111,7 +111,7 @@ public class sceneManagerScript : MonoBehaviour {
         spawnChar4();
 
         //gameObject.SetActive(false);
-        g.getPlayers(playersInScene);
+        g.SetPlayers(playersInScene);
         g.restartMenu();
     }
 
