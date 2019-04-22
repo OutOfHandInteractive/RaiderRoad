@@ -55,6 +55,9 @@ public class PlayerController_Rewired : MonoBehaviour
 	private float healthRegenDelayCountdown;
 	[SerializeField] private float reviveTime;
 	public float reviveCountdown;
+    //Invulnerability
+    [SerializeField] private float invulTime;
+    private float lastHitTimeStamp = 0f;
 
 	private float baseJumpInidicatorScale;
     private float baseJumpIndicatorDist;
@@ -366,12 +369,20 @@ public class PlayerController_Rewired : MonoBehaviour
 	// ----------------------- damage -----------------------
     public void takeDamage(float _damage)
     {
-        currentHealth -= _damage;
-		healthRegenDelayCountdown = healthRegenDelay;
-
-        if (currentHealth <= 0)
+        float currTime = Time.time;
+        //Invulnerability Frames (if we want to remove, set invulTime to 0 or get rid of if statement below)
+        if (currTime >= lastHitTimeStamp + invulTime)
         {
-			goDown();
+            lastHitTimeStamp = Time.time;
+            currentHealth -= _damage;
+            healthRegenDelayCountdown = healthRegenDelay;
+
+            if (currentHealth <= 0)
+            {
+                goDown();
+            }
+        } else {
+            //Debug.Log("Invulnerable Hit");
         }
     }
 
