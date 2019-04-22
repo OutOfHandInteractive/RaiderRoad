@@ -519,9 +519,28 @@ public class PlayerController_Rewired : MonoBehaviour
         takeDamage(Constants.PLAYER_ROAD_DAMAGE);
 
         float gravity = Physics.gravity.magnitude;
-        
+
         //Positions of this object and the target on the same plane
-        Vector3 pos = GameObject.Find("player1Spawn").transform.position;
+        int rand = Random.Range(1, 5);
+        Vector3 pos;
+        switch (rand)
+        {
+            case 1:
+                pos = GameObject.Find("player1Spawn").transform.position;
+                break;
+
+            case 2:
+                pos = GameObject.Find("player2Spawn").transform.position;
+                break;
+
+            case 3:
+                pos = GameObject.Find("player3Spawn").transform.position;
+                break;
+
+            default:
+                pos = GameObject.Find("player4Spawn").transform.position;
+                break;
+        }
         Vector3 planePos = new Vector3(transform.position.x, 0, transform.position.z);
         Vector3 planeTar = new Vector3(pos.x, 0, pos.z);
 
@@ -542,12 +561,13 @@ public class PlayerController_Rewired : MonoBehaviour
         Vector3 velocity = new Vector3(0, initialVelocity * Mathf.Sin(angle), zSign * initialVelocity * Mathf.Cos(angle));
 
         //Rotate our velocity to match the direction between the two objects
-        float angleBetweenObjects = Vector3.Angle(Vector3.forward, planeTar - planePos);
+        float angleBetweenObjects = Vector3.Angle(Vector3.forward, (planeTar - planePos) * zSign);
         Vector3 finalVelocity = Quaternion.AngleAxis(angleBetweenObjects, Vector3.up) * velocity;
 
         rb.AddForce(finalVelocity * rb.mass, ForceMode.Impulse);
         jumped = true;
         exploded = true;
+        animJumped = true;
         myAni.SetTrigger("jump");
         myAni.SetBool("land", false);
     }
