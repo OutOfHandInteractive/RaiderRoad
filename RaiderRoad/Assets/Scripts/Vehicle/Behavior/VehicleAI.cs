@@ -30,6 +30,9 @@ public class VehicleAI : MonoBehaviour {
 
     public GameObject explosionSound;
 
+    public float batteryDropChance = 1.0f;
+    public GameObject batteryDrop;
+    
     public bool testDeath = false;
 
     //Statistics
@@ -193,13 +196,33 @@ public class VehicleAI : MonoBehaviour {
 	#region death functions
 	private void Die()
     {
+        // Battery Drop
+        float rand = Random.value; // Battery Drop Chance
+        if (side == Side.Left)
+        {
+            if (rand <= batteryDropChance)
+            {
+                GameObject battery = Instantiate(batteryDrop, transform.position, Quaternion.identity);
+                battery.GetComponent<DropExplosion>().Eject(1f);
+            }
+        }
+        else
+        {
+            if (rand <= batteryDropChance)
+            {
+                GameObject battery = Instantiate(batteryDrop, transform.position, Quaternion.identity);
+                battery.GetComponent<DropExplosion>().Eject(-1f);
+            }
+        }
+
         foreach (PlayerController_Rewired pc in gameObject.GetComponentsInChildren<PlayerController_Rewired>())
         {
-            /*
+            /* Old Code
             pc.RoadRash();
             pc.transform.parent = null;
             */
-            pc.transform.parent = null;
+
+            pc.transform.parent = null;            
             if (side == Side.Left)
             {
                 pc.Eject(1f);
