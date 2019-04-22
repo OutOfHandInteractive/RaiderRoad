@@ -81,6 +81,7 @@ public class PlayerController_Rewired : MonoBehaviour
 
     private bool jumped = false;
     private bool jumpHeld = false;
+    private bool exploded = false;
     private bool animJumped = false; //Jumped can be called at weird points, animJumped is a more accurate version for animation/particle purposes
 
 	// ----------------------------------------------------------------------
@@ -148,7 +149,7 @@ public class PlayerController_Rewired : MonoBehaviour
     void FixedUpdate()
     {
         // ---- jumping ----
-        if (jumped)
+        if (jumped && !exploded)
         {
             if (!jumpHeld && Vector3.Dot(rb.velocity, transform.up) > 0)
             {
@@ -310,6 +311,7 @@ public class PlayerController_Rewired : MonoBehaviour
             //Debug.Log("Can jump");
             transform.parent = collision.transform.root;
             jumped = false;
+            exploded = false;
             //rb.isKinematic = true;
         }
 
@@ -509,5 +511,45 @@ public class PlayerController_Rewired : MonoBehaviour
 	public void backToOrigAnim() {
         myAni.SetBool("downed", false);
     }
-	#endregion
+    #endregion
+
+    #region Other Methods
+    public void Eject(float zSign)
+    {
+        takeDamage(Constants.PLAYER_ROAD_DAMAGE);
+
+        float gravity = Physics.gravity.magnitude;
+        
+        //Positions of this object and the target on the same plane
+        Vector3 pos = GameObject.Find("player1Spawn").transform.position;
+        Vector3 planePos = new Vector3(transform.position.x, 0, transform.position.z);
+        Vector3 planeTar = new Vector3(pos.x, 0, pos.z);
+
+        //Selected angle in radians
+        float angle = 60f *Mathf.Deg2Rad;
+
+        //Planar distance between objects
+        float distance = Vector3.Distance(planeTar, planePos);
+        //Distance along the y axis between objects
+        float yOffset = transform.position.y - pos.y;
+
+        //Equation to get initial velocity
+        // vi = (1/cos(theta)) * sqrt((g * d^2 /2)/(d*tan(theta)+y))
+        float initialVelocity = (1 / Mathf.Cos(angle)) * Mathf.Sqrt((0.5f * gravity * Mathf.Pow(distance, 2)) / (distance * Mathf.Tan(angle) + yOffset));
+
+
+        //Use positive velocity if vehicle is on left side, negative otherwise
+        Vector3 velocity = new Vector3(0, initialVelocity * Mathf.Sin(angle), zSign * initialVelocity * Mathf.Cos(angle));
+
+        //Rotate our velocity to match the direction between the two objects
+        float angleBetweenObjects = Vector3.Angle(Vector3.forward, planeTar - planePos);
+        Vector3 finalVelocity = Quaternion.AngleAxis(angleBetweenObjects, Vector3.up) * velocity;
+
+        rb.AddForce(finalVelocity * rb.mass, ForceMode.Impulse);
+        jumped = true;
+        exploded = true;
+        myAni.SetTrigger("jump");
+        myAni.SetBool("land", false);
+    }
+    #endregion
 }
