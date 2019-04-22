@@ -186,8 +186,19 @@ public class VehicleAI : MonoBehaviour {
     {
         foreach (PlayerController_Rewired pc in gameObject.GetComponentsInChildren<PlayerController_Rewired>())
         {
+            /*
             pc.RoadRash();
             pc.transform.parent = null;
+            */
+            pc.transform.parent = null;
+            if (side == Side.Left)
+            {
+                pc.Eject(1f);
+            }
+            else if (side == Side.Right)
+            {
+                pc.Eject(-1f);
+            }
         }
         Instantiate(explosionSound, transform.position, Quaternion.identity);
         Instantiate(deathBigExplosion, transform.position, Quaternion.identity);
