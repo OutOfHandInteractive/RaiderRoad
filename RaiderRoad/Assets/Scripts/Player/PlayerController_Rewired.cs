@@ -519,13 +519,14 @@ public class PlayerController_Rewired : MonoBehaviour
         takeDamage(Constants.PLAYER_ROAD_DAMAGE);
 
         float gravity = Physics.gravity.magnitude;
-        //Selected angle in radians
-        float angle = 75f * Mathf.Deg2Rad;
-
+        
         //Positions of this object and the target on the same plane
         Vector3 pos = GameObject.Find("player1Spawn").transform.position;
         Vector3 planePos = new Vector3(transform.position.x, 0, transform.position.z);
         Vector3 planeTar = new Vector3(pos.x, 0, pos.z);
+
+        //Selected angle in radians
+        float angle = 60f *Mathf.Deg2Rad;
 
         //Planar distance between objects
         float distance = Vector3.Distance(planeTar, planePos);

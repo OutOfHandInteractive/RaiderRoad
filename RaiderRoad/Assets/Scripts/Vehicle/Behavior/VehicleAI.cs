@@ -30,6 +30,8 @@ public class VehicleAI : MonoBehaviour {
 
     public GameObject explosionSound;
 
+    public bool testDeath = false;
+
     //Statistics
     public float maxHealth;
 	[SerializeField] private float ramDamage;
@@ -106,6 +108,13 @@ public class VehicleAI : MonoBehaviour {
             case State.Leave:
                 leave.Leave();
                 break;
+        }
+
+        // Test Death
+        if (testDeath)
+        {
+            //DelayedDeath();
+            Die();
         }
     }
 
@@ -195,7 +204,7 @@ public class VehicleAI : MonoBehaviour {
             {
                 pc.Eject(1f);
             }
-            else if (side == Side.Right)
+            else
             {
                 pc.Eject(-1f);
             }
