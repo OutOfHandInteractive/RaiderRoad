@@ -11,7 +11,7 @@ public class oSpawnIndex : MonoBehaviour
     {
         if (col.gameObject.tag == "RV")
         {
-            Debug.Log("collision detected");
+            //Debug.Log("collision detected");
             manager.GetComponent<obstacleSpawner>().rvIndex(index);
         }
     }
