@@ -440,7 +440,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         foreach (GameObject obj in nodes) {
             BuildNode node = obj.GetComponent<BuildNode>();
             node.RemoveShow();
-            if (!found && !node.occupied && (isWall || node.canPlaceWeapon)) {
+            if (!found && !node.occupied) { //"&& (isWall || node.canPlaceWeapon)" at end of if
                 node.Show(item);
                 found = true;
             }
