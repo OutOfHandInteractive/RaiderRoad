@@ -71,6 +71,7 @@ public class VehicleAI : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
+        transform.position = new Vector3(transform.position.x, .2f, transform.position.z);
         //Debug.Log(currentState);
         if (currentState == State.Attack)
         {
