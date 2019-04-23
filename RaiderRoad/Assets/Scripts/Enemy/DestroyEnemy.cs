@@ -88,8 +88,14 @@ public class DestroyEnemy : EnemyAI {
                 }
             }
             else {
-                agent.SetDestination(wall.transform.position);
-            }
+				if (wall) {
+					agent.SetDestination(wall.transform.position);
+				}
+				else {
+					walls = GameObject.FindGameObjectsWithTag("Wall");
+					wall = Closest(cObject.transform.position, walls);
+				}
+			}
         }
         else {
             if (engines.Length <= 0 || engine == null) {
