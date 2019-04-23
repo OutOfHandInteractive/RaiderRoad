@@ -361,10 +361,10 @@ public class StatefulEnemyAI : EnemyAI {
 		agent.speed = speed;
 		if (other) {
 			other.gameObject.GetComponent<Engine>().Damage(100f);
-		}
-		
-		if (other.gameObject.GetComponent<Engine>().health <= 0) {
-			destroy.engineKill = true;
+
+			if (other.gameObject.GetComponent<Engine>().health <= 0) {
+				destroy.engineKill = true;
+			}
 		}
 
 		isDestroying = false;
