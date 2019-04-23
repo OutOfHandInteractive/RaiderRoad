@@ -24,7 +24,6 @@ public class BoardEnemy : JumpEnemy {
 
     private Vector3 GetTarget(Vector3 planePos)
     {
-        Debug.Log(cSide);
         if (cSide == VehicleAI.Side.Left)
         {
             return Closest(planePos, GameObject.FindGameObjectsWithTag("JumpL")).transform.position;
@@ -46,7 +45,7 @@ public class BoardEnemy : JumpEnemy {
         Vector3 planePos = new Vector3(cObject.transform.position.x, 0, cObject.transform.position.z);
         Vector3 pos = GetTarget(planePos);
         float zSign = cSide == VehicleAI.Side.Left ? 1 : -1;
-        Debug.Log(zSign + " THIS IS THE SIGN");
+        //Debug.Log(zSign + " THIS IS THE SIGN");
         Jump(pos, zSign);
         
         

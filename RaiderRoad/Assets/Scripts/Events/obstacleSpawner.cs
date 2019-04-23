@@ -72,7 +72,6 @@ public class obstacleSpawner : MonoBehaviour
             lowerBound = rvPos - 1;
         }
         int i = Random.Range(lowerBound, upperBound);
-        Debug.Log("i = "+ i);
         Vector3 spawnPoint = ospawnPoints[i].transform.position;
         if (smallObstacle != null)
         {
