@@ -335,14 +335,17 @@ public class StatefulEnemyAI : EnemyAI {
 		yield return new WaitForSeconds(wallDestroyTime);
 
 		agent.speed = speed;
-		other.gameObject.GetComponent<Wall>().Damage(100f);
 
-		isDestroying = false;
+		if (other) {	// make sure target is still there
+			other.gameObject.GetComponent<Wall>().Damage(100f);
+		}
 		myAni.SetTrigger("InterruptAction");	// this needs to change. need a better way to stop the destroying anim
 
 		if (gameObject.GetComponent<lightEnemy>()) {
 			EnterSteal();
 		}
+
+		isDestroying = false;
 
 		yield return null;
 	}
@@ -356,8 +359,10 @@ public class StatefulEnemyAI : EnemyAI {
 		yield return new WaitForSeconds(batteryDestroyTime);
 
 		agent.speed = speed;
-		other.gameObject.GetComponent<Engine>().Damage(100f);
-
+		if (other) {
+			other.gameObject.GetComponent<Engine>().Damage(100f);
+		}
+		
 		if (other.gameObject.GetComponent<Engine>().health <= 0) {
 			destroy.engineKill = true;
 		}
