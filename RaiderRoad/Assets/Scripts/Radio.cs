@@ -126,7 +126,7 @@ public class Radio
     {
         foreach (GameObject vehicle in vehicles)
         {
-            if(vehicle.GetComponent<VehicleAI>().getState() == VehicleAI.State.Stay)
+            if(vehicle.GetComponent<VehicleAI>().getState() == VehicleAI.State.Attack || vehicle.GetComponent<VehicleAI>().getState() == VehicleAI.State.Stay)
             {
                 return true;
             }

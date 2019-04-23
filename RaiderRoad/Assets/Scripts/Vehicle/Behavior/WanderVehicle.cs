@@ -69,21 +69,23 @@ public class WanderVehicle : MonoBehaviour {
         cObject.transform.position = Vector3.Lerp(cObject.transform.position, patrols[wanderPoints].position, time);
         if (GetComponentInChildren<EnemyAI>() == null && !hasWeapon)
         {
+            Debug.LogWarning("HELP");
             if (GetComponentInChildren<PlayerController_Rewired>() == null)
             {
                 cObject.GetComponent<VehicleAI>().EnterLeave();
             }
         }
+        Debug.LogWarning(Radio.GetRadio().checkState() + "CURRENT STAY");
         //Chance to attack or chase the RV
         if (hasWeapon)
         {
             StartCoroutine(changeChase());
         }
-        /*else if (Radio.GetRadio().checkState())
+        else if (Radio.GetRadio().checkState())
         {
             Debug.LogWarning("TRUEEEEEEEEEEE");
             cObject.GetComponent<VehicleAI>().EnterWander();
-        }*/
+        }
         else
         {
             StartCoroutine(changeAttack());

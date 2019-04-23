@@ -15,6 +15,11 @@ public class LeaveVehicle : MonoBehaviour {
         exit = GameObject.Find("EnemyExit").transform;
         cEnemy = agent;
         cObject = enemy;
+        Destroy(cObject.GetComponent<WanderVehicle>());
+        Destroy(cObject.GetComponent<ChaseVehicle>());
+        Destroy(cObject.GetComponent<AttackVehicle>());
+        Destroy(cObject.GetComponent<StayVehicle>());
+        Destroy(cObject.GetComponent<WaitVehicle>());
     }
 
     //Go to exit position
