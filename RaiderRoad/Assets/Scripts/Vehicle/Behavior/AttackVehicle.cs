@@ -53,7 +53,13 @@ public class AttackVehicle : MonoBehaviour{
      public void Attack()
      {
          //Go to attack point
-        cEnemy.SetDestination(attackList[attackPoints].position);
+        //cEnemy.SetDestination(attackList[attackPoints].position);
+        float time = Mathf.SmoothStep(0, 1, 4 * Time.deltaTime);
+        //Have agent go to different points
+        /*cEnemy.SetDestination(patrols[wanderPoints].position);
+        //Choose random patrol point
+        */
+        cObject.transform.position = Vector3.Lerp(cObject.transform.position, attackList[attackPoints].position, time);
 
         //Debug.Log(Vector3.Distance(cEnemy.transform.position, attackList[attackPoints].position));
         //Check if vehicle hit, add "knockback"
@@ -73,7 +79,7 @@ public class AttackVehicle : MonoBehaviour{
     IEnumerator waitToLeave()
     {
         cEnemy.transform.parent = null;
-        cEnemy.transform.GetComponent<NavMeshAgent>().enabled = true;
+        //cEnemy.transform.GetComponent<NavMeshAgent>().enabled = true;
         cObject.GetComponent<VehicleAI>().EnterWander();
         yield return new WaitForSeconds(5);
         cObject.GetComponent<VehicleAI>().EnterLeave();
