@@ -12,28 +12,18 @@ public class obstacleSpawner : MonoBehaviour
     private int obstLow = 17;
     private int obstHigh = 23;
     [SerializeField]
+    private GameObject RV;
+    [SerializeField]
     private GameObject smallObstacle;
-    public GameObject oSpawnsParent;
-    [SerializeField]
-    private List<Transform> ospawnPoints;
-    private int startPos = 2;   //initial "lane" the RV starts in
-    [SerializeField]
-    private int rvPos = 2;  //default/center "lane" index
-    [SerializeField]
-    private int upperBound;
-    [SerializeField]
-    private int lowerBound;
+    private float upperBound = 30f;
+    private float lowerBound = -30f;
+    private float spawnDistance = 120f;
+    private float spawnRange = 15f;
 
     // Start is called before the first frame update
     void Start()
     {
-        foreach (Transform child in oSpawnsParent.transform)      //get obstacle spawn points
-        {
-            //Debug.Log(child);
-            ospawnPoints.Add(child);
-        }
         StartCoroutine(startup());
-
     }
 
     IEnumerator startup()
@@ -46,11 +36,6 @@ public class obstacleSpawner : MonoBehaviour
             setObstDelay();
             yield return new WaitForSeconds(obstDelay);
         }
-    }
-
-    public void rvIndex(int curIndex)
-    {
-        rvPos = curIndex;
     }
 
     private void setObstDelay()
@@ -69,23 +54,17 @@ public class obstacleSpawner : MonoBehaviour
         //else{
             //obstacle = largeObstacle;
         //}
-        
-        if(rvPos == 0){
-            //i = Random.Range(rvPos,rvPos + 1);
-            upperBound = rvPos + 1;
-            lowerBound = rvPos;
-        }else if(rvPos == 4){
-            //i = Random.Range(rvPos - 1, rvPos);
-            upperBound = rvPos;
-            lowerBound = rvPos - 1;
-        }else{
-            //i = Random.Range(rvPos - 1,rvPos + 1); // ospawnPoints.Count);        
-            upperBound = rvPos + 1;
-            lowerBound = rvPos - 1;
+
+        float RVpos = RV.transform.position.x;
+        float lo = RVpos - spawnRange;
+        float hi = RVpos + spawnRange;
+
+        if(lo <= lowerBound){
+            lo = lowerBound;
+        }else if (hi >= upperBound){
+            hi = upperBound;
         }
-        int i = Random.Range(lowerBound, upperBound);
-        Debug.Log("i = "+ i);
-        Vector3 spawnPoint = ospawnPoints[i].transform.position;
+        Vector3 spawnPoint = new Vector3(Random.Range(lo,hi),1f,spawnDistance);
         if (smallObstacle != null)
         {
             GameObject newObstacle = Instantiate(smallObstacle, spawnPoint, Quaternion.identity);    /////need obstacle prefab
