@@ -22,7 +22,17 @@ public class ItemDrop : MonoBehaviour {
         if (other.gameObject.tag == "floor")
         {
             transform.parent = other.transform;
-            transform.localPosition = new Vector3(0, 0, 0);
+            // If object has rigidbody (Battery)
+            if (GetComponent<Rigidbody>() != null)
+            {
+                Destroy(GetComponent<Rigidbody>());
+                transform.parent = GameObject.Find("RV").transform;
+                transform.localPosition = new Vector3(transform.position.x, 0.3f, transform.position.z);
+            }
+            else
+            {
+                transform.localPosition = new Vector3(0, 0, 0);
+            }
         }
         if(other.gameObject.tag == "Destructable")
         {

@@ -5,10 +5,11 @@ using UnityEngine.AI;
 
 public class VehicleAI : MonoBehaviour {
     //States
-    public enum State { Wander, Chase, Stay, Attack, Leave };
+    public enum State { Wait, Wander, Chase, Stay, Attack, Leave };
     public enum Side { Left, Right };
 
     //State Classes
+    private WaitVehicle wait;
     private WanderVehicle wander;
     private ChaseVehicle chase;
     private StayVehicle stay;
@@ -57,6 +58,7 @@ public class VehicleAI : MonoBehaviour {
         //Initialize all the classes
         enemy = gameObject;
         agent = GetComponent<NavMeshAgent>();
+        wait = enemy.AddComponent<WaitVehicle>();
         wander = enemy.AddComponent<WanderVehicle>();
         chase = enemy.AddComponent<ChaseVehicle>();
         stay = enemy.AddComponent<StayVehicle>();
@@ -69,17 +71,13 @@ public class VehicleAI : MonoBehaviour {
         hasWeapon = (GetComponentInChildren<HasWeapon>() != null);
         Debug.Log(side);
         //Start wander state
-        EnterWander();
+        EnterWait();
     }
 
     // Update is called once per frame
     void Update () {
+        transform.position = new Vector3(transform.position.x, .2f, transform.position.z);
         //Debug.Log(currentState);
-        if (!agent.enabled)
-        {
-            //Early exit
-            return;
-        }
         if (currentState == State.Attack)
         {
             agent.speed = 30;
@@ -94,13 +92,14 @@ public class VehicleAI : MonoBehaviour {
         }
         switch (currentState)
         {
+            case State.Wait:
+                wait.Wait();
+                break;
             case State.Wander:
-                if (!agent.pathPending && agent.remainingDistance < 0.5f)
-                    wander.Wander();
+                wander.Wander();
                 break;
             case State.Chase:
-                if (!agent.pathPending && agent.remainingDistance < 0.5f)
-                    chase.Chase(side);
+                chase.Chase(side);
                 break;
             case State.Stay:
                 stay.Stay();
@@ -142,6 +141,11 @@ public class VehicleAI : MonoBehaviour {
 
 	#region state change functions
 	//Used to change state from different classes
+    public void EnterWait()
+    {
+        wait.StartWait(enemy);
+        currentState = State.Wait;
+    }
 	public void EnterWander()
     {
         wander.StartWander(agent, enemy, side, hasWeapon);
@@ -164,7 +168,7 @@ public class VehicleAI : MonoBehaviour {
     }
     public void EnterLeave()
     {
-        leave.StartLeave(agent);
+        leave.StartLeave(agent, enemy);
         currentState = State.Leave;
     }
 	#endregion
@@ -196,44 +200,46 @@ public class VehicleAI : MonoBehaviour {
 	#region death functions
 	private void Die()
     {
-        // Battery Drop
-        float rand = Random.value; // Battery Drop Chance
-        if (side == Side.Left)
+        
+        if (currentState != State.Leave)
         {
-            if (rand <= batteryDropChance)
-            {
-                GameObject battery = Instantiate(batteryDrop, transform.position, Quaternion.identity);
-                battery.GetComponent<DropExplosion>().Eject(1f);
-            }
-        }
-        else
-        {
-            if (rand <= batteryDropChance)
-            {
-                GameObject battery = Instantiate(batteryDrop, transform.position, Quaternion.identity);
-                battery.GetComponent<DropExplosion>().Eject(-1f);
-            }
-        }
-
-        foreach (PlayerController_Rewired pc in gameObject.GetComponentsInChildren<PlayerController_Rewired>())
-        {
-            /* Old Code
-            pc.RoadRash();
-            pc.transform.parent = null;
-            */
-
-            pc.transform.parent = null;            
+            // Battery Drop
+            float rand = Random.value; // Battery Drop Chance
             if (side == Side.Left)
             {
-                pc.Eject(1f);
+                if (rand <= batteryDropChance)
+                {
+                    GameObject battery = Instantiate(batteryDrop, transform.position, Quaternion.identity);
+                    battery.GetComponent<DropExplosion>().Eject(1f);
+                }
             }
             else
             {
-                pc.Eject(-1f);
+                if (rand <= batteryDropChance)
+                {
+                    GameObject battery = Instantiate(batteryDrop, transform.position, Quaternion.identity);
+                    battery.GetComponent<DropExplosion>().Eject(-1f);
+                }
+            }
+
+            // Player Eject
+            foreach (PlayerController_Rewired pc in gameObject.GetComponentsInChildren<PlayerController_Rewired>())
+            {
+                pc.transform.parent = null;
+                if (side == Side.Left)
+                {
+                    pc.Eject(1f);
+                }
+                else
+                {
+                    pc.Eject(-1f);
+                }
             }
         }
+        
         Instantiate(explosionSound, transform.position, Quaternion.identity);
         Instantiate(deathBigExplosion, transform.position, Quaternion.identity);
+        Radio.GetRadio().RemoveVehicle(gameObject);
         Destroy(gameObject);
     }
 
