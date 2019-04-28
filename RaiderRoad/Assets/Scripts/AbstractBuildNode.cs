@@ -20,6 +20,22 @@ public abstract class AbstractBuildNode : MonoBehaviour
         }
     }
 
+    public static void SetOutlineActiveOverride(GameObject item, float active, Color overrideColor)
+    {
+        foreach (Renderer renderer in item.GetComponentsInChildren<Renderer>())
+        {
+            Material tempMat = renderer.material;
+            if (tempMat.shader.name == "Outlined/Uniform")
+            {
+                Material outline = Instantiate(tempMat);
+                renderer.material = outline;
+                //override existing outline color
+                outline.SetColor("_OutlineColor", overrideColor);
+                outline.SetFloat("_Active", active);
+            }
+        }
+    }
+
     /// <summary>
     /// Boolean flag that indicates whether this node is currently occupied.
     /// </summary>

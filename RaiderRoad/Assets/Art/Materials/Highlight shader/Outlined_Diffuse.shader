@@ -7,6 +7,9 @@
 		_OutlineColor("Outline color", Color) = (0,0,0,.5)
 		_OutlineWidth("Outlines width", Range(0.0, 2.0)) = 1.1
 		_Active("Active", Range(0.0, 1.0)) = 1.0 //1 for hologram show
+		_Metallic ("Metallic Map", 2D) = "white" {}
+		_Smoothness ("Smoothness", Range(0,1)) = 1
+		_NormalMap ("Normal Map",2D) = "bump" {}
 	}
 
 	CGINCLUDE
@@ -67,16 +70,24 @@
 		Tags{ "Queue" = "Geometry"}
 
 		CGPROGRAM
-		#pragma surface surf Lambert
+		#pragma surface surf Standard fullforwardshadows
 		 
+		sampler2D _Metallic;
+		sampler2D _NormalMap;
+		float _Smoothness;
+
 		struct Input {
 			float2 uv_MainTex;
 		};
 		 
-		void surf (Input IN, inout SurfaceOutput o) {
+		void surf (Input IN, inout SurfaceOutputStandard o) {
 			fixed4 c = tex2D(_MainTex, IN.uv_MainTex) * _Color;
 			o.Albedo = c.rgb;
 			o.Alpha = c.a;
+
+			o.Metallic = tex2D(_Metallic, IN.uv_MainTex).r;
+			o.Smoothness = _Smoothness * tex2D(_Metallic, IN.uv_MainTex).a;
+			o.Normal = tex2D(_NormalMap, IN.uv_MainTex).rgba;
 		}
 		ENDCG
 	}

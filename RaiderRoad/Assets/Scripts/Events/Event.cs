@@ -74,6 +74,7 @@ public class Event : MonoBehaviour {
         //Debug.LogWarning(pos);
         Debug.LogWarning(pos);
         e = factory.NewConstructVehicle(_vtype,_mod, pos, wepFreq);
+        Radio.GetRadio().AddVehicle(e);
         //if (e.transform.position != pos)
         //{
         //    Debug.LogError("WTF");
