@@ -47,6 +47,11 @@ public abstract class DurableConstruct : Constructable
         }
     }
 
+    public float currentDurVal()
+    {
+        return currDur;
+    }
+
     /// <summary>
     /// Subtract from the current durability.
     /// </summary>

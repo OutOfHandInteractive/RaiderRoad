@@ -83,7 +83,14 @@ public class StayVehicle : MonoBehaviour {
         //Randomly choose to load left or right side
 
         //Go to loading area
-        cEnemy.SetDestination(attackList[loadPoints].position);
+        //cEnemy.SetDestination(attackList[loadPoints].position);
+
+        float time = Mathf.SmoothStep(0, 1, 4 * Time.deltaTime);
+        //Have agent go to different points
+        /*cEnemy.SetDestination(patrols[wanderPoints].position);
+        //Choose random patrol point
+        */
+        cObject.transform.position = Vector3.Lerp(cObject.transform.position, attackList[loadPoints].position, time);
 
 
 

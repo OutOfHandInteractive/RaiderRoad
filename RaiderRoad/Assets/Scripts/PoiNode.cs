@@ -27,6 +27,44 @@ public class PoiNode : DurabilityBuildNode {
         }
     }
 
+    //build action override for disabling POI warning and adding health to existing POI
+    public override GameObject Build(GameObject objToBuild, float durability)
+    {
+        //if (!occupied) {
+            return base.Build(objToBuild, durability);
+        //} else {
+
+          //  return null; //don't give object if you are healing
+        //}
+    }
+
+    //Show POI warning as green when healing
+    public override GameObject Show(GameObject objToShow)
+    {
+        if (!occupied) {
+            return base.Show(objToShow);
+        } else {
+            SetPoiColor(Color.green);
+            return null; //don't give object if you are healing
+        }
+    }
+
+    //Always set POI warning back to transparent
+    public override void RemoveShow()
+    {
+        base.RemoveShow();
+        PoiPresent();
+    }
+
+    public void PoiFlash(Color flashCol)
+    {
+        if(currCorou != null) StopCoroutine(currCorou);
+        myIndicMat.color = flashCol;
+
+        currCorou = IndicFlash();
+        StartCoroutine(currCorou);
+    }
+
     public void PoiHit()
     {
         if(currCorou != null) StopCoroutine(currCorou);
@@ -47,11 +85,29 @@ public class PoiNode : DurabilityBuildNode {
 
     public void PoiPresent()
     {
-        if (currCorou != null) StopCoroutine(currCorou);
-        //set it back to 0 alpha
-        Color c = myIndicMat.color;
-        c.a = 0f;
-        myIndicMat.color = c;
+        if (occupied) { //make sure poi is present
+            if (currCorou != null) StopCoroutine(currCorou);
+            //set it back to 0 alpha
+            Color c = myIndicMat.color;
+            c.a = 0f;
+            myIndicMat.color = c;
+        }
+    }
+
+    private void SetPoiColor(Color newColor)
+    {
+        myIndicMat.color = newColor;
+    }
+
+    IEnumerator IndicFlash()
+    {
+        for (float myA = 1f; myA >= 0; myA -= quickFadeSpeed * Time.deltaTime)
+        {
+            Color c = myIndicMat.color;
+            c.a = myA;
+            myIndicMat.color = c;
+            yield return null;
+        }
     }
 
     IEnumerator IndicFade()
