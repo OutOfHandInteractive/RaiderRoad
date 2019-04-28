@@ -62,7 +62,7 @@ public class EscapeEnemy : JumpEnemy {
         float movement = speed * Time.deltaTime;
 
         //If a reasonable jumping distance to vehicle, escape
-        if (Vector3.Distance(transform.position, eVehicle.transform.position) < 1f)
+        if (Vector3.Distance(transform.position, eVehicle.transform.position) < 3f)
         {
             //Enemy vehicle destination position
             agent.enabled = false;

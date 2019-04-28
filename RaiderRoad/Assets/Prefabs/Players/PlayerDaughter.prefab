@@ -9790,7 +9790,8 @@ MonoBehaviour:
   view: {fileID: 1757454909120126}
   jumpIndicator: {fileID: 1948074909491942}
   jumpIndicatorScaling: 5
-  jumpForce: 22000
+  jumpForce: 10
+  counterJumpForce: -25
   distToGround: 0.9
   isOccupied: 0
   landingPart: {fileID: 198034682921769922, guid: 18e93f3472ecc9e4eb30ce021ccefecb,
@@ -9802,6 +9803,7 @@ MonoBehaviour:
   healthRegenDelay: 5
   reviveTime: 5
   reviveCountdown: 0
+  invulTime: 0.5
   reviveHelpIcon: {fileID: 6799280027112306266}
   paused: 0
   reviving: 0
@@ -10327,15 +10329,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 115eebbeabc846440ae29ef73620f0c0, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.19605559
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 115eebbeabc846440ae29ef73620f0c0, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.19605559
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 115eebbeabc846440ae29ef73620f0c0, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.19605559
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 2300000, guid: 115eebbeabc846440ae29ef73620f0c0, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -10356,10 +10358,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4914171367738596}
     m_Modifications:
-    - target: {fileID: 100000, guid: ab323d336b5e2aa49b6723c656fcf75b, type: 3}
-      propertyPath: m_Name
-      value: Daughter
-      objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: ab323d336b5e2aa49b6723c656fcf75b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -10404,6 +10402,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: ab323d336b5e2aa49b6723c656fcf75b, type: 3}
+      propertyPath: m_Name
+      value: Daughter
+      objectReference: {fileID: 0}
     - target: {fileID: 9500000, guid: ab323d336b5e2aa49b6723c656fcf75b, type: 3}
       propertyPath: m_Controller
       value: 
@@ -10435,11 +10437,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4914171367738596}
     m_Modifications:
-    - target: {fileID: 59618275151331406, guid: 02f90962f0a7c0d4e9e718fbd45da1f3,
-        type: 3}
-      propertyPath: m_Name
-      value: playerCanvas
-      objectReference: {fileID: 0}
     - target: {fileID: 272683912465581460, guid: 02f90962f0a7c0d4e9e718fbd45da1f3,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -10544,6 +10541,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 59618275151331406, guid: 02f90962f0a7c0d4e9e718fbd45da1f3,
+        type: 3}
+      propertyPath: m_Name
+      value: playerCanvas
       objectReference: {fileID: 0}
     - target: {fileID: 91080133754209478, guid: 02f90962f0a7c0d4e9e718fbd45da1f3,
         type: 3}

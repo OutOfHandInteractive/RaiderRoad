@@ -4,7 +4,18 @@ using UnityEngine;
 
 public class Constants : MonoBehaviour
 {
+	// --------------------- Enumerations -------------------------
+	public enum vehicleClass { light, medium, heavy };
+
+	// --------------------- Dictionaries -------------------------
+	public static Dictionary<vehicleClass, int> WallDropsByVehicleClass = new Dictionary<vehicleClass, int> {
+		{ vehicleClass.light, 1 },
+		{ vehicleClass.medium, 2 },
+		{ vehicleClass.heavy, 3 }
+	};
+
 	// ------------------- Gameplay Values ------------------------
+
 	// stats
 	public static float VEHICLE_HEAVY_BASE_HEALTH = 300f;
 	public static float VEHICLE_MEDIUM_BASE_HEALTH = 200f;
