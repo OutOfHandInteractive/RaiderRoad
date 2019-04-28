@@ -58,6 +58,7 @@ public class BoardEnemy : JumpEnemy {
             if(transform.parent.tag == "RV")
             {
                 ai.getAnimator().SetBool("Grounded", true);
+				agent.Warp(transform.position);	// hax?????
                 //agent.speed = 0;
                 //agent.isStopped = true;
                 survey += Time.deltaTime;
