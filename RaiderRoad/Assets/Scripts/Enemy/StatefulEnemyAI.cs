@@ -418,6 +418,10 @@ public class StatefulEnemyAI : EnemyAI {
 	//Collison handling
 	private void OnCollisionEnter(Collision collision) {
         //Die if enemy touches road
+        if (collision.gameObject.tag == "eVehicle" /*currentState != State.Wait*/)
+        {
+            transform.parent = collision.gameObject.transform.root;
+        }
         if (collision.gameObject.tag == "road" /*currentState != State.Wait*/) {
             Destroy(gameObject);
         }

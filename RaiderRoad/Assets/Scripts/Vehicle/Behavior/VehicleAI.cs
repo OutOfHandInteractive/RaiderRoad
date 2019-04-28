@@ -76,7 +76,7 @@ public class VehicleAI : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-        transform.position = new Vector3(transform.position.x, .3f, transform.position.z);
+        transform.position = new Vector3(transform.position.x, .7f, transform.position.z);
         //Debug.Log(currentState);
         if (currentState == State.Attack)
         {
@@ -247,13 +247,14 @@ public class VehicleAI : MonoBehaviour {
     {
         ParticleSystem myMiniXplos = Instantiate(deathMiniExplosions, transform.position, Quaternion.identity);
         myMiniXplos.transform.parent = transform;
-
+        float time = Mathf.SmoothStep(0, 1, 20 * Time.deltaTime);
+        //agent.isStopped = true;
+        transform.Translate(Vector3.forward * time * -1);
         StartCoroutine(WaitToDie());
     }
 
     IEnumerator WaitToDie()
     {
-        //agent.isStopped = true;
         StartCoroutine(DeathMovement());
         yield return new WaitForSeconds(5);
         Die();
