@@ -67,7 +67,7 @@ public class WanderVehicle : MonoBehaviour {
         }
         Debug.Log("PATROL!" + patrols[1].position);
         cObject.transform.position = Vector3.Lerp(cObject.transform.position, patrols[wanderPoints].position, time);
-        if (GetComponentInChildren<EnemyAI>() == null && !hasWeapon)
+        if (!GetComponentInChildren<EnemyAI>() && !hasWeapon)
         {
             Debug.LogWarning("HELP");
             if (GetComponentInChildren<PlayerController_Rewired>() == null)

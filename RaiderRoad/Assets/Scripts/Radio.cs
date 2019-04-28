@@ -122,12 +122,12 @@ public class Radio
         Debug.LogWarning("COUNT: " + vehicles.Count);
     }
 
-    public bool checkState()
-    {
-        foreach (GameObject vehicle in vehicles)
-        {
-            if(vehicle.GetComponent<VehicleAI>().getState() == VehicleAI.State.Attack || vehicle.GetComponent<VehicleAI>().getState() == VehicleAI.State.Stay)
-            {
+    public bool checkState() { 
+		vehicles.RemoveAll(item => item == null);
+
+        foreach (GameObject vehicle in vehicles) {
+            if(vehicle.GetComponent<VehicleAI>().getState() == VehicleAI.State.Attack 
+				|| vehicle.GetComponent<VehicleAI>().getState() == VehicleAI.State.Stay) {
                 return true;
             }
         }

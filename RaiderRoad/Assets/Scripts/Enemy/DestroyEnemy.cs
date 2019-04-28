@@ -34,10 +34,10 @@ public class DestroyEnemy : EnemyAI {
         action = Random.Range(0, 100);
         walls = GameObject.FindGameObjectsWithTag("Wall");
         engines = GameObject.FindGameObjectsWithTag("Engine");
-        Debug.Log(engines[0]);
+        //Debug.Log(engines[0]);
         wall = Closest(cObject.transform.position, walls);
         engine = Closest(cObject.transform.position, engines);
-        Debug.Log(engine);
+        //Debug.Log(engine);
     }
 
     /// <summary>
