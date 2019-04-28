@@ -72,7 +72,6 @@ public class Event : MonoBehaviour {
         //based on type, call proper function - for now just creates light vehicle
         Vector3 pos = spawnPoints[numPoints].transform.position;
         //Debug.LogWarning(pos);
-        Debug.LogWarning(pos);
         e = factory.NewConstructVehicle(_vtype,_mod, pos, wepFreq);
         Radio.GetRadio().AddVehicle(e);
         //if (e.transform.position != pos)
