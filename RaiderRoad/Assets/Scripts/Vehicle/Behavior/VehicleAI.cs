@@ -76,7 +76,7 @@ public class VehicleAI : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-        transform.position = new Vector3(transform.position.x, .2f, transform.position.z);
+        transform.position = new Vector3(transform.position.x, .3f, transform.position.z);
         //Debug.Log(currentState);
         if (currentState == State.Attack)
         {
@@ -239,7 +239,7 @@ public class VehicleAI : MonoBehaviour {
         
         Instantiate(explosionSound, transform.position, Quaternion.identity);
         Instantiate(deathBigExplosion, transform.position, Quaternion.identity);
-        Radio.GetRadio().RemoveVehicle(gameObject);
+        //Radio.GetRadio().RemoveVehicle(gameObject);
         Destroy(gameObject);
     }
 
@@ -253,7 +253,7 @@ public class VehicleAI : MonoBehaviour {
 
     IEnumerator WaitToDie()
     {
-        agent.isStopped = true;
+        //agent.isStopped = true;
         StartCoroutine(DeathMovement());
         yield return new WaitForSeconds(5);
         Die();

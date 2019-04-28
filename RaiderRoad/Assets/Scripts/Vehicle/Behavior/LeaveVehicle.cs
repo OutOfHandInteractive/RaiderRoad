@@ -25,13 +25,14 @@ public class LeaveVehicle : MonoBehaviour {
     //Go to exit position
     public void Leave()
     {
-        cEnemy.radius = 5f;
-        float time = Mathf.SmoothStep(0, 1, 2 * Time.deltaTime);
+        //cEnemy.radius = 5f;
+        float time = Mathf.SmoothStep(0, 1, 10 * Time.deltaTime);
         //Have agent go to different points
         /*cEnemy.SetDestination(patrols[wanderPoints].position);
         //Choose random patrol point
         */
-        cObject.transform.position = Vector3.Lerp(cObject.transform.position, exit.position, time);
+        cObject.transform.Translate(Vector3.forward * time);
+        //cObject.transform.position = Vector3.Lerp(cObject.transform.position, exit.position, time);
         //cEnemy.SetDestination(exit.position);
     }
 

@@ -11,6 +11,7 @@ public class WaitEnemy : MonoBehaviour {
     {
         cObject = enemy;
         cVehicle = vehicle;
+        cObject.GetComponent<Rigidbody>().isKinematic = true;
     }
 
     public void Wait()

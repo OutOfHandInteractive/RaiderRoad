@@ -75,11 +75,12 @@ public class EscapeEnemy : JumpEnemy {
         }
         else
         {
-            Vector3 targetPosition = new Vector3(eVehicle.transform.position.x, cObject.transform.position.y, eVehicle.transform.position.z);
+            Vector3 targetPosition = new Vector3(eVehicle.transform.position.x, eVehicle.transform.position.y, eVehicle.transform.position.z);
             cObject.transform.LookAt(targetPosition);
-            agent.SetDestination(targetPosition);
-            cObject.GetComponent<StatefulEnemyAI>().getAnimator().SetBool("Running", true);
-            //cObject.transform.position = Vector3.MoveTowards(cObject.transform.position, eVehicle.transform.position, movement);
+            Debug.LogWarning("HEY AGENT" + targetPosition);
+            //agent.SetDestination(targetPosition);
+            //cObject.GetComponent<StatefulEnemyAI>().getAnimator().SetBool("Running", true);
+            cObject.transform.position = Vector3.MoveTowards(cObject.transform.position, eVehicle.transform.position, movement);
         }
         //Debug.Log(cObject.transform.tag + " HEEEEEEEEY");
         if(cObject.transform.root.tag == "eVehicle" && cObject.transform.parent != null)

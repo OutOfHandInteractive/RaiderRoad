@@ -50,6 +50,11 @@ public class ChaseVehicle : MonoBehaviour {
             attackList.Add(child);
         }
 
+        if (attackList.Count == 0)
+            return;
+        Debug.Log(attackList.Count);
+        attackPoints = 1;
+
     }
 
     public void Chase(VehicleAI.Side side)
@@ -58,11 +63,12 @@ public class ChaseVehicle : MonoBehaviour {
         //cEnemy.autoBraking = true;
         //Randomly choose to load left or right side
         //Go to loading area
-        if (attackList.Count == 0)
-            return;
-
-        //cEnemy.SetDestination(attackList[attackPoints].position);
-        attackPoints = Random.Range(0, attackList.Count);
+        float time = Mathf.SmoothStep(0, 1, 4 * Time.deltaTime);
+        //Have agent go to different points
+        /*cEnemy.SetDestination(patrols[wanderPoints].position);
+        //Choose random patrol point
+        */
+        cObject.transform.position = Vector3.Lerp(cObject.transform.position, attackList[attackPoints].position, time);
 
         //Increase time if state destination has not been reached
 
