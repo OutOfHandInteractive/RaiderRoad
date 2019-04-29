@@ -17,7 +17,7 @@ public abstract class DurabilityBuildNode : AbstractBuildNode
     /// <param name="objToBuild">The object to build</param>
     /// <param name="durability">The durability to use</param>
     /// <returns>The built object</returns>
-    public GameObject Build(GameObject objToBuild, float durability)
+    public virtual GameObject Build(GameObject objToBuild, float durability)
     {
         Vector3 dir = gameObject.transform.forward;
         item = Instantiate(objToBuild, new Vector3(transform.position.x, transform.position.y, transform.position.z),
@@ -40,20 +40,21 @@ public abstract class DurabilityBuildNode : AbstractBuildNode
     /// </summary>
     /// <param name="objToShow"></param>
     /// <returns>The hologram</returns>
-    public GameObject Show(GameObject objToShow)
+    public virtual GameObject Show(GameObject objToShow)
     { //hologram function, not efficient/working properly
         RemoveShow();
         holo = Instantiate(objToShow, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
 
         holo.GetComponent<DurableConstruct>().isHolo = true;
         holo.transform.parent = this.gameObject.transform;
+        holo.transform.forward = this.gameObject.transform.forward;
         return holo;
     }
 
     /// <summary>
     /// Destroys the hologram, if any.
     /// </summary>
-    public void RemoveShow()
+    public virtual void RemoveShow()
     {
         Destroy(holo);
     }

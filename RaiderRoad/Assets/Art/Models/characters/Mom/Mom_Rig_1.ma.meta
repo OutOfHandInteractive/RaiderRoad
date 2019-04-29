@@ -1,0 +1,454 @@
+fileFormatVersion: 2
+guid: 8a9d7cc5714ac774faa54c234225e9c2
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: AnkleL_c
+    100002: AnkleR_c
+    100004: Bandana
+    100006: Body1
+    100008: camera2
+    100010: CoffeeMug
+    100012: default2
+    100014: ElbowL_c
+    100016: ElbowR_c
+    100018: Eyebrows
+    100020: Eyes
+    100022: FootL_c
+    100024: FootR_c
+    100026: group3
+    100028: Hair
+    100030: HandL_c
+    100032: HandR_c
+    100034: Head
+    100036: Head_c
+    100038: joint1
+    100040: KneeL_c
+    100042: KneeR_c
+    100044: L_IK_FK_Switch
+    100046: L_IKArm
+    100048: L_IKLeg
+    100050: LArm_IKCtrl
+    100052: LElbow_FKj
+    100054: LElbow_IKj
+    100056: leye_j
+    100058: leyebrow_j
+    100060: LHand_FKj
+    100062: LHand_IKj
+    100064: LShoulder_FKj
+    100066: LShoulder_IKj
+    100068: Mom
+    100070: Mom_Hair1
+    100072: Mom_Hair2
+    100074: Mom_Hair3
+    100076: Mom_Hair4
+    100078: Mom_Head
+    100080: Mom_Hips
+    100082: Mom_HipsTranslation
+    100084: Mom_LeftArm
+    100086: Mom_LeftFoot
+    100088: Mom_LeftFoot1
+    100090: Mom_LeftFootToebase
+    100092: Mom_LeftForearm
+    100094: Mom_LeftHand
+    100096: Mom_LeftHandIndex1
+    100098: Mom_LeftHandIndex2
+    100100: Mom_LeftHandIndex3
+    100102: Mom_LeftHandMiddle1
+    100104: Mom_LeftHandMiddle2
+    100106: Mom_LeftHandMiddle3
+    100108: Mom_LeftHandPinky1
+    100110: Mom_LeftHandPinky2
+    100112: Mom_LeftHandPinky3
+    100114: Mom_LeftHandThumb1
+    100116: Mom_LeftHandThumb2
+    100118: Mom_LeftHandThumb3
+    100120: Mom_LeftLeg
+    100122: Mom_LeftUpLeg
+    100124: Mom_Neck
+    100126: //RootNode
+    100128: Mom_RightArm
+    100130: Mom_RightFoot
+    100132: Mom_RightFoot1
+    100134: Mom_RightFootToebase
+    100136: Mom_RightForearm
+    100138: Mom_RightHand
+    100140: Mom_RightHandIndex1
+    100142: Mom_RightHandIndex2
+    100144: Mom_RightHandIndex3
+    100146: Mom_RightHandMiddle1
+    100148: Mom_RightHandMiddle2
+    100150: Mom_RightHandMiddle3
+    100152: Mom_RightHandPinky1
+    100154: Mom_RightHandPinky2
+    100156: Mom_RightHandPinky3
+    100158: Mom_RightHandThumb1
+    100160: Mom_RightHandThumb2
+    100162: Mom_RightHandThumb3
+    100164: Mom_RightLeg
+    100166: Mom_RightUpLeg
+    100168: Mom_Spine
+    100170: Mom_Spine1
+    100172: Mom_Spine2
+    100174: Mom_Spine3
+    100176: Mom_Spine4
+    100178: Nose
+    100180: nose_j
+    100182: nurbsCircle1
+    100184: nurbsCircle2
+    100186: nurbsCircle2 1
+    100188: nurbsCircle2 2
+    100190: nurbsCircle2 3
+    100192: nurbsCircle3
+    100194: nurbsCircle3 1
+    100196: nurbsCircle3 10
+    100198: nurbsCircle3 11
+    100200: nurbsCircle3 12
+    100202: nurbsCircle3 13
+    100204: nurbsCircle3 14
+    100206: nurbsCircle3 15
+    100208: nurbsCircle3 16
+    100210: nurbsCircle3 17
+    100212: nurbsCircle3 18
+    100214: nurbsCircle3 19
+    100216: nurbsCircle3 2
+    100218: nurbsCircle3 20
+    100220: nurbsCircle3 21
+    100222: nurbsCircle3 22
+    100224: nurbsCircle3 23
+    100226: nurbsCircle3 24
+    100228: nurbsCircle3 25
+    100230: nurbsCircle3 26
+    100232: nurbsCircle3 27
+    100234: nurbsCircle3 28
+    100236: nurbsCircle3 3
+    100238: nurbsCircle3 4
+    100240: nurbsCircle3 5
+    100242: nurbsCircle3 6
+    100244: nurbsCircle3 7
+    100246: nurbsCircle3 8
+    100248: nurbsCircle3 9
+    100250: nurbsCircle5
+    100252: nurbsSphere1
+    100254: nurbsSphere1 1
+    100256: PelvisL_c
+    100258: PelvisR_c
+    100260: pPlane1
+    100262: pPlane2
+    100264: R_IK_FK_Switch
+    100266: R_IKArm
+    100268: R_IKLeg
+    100270: RArm_IKCtrl
+    100272: RElbow_FKj
+    100274: RElbow_IKj
+    100276: reye_j
+    100278: reyebrow_j
+    100280: RHand_FKj
+    100282: RHand_IKj
+    100284: RMiddle1_c
+    100286: RMiddle1_c 1
+    100288: RMiddle2_c
+    100290: RMiddle2_c 1
+    100292: Root_c
+    100294: RPinky1_c
+    100296: RPinky1_c 1
+    100298: RPinky2_c
+    100300: RPinky2_c 1
+    100302: RPointer1_c
+    100304: RPointer1_c 1
+    100306: RPointer2_c
+    100308: RPointer2_c 1
+    100310: RShoulder_FKj
+    100312: RShoulder_IKj
+    100314: ShoulderL_c
+    100316: ShoulderR_c
+    100318: Spine1_c
+    100320: Spine2_c
+    100322: Spine3_c
+    100324: Spine4_c
+    100326: ThumbR1_c
+    100328: ThumbR1_c 1
+    100330: ThumbR2_c
+    100332: ThumbR2_c 1
+    400000: AnkleL_c
+    400002: AnkleR_c
+    400004: Bandana
+    400006: Body1
+    400008: camera2
+    400010: CoffeeMug
+    400012: default2
+    400014: ElbowL_c
+    400016: ElbowR_c
+    400018: Eyebrows
+    400020: Eyes
+    400022: FootL_c
+    400024: FootR_c
+    400026: group3
+    400028: Hair
+    400030: HandL_c
+    400032: HandR_c
+    400034: Head
+    400036: Head_c
+    400038: joint1
+    400040: KneeL_c
+    400042: KneeR_c
+    400044: L_IK_FK_Switch
+    400046: L_IKArm
+    400048: L_IKLeg
+    400050: LArm_IKCtrl
+    400052: LElbow_FKj
+    400054: LElbow_IKj
+    400056: leye_j
+    400058: leyebrow_j
+    400060: LHand_FKj
+    400062: LHand_IKj
+    400064: LShoulder_FKj
+    400066: LShoulder_IKj
+    400068: Mom
+    400070: Mom_Hair1
+    400072: Mom_Hair2
+    400074: Mom_Hair3
+    400076: Mom_Hair4
+    400078: Mom_Head
+    400080: Mom_Hips
+    400082: Mom_HipsTranslation
+    400084: Mom_LeftArm
+    400086: Mom_LeftFoot
+    400088: Mom_LeftFoot1
+    400090: Mom_LeftFootToebase
+    400092: Mom_LeftForearm
+    400094: Mom_LeftHand
+    400096: Mom_LeftHandIndex1
+    400098: Mom_LeftHandIndex2
+    400100: Mom_LeftHandIndex3
+    400102: Mom_LeftHandMiddle1
+    400104: Mom_LeftHandMiddle2
+    400106: Mom_LeftHandMiddle3
+    400108: Mom_LeftHandPinky1
+    400110: Mom_LeftHandPinky2
+    400112: Mom_LeftHandPinky3
+    400114: Mom_LeftHandThumb1
+    400116: Mom_LeftHandThumb2
+    400118: Mom_LeftHandThumb3
+    400120: Mom_LeftLeg
+    400122: Mom_LeftUpLeg
+    400124: Mom_Neck
+    400126: //RootNode
+    400128: Mom_RightArm
+    400130: Mom_RightFoot
+    400132: Mom_RightFoot1
+    400134: Mom_RightFootToebase
+    400136: Mom_RightForearm
+    400138: Mom_RightHand
+    400140: Mom_RightHandIndex1
+    400142: Mom_RightHandIndex2
+    400144: Mom_RightHandIndex3
+    400146: Mom_RightHandMiddle1
+    400148: Mom_RightHandMiddle2
+    400150: Mom_RightHandMiddle3
+    400152: Mom_RightHandPinky1
+    400154: Mom_RightHandPinky2
+    400156: Mom_RightHandPinky3
+    400158: Mom_RightHandThumb1
+    400160: Mom_RightHandThumb2
+    400162: Mom_RightHandThumb3
+    400164: Mom_RightLeg
+    400166: Mom_RightUpLeg
+    400168: Mom_Spine
+    400170: Mom_Spine1
+    400172: Mom_Spine2
+    400174: Mom_Spine3
+    400176: Mom_Spine4
+    400178: Nose
+    400180: nose_j
+    400182: nurbsCircle1
+    400184: nurbsCircle2
+    400186: nurbsCircle2 1
+    400188: nurbsCircle2 2
+    400190: nurbsCircle2 3
+    400192: nurbsCircle3
+    400194: nurbsCircle3 1
+    400196: nurbsCircle3 10
+    400198: nurbsCircle3 11
+    400200: nurbsCircle3 12
+    400202: nurbsCircle3 13
+    400204: nurbsCircle3 14
+    400206: nurbsCircle3 15
+    400208: nurbsCircle3 16
+    400210: nurbsCircle3 17
+    400212: nurbsCircle3 18
+    400214: nurbsCircle3 19
+    400216: nurbsCircle3 2
+    400218: nurbsCircle3 20
+    400220: nurbsCircle3 21
+    400222: nurbsCircle3 22
+    400224: nurbsCircle3 23
+    400226: nurbsCircle3 24
+    400228: nurbsCircle3 25
+    400230: nurbsCircle3 26
+    400232: nurbsCircle3 27
+    400234: nurbsCircle3 28
+    400236: nurbsCircle3 3
+    400238: nurbsCircle3 4
+    400240: nurbsCircle3 5
+    400242: nurbsCircle3 6
+    400244: nurbsCircle3 7
+    400246: nurbsCircle3 8
+    400248: nurbsCircle3 9
+    400250: nurbsCircle5
+    400252: nurbsSphere1
+    400254: nurbsSphere1 1
+    400256: PelvisL_c
+    400258: PelvisR_c
+    400260: pPlane1
+    400262: pPlane2
+    400264: R_IK_FK_Switch
+    400266: R_IKArm
+    400268: R_IKLeg
+    400270: RArm_IKCtrl
+    400272: RElbow_FKj
+    400274: RElbow_IKj
+    400276: reye_j
+    400278: reyebrow_j
+    400280: RHand_FKj
+    400282: RHand_IKj
+    400284: RMiddle1_c
+    400286: RMiddle1_c 1
+    400288: RMiddle2_c
+    400290: RMiddle2_c 1
+    400292: Root_c
+    400294: RPinky1_c
+    400296: RPinky1_c 1
+    400298: RPinky2_c
+    400300: RPinky2_c 1
+    400302: RPointer1_c
+    400304: RPointer1_c 1
+    400306: RPointer2_c
+    400308: RPointer2_c 1
+    400310: RShoulder_FKj
+    400312: RShoulder_IKj
+    400314: ShoulderL_c
+    400316: ShoulderR_c
+    400318: Spine1_c
+    400320: Spine2_c
+    400322: Spine3_c
+    400324: Spine4_c
+    400326: ThumbR1_c
+    400328: ThumbR1_c 1
+    400330: ThumbR2_c
+    400332: ThumbR2_c 1
+    2000000: camera2
+    2100000: lambert1
+    2100002: CoffeMug_Red
+    2100004: CoffeMug_Gray
+    2100006: lambert11
+    2300000: CoffeeMug
+    2300002: pPlane1
+    2300004: pPlane2
+    3300000: CoffeeMug
+    3300002: pPlane1
+    3300004: pPlane2
+    4300000: pPlane1
+    4300002: CoffeeMug
+    4300004: pPlane2
+    4300006: Hair
+    4300008: Nose
+    4300010: Eyes
+    4300012: Eyebrows
+    4300014: Body1
+    4300016: Head
+    4300018: Bandana
+    9500000: //RootNode
+    13700000: Bandana
+    13700002: Body1
+    13700004: Eyebrows
+    13700006: Eyes
+    13700008: Hair
+    13700010: Head
+    13700012: Nose
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    previousCalculatedGlobalScale: 1
+    hasPreviousCalculatedGlobalScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

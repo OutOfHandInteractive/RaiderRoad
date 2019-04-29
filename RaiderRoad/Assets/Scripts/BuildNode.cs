@@ -32,6 +32,7 @@ public class BuildNode : AbstractBuildNode {
     //--------------------
     //  Private Variables
     //--------------------
+    [SerializeField] private GameObject WeaponWrongModel;
 
     private Material outline;
     private GameObject holo;
@@ -50,12 +51,14 @@ public class BuildNode : AbstractBuildNode {
                 item = Instantiate(objectToPlace, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
                 item.transform.parent = spawnNode.transform;
                 occupied = true;
+                RemoveShow();
             }
             else
             {
                 item = Instantiate(objectToPlace, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.Euler(new Vector3(0, 90, 0)));
                 item.transform.parent = spawnNode.transform;
                 occupied = true;
+                RemoveShow();
             }
 
             //SetOutlineActive(item, 0.0f);
@@ -102,8 +105,21 @@ public class BuildNode : AbstractBuildNode {
             SetOutlineActive(holo, 1f);
         }
         else{
-            Vector3 dir = gameObject.transform.forward;
-            holo = Instantiate(makeHolo, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.LookRotation(dir));
+            if (canPlaceWeapon) {
+                Vector3 dir = gameObject.transform.forward;
+                holo = Instantiate(makeHolo, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.LookRotation(dir));
+                //remove collider on hologram
+                holo.GetComponent<Weapon>().isHolo = true;
+                //change hologram color based on whether placement is correct or not
+
+                SetOutlineActive(holo, 1f);
+            } else {
+                holo = Instantiate(WeaponWrongModel, new Vector3(transform.position.x, transform.position.y + 0.1f, transform.position.z), Quaternion.Euler(new Vector3(0, 0, 0)));
+                //-------- Old code for red hologram version of weapon --------
+                //SetOutlineActiveOverride(holo, 1f, Color.red);
+                //not rotated correctly, quick fix
+                //holo.transform.rotation = Quaternion.Euler(new Vector3(0, 90, 0));
+            }
         }
         
     }

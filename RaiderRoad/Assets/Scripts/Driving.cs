@@ -51,7 +51,7 @@ public class Driving : Interactable
         }
         else
         {
-            leftClamp = -21;
+            leftClamp = -20;
         }
 
         if (enemyCountR > 0)
@@ -60,7 +60,7 @@ public class Driving : Interactable
         }
         else
         {
-            rightClamp = 21;
+            rightClamp = 20;
         }
 
         GetInput();
