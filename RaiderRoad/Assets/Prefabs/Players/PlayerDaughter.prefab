@@ -10220,13 +10220,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 958613293469670439}
-  m_LocalRotation: {x: -0.3639139, y: -0.36729458, z: 0.76416236, w: 0.38563886}
-  m_LocalPosition: {x: 0, y: -0.36089253, z: 0}
+  m_LocalRotation: {x: -0.34149042, y: -0.3882305, z: 0.7399464, w: 0.43027982}
+  m_LocalPosition: {x: -0.033, y: -0.285, z: -0.014}
   m_LocalScale: {x: 0.6561682, y: 0.65616846, z: 0.65616834}
   m_Children: []
   m_Father: {fileID: 5890847075308725517}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 16.3, y: -61, z: 116.8}
+  m_LocalEulerAnglesHint: {x: 16.3, y: -61, z: 110}
 --- !u!33 &3302645930997358656
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -10339,6 +10339,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: WandOfGamelon
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 115eebbeabc846440ae29ef73620f0c0, type: 3}
+      propertyPath: m_TagString
+      value: CharaWeapon
+      objectReference: {fileID: 0}
     - target: {fileID: 2300000, guid: 115eebbeabc846440ae29ef73620f0c0, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -10409,7 +10413,8 @@ PrefabInstance:
     - target: {fileID: 9500000, guid: 098a4f0ce1ebe70459e814b998a5d26c, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: 067e4317075ad1a45800b2fd806f10cf, type: 2}
+      objectReference: {fileID: 22100000, guid: 05d125daf12341e4c9088c219c6afb1f,
+        type: 2}
     - target: {fileID: 13700000, guid: 098a4f0ce1ebe70459e814b998a5d26c, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
