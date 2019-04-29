@@ -14,8 +14,6 @@ public class cannon : Interactable {
 	public GameObject smokeBurst;
 	public Animator myAni;
     public bool isOccupied = false;
-    public AudioClip fireClip;
-    public AudioSource aSource;
 
 	// gameplay values
 	public float reticuleMoveSpeed;
@@ -55,7 +53,6 @@ public class cannon : Interactable {
 		//forwardDir = transform.forward;
 		maxRange = getMaxRange();
 
-        aSource.clip = fireClip;
 	}
 
 	// Update is called once per frame
@@ -176,9 +173,7 @@ public class cannon : Interactable {
 
 		// wait time so shot happens at right point in animation
 		yield return new WaitForSecondsRealtime(7f / 24f);
-        //audio stuff here
-        aSource.Play();
-        //----------------
+        
 		proj = Instantiate(munitions.gameObject, barrel.transform.position, Quaternion.identity);
 		proj.GetComponent<cannonball>().launch(reticule.transform.position, barrel.transform.position, weapon.transform.forward);
 		GameObject tempFx = Instantiate(smokeBurst, barrel.transform.position, Quaternion.identity);
