@@ -7,7 +7,6 @@ public class SpawnChunk : MonoBehaviour {
     // Public Variables
     //--------------------
     public List<GameObject> roadChunks;
-    public bool randomChunk = false;
     public float speed = -35.0f;
     public GameObject warningSprite;
     public Transform warningCamvas;
@@ -21,64 +20,74 @@ public class SpawnChunk : MonoBehaviour {
     private List<GameObject> warnings = new List<GameObject>();
     private float rvZStart;
     private BoxCollider col;
+	[SerializeField] private List<GameObject> railPrefabs;
+	[SerializeField] private List<GameObject> roadPrefabs;
+	[SerializeField] private Vector3 leftRailPos, rightRailPos;
+	[SerializeField] private Vector3 leftRailRot, rightRailRot;
 
-    // Use this for initialization
-    void Start () {
+	// Use this for initialization
+	void Start () {
         rvZStart = rv.transform.position.z;
         col = gameObject.GetComponent<BoxCollider>();
 
-        // Spawn First Chunk
-        GameObject road = Instantiate(roadChunks[0], transform.position, roadChunks[0].transform.rotation);
+		// Spawn First Chunk
+		GameObject road = Instantiate(roadChunks[0], transform.position, roadChunks[0].transform.rotation);
         road.GetComponent<MoveChunk>().SetSpeed(speed);
         road.GetComponent<MoveChunk>().SetSpawnDespawnZDistance(spawnDespawnZDistance);
-        nextChunk = 1;
-    }
+
+		// give chunk road
+		Instantiate(SelectRoad(), road.transform);
+
+		// give chunk rails
+		// left
+		GameObject rail = Instantiate(SelectRail(), road.transform);
+		rail.transform.localPosition = leftRailPos;
+		rail.transform.rotation = Quaternion.Euler(leftRailRot);
+		// right
+		rail = Instantiate(SelectRail(), road.transform);
+		rail.transform.localPosition = rightRailPos;
+		rail.transform.rotation = Quaternion.Euler(rightRailRot);
+
+	}
 
     // Spawning
     public void Spawn(Vector3 spawnLocation) {
-        if (randomChunk)
-        {
-            // Spawn Chunks in Random Order
-            int rand = Random.Range(0, roadChunks.Count);
-            GameObject road = Instantiate(roadChunks[rand], spawnLocation, roadChunks[rand].transform.rotation);
-            road.GetComponent<MoveChunk>().SetSpeed(speed);
-            road.GetComponent<MoveChunk>().SetSpawnDespawnZDistance(spawnDespawnZDistance);
-        }
-        else
-        {
-            // Spawn Chunks in Order
-            if (nextChunk >= roadChunks.Count)
-            {
-                GameObject road = Instantiate(roadChunks[0], spawnLocation, roadChunks[0].transform.rotation);
-                road.GetComponent<MoveChunk>().SetSpeed(speed);
-                road.GetComponent<MoveChunk>().SetSpawnDespawnZDistance(spawnDespawnZDistance);
-                nextChunk = 1;
-            }
-            else
-            {
-                GameObject road = Instantiate(roadChunks[nextChunk], spawnLocation, roadChunks[nextChunk].transform.rotation);
-                road.GetComponent<MoveChunk>().SetSpeed(speed);
-                road.GetComponent<MoveChunk>().SetSpawnDespawnZDistance(spawnDespawnZDistance);
-                nextChunk++;
-            }
-        }
-    }
+        // Spawn Chunks in Random Order
+        int rand = Random.Range(0, roadChunks.Count);
+        GameObject road = Instantiate(roadChunks[rand], spawnLocation, roadChunks[rand].transform.rotation);
+        road.GetComponent<MoveChunk>().SetSpeed(speed);
+        road.GetComponent<MoveChunk>().SetSpawnDespawnZDistance(spawnDespawnZDistance);
 
+		// give chunk road
+		Instantiate(SelectRoad(), road.transform);
 
-    // Warning Arrows
-    void OnTriggerEnter(Collider other)
-    {
-        /*
-        //Debug.Log(other + " has entered");
-        if (other.gameObject.tag.Equals("Obstacle"))
-        {
-            warnings.Add(Instantiate(warningSprite, new Vector3(other.transform.position.x, warningSprite.transform.position.y, warningSprite.transform.position.z), Quaternion.identity));
-            warnings[warnings.Count - 1].GetComponent<FollowCamera>().SetValues(rvZStart, rv);
-        }
-        */
+		// give chunk rails
+		// left
+		GameObject rail = Instantiate(SelectRail(), road.transform);
+		rail.transform.localPosition = leftRailPos;
+		rail.transform.rotation = Quaternion.Euler(leftRailRot);
+		// right
+		rail = Instantiate(SelectRail(), road.transform);
+		rail.transform.localPosition = rightRailPos;
+		rail.transform.rotation = Quaternion.Euler(rightRailRot);
+	}
 
-        if (other.gameObject.tag.Equals("Obstacle"))
-        {
+	#region Component Selection
+	private GameObject SelectRoad() {
+		int rand = Random.Range(0, roadPrefabs.Count);
+		return roadPrefabs[rand];
+	}
+
+	private GameObject SelectRail() {
+		int rand = Random.Range(0, railPrefabs.Count);
+		return railPrefabs[rand];
+	}
+	#endregion
+
+	#region Detection and Trigger Functions
+	// Warning Arrows
+	void OnTriggerEnter(Collider other) {
+        if (other.gameObject.tag.Equals("Obstacle")) {
             warnings.Add(Instantiate(warningSprite, warningCamvas));
             warnings[warnings.Count - 1].GetComponent<UiElementFollowObject>().SetObject(other.gameObject);
             warnings[warnings.Count - 1].GetComponent<UiElementFollowObject>().SetCanvas(warningCamvas.GetComponent<RectTransform>());
@@ -86,13 +95,11 @@ public class SpawnChunk : MonoBehaviour {
         }
     }
 
-    void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.tag.Equals("Obstacle"))
-        {
-            //Debug.Log(warnings[0]);
+    void OnTriggerExit(Collider other) {
+        if (other.gameObject.tag.Equals("Obstacle")) {
             Destroy(warnings[0]);
             warnings.RemoveAt(0);
         }
     }
+	#endregion
 }
