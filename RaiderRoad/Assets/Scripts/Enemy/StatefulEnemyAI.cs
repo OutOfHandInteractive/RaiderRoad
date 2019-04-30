@@ -457,7 +457,8 @@ public class StatefulEnemyAI : EnemyAI {
             Debug.Log("HIT" + other.gameObject.name);
             GameObject drop = other.gameObject;
             Destroy(other.gameObject);
-            Instantiate(drop, transform);
+            GameObject d = Instantiate(drop, transform);
+            d.transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z + 1);
             steal.hasStolen = true;
 
 			myAni.SetTrigger("PickUpObject");
