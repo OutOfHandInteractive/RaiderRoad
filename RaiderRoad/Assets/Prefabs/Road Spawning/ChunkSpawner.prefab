@@ -47,17 +47,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   roadChunks:
   - {fileID: 1672777320336460478, guid: ac010bfc507072346a11d5b98957d416, type: 3}
-  - {fileID: 1672777320336460478, guid: 7dbc7780010a6904e8075132135f4ea8, type: 3}
-  - {fileID: 1672777320336460478, guid: 1716964a46d219443983bb64e646695a, type: 3}
-  - {fileID: 1672777320336460478, guid: e7c348c4280077a4ebe7921226d53519, type: 3}
-  - {fileID: 1672777320336460478, guid: caa64bc220a74d143b608c2de04cddf0, type: 3}
-  randomChunk: 1
   speed: -35
   warningSprite: {fileID: 1962474547711424, guid: f179877d65f8ff249b5dca5a30158e93,
     type: 3}
   warningCamvas: {fileID: 0}
   rv: {fileID: 0}
   spawnDespawnZDistance: 100
+  railPrefabs:
+  - {fileID: 4235293921645867489, guid: 2cec00d332bfd494c9935b607388c370, type: 3}
+  - {fileID: 3500926145681593742, guid: ced05891b887db94bb49d2515ee2f961, type: 3}
+  - {fileID: 6541314709789966276, guid: 2e799d09ee0354345814f13b454864da, type: 3}
+  roadPrefabs:
+  - {fileID: 2713761627841317700, guid: 4c42663e8f7ba744f90776fb5762292b, type: 3}
+  sceneryPrefabs:
+  - {fileID: 1205558319980887025, guid: 8ed1fe19aac8178439ca257d54713010, type: 3}
+  - {fileID: 4406909459551758887, guid: bd614d74b70ef264a99173bf2ddb9356, type: 3}
+  - {fileID: 6231727397188461830, guid: 5b5da03ec873c9d43ab26de3b9464f14, type: 3}
+  - {fileID: 3988051778447395493, guid: 0100f1c9d75c91c418a1bb0a1d678599, type: 3}
+  - {fileID: 1368574251924746412, guid: 87444115847a3da459a86fdbaa6df72b, type: 3}
+  sceneryChance: 20
+  leftRailPos: {x: -24.34, y: 0, z: -3.12}
+  rightRailPos: {x: 24.34, y: 0, z: 3.12}
+  leftRailRot: {x: 0, y: 0, z: 0}
+  rightRailRot: {x: 0, y: 180, z: 0}
 --- !u!54 &54783569267135524
 Rigidbody:
   m_ObjectHideFlags: 0

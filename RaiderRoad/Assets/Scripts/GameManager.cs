@@ -72,11 +72,13 @@ public class GameManager : MonoBehaviour {
     public void LossGame() {
         gameOver = true;
         PauseParent.GetComponent<pauseController>().endState("Vacation Canceled");
+        //Temporary "get rid of victory image code
+        PauseParent.GetComponent<pauseController>().myVictoryImage.SetActive(false);
     }
 
     public void WinGame() {
         gameOver = true;
-        PauseParent.GetComponent<pauseController>().endState("Vacation Victory");
+        PauseParent.GetComponent<pauseController>().endState("Arrived at Your Vacation");
     }
 
     public void restartMenu() {

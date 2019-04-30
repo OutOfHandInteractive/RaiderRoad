@@ -431,7 +431,8 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
 
         myAudio.Swing(hit);
 
-        currentAttColor.a = 0.5f; //setting attack model's mat to 1/2 visible
+        // Remove comment lines to bring temp Red attack cube back
+        //currentAttColor.a = 0.5f; //setting attack model's mat to 1/2 visible
     }
 
 	public void SheathWeapon() {
