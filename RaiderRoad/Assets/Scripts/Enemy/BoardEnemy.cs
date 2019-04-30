@@ -58,9 +58,10 @@ public class BoardEnemy : JumpEnemy {
             if(transform.parent.tag == "RV")
             {
                 ai.getAnimator().SetBool("Grounded", true);
-				agent.Warp(transform.position);	// hax?????
+                //agent.Warp(transform.position);	// hax?????
+                cObject.GetComponent<Rigidbody>().isKinematic = true;
+                //agent.velocity = Vector3.zero;
                 //agent.speed = 0;
-                //agent.isStopped = true;
                 survey += Time.deltaTime;
                 Debug.Log(survey);
                 if (survey > 1f)
@@ -68,16 +69,19 @@ public class BoardEnemy : JumpEnemy {
                     if (action < 40)
                     {
                         //agent.speed = speed;
+                        cObject.GetComponent<Rigidbody>().isKinematic = false;
                         ai.EnterDestroy();
                     }
                     else if (action > 40 && action < 80)
                     {
                         //agent.speed = speed;
+                        cObject.GetComponent<Rigidbody>().isKinematic = false;
                         ai.EnterFight();
                     }
                     else
                     {
                         //agent.speed = speed;
+                        cObject.GetComponent<Rigidbody>().isKinematic = false;
                         ai.EnterSteal();
                     }
                 }

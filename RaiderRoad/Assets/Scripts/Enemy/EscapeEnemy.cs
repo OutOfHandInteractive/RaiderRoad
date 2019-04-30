@@ -62,25 +62,25 @@ public class EscapeEnemy : JumpEnemy {
         float movement = speed * Time.deltaTime;
 
         //If a reasonable jumping distance to vehicle, escape
-        if (Vector3.Distance(transform.position, eVehicle.transform.position) < 3f)
+        if (Vector3.Distance(cObject.transform.position, eVehicle.transform.position) < 4f)
         {
             //Enemy vehicle destination position
-            agent.enabled = false;
+            //agent.enabled = false;
             cObject.GetComponent<StatefulEnemyAI>().getAnimator().SetBool("Running", false);
+            agent.GetComponent<NavMeshAgent>().enabled = false;
             Vector3 pos = eVehicle.transform.position;
             float zSign = cSide == VehicleAI.Side.Left ? -1 : 1;
             Jump(pos, zSign);
-            agent.GetComponent<NavMeshAgent>().enabled = false;
-            cObject.transform.position = Vector3.MoveTowards(cObject.transform.position, eVehicle.transform.position, Time.deltaTime * 2);
+            //cObject.transform.position = Vector3.MoveTowards(cObject.transform.position, eVehicle.transform.position, Time.deltaTime * 2);
         }
         else
         {
-            Vector3 targetPosition = new Vector3(eVehicle.transform.position.x, eVehicle.transform.position.y, eVehicle.transform.position.z);
+            Vector3 targetPosition = new Vector3(eVehicle.transform.position.x, cObject.transform.position.y, eVehicle.transform.position.z);
             cObject.transform.LookAt(targetPosition);
             Debug.LogWarning("HEY AGENT" + targetPosition);
             //agent.SetDestination(targetPosition);
             //cObject.GetComponent<StatefulEnemyAI>().getAnimator().SetBool("Running", true);
-            cObject.transform.position = Vector3.MoveTowards(cObject.transform.position, eVehicle.transform.position, movement);
+            cObject.transform.position = Vector3.MoveTowards(cObject.transform.position, targetPosition, movement);
         }
         //Debug.Log(cObject.transform.tag + " HEEEEEEEEY");
         if(cObject.transform.root.tag == "eVehicle" && cObject.transform.parent != null)
