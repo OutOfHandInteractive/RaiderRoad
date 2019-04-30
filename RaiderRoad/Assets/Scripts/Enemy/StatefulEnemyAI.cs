@@ -373,7 +373,8 @@ public class StatefulEnemyAI : EnemyAI {
 
 	public void ExitDestroyState() {
 		if (isDestroying) {
-			StopCoroutine("DestroyWall");
+            agent.speed = speed;
+            StopCoroutine("DestroyWall");
 			StopCoroutine("DestroyBattery");
 			myAni.SetTrigger("InterruptAction");
 		}
@@ -422,9 +423,9 @@ public class StatefulEnemyAI : EnemyAI {
         {
             transform.parent = collision.gameObject.transform.root;
         }
-        //if (collision.gameObject.tag == "road" /*currentState != State.Wait*/) {
-        //    Destroy(gameObject);
-        //}
+        if (collision.gameObject.tag == "road" /*currentState != State.Wait*/) {
+            Destroy(gameObject);
+        }
         //Change transform to stay on vehicles
         if (Util.IsVehicleRecursive(collision.gameObject) && gameObject.tag != "usingWeapon") {
             transform.parent = collision.gameObject.transform;
@@ -472,10 +473,12 @@ public class StatefulEnemyAI : EnemyAI {
         }
 
         if (other.gameObject.tag == "Wall" && currentState == State.Destroy) {
-			StartCoroutine("DestroyWall", other);
+            agent.speed = 0;
+            StartCoroutine("DestroyWall", other);
         }
 
         if (other.gameObject.tag == "Engine" && currentState == State.Destroy) {
+            agent.speed = 0;
 			StartCoroutine("DestroyBattery", other);
         }
     }
