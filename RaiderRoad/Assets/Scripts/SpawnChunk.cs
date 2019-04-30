@@ -22,6 +22,8 @@ public class SpawnChunk : MonoBehaviour {
     private BoxCollider col;
 	[SerializeField] private List<GameObject> railPrefabs;
 	[SerializeField] private List<GameObject> roadPrefabs;
+	[SerializeField] private List<GameObject> sceneryPrefabs;
+	[SerializeField] private int sceneryChance = 20;
 	[SerializeField] private Vector3 leftRailPos, rightRailPos;
 	[SerializeField] private Vector3 leftRailRot, rightRailRot;
 
@@ -70,6 +72,9 @@ public class SpawnChunk : MonoBehaviour {
 		rail = Instantiate(SelectRail(), road.transform);
 		rail.transform.localPosition = rightRailPos;
 		rail.transform.rotation = Quaternion.Euler(rightRailRot);
+
+		// scenery
+		Instantiate(SelectScenery(), road.transform);
 	}
 
 	#region Component Selection
@@ -81,6 +86,17 @@ public class SpawnChunk : MonoBehaviour {
 	private GameObject SelectRail() {
 		int rand = Random.Range(0, railPrefabs.Count);
 		return railPrefabs[rand];
+	}
+
+	private GameObject SelectScenery() {
+		int rand = Random.Range(1, 101);
+		if (rand <= sceneryChance) {
+			rand = Random.Range(1, sceneryPrefabs.Count);
+			return sceneryPrefabs[rand];
+		}
+		else {
+			return sceneryPrefabs[0];
+		}
 	}
 	#endregion
 
