@@ -47,8 +47,11 @@ public class VehicleAI : MonoBehaviour {
 	// references
 	private Attachment front_attachment;
 
-	// gameplay values
-	private float currentHealth;
+    // Camera Shake
+    private CameraShake vCamShake;
+
+    // gameplay values
+    private float currentHealth;
 	[SerializeField] private float highDamageThreshold;
 
 	// Use this for initialization
@@ -72,6 +75,8 @@ public class VehicleAI : MonoBehaviour {
         Debug.Log(side);
         //Start wander state
         EnterWait();
+
+        vCamShake = GameObject.FindGameObjectWithTag("MainVCam").GetComponent<CameraShake>();
     }
 
     // Update is called once per frame
@@ -203,6 +208,9 @@ public class VehicleAI : MonoBehaviour {
         
         if (currentState != State.Leave)
         {
+            // Camera Shake
+            vCamShake.Shake(.5f, 10f, .5f);
+
             // Battery Drop
             float rand = Random.value; // Battery Drop Chance
             if (side == Side.Left)

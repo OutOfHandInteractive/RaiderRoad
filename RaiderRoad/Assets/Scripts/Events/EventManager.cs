@@ -48,9 +48,6 @@ public class EventManager : MonoBehaviour {
     //spawn points for events
     [SerializeField]
     private List<Transform> vspawnPoints;
-    public GameObject oSpawnsParent;
-    [SerializeField]
-    private List<Transform> ospawnPoints;
 
     //threat ranges
     private int lThreatMin = 1;
@@ -85,12 +82,7 @@ public class EventManager : MonoBehaviour {
             //Debug.Log(child);
             vspawnPoints.Add(child);
         }
-        ospawnPoints = new List<Transform>();
-        foreach (Transform child in oSpawnsParent.transform)      //get obstacle spawn points
-        {
-            //Debug.Log(child);
-            ospawnPoints.Add(child);
-        }
+        
 		StartCoroutine(difficultyManager());
 		StartCoroutine(initialize());                   //initializes first cluster
         StartCoroutine(reduceSpawnTime());            //start cycle of spawn delay reduction
@@ -206,13 +198,13 @@ public class EventManager : MonoBehaviour {
                 difficultySpace = difficultySpace - vThreat;  //subtract threat from difSpace
                 sPoints = vspawnPoints;
             }
-            else if (etype == EventManager.eventTypes.obstacle)
+            /*else if (etype == EventManager.eventTypes.obstacle)
             {
                 vtype = VehicleFactoryManager.vehicleTypes._null;
                 sPoints = ospawnPoints;
 
 				difficultySpace -= Constants.SMALL_OBSTACLE_BASE_THREAT;
-            }
+            }*/
             //Debug.Log(vtype);
             
             _nE = newEC.AddComponent<Event>() as Event;
