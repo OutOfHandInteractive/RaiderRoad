@@ -13,6 +13,7 @@ public class WanderVehicle : MonoBehaviour {
     private int action;
     private bool hasWeapon;
     private bool firstPos = false;
+    private bool hasAttacked = false;
     public void StartWander(NavMeshAgent agent, GameObject enemy, VehicleAI.Side side, bool weapon)
     {
         //Set it to the VehicleAI
@@ -84,7 +85,7 @@ public class WanderVehicle : MonoBehaviour {
             Debug.LogWarning("TRUEEEEEEEEEEE");
             cObject.GetComponent<VehicleAI>().EnterWander();
         }
-        else
+        else if (!hasAttacked)
         {
             StartCoroutine(changeAttack());
             //StartCoroutine(waitToLeave());
@@ -95,6 +96,7 @@ public class WanderVehicle : MonoBehaviour {
     IEnumerator changeAttack()
     {
         yield return new WaitForSeconds(10);
+        hasAttacked = true;
         cObject.GetComponent<VehicleAI>().EnterAttack();
     }
 
