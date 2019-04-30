@@ -15,8 +15,8 @@ public class obstacleSpawner : MonoBehaviour
     private GameObject RV;
     [SerializeField]
     private GameObject smallObstacle;
-    private float upperBound = 30f;
-    private float lowerBound = -30f;
+    private float upperBound = 21f;
+    private float lowerBound = -21f;
     private float spawnDistance = 120f;
     private float spawnRange = 15f;
 
