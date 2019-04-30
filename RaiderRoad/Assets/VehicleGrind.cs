@@ -17,7 +17,7 @@ public class VehicleGrind : MonoBehaviour
             {
                 if (v.getHealth() > 0)
                 {
-                    v.takeDamage(1);
+                    v.takeDamage(0.5f);
                 }
             }
         }
