@@ -87,6 +87,9 @@ public class PlayerController_Rewired : MonoBehaviour
     private bool exploded = false;
     private bool animJumped = false; //Jumped can be called at weird points, animJumped is a more accurate version for animation/particle purposes
 
+	// audio
+	PlayerAudio myAudio;
+
 	// ----------------------------------------------------------------------
 	#endregion
 
@@ -115,6 +118,8 @@ public class PlayerController_Rewired : MonoBehaviour
 		// get reference to PlayerPlacement
 		pPlacement = view.GetComponent<PlayerPlacement_Rewired>();
 
+		// get reference for audio player
+		myAudio = GetComponentInChildren<PlayerAudio>();
 	}
 
     void Initialize()
@@ -178,6 +183,16 @@ public class PlayerController_Rewired : MonoBehaviour
 				// adjust player facing angle if they are moving
 				if (moveVector.magnitude > 0) {
 					angle = Mathf.Atan2(moveVector.y, moveVector.x) * Mathf.Rad2Deg;
+
+					if (!interacting && state == playerStates.up && !reviving && IsGrounded()) {
+						myAudio.StartWalking();
+					}
+					else {
+						myAudio.StopWalking();
+					}
+				}
+				else {
+					myAudio.StopWalking();
 				}
 			}
 
@@ -369,15 +384,15 @@ public class PlayerController_Rewired : MonoBehaviour
     }
 
 	// ----------------------- damage -----------------------
-    public void takeDamage(float _damage)
-    {
+    public void takeDamage(float _damage) {
         float currTime = Time.time;
         //Invulnerability Frames (if we want to remove, set invulTime to 0 or get rid of if statement below)
-        if (currTime >= lastHitTimeStamp + invulTime)
-        {
+        if (currTime >= lastHitTimeStamp + invulTime) {
             lastHitTimeStamp = Time.time;
             currentHealth -= _damage;
             healthRegenDelayCountdown = healthRegenDelay;
+
+			myAudio.PlaySound_DamageByRaider();
 
             if (currentHealth <= 0)
             {
