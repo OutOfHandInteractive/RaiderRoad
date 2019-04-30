@@ -18,8 +18,19 @@ public class KinematicTrigger : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.tag == "eVehicle")
+        if(other.gameObject.tag == "eVehicle" || other.gameObject.tag == "Destructable")
         {
+            Debug.LogWarning("HIT");
+            other.transform.root.GetComponent<Rigidbody>().collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative;
+            other.transform.root.GetComponent<Rigidbody>().isKinematic = true;
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.tag == "eVehicle" || other.gameObject.tag == "Destructable")
+        {
+            Debug.LogWarning("HIT");
+            other.transform.root.GetComponent<Rigidbody>().collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative;
             other.transform.root.GetComponent<Rigidbody>().isKinematic = true;
         }
     }

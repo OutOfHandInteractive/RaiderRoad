@@ -43,8 +43,6 @@ public class WanderVehicle : MonoBehaviour {
             firstPos = true;
         }
 
-        cObject.GetComponent<Rigidbody>().isKinematic = false;
-
     }
 
     public void Wander()
