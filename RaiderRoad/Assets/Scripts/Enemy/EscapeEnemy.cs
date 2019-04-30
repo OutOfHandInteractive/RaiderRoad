@@ -69,7 +69,6 @@ public class EscapeEnemy : JumpEnemy {
             //agent.enabled = false;
             Debug.LogWarning("REACHED");
             cObject.GetComponent<StatefulEnemyAI>().getAnimator().SetBool("Running", false);
-            //agent.GetComponent<NavMeshAgent>().enabled = false;
             Vector3 pos = eVehicle.transform.position;
             float zSign = cSide == VehicleAI.Side.Left ? -1 : 1;
             if(!jumped)
@@ -78,7 +77,7 @@ public class EscapeEnemy : JumpEnemy {
                 Jump(pos, zSign);
                 jumped = true;
             }
-            //cObject.transform.position = Vector3.MoveTowards(cObject.transform.position, eVehicle.transform.position, Time.deltaTime * 2);
+            cObject.transform.position = Vector3.MoveTowards(cObject.transform.position, eVehicle.transform.position, Time.deltaTime * 2);
         }
         else
         {
@@ -87,6 +86,7 @@ public class EscapeEnemy : JumpEnemy {
             //agent.SetDestination(targetPosition);
             //cObject.GetComponent<StatefulEnemyAI>().getAnimator().SetBool("Running", true);
             cObject.transform.position = Vector3.MoveTowards(cObject.transform.position, targetPosition, movement);
+            agent.enabled = false;
         }
         //Debug.Log(cObject.transform.tag + " HEEEEEEEEY");
         if(cObject.transform.root.tag == "eVehicle" && cObject.transform.parent != null)
@@ -100,11 +100,6 @@ public class EscapeEnemy : JumpEnemy {
 
     IEnumerator waitToLeave()
     {
-        NavMeshAgent agent = eVehicle.GetComponent<NavMeshAgent>();
-        if (agent.enabled)
-        {
-            agent.isStopped = false;
-        }
         yield return new WaitForSeconds(5);
         eVehicle.GetComponent<VehicleAI>().EnterWander();
         yield return new WaitForSeconds(5);
