@@ -82,6 +82,14 @@ public class VehicleAI : MonoBehaviour {
     // Update is called once per frame
     void Update () {
         transform.position = new Vector3(transform.position.x, .7f, transform.position.z);
+        if(transform.position.z >16f)
+        {
+            rb.isKinematic = true;
+        }
+        else
+        {
+            rb.isKinematic = false;
+        }
         //Debug.Log(currentState);
         if (currentState == State.Attack)
         {
