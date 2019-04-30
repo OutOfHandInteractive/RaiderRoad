@@ -80,11 +80,11 @@ public class VehicleAI : MonoBehaviour {
         //Debug.Log(currentState);
         if (currentState == State.Attack)
         {
-            agent.speed = 30;
+            //agent.speed = 30;
         }
         else
         {
-            agent.speed = 15;
+            //agent.speed = 15;
         }
         if(transform.GetComponentInChildren<PlayerController_Rewired>())
         {

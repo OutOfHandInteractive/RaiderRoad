@@ -422,9 +422,9 @@ public class StatefulEnemyAI : EnemyAI {
         {
             transform.parent = collision.gameObject.transform.root;
         }
-        if (collision.gameObject.tag == "road" /*currentState != State.Wait*/) {
-            Destroy(gameObject);
-        }
+        //if (collision.gameObject.tag == "road" /*currentState != State.Wait*/) {
+        //    Destroy(gameObject);
+        //}
         //Change transform to stay on vehicles
         if (Util.IsVehicleRecursive(collision.gameObject) && gameObject.tag != "usingWeapon") {
             transform.parent = collision.gameObject.transform;

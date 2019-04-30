@@ -21,7 +21,6 @@ public class AttackVehicle : MonoBehaviour{
     //Initialize agent and attack points
     public void StartAttack(NavMeshAgent agent, GameObject enemy, Rigidbody rb, VehicleAI.Side side)
     {
-        cEnemy = agent;
         cObject = enemy;
         attackList = new List<Transform>();
         cRb = rb;
@@ -63,7 +62,7 @@ public class AttackVehicle : MonoBehaviour{
 
         //Debug.Log(Vector3.Distance(cEnemy.transform.position, attackList[attackPoints].position));
         //Check if vehicle hit, add "knockback"
-        if (Vector3.Distance(cEnemy.transform.position, attackList[attackPoints].position) < 1.1f && hasHit == false)
+        if (Vector3.Distance(cObject.transform.position, attackList[attackPoints].position) < 1.1f && hasHit == false)
         {
             //hitCount++;
             //cEnemy.SetDestination(attackPosition.transform.position);

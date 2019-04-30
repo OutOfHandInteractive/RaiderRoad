@@ -10,6 +10,7 @@ public class EscapeEnemy : JumpEnemy {
 
     //Gameobject, rigidbody, vehicle, initialangle for jump, if enemy jumped, current side 
     private GameObject eVehicle;
+    private bool jumped = false;
     /// <summary>
     /// Initializes this state
     /// </summary>
@@ -66,18 +67,23 @@ public class EscapeEnemy : JumpEnemy {
         {
             //Enemy vehicle destination position
             //agent.enabled = false;
+            Debug.LogWarning("REACHED");
             cObject.GetComponent<StatefulEnemyAI>().getAnimator().SetBool("Running", false);
-            agent.GetComponent<NavMeshAgent>().enabled = false;
+            //agent.GetComponent<NavMeshAgent>().enabled = false;
             Vector3 pos = eVehicle.transform.position;
             float zSign = cSide == VehicleAI.Side.Left ? -1 : 1;
-            Jump(pos, zSign);
+            if(!jumped)
+            {
+                Debug.LogWarning("HELLLO" + initialAngle);
+                Jump(pos, zSign);
+                jumped = true;
+            }
             //cObject.transform.position = Vector3.MoveTowards(cObject.transform.position, eVehicle.transform.position, Time.deltaTime * 2);
         }
         else
         {
             Vector3 targetPosition = new Vector3(eVehicle.transform.position.x, cObject.transform.position.y, eVehicle.transform.position.z);
             cObject.transform.LookAt(targetPosition);
-            Debug.LogWarning("HEY AGENT" + targetPosition);
             //agent.SetDestination(targetPosition);
             //cObject.GetComponent<StatefulEnemyAI>().getAnimator().SetBool("Running", true);
             cObject.transform.position = Vector3.MoveTowards(cObject.transform.position, targetPosition, movement);

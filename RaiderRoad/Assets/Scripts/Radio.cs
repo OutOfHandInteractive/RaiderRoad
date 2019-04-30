@@ -111,15 +111,11 @@ public class Radio
     public void AddVehicle(GameObject vehicle)
     {
         vehicles.Add(vehicle);
-        Debug.LogWarning(vehicles[0]);
-        Debug.LogWarning("COUNT: " + vehicles.Count);
     }
 
     public void RemoveVehicle(GameObject vehicle)
     {
         vehicles.Remove(vehicle);
-        Debug.LogWarning(vehicles[0]);
-        Debug.LogWarning("COUNT: " + vehicles.Count);
     }
 
     public bool checkState() { 

@@ -12,14 +12,12 @@ public class WanderVehicle : MonoBehaviour {
     private GameObject cObject;
     private int action;
     private bool hasWeapon;
-    private float timer = 0f;
     private bool firstPos = false;
     public void StartWander(NavMeshAgent agent, GameObject enemy, VehicleAI.Side side, bool weapon)
     {
         //Set it to the VehicleAI
         cEnemy = agent;
         cObject = enemy;
-        cEnemy.speed = 15;
         hasWeapon = weapon;
         action = Random.Range(0, 100);
         patrols = new List<Transform>();

@@ -13,6 +13,7 @@ public class BoardEnemy : JumpEnemy {
 
     private float survey = 0;
     private Transform parent = null;
+    private bool jumped = false;
     //public override void StartJump(GameObject enemy, Rigidbody rb, string side, int stateChance)
     //{
     //    base.StartJump(enemy, rb, side, stateChance);
@@ -46,7 +47,11 @@ public class BoardEnemy : JumpEnemy {
         Vector3 pos = GetTarget(planePos);
         float zSign = cSide == VehicleAI.Side.Left ? 1 : -1;
         //Debug.Log(zSign + " THIS IS THE SIGN");
-        Jump(pos, zSign);
+        if(!jumped)
+        {
+            Jump(pos, zSign);
+            jumped = true;
+        }
         
         
 
@@ -57,6 +62,7 @@ public class BoardEnemy : JumpEnemy {
         {
             if(transform.parent.tag == "RV")
             {
+                hasJumped = false;
                 ai.getAnimator().SetBool("Grounded", true);
                 //agent.Warp(transform.position);	// hax?????
                 cObject.GetComponent<Rigidbody>().isKinematic = true;
