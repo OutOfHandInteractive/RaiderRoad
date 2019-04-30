@@ -18,10 +18,15 @@ public class EventManager : MonoBehaviour {
 	public float TimeBetweenDifficultyAdjustment;
 
 	// -------------------- nonpublic variables ------------------------
-    [SerializeField] private int difficultyRating;
+	// Static references
+	GameManager g;
 
-    // Equation coefficients                    -------all set to 1 for now
-    [SerializeField] private float expectedGameLengthModifier;
+	// Difficulty
+	[SerializeField] private int difficultyRating;
+	[SerializeField] private List<float> difficultyMultiplier;
+
+	// Equation coefficients                    -------all set to 1 for now
+	[SerializeField] private float expectedGameLengthModifier;
 	[SerializeField] private float sinFrequencyModifier;
 	[SerializeField] private float sinAmplitudeModifier;
 	[SerializeField] private float difficultySlopeModifier;
@@ -43,9 +48,6 @@ public class EventManager : MonoBehaviour {
     //spawn points for events
     [SerializeField]
     private List<Transform> vspawnPoints;
-    public GameObject oSpawnsParent;
-    [SerializeField]
-    private List<Transform> ospawnPoints;
 
     //threat ranges
     private int lThreatMin = 1;
@@ -60,8 +62,7 @@ public class EventManager : MonoBehaviour {
     private float waitToStart = 20f;        //for the below coroutines, this has it so calculations don't being until events start spawning
     //spawn delay bounds
     private float delayLower = 2f;  //will not be lower
-    [SerializeField]
-    private float curDelay = 15f;     //upperBound of 15 - will not exceed this
+    [SerializeField] private float curDelay = 15f;     //upperBound of 15 - will not exceed this
     private float betweenDelayAdjust = 20f;  //delay will be adjusted every 20 seconds
     private float sFactor = 0.85f;        //to start, decrementing to 85% every 20 seconds will hit the lower bound at approximately 4 minutes in
     //weapon frequency variables
@@ -70,8 +71,10 @@ public class EventManager : MonoBehaviour {
     private float weaponRateUpper = 0.5f;   //max weapon chance - 50/50
     private float wFactor = 0.05f;         //rate of increase in weapon frequency every update
 
+	#region System Functions
+	void Start(){
+		g = GameManager.GameManagerInstance;
 
-    void Start(){
         //StartCoroutine(difficultyManager());
         vspawnPoints = new List<Transform>();
         foreach (Transform child in transform)      //get vehicle spawn points
@@ -79,19 +82,15 @@ public class EventManager : MonoBehaviour {
             //Debug.Log(child);
             vspawnPoints.Add(child);
         }
-        ospawnPoints = new List<Transform>();
-        foreach (Transform child in oSpawnsParent.transform)      //get obstacle spawn points
-        {
-            //Debug.Log(child);
-            ospawnPoints.Add(child);
-        }
+        
 		StartCoroutine(difficultyManager());
 		StartCoroutine(initialize());                   //initializes first cluster
         StartCoroutine(reduceSpawnTime());            //start cycle of spawn delay reduction
         StartCoroutine(weaponFrequency());             //start cycle of weapon frequency increase
     }
+	#endregion
 
-    IEnumerator reduceSpawnTime()       //over time, reduce interval between spawns (passed to event clusters when created)
+	IEnumerator reduceSpawnTime()       //over time, reduce interval between spawns (passed to event clusters when created)
     {
         yield return new WaitForSeconds(waitToStart);        //wait allocated time
         while(true){
@@ -199,13 +198,13 @@ public class EventManager : MonoBehaviour {
                 difficultySpace = difficultySpace - vThreat;  //subtract threat from difSpace
                 sPoints = vspawnPoints;
             }
-            else if (etype == EventManager.eventTypes.obstacle)
+            /*else if (etype == EventManager.eventTypes.obstacle)
             {
                 vtype = VehicleFactoryManager.vehicleTypes._null;
                 sPoints = ospawnPoints;
 
 				difficultySpace -= Constants.SMALL_OBSTACLE_BASE_THREAT;
-            }
+            }*/
             //Debug.Log(vtype);
             
             _nE = newEC.AddComponent<Event>() as Event;
@@ -226,7 +225,7 @@ public class EventManager : MonoBehaviour {
     {
         while (true)
         {
-            difficultyRating = calculateDifficultyRating();
+            difficultyRating = (int)Mathf.Ceil(calculateDifficultyRating() * difficultyMultiplier[g.GetPlayerCount()-1]);
             //Debug.Log("difficulty: " + difficultyRating);
 
             yield return new WaitForSecondsRealtime(TimeBetweenDifficultyAdjustment);
@@ -236,7 +235,7 @@ public class EventManager : MonoBehaviour {
     // Use difficulty equation to calculate event difficulty rating based on current time
     private int calculateDifficultyRating()
     {
-        float timeMinutes = GameManager.GameManagerInstance.getGameTime() / 60;
+        float timeMinutes = GameManager.GameManagerInstance.GetGameTime() / 60;
         double calculatedDifficulty;
 
         System.Random rand = new System.Random();

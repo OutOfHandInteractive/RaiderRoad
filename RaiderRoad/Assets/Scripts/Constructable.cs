@@ -135,16 +135,7 @@ public abstract class Constructable : MonoBehaviour
     private void MakeHolo() // a function for making material holographic
     {
         gameObject.GetComponent<BoxCollider>().enabled = false;
-        foreach(Renderer renderer in gameObject.GetComponentsInChildren<Renderer>())
-        {
-            if(! (renderer is LineRenderer))
-            {
-                Material myMat = renderer.material;
-                Color tempColor = myMat.color;
-                tempColor.a = 0.4f;
-                myMat.color = tempColor;
-            }
-        }
+        
     }
 }
 

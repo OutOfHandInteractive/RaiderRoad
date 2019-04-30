@@ -22,6 +22,7 @@ public class PlayerController_Rewired : MonoBehaviour
     public float jumpIndicatorScaling = 10f;
 
     public float jumpForce;
+    public float counterJumpForce;
     public float distToGround = 0.9f;
     public bool isOccupied = false;
 
@@ -54,6 +55,9 @@ public class PlayerController_Rewired : MonoBehaviour
 	private float healthRegenDelayCountdown;
 	[SerializeField] private float reviveTime;
 	public float reviveCountdown;
+    //Invulnerability
+    [SerializeField] private float invulTime;
+    private float lastHitTimeStamp = 0f;
 
 	private float baseJumpInidicatorScale;
     private float baseJumpIndicatorDist;
@@ -79,6 +83,8 @@ public class PlayerController_Rewired : MonoBehaviour
     private Color myOrigColor;
 
     private bool jumped = false;
+    private bool jumpHeld = false;
+    private bool exploded = false;
     private bool animJumped = false; //Jumped can be called at weird points, animJumped is a more accurate version for animation/particle purposes
 
 	// ----------------------------------------------------------------------
@@ -142,10 +148,22 @@ public class PlayerController_Rewired : MonoBehaviour
         ScaleJumpIndicator();
 		HealthRegen();
     }
-	#endregion
 
-	#region Input and Input Processing
-	private void GetInput() {
+    void FixedUpdate()
+    {
+        // ---- jumping ----
+        if (jumped && !exploded)
+        {
+            if (!jumpHeld && Vector3.Dot(rb.velocity, transform.up) > 0)
+            {
+                rb.AddForce(transform.up * counterJumpForce * rb.mass);
+            }
+        }
+    }
+    #endregion
+
+    #region Input and Input Processing
+    private void GetInput() {
         // main input
         if (!paused && !interacting && !reviving) {
 			// get movement directions and angles
@@ -196,6 +214,7 @@ public class PlayerController_Rewired : MonoBehaviour
                 }
             }
 
+            /*
 			// ---- jumping ----
             Debug.DrawRay(transform.position + Vector3.up, -Vector3.up * (distToGround + 0.1f), Color.red);
             if (player.GetButtonDown("Jump") && IsGrounded() && jumped == false) {
@@ -204,6 +223,26 @@ public class PlayerController_Rewired : MonoBehaviour
                 myAni.SetBool("land", false);
                 jumped = true;
                 animJumped = true;
+            }
+            */
+
+            // ---- jumping ----
+            Debug.DrawRay(transform.position + Vector3.up, -Vector3.up * (distToGround + 0.1f), Color.red);
+            if (player.GetButtonDown("Jump"))
+            {
+                jumpHeld = true;
+                if (IsGrounded())
+                {
+                    jumped = true;
+                    animJumped = true;
+                    rb.AddForce(transform.up * jumpForce * rb.mass, ForceMode.Impulse);
+                    myAni.SetTrigger("jump");
+                    myAni.SetBool("land", false);
+                }
+            }
+            else if (player.GetButtonUp("Jump"))
+            {
+                jumpHeld = false;
             }
         }
 
@@ -275,6 +314,7 @@ public class PlayerController_Rewired : MonoBehaviour
             //Debug.Log("Can jump");
             transform.parent = collision.transform.root;
             jumped = false;
+            exploded = false;
             //rb.isKinematic = true;
         }
 
@@ -331,12 +371,20 @@ public class PlayerController_Rewired : MonoBehaviour
 	// ----------------------- damage -----------------------
     public void takeDamage(float _damage)
     {
-        currentHealth -= _damage;
-		healthRegenDelayCountdown = healthRegenDelay;
-
-        if (currentHealth <= 0)
+        float currTime = Time.time;
+        //Invulnerability Frames (if we want to remove, set invulTime to 0 or get rid of if statement below)
+        if (currTime >= lastHitTimeStamp + invulTime)
         {
-			goDown();
+            lastHitTimeStamp = Time.time;
+            currentHealth -= _damage;
+            healthRegenDelayCountdown = healthRegenDelay;
+
+            if (currentHealth <= 0)
+            {
+                goDown();
+            }
+        } else {
+            //Debug.Log("Invulnerable Hit");
         }
     }
 
@@ -357,7 +405,7 @@ public class PlayerController_Rewired : MonoBehaviour
 		if (interacting) {
 			objectInUse.Leave();
 		}
-		g.playerDowned();
+		g.PlayerDowned();
 	}
 
 	public void getUp() {
@@ -474,5 +522,65 @@ public class PlayerController_Rewired : MonoBehaviour
 	public void backToOrigAnim() {
         myAni.SetBool("downed", false);
     }
-	#endregion
+    #endregion
+
+    #region Other Methods
+    public void Eject(float zSign)
+    {
+        takeDamage(Constants.PLAYER_ROAD_DAMAGE);
+
+        float gravity = Physics.gravity.magnitude;
+
+        //Positions of this object and the target on the same plane
+        int rand = Random.Range(1, 5);
+        Vector3 pos;
+        switch (rand)
+        {
+            case 1:
+                pos = GameObject.Find("player1Spawn").transform.position;
+                break;
+
+            case 2:
+                pos = GameObject.Find("player2Spawn").transform.position;
+                break;
+
+            case 3:
+                pos = GameObject.Find("player3Spawn").transform.position;
+                break;
+
+            default:
+                pos = GameObject.Find("player4Spawn").transform.position;
+                break;
+        }
+        Vector3 planePos = new Vector3(transform.position.x, 0, transform.position.z);
+        Vector3 planeTar = new Vector3(pos.x, 0, pos.z);
+
+        //Selected angle in radians
+        float angle = 60f *Mathf.Deg2Rad;
+
+        //Planar distance between objects
+        float distance = Vector3.Distance(planeTar, planePos);
+        //Distance along the y axis between objects
+        float yOffset = transform.position.y - pos.y;
+
+        //Equation to get initial velocity
+        // vi = (1/cos(theta)) * sqrt((g * d^2 /2)/(d*tan(theta)+y))
+        float initialVelocity = (1 / Mathf.Cos(angle)) * Mathf.Sqrt((0.5f * gravity * Mathf.Pow(distance, 2)) / (distance * Mathf.Tan(angle) + yOffset));
+
+
+        //Use positive velocity if vehicle is on left side, negative otherwise
+        Vector3 velocity = new Vector3(0, initialVelocity * Mathf.Sin(angle), zSign * initialVelocity * Mathf.Cos(angle));
+
+        //Rotate our velocity to match the direction between the two objects
+        float angleBetweenObjects = Vector3.Angle(Vector3.forward, (planeTar - planePos) * zSign);
+        Vector3 finalVelocity = Quaternion.AngleAxis(angleBetweenObjects, Vector3.up) * velocity;
+
+        rb.AddForce(finalVelocity * rb.mass, ForceMode.Impulse);
+        jumped = true;
+        exploded = true;
+        animJumped = true;
+        myAni.SetTrigger("jump");
+        myAni.SetBool("land", false);
+    }
+    #endregion
 }

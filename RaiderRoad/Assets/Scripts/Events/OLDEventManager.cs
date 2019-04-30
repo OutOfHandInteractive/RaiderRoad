@@ -60,7 +60,7 @@ public class OLDEventManager : MonoBehaviour {
 
 	// Use difficulty equation to calculate event difficulty rating based on current time
 	private int calculateDifficultyRating() {
-		float timeMinutes = GameManager.GameManagerInstance.getGameTime()/60;
+		float timeMinutes = GameManager.GameManagerInstance.GetGameTime()/60;
 		double calculatedDifficulty;
 
 		System.Random rand = new System.Random();
