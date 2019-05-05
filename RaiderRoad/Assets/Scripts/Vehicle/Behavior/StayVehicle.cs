@@ -21,7 +21,6 @@ public class StayVehicle : MonoBehaviour {
         cObject = enemy;
         attackList = new List<Transform>();
         cSide = side;
-        cEnemy.speed = 6f;
         //Find random attack point
         if (side == VehicleAI.Side.Left)
         {
@@ -83,7 +82,14 @@ public class StayVehicle : MonoBehaviour {
         //Randomly choose to load left or right side
 
         //Go to loading area
-        cEnemy.SetDestination(attackList[loadPoints].position);
+        //cEnemy.SetDestination(attackList[loadPoints].position);
+
+        float time = Mathf.SmoothStep(0, 1, 4 * Time.deltaTime);
+        //Have agent go to different points
+        /*cEnemy.SetDestination(patrols[wanderPoints].position);
+        //Choose random patrol point
+        */
+        cObject.transform.position = Vector3.Lerp(cObject.transform.position, attackList[loadPoints].position, time);
 
 
 
@@ -103,9 +109,9 @@ public class StayVehicle : MonoBehaviour {
         {
             leave = true;
         }
-        else if(Vector3.Distance(cEnemy.transform.position, attackList[loadPoints].position) < 1f)
+        else if(Vector3.Distance(cObject.transform.position, attackList[loadPoints].position) < 1f)
         {
-            cEnemy.transform.position = attackList[loadPoints].transform.position;
+            cObject.transform.position = attackList[loadPoints].transform.position;
             //cEnemy.GetComponent<NavMeshAgent>().isStopped = true;
             Debug.Log("TRUE");
             // At loading area

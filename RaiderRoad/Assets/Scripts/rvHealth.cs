@@ -16,10 +16,14 @@ public class rvHealth : MonoBehaviour {
     // ------------------- Private Variables -------------------
     private float currentHealth;
 
-	// ------------------- Unity Functions ---------------------
-	private void Start() {
+    // Camera Shake
+    private CameraShake vCamShake;
+
+    // ------------------- Unity Functions ---------------------
+    private void Start() {
 		currentHealth = maxHealth;
-	}
+        vCamShake = GameObject.FindGameObjectWithTag("MainVCam").GetComponent<CameraShake>();
+    }
 
 	void OnTriggerEnter(Collider other) {
 		if (other.gameObject.tag.Equals("Obstacle")) {
@@ -52,8 +56,10 @@ public class rvHealth : MonoBehaviour {
 
     public void damagePOI(float damage)
     {
+        vCamShake.Shake(.5f, 10f, .5f);
+
         GameObject[] engines = GameObject.FindGameObjectsWithTag("Engine");
-        Debug.Log("Loop Start");
+        //Debug.Log("Loop Start");
 
         for (int i = 0; i <= 2; i++)
         {

@@ -19,6 +19,8 @@ public class pauseController : MonoBehaviour
     private Player rewiredPlayer3 = null;
     private Player rewiredPlayer4 = null;
 
+    public GameObject myVictoryImage; // temporary solution
+
     private bool isPaused;
     private GameManager g;
 
@@ -43,7 +45,8 @@ public class pauseController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if((rewiredPlayer1.GetButtonDown("Start") || rewiredPlayer2.GetButtonDown("Start") || rewiredPlayer3.GetButtonDown("Start") || rewiredPlayer4.GetButtonDown("Start")) && !g.GetComponent<GameManager>().gameOver) {
+        if((rewiredPlayer1.GetButtonDown("Start") || rewiredPlayer2.GetButtonDown("Start") || rewiredPlayer3.GetButtonDown("Start") ||
+            rewiredPlayer4.GetButtonDown("Start")) && !g.GetComponent<GameManager>().gameOver) {
             pauseToggle();
         }
     }

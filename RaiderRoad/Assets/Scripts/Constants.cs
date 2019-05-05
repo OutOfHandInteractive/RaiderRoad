@@ -4,7 +4,18 @@ using UnityEngine;
 
 public class Constants : MonoBehaviour
 {
+	// --------------------- Enumerations -------------------------
+	public enum vehicleClass { light, medium, heavy };
+
+	// --------------------- Dictionaries -------------------------
+	public static Dictionary<vehicleClass, int> WallDropsByVehicleClass = new Dictionary<vehicleClass, int> {
+		{ vehicleClass.light, 1 },
+		{ vehicleClass.medium, 2 },
+		{ vehicleClass.heavy, 3 }
+	};
+
 	// ------------------- Gameplay Values ------------------------
+
 	// stats
 	public static float VEHICLE_HEAVY_BASE_HEALTH = 300f;
 	public static float VEHICLE_MEDIUM_BASE_HEALTH = 200f;
@@ -20,8 +31,8 @@ public class Constants : MonoBehaviour
 	// difficulty ratings
 	public static int SMALL_OBSTACLE_BASE_THREAT = 1;
 	public static int LIGHT_VEHICLE_BASE_THREAT = 1;
-	public static int MEDIUM_VEHICLE_BASE_THREAT = 6;
-    public static int HEAVY_VEHICLE_BASE_THREAT = 12;
+	public static int MEDIUM_VEHICLE_BASE_THREAT = 4;
+    public static int HEAVY_VEHICLE_BASE_THREAT = 9;
 
 	// misc
 	public static float PLAYER_ROAD_DAMAGE = 50f;

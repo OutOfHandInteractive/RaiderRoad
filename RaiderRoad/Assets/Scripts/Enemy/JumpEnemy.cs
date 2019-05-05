@@ -6,8 +6,8 @@ public class JumpEnemy : EnemyAI
 {
     protected GameObject cObject;
     protected Rigidbody cRb;
-    private float initialAngle;
-    private bool hasJumped = false;
+    protected float initialAngle;
+    protected bool hasJumped = false;
     protected VehicleAI.Side cSide;
     protected int action;
     protected NavMeshAgent agent;
@@ -62,6 +62,6 @@ public class JumpEnemy : EnemyAI
         //animation
         cObject.GetComponent<StatefulEnemyAI>().getAnimator().SetTrigger("Jump");
         cObject.GetComponent<StatefulEnemyAI>().getAnimator().SetBool("Grounded", false);
-        hasJumped = true;
+        //hasJumped = true;
     }
 }

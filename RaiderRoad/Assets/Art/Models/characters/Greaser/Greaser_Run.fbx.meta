@@ -393,7 +393,7 @@ ModelImporter:
     blendShapeNormalImportMode: 1
     normalSmoothingSource: 0
   importAnimation: 1
-  copyAvatar: 0
+  copyAvatar: 1
   humanDescription:
     serializedVersion: 2
     human:
@@ -525,7 +525,7 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
-    - boneName: Greaser_Rig_2:Greaser_LeftFootToebase
+    - boneName: Greaser_Rig_2:Greaser_LeftFoot1
       humanName: LeftToes
       limit:
         min: {x: 0, y: 0, z: 0}
@@ -533,7 +533,7 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
-    - boneName: Greaser_Rig_2:Greaser_RightFootToebase
+    - boneName: Greaser_Rig_2:Greaser_RightFoot1
       humanName: RightToes
       limit:
         min: {x: 0, y: 0, z: 0}
@@ -734,313 +734,22 @@ ModelImporter:
         length: 0
         modified: 0
     skeleton:
-    - name: Greaser_Run(Clone)
+    - name: Greaser(Clone)
       parentName: 
       position: {x: 0, y: 0, z: 0}
       rotation: {x: 0, y: 0, z: 0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-    - name: Greaser_Rig_2:group3
-      parentName: Greaser_Run(Clone)
-      position: {x: -0, y: 0, z: 0}
-      rotation: {x: -0, y: -0.7071068, z: 0, w: 0.7071068}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Greaser_Rig_2:Root_c
-      parentName: Greaser_Rig_2:group3
-      position: {x: -0.13382529, y: 0.57390153, z: 0}
-      rotation: {x: 0, y: -0, z: -0, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Greaser_Rig_2:nurbsCircle1
-      parentName: Greaser_Rig_2:Root_c
-      position: {x: -3.5527136e-17, y: -0.014497591, z: 0}
-      rotation: {x: 0, y: -0, z: -0, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Greaser_Rig_2:Greaser_HipsTranslation
-      parentName: Greaser_Rig_2:group3
-      position: {x: -0.13382529, y: 0.55940384, z: -8.194435e-18}
-      rotation: {x: 0, y: -0, z: -0, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Greaser_Rig_2:Greaser_Hips
-      parentName: Greaser_Rig_2:Greaser_HipsTranslation
-      position: {x: -0, y: 0, z: 0}
-      rotation: {x: 0, y: -0, z: -0, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Greaser_Rig_2:Greaser_LeftUpLeg
-      parentName: Greaser_Rig_2:Greaser_Hips
-      position: {x: -0, y: -0.057912648, z: 0.14010614}
-      rotation: {x: -0.0000011026863, y: -0.000001938755, z: -0.00007039588, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Greaser_Rig_2:Greaser_LeftLeg
-      parentName: Greaser_Rig_2:Greaser_LeftUpLeg
-      position: {x: 0.011545323, y: -0.20314877, z: 0.005373265}
-      rotation: {x: 0.0000011047541, y: -0.00006257705, z: 0.000070172915, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Greaser_Rig_2:Greaser_LeftFoot
-      parentName: Greaser_Rig_2:Greaser_LeftLeg
-      position: {x: -0.040036343, y: -0.193926, z: 0.010048941}
-      rotation: {x: -0.000037306272, y: -8.3210565e-12, z: 0.00000022303306, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Greaser_Rig_2:Greaser_LeftFoot1
-      parentName: Greaser_Rig_2:Greaser_LeftFoot
-      position: {x: 0.10978266, y: -0.034590874, z: -0.00056017877}
-      rotation: {x: 0, y: -0, z: -0, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Greaser_Rig_2:Greaser_LeftFootToebase
-      parentName: Greaser_Rig_2:Greaser_LeftFoot1
-      position: {x: 0.19370237, y: 0.0038318117, z: 0.00056017877}
-      rotation: {x: 0, y: -0, z: -0, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Greaser_Rig_2:Greaser_RightUpLeg
-      parentName: Greaser_Rig_2:Greaser_Hips
-      position: {x: 0.00000009985054, y: -0.057911694, z: -0.1401062}
-      rotation: {x: 0.000000084293696, y: -0.0000000913492, z: 1, w: 0.0000041278995}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Greaser_Rig_2:Greaser_RightLeg
-      parentName: Greaser_Rig_2:Greaser_RightUpLeg
-      position: {x: -0.011545219, y: 0.2029968, z: -0.005373319}
-      rotation: {x: 0.000075589065, y: -0.00000006580228, z: 1, w: -0.0000034621044}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Greaser_Rig_2:Greaser_RightFoot
-      parentName: Greaser_Rig_2:Greaser_RightLeg
-      position: {x: -0.040036403, y: -0.1939257, z: -0.010048951}
-      rotation: {x: -5.6115865e-14, y: 0.000000026208683, z: 1, w: -0.00000066579025}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Greaser_Rig_2:Greaser_RightFoot1
-      parentName: Greaser_Rig_2:Greaser_RightFoot
-      position: {x: -0.1097826, y: 0.03459083, z: 0.0005602224}
-      rotation: {x: 0, y: -0, z: -0, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Greaser_Rig_2:Greaser_RightFootToebase
-      parentName: Greaser_Rig_2:Greaser_RightFoot1
-      position: {x: -0.19370249, y: -0.0038317922, z: -0.00056010985}
-      rotation: {x: 0, y: -0, z: -0, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Greaser_Rig_2:Greaser_Spine
-      parentName: Greaser_Rig_2:Greaser_HipsTranslation
-      position: {x: -0, y: 0, z: 0}
-      rotation: {x: 5.299605e-10, y: -0, z: -0, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Greaser_Rig_2:Greaser_Spine1
-      parentName: Greaser_Rig_2:Greaser_Spine
-      position: {x: 0.09618815, y: 0.11033694, z: 1.1179161e-33}
-      rotation: {x: -1.4495403e-25, y: -1.2325952e-32, z: -0, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Greaser_Rig_2:Greaser_Spine2
-      parentName: Greaser_Rig_2:Greaser_Spine1
-      position: {x: 0.0018489959, y: 0.1405237, z: -1.1137878e-17}
-      rotation: {x: -1.4495403e-25, y: -0.00006276773, z: -9.0984346e-30, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Greaser_Rig_2:Greaser_Spine3
-      parentName: Greaser_Rig_2:Greaser_Spine2
-      position: {x: -0.0768624, y: 0.12496596, z: -1.8464236e-17}
-      rotation: {x: -1.4495403e-25, y: -1.2325952e-32, z: -0, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Greaser_Rig_2:Greaser_Spine4
-      parentName: Greaser_Rig_2:Greaser_Spine3
-      position: {x: -0.08224386, y: 0.040975314, z: -1.6725931e-17}
-      rotation: {x: -0.017904345, y: -0.76784414, z: 0.014928246, w: 0.6402124}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Greaser_Rig_2:joint1
-      parentName: Greaser_Rig_2:Greaser_Spine4
-      position: {x: 0.0024066563, y: 0.049483716, z: 0.0005339707}
-      rotation: {x: 0.01790434, y: 0.76784414, z: -0.014928264, w: 0.6402124}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Greaser_Rig_2:Greaser_LeftArm
-      parentName: Greaser_Rig_2:Greaser_Spine4
-      position: {x: 0.23807485, y: -0.016641276, z: -0.08966835}
-      rotation: {x: 0.9956463, y: -0.023216683, z: -0.09024993, w: -0.0021044665}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Greaser_Rig_2:Greaser_LeftForearm
-      parentName: Greaser_Rig_2:Greaser_LeftArm
-      position: {x: 0.207029, y: 0.007019544, z: -0.007248753}
-      rotation: {x: -0.000000038242476, y: 0.0000005708084, z: -0.0000005317561, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Greaser_Rig_2:Greaser_LeftHand
-      parentName: Greaser_Rig_2:Greaser_LeftForearm
-      position: {x: 0.18343168, y: -0.0050109117, z: 3.1974422e-16}
-      rotation: {x: 1.2327993e-23, y: 0.00000007497147, z: 0.000000008381902, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Greaser_Rig_2:Greaser_LeftHandPinky1
-      parentName: Greaser_Rig_2:Greaser_LeftHand
-      position: {x: 0.08092745, y: 9.947598e-16, z: -0.061065458}
-      rotation: {x: -0.000008420729, y: 0.2806695, z: 0.0000024624198, w: 0.9598045}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Greaser_Rig_2:Greaser_LeftHandPinky2
-      parentName: Greaser_Rig_2:Greaser_LeftHandPinky1
-      position: {x: 0.0726687, y: 0, z: -0.0000011346028}
-      rotation: {x: 0.0000012563734, y: 0.03633017, z: 0.000034559263, w: 0.9993399}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Greaser_Rig_2:Greaser_LeftHandPinky3
-      parentName: Greaser_Rig_2:Greaser_LeftHandPinky2
-      position: {x: 0.077311434, y: 2.842171e-16, z: 0.0000014875113}
-      rotation: {x: 1.328994e-16, y: -1.110223e-16, z: -1.7788074e-16, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Greaser_Rig_2:Greaser_LeftHandMiddle1
-      parentName: Greaser_Rig_2:Greaser_LeftHand
-      position: {x: 0.111538514, y: 7.105427e-16, z: -0.0133703565}
-      rotation: {x: 1.7899038e-16, y: 0.15004404, z: 1.4880217e-16, w: 0.98867935}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Greaser_Rig_2:Greaser_LeftHandMiddle2
-      parentName: Greaser_Rig_2:Greaser_LeftHandMiddle1
-      position: {x: 0.0767798, y: 0, z: 0.00000002543382}
-      rotation: {x: -0.000000076052274, y: 0.0058849785, z: -0.000013133511, w: 0.9999827}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Greaser_Rig_2:Greaser_LeftHandMiddle3
-      parentName: Greaser_Rig_2:Greaser_LeftHandMiddle2
-      position: {x: 0.076315045, y: -1.4210854e-16, z: -0.00000023882376}
-      rotation: {x: -3.3087225e-24, y: 2.7755576e-17, z: 1.6543612e-24, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Greaser_Rig_2:Greaser_LeftHandIndex1
-      parentName: Greaser_Rig_2:Greaser_LeftHand
-      position: {x: 0.12079223, y: 2.842171e-16, z: 0.04571512}
-      rotation: {x: 3.0585706e-16, y: -0.019037262, z: 5.037015e-17, w: 0.9998188}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Greaser_Rig_2:Greaser_LeftHandIndex2
-      parentName: Greaser_Rig_2:Greaser_LeftHandIndex1
-      position: {x: 0.07480032, y: 2.842171e-16, z: -0.00000002900753}
-      rotation: {x: -0.0000012318617, y: -0.0312908, z: 0.000039586987, w: 0.99951035}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Greaser_Rig_2:Greaser_LeftHandIndex3
-      parentName: Greaser_Rig_2:Greaser_LeftHandIndex2
-      position: {x: 0.07083446, y: 0, z: -0.00000016847603}
-      rotation: {x: 3.3087225e-24, y: -0, z: -2.0679515e-25, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Greaser_Rig_2:Greaser_LeftHandThumb1
-      parentName: Greaser_Rig_2:Greaser_LeftHand
-      position: {x: 0.004044696, y: 5.684342e-16, z: 0.07917302}
-      rotation: {x: -1.2458633e-15, y: -0.43255034, z: -2.532845e-16, w: 0.90160984}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Greaser_Rig_2:Greaser_LeftHandThumb2
-      parentName: Greaser_Rig_2:Greaser_LeftHandThumb1
-      position: {x: 0.07848965, y: -2.842171e-16, z: 0.00000043428813}
-      rotation: {x: 8.83172e-16, y: 0.022914927, z: -1.7544327e-16, w: 0.99973744}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Greaser_Rig_2:Greaser_LeftHandThumb3
-      parentName: Greaser_Rig_2:Greaser_LeftHandThumb2
-      position: {x: 0.06355294, y: 0, z: -0.00000073438906}
-      rotation: {x: 9.926167e-24, y: 5.551115e-17, z: 3.3087225e-24, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Greaser_Rig_2:Greaser_RightArm
-      parentName: Greaser_Rig_2:Greaser_Spine4
-      position: {x: -0.25486532, y: 0.0063589285, z: 0.0005339707}
-      rotation: {x: 0.0021044738, y: 0.09024856, z: -0.023215596, w: 0.9956465}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Greaser_Rig_2:Greaser_RightForearm
-      parentName: Greaser_Rig_2:Greaser_RightArm
-      position: {x: -0.20702828, y: -0.007017486, z: 0.0072489735}
-      rotation: {x: -0.00000006617484, y: 0.00000069860977, z: -0.0000005618717, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Greaser_Rig_2:Greaser_RightHand
-      parentName: Greaser_Rig_2:Greaser_RightForearm
-      position: {x: -0.18343084, y: 0.005011041, z: -1.4210854e-16}
-      rotation: {x: 0.000000030289804, y: 0.00000003445893, z: -0.0000000074505797,
-        w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Greaser_Rig_2:Greaser_RightHandPinky1
-      parentName: Greaser_Rig_2:Greaser_RightHand
-      position: {x: -0.080928504, y: 9.947598e-16, z: 0.061065454}
-      rotation: {x: 1.3379793e-16, y: 0.2806695, z: -4.5071804e-16, w: 0.9598045}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Greaser_Rig_2:Greaser_RightHandPinky2
-      parentName: Greaser_Rig_2:Greaser_RightHandPinky1
-      position: {x: -0.07267013, y: 2.842171e-16, z: 3.907985e-16}
-      rotation: {x: 0.000002205206, y: 0.03633017, z: 0.00006065896, w: 0.9993399}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Greaser_Rig_2:Greaser_RightHandPinky3
-      parentName: Greaser_Rig_2:Greaser_RightHandPinky2
-      position: {x: -0.07730931, y: -1.4210854e-16, z: 6.661338e-17}
-      rotation: {x: -5.51013e-40, y: -1.110223e-16, z: -4.9630837e-24, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Greaser_Rig_2:Greaser_RightHandMiddle1
-      parentName: Greaser_Rig_2:Greaser_RightHand
-      position: {x: -0.111538954, y: 5.684342e-16, z: 0.013370103}
-      rotation: {x: 2.0857443e-16, y: 0.15004404, z: 6.6502674e-17, w: 0.98867935}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Greaser_Rig_2:Greaser_RightHandMiddle2
-      parentName: Greaser_Rig_2:Greaser_RightHandMiddle1
-      position: {x: -0.07677982, y: 2.842171e-16, z: 3.5527136e-17}
-      rotation: {x: -0.000000056174034, y: 0.0058377907, z: -0.000009622315, w: 0.99998295}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Greaser_Rig_2:Greaser_RightHandMiddle3
-      parentName: Greaser_Rig_2:Greaser_RightHandMiddle2
-      position: {x: -0.07631641, y: -1.4210854e-16, z: 2.4424907e-16}
-      rotation: {x: -1.3669967e-16, y: 2.7755576e-17, z: 4.2252624e-16, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Greaser_Rig_2:Greaser_RightHandIndex1
-      parentName: Greaser_Rig_2:Greaser_RightHand
-      position: {x: -0.120793276, y: 9.947598e-16, z: -0.04571518}
-      rotation: {x: 3.4591965e-16, y: -0.019037262, z: -5.0723953e-17, w: 0.9998188}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Greaser_Rig_2:Greaser_RightHandIndex2
-      parentName: Greaser_Rig_2:Greaser_RightHandIndex1
-      position: {x: -0.07480066, y: 7.105427e-16, z: 1.2434498e-16}
-      rotation: {x: -0.00000043763728, y: -0.031290784, z: 0.000013979273, w: 0.99951035}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Greaser_Rig_2:Greaser_RightHandIndex3
-      parentName: Greaser_Rig_2:Greaser_RightHandIndex2
-      position: {x: -0.07083384, y: 0, z: 3.7747583e-17}
-      rotation: {x: -2.87e-42, y: -6.938894e-18, z: -4.135903e-25, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Greaser_Rig_2:Greaser_RightHandThumb1
-      parentName: Greaser_Rig_2:Greaser_RightHand
-      position: {x: -0.0040464457, y: 2.842171e-16, z: -0.07917311}
-      rotation: {x: -5.0551927e-16, y: -0.43255034, z: 1.3392782e-16, w: 0.90160984}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Greaser_Rig_2:Greaser_RightHandThumb2
-      parentName: Greaser_Rig_2:Greaser_RightHandThumb1
-      position: {x: -0.07849002, y: -1.4210854e-16, z: -2.1316282e-16}
-      rotation: {x: 1.2438326e-15, y: 0.022914927, z: 5.180737e-16, w: 0.99973744}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Greaser_Rig_2:Greaser_RightHandThumb3
-      parentName: Greaser_Rig_2:Greaser_RightHandThumb2
-      position: {x: -0.06355217, y: 0, z: 6.661338e-17}
-      rotation: {x: 6.617445e-24, y: -0, z: -0, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Greaser_Rig_2:Greaser_Neck
-      parentName: Greaser_Rig_2:Greaser_Spine4
-      position: {x: 0.0024066563, y: 0.049483716, z: 0.0005339707}
-      rotation: {x: 0.017904337, y: 0.76784414, z: -0.014928262, w: 0.6402124}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Greaser_Rig_2:Greaser_Head
-      parentName: Greaser_Rig_2:Greaser_Neck
-      position: {x: 1.8580693e-14, y: 0.5406528, z: 1.2149206e-14}
-      rotation: {x: -1.4495403e-25, y: -1.2325952e-32, z: -0, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Greaser_Rig_2:reye_j
-      parentName: Greaser_Rig_2:Greaser_Neck
-      position: {x: 0.2618796, y: 0.271935, z: -0.10670407}
-      rotation: {x: 0, y: -0, z: -0, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Greaser_Rig_2:leye_j
-      parentName: Greaser_Rig_2:Greaser_Neck
-      position: {x: 0.2618796, y: 0.271935, z: 0.10668}
-      rotation: {x: 0, y: -0, z: -0, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Greaser_Rig_2:nose_j
-      parentName: Greaser_Rig_2:Greaser_Neck
-      position: {x: 0.28744158, y: 0.21932128, z: -2.1939832e-16}
-      rotation: {x: 0, y: -0, z: -0, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Greaser_Rig_2:leyebrow_j
-      parentName: Greaser_Rig_2:Greaser_Neck
-      position: {x: 0.2618796, y: 0.3397691, z: 0.10668}
-      rotation: {x: 0, y: -0, z: -0, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Greaser_Rig_2:reyebrow_j
-      parentName: Greaser_Rig_2:Greaser_Neck
-      position: {x: 0.2618796, y: 0.3397691, z: -0.10670407}
-      rotation: {x: 0, y: -0, z: -0, w: 1}
-      scale: {x: 1, y: 1, z: 1}
     - name: Greaser_Rig_2:Greaser
-      parentName: Greaser_Run(Clone)
+      parentName: Greaser(Clone)
       position: {x: -0, y: 0, z: 0}
       rotation: {x: -0, y: -0.7071068, z: 0, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Greaser_Rig_2:body
+      parentName: Greaser_Rig_2:Greaser
+      position: {x: -0, y: 0.010920386, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: Greaser_Rig_2:eyebrows
-      parentName: Greaser_Rig_2:Greaser
-      position: {x: -0, y: -0.09379845, z: 0}
-      rotation: {x: 0, y: -0, z: -0, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Greaser_Rig_2:nose
       parentName: Greaser_Rig_2:Greaser
       position: {x: -0, y: -0.09379845, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
@@ -1055,9 +764,9 @@ ModelImporter:
       position: {x: -0, y: -0.09379845, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-    - name: Greaser_Rig_2:body
+    - name: Greaser_Rig_2:nose
       parentName: Greaser_Rig_2:Greaser
-      position: {x: -0, y: 0.010920386, z: 0}
+      position: {x: -0, y: -0.09379845, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: hair
@@ -1065,354 +774,294 @@ ModelImporter:
       position: {x: -0, y: -0.09379845, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: -1}
-    - name: Character_Ctrl:Reference
-      parentName: Greaser_Run(Clone)
+    - name: Greaser_Rig_2:group3
+      parentName: Greaser(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0, y: -0.7071068, z: 0, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Greaser_Rig_2:Greaser_HipsTranslation
+      parentName: Greaser_Rig_2:group3
+      position: {x: -0.00000005960465, y: 0.49850258, z: -0.000000014901154}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Greaser_Rig_2:Greaser_Hips
+      parentName: Greaser_Rig_2:Greaser_HipsTranslation
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-    - name: Character_Ctrl:Hips
-      parentName: Character_Ctrl:Reference
-      position: {x: -8.194435e-18, y: 0.5594039, z: -0.13382529}
+    - name: Greaser_Rig_2:Greaser_LeftUpLeg
+      parentName: Greaser_Rig_2:Greaser_Hips
+      position: {x: -0, y: -0.057912648, z: 0.14010614}
+      rotation: {x: -8.758018e-18, y: -1.2205909e-16, z: 4.74072e-18, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Greaser_Rig_2:Greaser_LeftLeg
+      parentName: Greaser_Rig_2:Greaser_LeftUpLeg
+      position: {x: 0.011545323, y: -0.20314877, z: 0.005373265}
+      rotation: {x: -6.0235894e-17, y: -1.9958459e-17, z: -6.251494e-16, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Greaser_Rig_2:Greaser_LeftFoot
+      parentName: Greaser_Rig_2:Greaser_LeftLeg
+      position: {x: -0.040036343, y: -0.193926, z: 0.010048941}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-    - name: Character_Ctrl:LeftUpLeg
-      parentName: Character_Ctrl:Hips
-      position: {x: -0.14010614, y: -0.057912648, z: 0}
-      rotation: {x: 2.7714918e-18, y: 1.0842022e-19, z: 3.469447e-18, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Character_Ctrl:LeftLeg
-      parentName: Character_Ctrl:LeftUpLeg
-      position: {x: -0.005373265, y: -0.20314877, z: 0.011545323}
-      rotation: {x: 7.047314e-18, y: 8.6736174e-19, z: 3.469447e-18, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Character_Ctrl:LeftFoot
-      parentName: Character_Ctrl:LeftLeg
-      position: {x: -0.010048941, y: -0.193926, z: -0.040036343}
+    - name: Greaser_Rig_2:Greaser_LeftFoot1
+      parentName: Greaser_Rig_2:Greaser_LeftFoot
+      position: {x: 0.10978266, y: -0.034590874, z: -0.00056017877}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-    - name: Character_Ctrl:RightUpLeg
-      parentName: Character_Ctrl:Hips
-      position: {x: 0.1401062, y: -0.057911694, z: 0.00000009985054}
-      rotation: {x: -2.364916e-18, y: 1.0842022e-19, z: 3.469447e-18, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Character_Ctrl:RightLeg
-      parentName: Character_Ctrl:RightUpLeg
-      position: {x: 0.0053733187, y: -0.2029968, z: 0.011545219}
-      rotation: {x: 1.496199e-17, y: 8.6736174e-19, z: -1.2977458e-35, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Character_Ctrl:RightFoot
-      parentName: Character_Ctrl:RightLeg
-      position: {x: 0.010048952, y: -0.1939257, z: -0.040036403}
+    - name: Greaser_Rig_2:Greaser_LeftFootToebase
+      parentName: Greaser_Rig_2:Greaser_LeftFoot1
+      position: {x: 0.19370237, y: 0.0038318117, z: 0.00056017877}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-    - name: Character_Ctrl:Spine
-      parentName: Character_Ctrl:Hips
+    - name: Greaser_Rig_2:Greaser_RightUpLeg
+      parentName: Greaser_Rig_2:Greaser_Hips
+      position: {x: 0.00000009985054, y: -0.057911694, z: -0.1401062}
+      rotation: {x: -0.000000012862012, y: 9.232379e-10, z: 1, w: 4.997483e-10}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Greaser_Rig_2:Greaser_RightLeg
+      parentName: Greaser_Rig_2:Greaser_RightUpLeg
+      position: {x: -0.011545219, y: 0.2029968, z: -0.005373319}
+      rotation: {x: -1.49779e-17, y: 4.5134663e-17, z: 1, w: 5.0532154e-16}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Greaser_Rig_2:Greaser_RightFoot
+      parentName: Greaser_Rig_2:Greaser_RightLeg
+      position: {x: -0.040036403, y: -0.1939257, z: -0.010048951}
+      rotation: {x: 0.000000012862012, y: 2.3627132e-24, z: 1, w: -6.123234e-17}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Greaser_Rig_2:Greaser_RightFoot1
+      parentName: Greaser_Rig_2:Greaser_RightFoot
+      position: {x: -0.1097826, y: 0.03459083, z: 0.0005602224}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Greaser_Rig_2:Greaser_RightFootToebase
+      parentName: Greaser_Rig_2:Greaser_RightFoot1
+      position: {x: -0.19370249, y: -0.0038317922, z: -0.00056010985}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Greaser_Rig_2:Greaser_Spine
+      parentName: Greaser_Rig_2:Greaser_HipsTranslation
       position: {x: -0, y: 0, z: 0}
-      rotation: {x: 2.7755576e-17, y: 3.081488e-33, z: -0, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Character_Ctrl:Spine1
-      parentName: Character_Ctrl:Spine
-      position: {x: 5.8898254e-18, y: 0.11033694, z: 0.09618815}
-      rotation: {x: 4.8983665e-33, y: -0, z: -0, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Character_Ctrl:Spine2
-      parentName: Character_Ctrl:Spine1
-      position: {x: 1.1251096e-17, y: 0.1405237, z: 0.0018489959}
-      rotation: {x: -5.2436368e-33, y: 0, z: -0, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Character_Ctrl:Spine3
-      parentName: Character_Ctrl:Spine2
-      position: {x: 1.3757771e-17, y: 0.12496596, z: -0.0768624}
-      rotation: {x: -8.5667075e-33, y: -6.162976e-33, z: -2.4651903e-32, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Character_Ctrl:Spine4
-      parentName: Character_Ctrl:Spine3
-      position: {x: 1.1689948e-17, y: 0.040975314, z: -0.08224386}
-      rotation: {x: -3.5842786e-32, y: 0, z: -0, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Character_Ctrl:LeftArm
-      parentName: Character_Ctrl:Spine4
-      position: {x: -0.25082633, y: -0.0055265203, z: 0.045305576}
-      rotation: {x: 0, y: -1.0774259e-18, z: -0, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Character_Ctrl:LeftForeArm
-      parentName: Character_Ctrl:LeftArm
-      position: {x: -0.207029, y: -0.007019544, z: -0.007248753}
-      rotation: {x: 0, y: 9.822243e-33, z: -0, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Character_Ctrl:LeftHand
-      parentName: Character_Ctrl:LeftForeArm
-      position: {x: -0.18343168, y: 0.0050109117, z: 3.1974422e-16}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-    - name: Character_Ctrl:LeftHandThumb1
-      parentName: Character_Ctrl:LeftHand
-      position: {x: -0.004044696, y: -5.684342e-16, z: 0.07917302}
-      rotation: {x: -1.9721523e-31, y: 3.1635047e-30, z: 0, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Character_Ctrl:LeftHandThumb2
-      parentName: Character_Ctrl:LeftHandThumb1
-      position: {x: -0.04911852, y: 2.842171e-16, z: 0.061220877}
-      rotation: {x: -9.8607613e-32, y: 1.2298821e-30, z: 0, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Character_Ctrl:LeftHandThumb3
-      parentName: Character_Ctrl:LeftHandThumb2
-      position: {x: -0.042001437, y: 1.4210854e-16, z: 0.04769544}
-      rotation: {x: -9.8607613e-32, y: 1.2298821e-30, z: 0, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Character_Ctrl:LeftHandIndex1
-      parentName: Character_Ctrl:LeftHand
-      position: {x: -0.12079223, y: -4.2632563e-16, z: 0.04571512}
-      rotation: {x: -4.314083e-32, y: 3.469447e-18, z: -5.0767513e-31, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Character_Ctrl:LeftHandIndex2
-      parentName: Character_Ctrl:LeftHandIndex1
-      position: {x: -0.0747461, y: -4.2632563e-16, z: 0.0028474417}
-      rotation: {x: 3.9443045e-31, y: 0, z: 1.9721523e-30, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Character_Ctrl:LeftHandIndex3
-      parentName: Character_Ctrl:LeftHandIndex2
-      position: {x: -0.070475854, y: -2.5579537e-15, z: 0.007118604}
-      rotation: {x: 3.9443045e-31, y: 0, z: 1.9721523e-30, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Character_Ctrl:LeftHandMiddle1
-      parentName: Character_Ctrl:LeftHand
-      position: {x: -0.111538514, y: -9.947598e-16, z: -0.0133703565}
-      rotation: {x: -9.8607613e-32, y: -0, z: 7.395571e-32, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Character_Ctrl:LeftHandMiddle2
-      parentName: Character_Ctrl:LeftHandMiddle1
-      position: {x: -0.07332268, y: -1.4210854e-16, z: -0.022779835}
-      rotation: {x: 1.2325952e-32, y: -2.7755576e-17, z: 0, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Character_Ctrl:LeftHandMiddle3
-      parentName: Character_Ctrl:LeftHandMiddle2
-      position: {x: -0.072609454, y: 0, z: -0.023491545}
-      rotation: {x: 1.2325952e-32, y: -2.7755576e-17, z: 0, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Character_Ctrl:LeftHandPinky1
-      parentName: Character_Ctrl:LeftHand
-      position: {x: -0.08092745, y: -1.1368684e-15, z: -0.061065458}
-      rotation: {x: 9.8607613e-32, y: -2.7755576e-17, z: 1.4791142e-31, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Character_Ctrl:LeftHandPinky2
-      parentName: Character_Ctrl:LeftHandPinky1
-      position: {x: -0.06121908, y: -1.4210854e-16, z: -0.039153084}
-      rotation: {x: 1.9721523e-31, y: -0, z: -0, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Character_Ctrl:LeftHandPinky3
-      parentName: Character_Ctrl:LeftHandPinky2
-      position: {x: -0.061935358, y: -4.2632563e-16, z: -0.046271686}
-      rotation: {x: 1.9721523e-31, y: -0, z: -0, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Character_Ctrl:RightArm
-      parentName: Character_Ctrl:Spine4
-      position: {x: 0.25082642, y: -0.0055272556, z: 0.04530567}
-      rotation: {x: 1.0842022e-19, y: 2.2056738e-18, z: 6.938894e-18, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Character_Ctrl:RightForeArm
-      parentName: Character_Ctrl:RightArm
-      position: {x: 0.20702828, y: -0.007017486, z: -0.0072489735}
-      rotation: {x: 0, y: -2.696302e-33, z: -0, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Character_Ctrl:RightHand
-      parentName: Character_Ctrl:RightForeArm
-      position: {x: 0.18343084, y: 0.005011041, z: 1.7763568e-17}
+    - name: Greaser_Rig_2:Greaser_Spine1
+      parentName: Greaser_Rig_2:Greaser_Spine
+      position: {x: 0.09618815, y: 0.11033694, z: 1.1179161e-33}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-    - name: Character_Ctrl:RightHandThumb1
-      parentName: Character_Ctrl:RightHand
-      position: {x: 0.0040464457, y: 2.842171e-16, z: 0.07917311}
-      rotation: {x: 9.8607613e-32, y: -4.4507066e-31, z: 0, w: 1}
+    - name: Greaser_Rig_2:Greaser_Spine2
+      parentName: Greaser_Rig_2:Greaser_Spine1
+      position: {x: 0.0018489959, y: 0.1405237, z: -1.1137878e-17}
+      rotation: {x: 0.000000014901159, y: -0, z: -0.1390447, w: 0.9902861}
       scale: {x: 1, y: 1, z: 1}
-    - name: Character_Ctrl:RightHandThumb2
-      parentName: Character_Ctrl:RightHandThumb1
-      position: {x: 0.04911909, y: -1.4210854e-16, z: 0.061220895}
-      rotation: {x: -3.9443045e-31, y: -4.153753e-30, z: -1.9721523e-31, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Character_Ctrl:RightHandThumb3
-      parentName: Character_Ctrl:RightHandThumb2
-      position: {x: 0.042000383, y: -2.842171e-16, z: 0.04769535}
-      rotation: {x: -3.9443045e-31, y: -4.153753e-30, z: -1.9721523e-31, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Character_Ctrl:RightHandIndex1
-      parentName: Character_Ctrl:RightHand
-      position: {x: 0.120793276, y: 1.1368684e-15, z: 0.04571518}
-      rotation: {x: 2.4651903e-32, y: -0, z: -2.8503763e-32, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Character_Ctrl:RightHandIndex2
-      parentName: Character_Ctrl:RightHandIndex1
-      position: {x: 0.074746445, y: 7.105427e-16, z: 0.0028474836}
-      rotation: {x: 2.4651903e-32, y: 0, z: 5.546678e-32, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Character_Ctrl:RightHandIndex3
-      parentName: Character_Ctrl:RightHandIndex2
-      position: {x: 0.07047522, y: -2.842171e-16, z: 0.007118709}
-      rotation: {x: 2.4651903e-32, y: 0, z: 5.546678e-32, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Character_Ctrl:RightHandMiddle1
-      parentName: Character_Ctrl:RightHand
-      position: {x: 0.111538954, y: 5.684342e-16, z: -0.013370103}
-      rotation: {x: -9.8607613e-32, y: 0, z: -7.395571e-32, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Character_Ctrl:RightHandMiddle2
-      parentName: Character_Ctrl:RightHandMiddle1
-      position: {x: 0.0733227, y: 2.842171e-16, z: -0.022779869}
-      rotation: {x: 0, y: 0, z: 4.9303807e-32, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Character_Ctrl:RightHandMiddle3
-      parentName: Character_Ctrl:RightHandMiddle2
-      position: {x: 0.07261083, y: -4.2632563e-16, z: -0.02349174}
-      rotation: {x: 0, y: 0, z: 4.9303807e-32, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Character_Ctrl:RightHandPinky1
-      parentName: Character_Ctrl:RightHand
-      position: {x: 0.080928504, y: 9.947598e-16, z: -0.061065454}
-      rotation: {x: 0, y: -0, z: -1.9721523e-31, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Character_Ctrl:RightHandPinky2
-      parentName: Character_Ctrl:RightHandPinky1
-      position: {x: 0.061220895, y: 2.842171e-16, z: -0.039152898}
+    - name: Greaser_Rig_2:Greaser_Spine3
+      parentName: Greaser_Rig_2:Greaser_Spine2
+      position: {x: -0.0768624, y: 0.12496596, z: -1.8464236e-17}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-    - name: Character_Ctrl:RightHandPinky3
-      parentName: Character_Ctrl:RightHandPinky2
-      position: {x: 0.06193277, y: -4.2632563e-16, z: -0.04627161}
+    - name: Greaser_Rig_2:Greaser_Spine4
+      parentName: Greaser_Rig_2:Greaser_Spine3
+      position: {x: -0.08224386, y: 0.040975314, z: -1.6725931e-17}
+      rotation: {x: -0.01790434, y: -0.76784414, z: 0.014928264, w: 0.6402124}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Greaser_Rig_2:Greaser_LeftArm
+      parentName: Greaser_Rig_2:Greaser_Spine4
+      position: {x: 0.23807485, y: -0.016641276, z: -0.08966835}
+      rotation: {x: 0.99564636, y: -0.023216156, z: -0.09024929, w: -0.0021044035}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Greaser_Rig_2:Greaser_LeftForearm
+      parentName: Greaser_Rig_2:Greaser_LeftArm
+      position: {x: 0.207029, y: 0.007019544, z: -0.007248753}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-    - name: Character_Ctrl:Neck
-      parentName: Character_Ctrl:Spine4
-      position: {x: -6.5572546e-17, y: 0.04954211, z: -0.0005428179}
-      rotation: {x: -6.8169024e-31, y: 0, z: -0, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Character_Ctrl:Head
-      parentName: Character_Ctrl:Neck
-      position: {x: -1.23100814e-14, y: 0.5406528, z: 1.847411e-14}
+    - name: Greaser_Rig_2:Greaser_LeftHand
+      parentName: Greaser_Rig_2:Greaser_LeftForearm
+      position: {x: 0.18343168, y: -0.0050109117, z: 3.1974422e-16}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-    - name: Character_Ctrl:HipsTranslation
-      parentName: Character_Ctrl:Reference
-      position: {x: -8.194435e-18, y: 0.5594039, z: -0.13382529}
+    - name: Greaser_Rig_2:Greaser_LeftHandIndex1
+      parentName: Greaser_Rig_2:Greaser_LeftHand
+      position: {x: 0.12079223, y: 2.842171e-16, z: 0.04571512}
+      rotation: {x: 0, y: -0.019037263, z: -0, w: 0.9998188}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Greaser_Rig_2:Greaser_LeftHandIndex2
+      parentName: Greaser_Rig_2:Greaser_LeftHandIndex1
+      position: {x: 0.07480032, y: 2.842171e-16, z: -0.00000002900753}
+      rotation: {x: 0.0000000074469324, y: -0.031290803, z: 2.3313468e-10, w: 0.99951035}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Greaser_Rig_2:Greaser_LeftHandIndex3
+      parentName: Greaser_Rig_2:Greaser_LeftHandIndex2
+      position: {x: 0.07083446, y: 0, z: -0.00000016847603}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-    - name: Character_Ctrl:HipsEffector
-      parentName: Character_Ctrl:Reference
-      position: {x: 0.000000024285345, y: 0.5014917, z: -0.13382523}
+    - name: Greaser_Rig_2:Greaser_LeftHandMiddle1
+      parentName: Greaser_Rig_2:Greaser_LeftHand
+      position: {x: 0.111538514, y: 7.105427e-16, z: -0.0133703565}
+      rotation: {x: 0.0000000067520878, y: 0.14189854, z: 0.00000004656612, w: 0.9898813}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Greaser_Rig_2:Greaser_LeftHandMiddle2
+      parentName: Greaser_Rig_2:Greaser_LeftHandMiddle1
+      position: {x: 0.0767798, y: 0, z: 0.00000002543382}
+      rotation: {x: 0, y: 0.005837792, z: -1.8848877e-17, w: 0.99998295}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Greaser_Rig_2:Greaser_LeftHandMiddle3
+      parentName: Greaser_Rig_2:Greaser_LeftHandMiddle2
+      position: {x: 0.076315045, y: -1.4210854e-16, z: -0.00000023882376}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-    - name: Character_Ctrl:LeftAnkleEffector
-      parentName: Character_Ctrl:Reference
-      position: {x: -0.15552835, y: 0.10441649, z: -0.16231629}
+    - name: Greaser_Rig_2:Greaser_LeftHandPinky1
+      parentName: Greaser_Rig_2:Greaser_LeftHand
+      position: {x: 0.08092745, y: 9.947598e-16, z: -0.061065458}
+      rotation: {x: -0.000000014784742, y: 0.13511601, z: 0.00000037252894, w: 0.99082977}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Greaser_Rig_2:Greaser_LeftHandPinky2
+      parentName: Greaser_Rig_2:Greaser_LeftHandPinky1
+      position: {x: 0.0726687, y: 0, z: -0.0000011346028}
+      rotation: {x: -9.636012e-35, y: 0.036330175, z: -3.667334e-17, w: 0.9993399}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Greaser_Rig_2:Greaser_LeftHandPinky3
+      parentName: Greaser_Rig_2:Greaser_LeftHandPinky2
+      position: {x: 0.077311434, y: 2.842171e-16, z: 0.0000014875113}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-    - name: Character_Ctrl:RightAnkleEffector
-      parentName: Character_Ctrl:Reference
-      position: {x: 0.15552847, y: 0.10456972, z: -0.16231635}
+    - name: Greaser_Rig_2:Greaser_LeftHandThumb1
+      parentName: Greaser_Rig_2:Greaser_LeftHand
+      position: {x: 0.004044696, y: 5.684342e-16, z: 0.07917302}
+      rotation: {x: 0.02121648, y: -0.37649575, z: -0.04422322, w: 0.925119}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Greaser_Rig_2:Greaser_LeftHandThumb2
+      parentName: Greaser_Rig_2:Greaser_LeftHandThumb1
+      position: {x: 0.07848965, y: -2.842171e-16, z: 0.00000043428813}
+      rotation: {x: -1.9264357e-34, y: 0.022914914, z: 4.5966407e-17, w: 0.99973744}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Greaser_Rig_2:Greaser_LeftHandThumb3
+      parentName: Greaser_Rig_2:Greaser_LeftHandThumb2
+      position: {x: 0.06355294, y: 0, z: -0.00000073438906}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-    - name: Character_Ctrl:LeftWristEffector
-      parentName: Character_Ctrl:Reference
-      position: {x: -0.64128697, y: 0.9686706, z: -0.15683758}
+    - name: Greaser_Rig_2:Greaser_Neck
+      parentName: Greaser_Rig_2:Greaser_Spine4
+      position: {x: 0.0024066563, y: 0.049483716, z: 0.0005339707}
+      rotation: {x: 0.01790434, y: 0.76784414, z: -0.014928264, w: 0.6402124}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Greaser_Rig_2:Greaser_Head
+      parentName: Greaser_Rig_2:Greaser_Neck
+      position: {x: 1.8580693e-14, y: 0.5406528, z: 1.2149206e-14}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-    - name: Character_Ctrl:RightWristEffector
-      parentName: Character_Ctrl:Reference
-      position: {x: 0.64128554, y: 0.9686721, z: -0.1568377}
+    - name: Greaser_Rig_2:leye_j
+      parentName: Greaser_Rig_2:Greaser_Neck
+      position: {x: 0.2618796, y: 0.271935, z: 0.10668}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-    - name: Character_Ctrl:LeftKneeEffector
-      parentName: Character_Ctrl:Reference
-      position: {x: -0.14547941, y: 0.2983425, z: -0.12227996}
-      rotation: {x: 7.047314e-18, y: 8.6736174e-19, z: 3.469447e-18, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Character_Ctrl:RightKneeEffector
-      parentName: Character_Ctrl:Reference
-      position: {x: 0.14547952, y: 0.2984954, z: -0.122279964}
-      rotation: {x: 1.496199e-17, y: 8.6736174e-19, z: -1.2977458e-35, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Character_Ctrl:LeftElbowEffector
-      parentName: Character_Ctrl:Reference
-      position: {x: -0.4578553, y: 0.9636597, z: -0.15683758}
-      rotation: {x: 0, y: 9.822243e-33, z: -0, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Character_Ctrl:RightElbowEffector
-      parentName: Character_Ctrl:Reference
-      position: {x: 0.45785472, y: 0.9636611, z: -0.1568377}
-      rotation: {x: 0, y: -2.696302e-33, z: -0, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Character_Ctrl:ChestOriginEffector
-      parentName: Character_Ctrl:Reference
-      position: {x: -8.194435e-18, y: 0.5594039, z: -0.13382529}
-      rotation: {x: 2.7755576e-17, y: 3.081488e-33, z: -0, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Character_Ctrl:ChestEndEffector
-      parentName: Character_Ctrl:Reference
-      position: {x: 0.00000005128191, y: 0.9706789, z: -0.14958878}
-      rotation: {x: -3.5842786e-32, y: 0, z: -0, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Character_Ctrl:LeftShoulderEffector
-      parentName: Character_Ctrl:Reference
-      position: {x: -0.25082633, y: 0.9706793, z: -0.14958882}
-      rotation: {x: 0, y: -1.0774259e-18, z: -0, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Character_Ctrl:RightShoulderEffector
-      parentName: Character_Ctrl:Reference
-      position: {x: 0.25082642, y: 0.9706785, z: -0.14958873}
-      rotation: {x: 1.0842022e-19, y: 2.2056738e-18, z: 6.938894e-18, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Character_Ctrl:HeadEffector
-      parentName: Character_Ctrl:Reference
-      position: {x: -1.234126e-14, y: 1.5664008, z: -0.19543722}
+    - name: Greaser_Rig_2:leyebrow_j
+      parentName: Greaser_Rig_2:Greaser_Neck
+      position: {x: 0.2618796, y: 0.3397691, z: 0.10668}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-    - name: Character_Ctrl:LeftHipEffector
-      parentName: Character_Ctrl:Reference
-      position: {x: -0.14010614, y: 0.50149125, z: -0.13382529}
-      rotation: {x: 2.7714918e-18, y: 1.0842022e-19, z: 3.469447e-18, w: 1}
+    - name: Greaser_Rig_2:nose_j
+      parentName: Greaser_Rig_2:Greaser_Neck
+      position: {x: 0.28744158, y: 0.21932128, z: -2.1939832e-16}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-    - name: Character_Ctrl:RightHipEffector
-      parentName: Character_Ctrl:Reference
-      position: {x: 0.1401062, y: 0.5014922, z: -0.13382518}
-      rotation: {x: -2.364916e-18, y: 1.0842022e-19, z: 3.469447e-18, w: 1}
+    - name: Greaser_Rig_2:reye_j
+      parentName: Greaser_Rig_2:Greaser_Neck
+      position: {x: 0.2618796, y: 0.271935, z: -0.10670407}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-    - name: Character_Ctrl:LeftHandThumbEffector
-      parentName: Character_Ctrl:Reference
-      position: {x: -0.7364516, y: 0.9686706, z: 0.031251755}
-      rotation: {x: -9.8607613e-32, y: 1.2298821e-30, z: 0, w: 1}
+    - name: Greaser_Rig_2:reyebrow_j
+      parentName: Greaser_Rig_2:Greaser_Neck
+      position: {x: 0.2618796, y: 0.3397691, z: -0.10670407}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-    - name: Character_Ctrl:LeftHandIndexEffector
-      parentName: Character_Ctrl:Reference
-      position: {x: -0.9073011, y: 0.9686706, z: -0.10115641}
-      rotation: {x: 3.9443045e-31, y: 0, z: 2.2433232e-30, w: 1}
+    - name: Greaser_Rig_2:Greaser_RightArm
+      parentName: Greaser_Rig_2:Greaser_Spine4
+      position: {x: -0.25486532, y: 0.0063589285, z: 0.0005339707}
+      rotation: {x: 0.0021044035, y: 0.09024929, z: -0.023216156, w: 0.99564636}
       scale: {x: 1, y: 1, z: 1}
-    - name: Character_Ctrl:LeftHandMiddleEffector
-      parentName: Character_Ctrl:Reference
-      position: {x: -0.89875764, y: 0.9686706, z: -0.21647932}
-      rotation: {x: 0, y: -2.7755576e-17, z: -0, w: 1}
+    - name: Greaser_Rig_2:Greaser_RightForearm
+      parentName: Greaser_Rig_2:Greaser_RightArm
+      position: {x: -0.20702828, y: -0.007017486, z: 0.0072489735}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-    - name: Character_Ctrl:LeftHandPinkyEffector
-      parentName: Character_Ctrl:Reference
-      position: {x: -0.84536886, y: 0.9686706, z: -0.3033278}
-      rotation: {x: 1.9721523e-31, y: -0, z: -0, w: 1}
+    - name: Greaser_Rig_2:Greaser_RightHand
+      parentName: Greaser_Rig_2:Greaser_RightForearm
+      position: {x: -0.18343084, y: 0.005011041, z: -1.4210854e-16}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-    - name: Character_Ctrl:RightHandThumbEffector
-      parentName: Character_Ctrl:Reference
-      position: {x: 0.73645145, y: 0.9686721, z: 0.03125165}
-      rotation: {x: 1.9721523e-31, y: -4.202864e-30, z: -3.9443045e-31, w: 1}
+    - name: Greaser_Rig_2:Greaser_RightHandIndex1
+      parentName: Greaser_Rig_2:Greaser_RightHand
+      position: {x: -0.120793276, y: 9.947598e-16, z: -0.04571518}
+      rotation: {x: 0, y: -0.019037263, z: -0, w: 0.9998188}
       scale: {x: 1, y: 1, z: 1}
-    - name: Character_Ctrl:RightHandIndexEffector
-      parentName: Character_Ctrl:Reference
-      position: {x: 0.9073005, y: 0.9686721, z: -0.10115634}
-      rotation: {x: 2.4651903e-32, y: 0, z: 5.5466777e-32, w: 1}
+    - name: Greaser_Rig_2:Greaser_RightHandIndex2
+      parentName: Greaser_Rig_2:Greaser_RightHandIndex1
+      position: {x: -0.07480066, y: 7.105427e-16, z: 1.2434498e-16}
+      rotation: {x: 6.1659954e-33, y: -0.031290803, z: 1.0036035e-15, w: 0.99951035}
       scale: {x: 1, y: 1, z: 1}
-    - name: Character_Ctrl:RightHandMiddleEffector
-      parentName: Character_Ctrl:Reference
-      position: {x: 0.898758, y: 0.9686721, z: -0.2164794}
-      rotation: {x: 0, y: 0, z: 4.9303807e-32, w: 1}
+    - name: Greaser_Rig_2:Greaser_RightHandIndex3
+      parentName: Greaser_Rig_2:Greaser_RightHandIndex2
+      position: {x: -0.07083384, y: 0, z: 3.7747583e-17}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-    - name: Character_Ctrl:RightHandPinkyEffector
-      parentName: Character_Ctrl:Reference
-      position: {x: 0.8453677, y: 0.9686721, z: -0.30332768}
+    - name: Greaser_Rig_2:Greaser_RightHandMiddle1
+      parentName: Greaser_Rig_2:Greaser_RightHand
+      position: {x: -0.111538954, y: 5.684342e-16, z: 0.013370103}
+      rotation: {x: 0.000000010244546, y: 0.14189616, z: 0.000000056432313, w: 0.9898815}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Greaser_Rig_2:Greaser_RightHandMiddle2
+      parentName: Greaser_Rig_2:Greaser_RightHandMiddle1
+      position: {x: -0.07677982, y: 2.842171e-16, z: 3.5527136e-17}
+      rotation: {x: -7.703851e-34, y: 0.005837792, z: 9.310642e-16, w: 0.99998295}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Greaser_Rig_2:Greaser_RightHandMiddle3
+      parentName: Greaser_Rig_2:Greaser_RightHandMiddle2
+      position: {x: -0.07631641, y: -1.4210854e-16, z: 2.4424907e-16}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Greaser_Rig_2:Greaser_RightHandPinky1
+      parentName: Greaser_Rig_2:Greaser_RightHand
+      position: {x: -0.080928504, y: 9.947598e-16, z: 0.061065454}
+      rotation: {x: -0.000000033294775, y: 0.13512218, z: 0.0000007200286, w: 0.99082893}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Greaser_Rig_2:Greaser_RightHandPinky2
+      parentName: Greaser_Rig_2:Greaser_RightHandPinky1
+      position: {x: -0.07267013, y: 2.842171e-16, z: 3.907985e-16}
+      rotation: {x: 0, y: 0.036330175, z: 1.839396e-15, w: 0.9993399}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Greaser_Rig_2:Greaser_RightHandPinky3
+      parentName: Greaser_Rig_2:Greaser_RightHandPinky2
+      position: {x: -0.07730931, y: -1.4210854e-16, z: 6.661338e-17}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Greaser_Rig_2:Greaser_RightHandThumb1
+      parentName: Greaser_Rig_2:Greaser_RightHand
+      position: {x: -0.0040464457, y: 2.842171e-16, z: -0.07917311}
+      rotation: {x: 0.021215675, y: -0.37649944, z: -0.044222094, w: 0.92511755}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Greaser_Rig_2:Greaser_RightHandThumb2
+      parentName: Greaser_Rig_2:Greaser_RightHandThumb1
+      position: {x: -0.07849002, y: -1.4210854e-16, z: -2.1316282e-16}
+      rotation: {x: -1.5411486e-33, y: 0.022914914, z: 1.1183399e-15, w: 0.99973744}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Greaser_Rig_2:Greaser_RightHandThumb3
+      parentName: Greaser_Rig_2:Greaser_RightHandThumb2
+      position: {x: -0.06355217, y: 0, z: 6.661338e-17}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Greaser_Rig_2:joint1
+      parentName: Greaser_Rig_2:Greaser_Spine4
+      position: {x: 0.0024066563, y: 0.049483716, z: 0.0005339707}
+      rotation: {x: 0.01790434, y: 0.76784414, z: -0.014928264, w: 0.6402124}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Greaser_Rig_2:Root_c
+      parentName: Greaser_Rig_2:group3
+      position: {x: -0.13382529, y: 0.57390153, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Greaser_Rig_2:nurbsCircle1
+      parentName: Greaser_Rig_2:Root_c
+      position: {x: -3.5527136e-17, y: -0.014497591, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     armTwist: 0.5
@@ -1426,7 +1075,8 @@ ModelImporter:
     hasTranslationDoF: 0
     hasExtraRoot: 1
     skeletonHasParents: 1
-  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  lastHumanDescriptionAvatarSource: {fileID: 9000000, guid: 060c6bc7c3c9a6845a3c6a4a0d5d3138,
+    type: 3}
   animationType: 3
   humanoidOversampling: 1
   additionalBone: 0

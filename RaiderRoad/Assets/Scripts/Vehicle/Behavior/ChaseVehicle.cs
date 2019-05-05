@@ -10,13 +10,13 @@ public class ChaseVehicle : MonoBehaviour {
     private GameObject WallsRV;
     private GameObject attackPosition;
     private Transform player;
-    private NavMeshAgent cEnemy;
+    //private NavMeshAgent cEnemy;
     private GameObject cObject;
     private float timer = 0f;
     //Initialize agent
     public virtual void StartChase(NavMeshAgent agent, GameObject enemy, VehicleAI.Side side)
     {
-        cEnemy = agent;
+        //cEnemy = agent;
         cObject = enemy;
         attackList = new List<Transform>();
         if (enemy.GetComponentInChildren<cannon>() != null)
@@ -50,6 +50,11 @@ public class ChaseVehicle : MonoBehaviour {
             attackList.Add(child);
         }
 
+        if (attackList.Count == 0)
+            return;
+        Debug.Log(attackList.Count);
+        attackPoints = 1;
+
     }
 
     public void Chase(VehicleAI.Side side)
@@ -58,19 +63,21 @@ public class ChaseVehicle : MonoBehaviour {
         //cEnemy.autoBraking = true;
         //Randomly choose to load left or right side
         //Go to loading area
-        if (attackList.Count == 0)
-            return;
-        cEnemy.SetDestination(attackList[attackPoints].position);
-        attackPoints = Random.Range(0, attackList.Count);
+        float time = Mathf.SmoothStep(0, 1, 4 * Time.deltaTime);
+        //Have agent go to different points
+        /*cEnemy.SetDestination(patrols[wanderPoints].position);
+        //Choose random patrol point
+        */
+        cObject.transform.position = Vector3.Lerp(cObject.transform.position, attackList[attackPoints].position, time);
 
         //Increase time if state destination has not been reached
 
         if (cObject.GetComponent<VehicleAI>().getState() == VehicleAI.State.Chase)
         {
-            if (cEnemy.remainingDistance > .1f)
+            /*if (cEnemy.remainingDistance > .1f)
             {
                 timer += Time.deltaTime;
-            }
+            }*/
             //Debug.Log(timer);
             //Leave if you can't enter state destination
             if (timer > 5)

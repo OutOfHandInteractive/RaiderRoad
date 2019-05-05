@@ -19,6 +19,12 @@ public class Driving : Interactable
     public direction prevDir;
     public direction newDir;
 
+    //Skid
+    public Skid leftSkidNode;
+    public Skid rightSkidNode;
+    public float skidDuration = 1f;
+    public float skidIntensity = 1f;
+
     //--------------------
     // Private Variables
     //--------------------
@@ -51,7 +57,7 @@ public class Driving : Interactable
         }
         else
         {
-            leftClamp = -21;
+            leftClamp = -20;
         }
 
         if (enemyCountR > 0)
@@ -60,7 +66,7 @@ public class Driving : Interactable
         }
         else
         {
-            rightClamp = 21;
+            rightClamp = 20;
         }
 
         GetInput();
@@ -81,6 +87,8 @@ public class Driving : Interactable
 
             if(player.GetAxis("Move Horizontal") != 0)
             {
+                leftSkidNode.TireSkid(skidDuration, skidIntensity);
+                rightSkidNode.TireSkid(skidDuration, skidIntensity);
                 moveVector.x = player.GetAxis("Move Horizontal") * Time.deltaTime * moveSpeed * accel;
             }
             else if(moveVector.x >= 0)

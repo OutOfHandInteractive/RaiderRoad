@@ -168,9 +168,35 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
             hasItem = false;
             Destroy(floatingItem);
             buildMode = false;
+
+            //Tell node that battery is placed 
+            node.GetComponent<PoiNode>().PoiPresent();
+
+            myAni.SetTrigger("build");
+            myAni.SetBool("isHolding", false);
         }
         else {
-            Debug.Log("Occupied >:(");
+            //Healing Mechanic, if occupied, heal for what health is missing
+            if(node.GetComponentInChildren<Engine>() != null) {
+                Engine targetEngine = node.GetComponentInChildren<Engine>();
+
+                if(targetEngine.currentDurVal() < targetEngine.durability)
+                { // healing existing engine
+                    targetEngine.EngineHeal(floatingItem.GetComponent<DurableConstruct>().GetDurability());
+                    heldItem = null;
+                    hasItem = false;
+                    Destroy(floatingItem);
+                    buildMode = false;
+
+                    myAni.SetTrigger("build");
+                    myAni.SetBool("isHolding", false);
+
+                } else {
+                    // if engine is at full health, do not heal
+                    node.GetComponent<PoiNode>().PoiFlash(Color.gray);
+
+                }
+            }
         }
     }
 
@@ -194,11 +220,6 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         GameObject EngineBuild = engineNodes[0];
         BuildDurableConstruct(EngineBuild.GetComponent<PoiNode>());
 
-        //Tell node that battery is placed 
-        EngineBuild.GetComponent<PoiNode>().PoiPresent();
-
-        myAni.SetTrigger("build");
-        myAni.SetBool("isHolding", false);
     }
 
     private void BuildWeapon(GameObject toBuild) {
@@ -410,7 +431,8 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
 
         myAudio.Swing(hit);
 
-        currentAttColor.a = 0.5f; //setting attack model's mat to 1/2 visible
+        // Remove comment lines to bring temp Red attack cube back
+        //currentAttColor.a = 0.5f; //setting attack model's mat to 1/2 visible
     }
 
 	public void SheathWeapon() {
@@ -440,7 +462,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         foreach (GameObject obj in nodes) {
             BuildNode node = obj.GetComponent<BuildNode>();
             node.RemoveShow();
-            if (!found && !node.occupied && (isWall || node.canPlaceWeapon)) {
+            if (!found && !node.occupied) { //"&& (isWall || node.canPlaceWeapon)" at end of if
                 node.Show(item);
                 found = true;
             }
@@ -448,13 +470,25 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
     }
 
 	public void removeWrongDirectionWallNodes() {
-		foreach (GameObject node in nodes) {
-			if (pController.isFacingVertical && node.gameObject.tag == "WallNodeHorizontal") {
-				nodes.Remove(node);
-			}
-			else if (!pController.isFacingVertical && node.gameObject.tag == "WallNodeVertical") {
-				nodes.Remove(node);
-			}
+		if (heldItem != null && heldItem.CompareTag("Weapon")){
+			/*foreach (GameObject node in nodes) {
+			    if (node.gameObject.tag == "WallNodeHorizontal") {
+				    nodes.Remove(node);
+			    }
+		    }*/
+			nodes.RemoveAll(node => node.gameObject.tag == "WallNodeHorizontal");
+        }
+		else { //for walls
+				 /*foreach (GameObject node in nodes) {
+					 if (pController.isFacingVertical && node.gameObject.tag == "WallNodeHorizontal") {
+						 nodes.Remove(node);
+					 }
+					 else if (!pController.isFacingVertical && node.gameObject.tag == "WallNodeVertical") {
+						 nodes.Remove(node);
+					 }
+				 }*/
+			nodes.RemoveAll(node => (pController.isFacingVertical && node.gameObject.tag == "WallNodeHorizontal")
+			|| (!pController.isFacingVertical && node.gameObject.tag == "WallNodeVertical"));
 		}
 	}
 	#endregion
@@ -464,8 +498,8 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
     {
         //Debug.Log(other.name);
         if ((other.tag == "WallNodeVertical" && pController.isFacingVertical) || 
-			(other.tag == "WallNodeHorizontal" && !pController.isFacingVertical) ||
-			(heldItem != null && heldItem.CompareTag("Weapon") && other.tag == "WallNodeVertical"))
+			(other.tag == "WallNodeHorizontal" && !pController.isFacingVertical & (heldItem == null || !heldItem.CompareTag("Weapon")) ) || //need
+            (heldItem != null && heldItem.CompareTag("Weapon") && other.tag == "WallNodeVertical"))
         {
             // This thing adds nodes to the view if they correspond to the facing direction of the player
 			// or if they player is holding a weapon (so that weapon placement doesnt feel weird)
@@ -498,7 +532,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
             {
                 //Debug.Log("Trap node added");
                 engineNodes.Add(other.gameObject);
-                if (buildMode && !other.GetComponent<PoiNode>()) other.GetComponent<PoiNode>().Show(heldItem); //if player is in build mode, activate show wall in the build node script
+                if (buildMode) other.GetComponent<PoiNode>().Show(heldItem); //if player is in build mode, activate show engine in the build node script
             }
         }
         if (Util.isEnemy(other.gameObject))
@@ -508,7 +542,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         else
         {
             Constructable construct = other.GetComponent<Constructable>();
-            if (construct != null && !construct.isHolo && construct.isPlaced())
+            if (construct != null && !construct.isHolo && construct.isPlaced() && other.tag != "Engine") //other.tag check prevents hitting Engine, remove to break engine
             {
                 attackRange.Add(other.gameObject);
             }

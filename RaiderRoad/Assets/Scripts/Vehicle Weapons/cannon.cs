@@ -52,6 +52,7 @@ public class cannon : Interactable {
 
 		//forwardDir = transform.forward;
 		maxRange = getMaxRange();
+
 	}
 
 	// Update is called once per frame
