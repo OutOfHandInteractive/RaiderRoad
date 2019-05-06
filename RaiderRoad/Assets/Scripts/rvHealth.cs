@@ -59,7 +59,7 @@ public class rvHealth : MonoBehaviour {
         vCamShake.Shake(.5f, 10f, .5f);
 
         GameObject[] engines = GameObject.FindGameObjectsWithTag("Engine");
-        Debug.Log("Loop Start");
+        //Debug.Log("Loop Start");
 
         for (int i = 0; i <= 2; i++)
         {

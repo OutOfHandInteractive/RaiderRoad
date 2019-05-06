@@ -68,7 +68,8 @@ public class FightEnemy : EnemyAI {
             cObject.transform.LookAt(targetPosition);
             cObject.transform.position = Vector3.MoveTowards(cObject.transform.position, player.transform.position, movement);
         }
-        else if ((!player /*| playerDamage >= 4f*/ || cObject.GetComponent<StatefulEnemyAI>().currentHealth <= 25f) && eVehicle != null && cObject.transform.parent.tag != "eVehicle")
+        else if ((!player /*| playerDamage >= 4f*/ || cObject.GetComponent<StatefulEnemyAI>().currentHealth <= 25f) 
+			&& eVehicle != null && cObject.transform.parent.tag != "eVehicle")
         {
             Debug.Log("reached");
             cObject.GetComponent<StatefulEnemyAI>().EnterEscape();
