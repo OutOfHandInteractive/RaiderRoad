@@ -540,8 +540,7 @@ public class PlayerController_Rewired : MonoBehaviour
     #endregion
 
     #region Other Methods
-    public void Eject(float zSign)
-    {
+    public void Eject(float zSign) {
         takeDamage(Constants.PLAYER_ROAD_DAMAGE);
 
         float gravity = Physics.gravity.magnitude;
@@ -597,5 +596,9 @@ public class PlayerController_Rewired : MonoBehaviour
         myAni.SetTrigger("jump");
         myAni.SetBool("land", false);
     }
+
+	public void StopWalkingAudio() {
+		myAudio.StopWalking();
+	}
     #endregion
 }
