@@ -45,7 +45,7 @@ public class Event : MonoBehaviour {
 
     void Start()
     {
-        Debug.Log("Event Created");
+        //Debug.Log("Event Created");
     }
 
     public void oSpawn(GameObject obstacle)

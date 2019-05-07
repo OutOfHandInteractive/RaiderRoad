@@ -17,6 +17,7 @@ public class EventCluster : MonoBehaviour {
 	[SerializeField] private GameObject manager;
     [SerializeField] private VehicleFactoryManager vFactory;
 	[SerializeField] private GameObject _obstacle;
+    [SerializeField] private EventManager managerRef;
 
 	// gameplay values
 	private int difficulty;
@@ -37,6 +38,7 @@ public class EventCluster : MonoBehaviour {
     public void startUp(List<Event> sequence, VehicleFactoryManager factory, float _sDelay, float _wChance)
     {
         manager = GameObject.Find("EventManager");
+        managerRef = manager.GetComponent<EventManager>();
 		vFactory = factory;
         events = sequence;
         sDelay = _sDelay;                //update delay to proper val from manager
@@ -87,9 +89,9 @@ public class EventCluster : MonoBehaviour {
         complete += weight;
         if(complete >= threshold && spawnFlag){   //if cluster completion at certain level & no new cluster has been called
             spawnFlag = false;                  //disable so only one new cluster gets generated
-            manager.GetComponent<EventManager>().lastDone();        //call the generate function in manager
+            managerRef.lastDone();        //call the generate function in manager
         }else if (complete >= 1){
-            Debug.Log("cluster complete");
+            //Debug.Log("cluster complete");
             Destroy(this.gameObject);
         }
     }
