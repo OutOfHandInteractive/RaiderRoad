@@ -11,44 +11,40 @@ public class StealEnemy : EnemyAI {
     public bool hasStolen = false;
     private GameObject[] drops;
     private GameObject drop;
-    public void StartSteal(GameObject enemy)
-    {
+
+    public void StartSteal(GameObject enemy) {
         cObject = enemy;
-        drops = GameObject.FindGameObjectsWithTag("Drops");
+        drops = GameObject.FindGameObjectsWithTag("Drops");		// oh god this is horrendous
         drop = Closest(cObject.transform.position, drops);
     }
 
-    public void Steal()
-    {
+    public void Steal() {
         //Set wall gameobject
         //Set movement speed of enemy
         float movement = speed * Time.deltaTime;
 
-        if (cObject.GetComponent<StatefulEnemyAI>().getDamaged())
-        {
-            cObject.GetComponent<StatefulEnemyAI>().EnterFight();
+        if (cObject.GetComponent<StatefulEnemyAI>().getDamaged()) {
+			cObject.GetComponent<StatefulEnemyAI>().ExitStealState(StatefulEnemyAI.State.Fight);
+			cObject.GetComponent<StatefulEnemyAI>().EnterFight();
         }
 
         //If there are no more drops, go to Escape state, else keep going for drops
-        if (hasStolen && cObject.transform.GetComponentInChildren<ItemDrop>())
-        {
+        if (hasStolen && cObject.transform.GetComponentInChildren<ItemDrop>()) {
             movement /= 2;
-            cObject.GetComponent<StatefulEnemyAI>().EnterEscape();
+			cObject.GetComponent<StatefulEnemyAI>().ExitStealState(StatefulEnemyAI.State.Escape);
+			cObject.GetComponent<StatefulEnemyAI>().EnterEscape();
         }
-        else
-        {
+        else {
             //Find wall and go to it
-            if(drop != null)
-            {
+            if(drop != null) {
                 cObject.transform.LookAt(drop.transform);
                 cObject.transform.position = Vector3.MoveTowards(cObject.transform.position, drop.transform.position, movement);
             }
-            else
-            {
+            else {
                 movement /= 2;
-                cObject.GetComponent<StatefulEnemyAI>().EnterDestroy();
+				cObject.GetComponent<StatefulEnemyAI>().ExitStealState(StatefulEnemyAI.State.Destroy);
+				cObject.GetComponent<StatefulEnemyAI>().EnterDestroy();
             }
-
         }
     }
 }

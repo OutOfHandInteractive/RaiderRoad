@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 23531741917395814}
   - component: {fileID: 114158346460189162}
   - component: {fileID: 2707562127448663945}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: ChassisH
   m_TagString: eVehicle
   m_Icon: {fileID: 0}
@@ -141,8 +141,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 3.4440403, y: 0.16008425, z: 8.353004}
-  m_Center: {x: 0, y: 0.017193824, z: 0.15649557}
+  m_Size: {x: 3.7982752, y: 8.256535, z: 8.874971}
+  m_Center: {x: 0.0069106817, y: 4.0654182, z: 0.26011658}
 --- !u!1 &1930108933147958
 GameObject:
   m_ObjectHideFlags: 0
@@ -180,11 +180,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4788361782912818}
     m_Modifications:
-    - target: {fileID: 3995161109359916795, guid: 75fa5f89f0aec4f24bd63e5c67e5548f,
-        type: 3}
-      propertyPath: playOnAwake
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3995161109359916793, guid: 75fa5f89f0aec4f24bd63e5c67e5548f,
         type: 3}
       propertyPath: m_Name
@@ -255,6 +250,11 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.2943001
       objectReference: {fileID: 0}
+    - target: {fileID: 3995161109359916795, guid: 75fa5f89f0aec4f24bd63e5c67e5548f,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 75fa5f89f0aec4f24bd63e5c67e5548f, type: 3}
 --- !u!4 &3341406873193530267 stripped
@@ -270,11 +270,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4788361782912818}
     m_Modifications:
-    - target: {fileID: 3995161109359916795, guid: 75fa5f89f0aec4f24bd63e5c67e5548f,
-        type: 3}
-      propertyPath: playOnAwake
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3995161109359916793, guid: 75fa5f89f0aec4f24bd63e5c67e5548f,
         type: 3}
       propertyPath: m_Name
@@ -344,6 +339,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 0.2943001
+      objectReference: {fileID: 0}
+    - target: {fileID: 3995161109359916795, guid: 75fa5f89f0aec4f24bd63e5c67e5548f,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 75fa5f89f0aec4f24bd63e5c67e5548f, type: 3}

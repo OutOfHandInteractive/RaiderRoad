@@ -18,12 +18,10 @@ public abstract class EnemyAI : MonoBehaviour
     /// <param name="myPos">The postition to search around</param>
     /// <param name="objects">THe list of objects to look through</param>
     /// <returns>The object closest to the given point</returns>
-    public GameObject Closest(Vector3 myPos, GameObject[] objects)
-    {
+    public GameObject Closest(Vector3 myPos, GameObject[] objects) {
         float minDist = 1 / 0f;
         GameObject closest = null;
-        foreach (GameObject wall in objects)
-        {
+        foreach (GameObject wall in objects) {
             float dist = Vector3.Distance(wall.transform.position, myPos);
             if(wall.GetComponent<Wall>() != null)
             {

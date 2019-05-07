@@ -13,6 +13,7 @@ public class BoardEnemy : JumpEnemy {
 
     private float survey = 0;
     private Transform parent = null;
+    private bool jumped = false;
     //public override void StartJump(GameObject enemy, Rigidbody rb, string side, int stateChance)
     //{
     //    base.StartJump(enemy, rb, side, stateChance);
@@ -24,7 +25,6 @@ public class BoardEnemy : JumpEnemy {
 
     private Vector3 GetTarget(Vector3 planePos)
     {
-        Debug.Log(cSide);
         if (cSide == VehicleAI.Side.Left)
         {
             return Closest(planePos, GameObject.FindGameObjectsWithTag("JumpL")).transform.position;
@@ -46,8 +46,12 @@ public class BoardEnemy : JumpEnemy {
         Vector3 planePos = new Vector3(cObject.transform.position.x, 0, cObject.transform.position.z);
         Vector3 pos = GetTarget(planePos);
         float zSign = cSide == VehicleAI.Side.Left ? 1 : -1;
-        Debug.Log(zSign + " THIS IS THE SIGN");
-        Jump(pos, zSign);
+        //Debug.Log(zSign + " THIS IS THE SIGN");
+        if(!jumped)
+        {
+            Jump(pos, zSign);
+            jumped = true;
+        }
         
         
 
@@ -58,9 +62,12 @@ public class BoardEnemy : JumpEnemy {
         {
             if(transform.parent.tag == "RV")
             {
+                hasJumped = false;
                 ai.getAnimator().SetBool("Grounded", true);
+                //agent.Warp(transform.position);	// hax?????
+                cObject.GetComponent<Rigidbody>().isKinematic = true;
+                //agent.velocity = Vector3.zero;
                 //agent.speed = 0;
-                //agent.isStopped = true;
                 survey += Time.deltaTime;
                 Debug.Log(survey);
                 if (survey > 1f)
@@ -68,16 +75,19 @@ public class BoardEnemy : JumpEnemy {
                     if (action < 40)
                     {
                         //agent.speed = speed;
+                        cObject.GetComponent<Rigidbody>().isKinematic = false;
                         ai.EnterDestroy();
                     }
                     else if (action > 40 && action < 80)
                     {
                         //agent.speed = speed;
+                        cObject.GetComponent<Rigidbody>().isKinematic = false;
                         ai.EnterFight();
                     }
                     else
                     {
                         //agent.speed = speed;
+                        cObject.GetComponent<Rigidbody>().isKinematic = false;
                         ai.EnterSteal();
                     }
                 }

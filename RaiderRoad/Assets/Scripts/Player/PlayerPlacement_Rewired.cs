@@ -431,7 +431,8 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
 
         myAudio.PlaySound_Attack(hit);
 
-        currentAttColor.a = 0.5f; //setting attack model's mat to 1/2 visible
+        // Remove comment lines to bring temp Red attack cube back
+        //currentAttColor.a = 0.5f; //setting attack model's mat to 1/2 visible
     }
 
 	public void SheathWeapon() {
@@ -469,22 +470,26 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
     }
 
 	public void removeWrongDirectionWallNodes() {
-        if (heldItem != null && heldItem.CompareTag("Weapon")){
-            foreach (GameObject node in nodes) {
+		if (heldItem != null && heldItem.CompareTag("Weapon")){
+			/*foreach (GameObject node in nodes) {
 			    if (node.gameObject.tag == "WallNodeHorizontal") {
 				    nodes.Remove(node);
 			    }
-		    }
-        } else { //for walls
-            foreach (GameObject node in nodes) {
-			    if (pController.isFacingVertical && node.gameObject.tag == "WallNodeHorizontal") {
-				    nodes.Remove(node);
-			    }
-			    else if (!pController.isFacingVertical && node.gameObject.tag == "WallNodeVertical") {
-				    nodes.Remove(node);
-			    }
-		    }
+		    }*/
+			nodes.RemoveAll(node => node.gameObject.tag == "WallNodeHorizontal");
         }
+		else { //for walls
+				 /*foreach (GameObject node in nodes) {
+					 if (pController.isFacingVertical && node.gameObject.tag == "WallNodeHorizontal") {
+						 nodes.Remove(node);
+					 }
+					 else if (!pController.isFacingVertical && node.gameObject.tag == "WallNodeVertical") {
+						 nodes.Remove(node);
+					 }
+				 }*/
+			nodes.RemoveAll(node => (pController.isFacingVertical && node.gameObject.tag == "WallNodeHorizontal")
+			|| (!pController.isFacingVertical && node.gameObject.tag == "WallNodeVertical"));
+		}
 	}
 	#endregion
 

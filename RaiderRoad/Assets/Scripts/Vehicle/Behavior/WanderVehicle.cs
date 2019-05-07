@@ -12,14 +12,13 @@ public class WanderVehicle : MonoBehaviour {
     private GameObject cObject;
     private int action;
     private bool hasWeapon;
-    private float timer = 0f;
     private bool firstPos = false;
+    private bool hasAttacked = false;
     public void StartWander(NavMeshAgent agent, GameObject enemy, VehicleAI.Side side, bool weapon)
     {
         //Set it to the VehicleAI
         cEnemy = agent;
         cObject = enemy;
-        cEnemy.speed = 15;
         hasWeapon = weapon;
         action = Random.Range(0, 100);
         patrols = new List<Transform>();
@@ -67,7 +66,7 @@ public class WanderVehicle : MonoBehaviour {
         }
         Debug.Log("PATROL!" + patrols[1].position);
         cObject.transform.position = Vector3.Lerp(cObject.transform.position, patrols[wanderPoints].position, time);
-        if (GetComponentInChildren<EnemyAI>() == null && !hasWeapon)
+        if (!GetComponentInChildren<EnemyAI>() && !hasWeapon)
         {
             Debug.LogWarning("HELP");
             if (GetComponentInChildren<PlayerController_Rewired>() == null)
@@ -86,7 +85,7 @@ public class WanderVehicle : MonoBehaviour {
             Debug.LogWarning("TRUEEEEEEEEEEE");
             cObject.GetComponent<VehicleAI>().EnterWander();
         }
-        else
+        else if (!hasAttacked)
         {
             StartCoroutine(changeAttack());
             //StartCoroutine(waitToLeave());
@@ -97,6 +96,7 @@ public class WanderVehicle : MonoBehaviour {
     IEnumerator changeAttack()
     {
         yield return new WaitForSeconds(10);
+        hasAttacked = true;
         cObject.GetComponent<VehicleAI>().EnterAttack();
     }
 
