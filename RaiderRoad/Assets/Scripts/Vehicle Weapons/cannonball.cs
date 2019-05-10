@@ -62,7 +62,12 @@ public class cannonball : AbstractCannonball {
         else if (directTarget.CompareTag("road"))
         {
             Explode();
+        }else if (directTarget.CompareTag("Wall"))
+        {
+            directTarget.GetComponent<Wall>().Damage(100);
         }
+
+
 
 
         Collider[] splashTargets = Physics.OverlapSphere(transform.position, splashRadius);
