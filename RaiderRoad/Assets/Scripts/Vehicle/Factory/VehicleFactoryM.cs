@@ -15,12 +15,13 @@ public class VehicleFactoryM : VehicleFactory_I {
 	}
 
 	//attach enemy to cab
-	public override void AttachPayload(GameObject cargo, float wChance) {
+	public override void AttachPayload(GameObject cargo, float wChance, int batteries) {
 		GameObject payload = Instantiate(SelectPayload(), cargo.GetComponent<Cargo>().payloadNode.transform);
         payload.transform.localPosition = Vector3.zero;
         //payload.transform.SetParent(cargo.GetComponent<Cargo>().payloadNode.transform);
         //payload.transform.position = payload.transform.parent.transform.position;
         payload.GetComponent<PayloadM>().SetWChance(wChance);
+        payload.GetComponent<PayloadM>().SetBatteriesLeft(batteries);
         payload.GetComponent<PayloadM>().Populate();
 	}
 

@@ -88,6 +88,13 @@ public class rvHealth : MonoBehaviour {
             g.LossGame();
         }
     }
+
+    public int getRemainingBatteries()
+    {
+        GameObject[] engines = GameObject.FindGameObjectsWithTag("Engine");
+        int remaining = engines.Length;
+        return remaining;
+    }
 }
 
 /*  _____________To Do:_____________
