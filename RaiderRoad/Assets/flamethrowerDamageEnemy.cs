@@ -8,7 +8,7 @@ public class flamethrowerDamageEnemy : MonoBehaviour {
 	private float tickTime; // time in seconds between damage ticks
 	private float tickTimeCountdown;
 
-	private List<PlayerController_Rewired> playerTargets = new List<PlayerController_Rewired>();
+	public List<PlayerController_Rewired> playerTargets = new List<PlayerController_Rewired>();
 
 	// Update is called once per frame
 	void Update() {
@@ -18,8 +18,10 @@ public class flamethrowerDamageEnemy : MonoBehaviour {
 			tickTimeCountdown = tickTime;
 
 			for (int i = 0; i < playerTargets.Count; i++) {
+                Debug.LogWarning("TESTING" + playerTargets[i]);
 				if (playerTargets[i] == null) {
-					playerTargets.RemoveAt(i);
+                    Debug.LogWarning("TESTING2" + playerTargets[i]);
+                    playerTargets.RemoveAt(i);
 					i--;
 				}
 				else {
@@ -31,16 +33,19 @@ public class flamethrowerDamageEnemy : MonoBehaviour {
 
 	private void OnTriggerEnter(Collider other) {
 		Debug.Log("adding target");
+        Debug.LogWarning(other);
 		GameObject directTarget = other.gameObject;
 		if (directTarget.CompareTag("Player")) {
-			playerTargets.Add(directTarget.GetComponentInParent<PlayerController_Rewired>());
+			playerTargets.Add(other.gameObject.GetComponentInParent<PlayerController_Rewired>());
 		}
 	}
 
 	private void OnTriggerExit(Collider other) {
 		GameObject directTarget = other.gameObject;
-		if (directTarget.CompareTag("Player")) {
-			playerTargets.Remove(directTarget.GetComponentInParent<PlayerController_Rewired>());
+        Debug.LogWarning("HELLO" + other);
+        if (directTarget.CompareTag("Player")) {
+            Debug.LogWarning("HELLO2" + other);
+            playerTargets.Remove(other.gameObject.GetComponent<PlayerController_Rewired>());
 		}
 	}
 

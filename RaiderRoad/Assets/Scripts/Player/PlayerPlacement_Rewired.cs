@@ -95,7 +95,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         MeleeWeapScale = myWeapon.transform.localScale;
         myWeapon.SetActive(false);
 
-        myAudio = GetComponent<PlayerAudio>();
+        myAudio = gameObject.transform.parent.GetComponentInChildren<PlayerAudio>();
 
         g = GameManager.GameManagerInstance;
     }
@@ -429,7 +429,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
             }
         }
 
-        myAudio.Swing(hit);
+        myAudio.PlaySound_Attack(hit);
 
         // Remove comment lines to bring temp Red attack cube back
         //currentAttColor.a = 0.5f; //setting attack model's mat to 1/2 visible

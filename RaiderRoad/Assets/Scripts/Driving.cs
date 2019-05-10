@@ -190,6 +190,7 @@ public class Driving : Interactable
 		user.setObjectInUse(this);
 
 		playerUsing.GetComponent<Rigidbody>().isKinematic = true;
+		playerUsing.GetComponent<PlayerController_Rewired>().StopWalkingAudio();
 
 		inUse = true;
     }
