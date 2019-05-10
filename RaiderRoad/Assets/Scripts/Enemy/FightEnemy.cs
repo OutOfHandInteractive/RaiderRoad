@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 /// <summary>
 /// This is for enemies that want to seek out and beat up players.
@@ -20,13 +21,14 @@ public class FightEnemy : EnemyAI {
     private GameObject player;
     private GameObject eVehicle;
     private NavMeshAgent agent;
-
+    private GameObject fightIcon;
+    private bool maxDisplay = false;
     /// <summary>
     /// Initialize this state
     /// </summary>
     /// <param name="enemy">This enemy</param>
     /// <param name="target">The target to attack, if any</param>
-    public void StartFight(GameObject enemy, VehicleAI vehicle,NavMeshAgent _agent, GameObject target = null)
+    public void StartFight(GameObject enemy, VehicleAI vehicle,NavMeshAgent _agent, GameObject _fightIcon, GameObject target = null)
     {
         //Initialized enemy
         players = GameObject.FindGameObjectsWithTag("Player");
@@ -36,6 +38,7 @@ public class FightEnemy : EnemyAI {
         fightRange = cObject.transform.Find("EnemyAttack").gameObject;
         player = GetTarget();
         eVehicle = vehicle.gameObject;
+        fightIcon = _fightIcon;
     }
 
     private GameObject GetTarget()
@@ -58,7 +61,7 @@ public class FightEnemy : EnemyAI {
     {
         //Get player object
         //Get enemy speed
-
+        StartCoroutine(displayImage());
         GameObject[] vehicles = GameObject.FindGameObjectsWithTag("eVehicle");
         float movement = speed * Time.deltaTime;
         //If doesnt exist or if player has been hit go into escape state
@@ -122,5 +125,36 @@ public class FightEnemy : EnemyAI {
     {
         fightRange.GetComponent<Renderer>().material.color = new Color(255f, 150f, 0f, 0f);
         chasing = true;
+    }
+
+    IEnumerator displayImage()
+    {
+        RectTransform icon = fightIcon.GetComponent<RectTransform>();
+        float maxHeight = 15;
+        float maxWidth = 12;
+        float increaseValue = 1f;
+        float decreaseValue = 1f;
+        float upTime = 3f;
+        if (icon.rect.height < maxHeight && icon.rect.width < maxWidth && !maxDisplay)
+        {
+            fightIcon.SetActive(true);
+            icon.sizeDelta = new Vector2(icon.rect.height + increaseValue, icon.rect.width + increaseValue);
+            fightIcon.GetComponent<RectTransform>().sizeDelta = icon.sizeDelta;
+        }
+        else
+        {
+            maxDisplay = true;
+        }
+        yield return new WaitForSeconds(upTime);
+        if (icon.rect.height > 0 && icon.rect.width > 0 && maxDisplay)
+        {
+            icon.sizeDelta = new Vector2(icon.rect.height - decreaseValue, icon.rect.width - decreaseValue);
+            fightIcon.GetComponent<RectTransform>().sizeDelta = icon.sizeDelta;
+        }
+        else if(icon.rect.height == 0 && icon.rect.width == 0)
+        {
+            fightIcon.SetActive(false);
+        }
+
     }
 }
