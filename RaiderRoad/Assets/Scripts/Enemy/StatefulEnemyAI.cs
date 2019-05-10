@@ -264,7 +264,10 @@ public class StatefulEnemyAI : EnemyAI {
     /// </summary>
     public void EnterSteal() {
         currentState = State.Steal;
-		myAni.SetBool("Sneaking", true);
+        if (GetComponent<lightEnemy>())
+        {
+            myAni.SetBool("Sneaking", true);
+        }
         steal.StartSteal(enemy, destroyIcon);
         enemy.GetComponent<Renderer>().material.color = Color.magenta;
     }
@@ -274,7 +277,11 @@ public class StatefulEnemyAI : EnemyAI {
     /// </summary>
     public void EnterDestroy() {
         currentState = State.Destroy;
-		myAni.SetBool("Sneaking", true);
+        if(GetComponent<lightEnemy>())
+        {
+            myAni.SetBool("Sneaking", true);
+        }
+
 		destroy.StartDestroy(enemy, agent, destroyIcon);
         enemy.GetComponent<Renderer>().material.color = Color.yellow;
     }
@@ -338,7 +345,8 @@ public class StatefulEnemyAI : EnemyAI {
 	IEnumerator DestroyWall(Collider other) {
 		isDestroying = true;
 		agent.speed = 0;
-		myAni.SetTrigger("StartBreak"); //visual of enemy breaking object
+        myAni.SetTrigger("StartBreak"); //visual of enemy breaking object
+
         yield return new WaitForSeconds(myAni.GetCurrentAnimatorStateInfo(0).length);
         increaseIconSize();
         yield return new WaitForSeconds(wallDestroyTime);
@@ -361,8 +369,8 @@ public class StatefulEnemyAI : EnemyAI {
 
 	IEnumerator DestroyBattery(Collider other) {
 		isDestroying = true;
-		myAni.SetTrigger("StartBreak"); //visual of enemy breaking object
-		agent.speed = 0;
+        myAni.SetTrigger("StartBreak"); //visual of enemy breaking object
+        agent.speed = 0;
         yield return new WaitForSeconds(myAni.GetCurrentAnimatorStateInfo(0).length);
         increaseIconSize();
         yield return new WaitForSeconds(batteryDestroyTime);
