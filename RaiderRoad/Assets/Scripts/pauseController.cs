@@ -33,6 +33,7 @@ public class pauseController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        endStateUI.gameObject.SetActive(false);
         isPaused = false;
         g = GameManager.GameManagerInstance;
 
