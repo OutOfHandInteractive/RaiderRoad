@@ -9,8 +9,14 @@ public class enemyCannonball : AbstractCannonball
 {    
     public float cannonDamage = 2f;
     public float splashRadius = 3f;
+    public Renderer warning;
+    public float upTime;
+    public float downTime;
+
     private float cooldown = .1f;
     private bool canCollide = false;
+    private bool isUp = true;
+    private float warningCooldown = 0f;
 
     private void Update()
     {
@@ -24,6 +30,26 @@ public class enemyCannonball : AbstractCannonball
             {
                 canCollide = true;
             }
+        }
+
+        // Flashing warning
+        if (warningCooldown > 0f)
+        {
+            warningCooldown -= Time.deltaTime;
+        }
+        else
+        {
+            if (isUp)
+            {
+                warning.enabled = false;
+                warningCooldown = downTime;
+            }
+            else
+            {
+                warning.enabled = true;
+                warningCooldown = upTime;
+            }
+            isUp = !isUp;
         }
     }
 
