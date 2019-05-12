@@ -18,7 +18,7 @@ public abstract class VehicleFactory_I : MonoBehaviour {
 
 	#region abstract methods
 	protected abstract GameObject SelectChassis();
-	public abstract void AttachPayload(GameObject cargo, float wChance);
+	public abstract void AttachPayload(GameObject cargo, float wChance, int batteries);
 	public abstract void AttachWheels(GameObject chassis, VehicleAI v);
 	#endregion
 
@@ -26,7 +26,7 @@ public abstract class VehicleFactory_I : MonoBehaviour {
 		rand = new System.Random();
 	}
 
-	public GameObject AssembleVehicle(int modifier, Vector3 position, float wChance) {
+	public GameObject AssembleVehicle(int modifier, Vector3 position, float wChance, int batteries) {
 		float armorStacks = 0f;
 		float ramDamageStacks = 0f;
 		float speedStacks = 0f;
@@ -46,7 +46,7 @@ public abstract class VehicleFactory_I : MonoBehaviour {
 		cab = AttachCab(chassis, vAI, ref armorStacks, ref ramDamageStacks, ref speedStacks);
 		cargo = AttachCargo(cab, vAI, ref armorStacks, ref ramDamageStacks, ref speedStacks);
 		AttachAttachment(cab, vAI, ref armorStacks, ref ramDamageStacks, ref speedStacks);
-		AttachPayload(cargo,wChance);
+		AttachPayload(cargo,wChance,batteries);
 		AttachWheels(chassis, vAI);
 
 
@@ -139,4 +139,5 @@ public abstract class VehicleFactory_I : MonoBehaviour {
 		return Payload[selectedIndex];
 	}
 	#endregion
+
 }
