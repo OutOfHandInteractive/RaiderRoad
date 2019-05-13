@@ -33,8 +33,9 @@ public class VehicleAI : MonoBehaviour {
 
     public float batteryDropChance = 1.0f;
     public GameObject batteryDrop;
-    
+
     public bool testDeath = false;
+    private float stayTime = 0;
 
     //Statistics
     public float maxHealth;
@@ -101,7 +102,15 @@ public class VehicleAI : MonoBehaviour {
         }
         if(transform.GetComponentInChildren<PlayerController_Rewired>())
         {
-            EnterWander();
+            stayTime += Time.deltaTime;
+            if(stayTime < 15)
+            {
+                EnterWander();
+            }
+            else
+            {
+                EnterLeave();
+            }
         }
         switch (currentState)
         {
@@ -281,10 +290,16 @@ public class VehicleAI : MonoBehaviour {
         transform.Translate(Vector3.forward * Time.deltaTime * -1);
         yield return null;
     }
-	#endregion
+    IEnumerator WaitToLeaveWithPlayer()
+    {
+        EnterWander();
+        yield return new WaitForSeconds(3);
+        EnterLeave();
+    }
+    #endregion
 
-	#region Getters and Setters
-	public float getMaxHealth() {
+    #region Getters and Setters
+    public float getMaxHealth() {
 		return maxHealth;
 	}
 

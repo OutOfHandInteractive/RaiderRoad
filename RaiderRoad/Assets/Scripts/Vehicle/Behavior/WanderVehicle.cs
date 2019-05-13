@@ -48,8 +48,6 @@ public class WanderVehicle : MonoBehaviour {
 
     public void Wander()
     {
-        Debug.LogWarning(wanderPoints);
-        Debug.Log("HELP");
         //Return null if no patrol points
         if (patrols.Count == 0)
             return;
@@ -60,21 +58,22 @@ public class WanderVehicle : MonoBehaviour {
         */
         if (Vector3.Distance(cObject.transform.position, patrols[wanderPoints].position) < 1f)
         {
-            Debug.LogWarning("CALLED");
             wanderPoints = Random.Range(0, patrols.Count);
             time = 0;
         }
-        Debug.Log("PATROL!" + patrols[1].position);
         cObject.transform.position = Vector3.Lerp(cObject.transform.position, patrols[wanderPoints].position, time);
         if (!GetComponentInChildren<EnemyAI>() && !hasWeapon)
         {
-            Debug.LogWarning("HELP");
             if (GetComponentInChildren<PlayerController_Rewired>() == null)
             {
                 cObject.GetComponent<VehicleAI>().EnterLeave();
             }
         }
-        Debug.LogWarning(Radio.GetRadio().checkState() + "CURRENT STAY");
+
+        if (cObject.GetComponentInChildren<PlayerController_Rewired>())
+        {
+            StartCoroutine(waitToLeaveWithPlayer());
+        }
         //Chance to attack or chase the RV
         if (hasWeapon)
         {
@@ -113,5 +112,10 @@ public class WanderVehicle : MonoBehaviour {
         yield return new WaitForSeconds(5);
         cObject.GetComponent<VehicleAI>().EnterLeave();
 
+    }
+    IEnumerator waitToLeaveWithPlayer()
+    {
+        yield return new WaitForSeconds(3);
+        cObject.GetComponent<VehicleAI>().EnterLeave();
     }
 }
