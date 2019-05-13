@@ -340,7 +340,7 @@ public class PlayerController_Rewired : MonoBehaviour
     }
 
     private void OnCollisionExit(Collision collision) {
-        if (collision.gameObject.tag == "eVehicle") {
+        /*if (collision.gameObject.tag == "eVehicle") {
             //Debug.Log("Can jump");
             transform.parent = null;
         }
