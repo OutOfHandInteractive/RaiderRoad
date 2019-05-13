@@ -38,10 +38,12 @@ public abstract class Constructable : MonoBehaviour
     /// </summary>
 	public bool isHolo = false;
 
-    /// <summary>
-    /// Boolean flag that indicates whether this object is currently being attacked by a raider
-    /// </summary>
-    //public bool isOccupied = false;
+	/// <summary>
+	/// Boolean flag that indicates whether this object is currently being attacked by a raider
+	/// </summary>
+	//public bool isOccupied = false;
+
+	[SerializeField] private AudioClip breakSound;
 
 	// -------------- nonpublic variables ----------------
 	[SerializeField] protected ParticleSystem objectBreakParticles;
@@ -122,15 +124,18 @@ public abstract class Constructable : MonoBehaviour
             // set node to unoccupied again
             GetNodeComp(myNode).occupied = false;
         }
-        Destroy(this.gameObject);
+		gameObject.SetActive(false);
+
+		EnvironmentAudio.Instance.PlaySound_ConstructableDestroy(breakSound);
+		Destroy(gameObject);
     }
 
-    /// <summary>
-    /// Abstract method that gets the build node component out of the given game object
-    /// </summary>
-    /// <param name="myNode">The object to extract the component from</param>
-    /// <returns>The build node component</returns>
-    protected abstract AbstractBuildNode GetNodeComp(GameObject myNode);
+	/// <summary>
+	/// Abstract method that gets the build node component out of the given game object
+	/// </summary>
+	/// <param name="myNode">The object to extract the component from</param>
+	/// <returns>The build node component</returns>
+	protected abstract AbstractBuildNode GetNodeComp(GameObject myNode);
 
     private void MakeHolo() // a function for making material holographic
     {

@@ -8,7 +8,7 @@ using System.Collections;
 public class AudioManager : MonoBehaviour
 {
 
-    protected AudioSource audioSource;
+    [SerializeField] protected AudioSource audioSource;
 
     /// <summary>
     /// Picks up the AudioSource attached to the same object as this component

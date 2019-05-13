@@ -92,7 +92,7 @@ GameObject:
   - component: {fileID: 65737435451518856}
   - component: {fileID: 95446108831496240}
   - component: {fileID: 5114416760214951273}
-  - component: {fileID: 9146106750446789253}
+  - component: {fileID: 1139685673619887350}
   m_Layer: 0
   m_Name: Cannon
   m_TagString: Interactable
@@ -138,8 +138,6 @@ MonoBehaviour:
   smokeBurst: {fileID: 1042969681109656, guid: 09f1a7aa5feb7bb49b9261fa12065899, type: 3}
   myAni: {fileID: 7646600383067321723}
   isOccupied: 0
-  fireClip: {fileID: 8300000, guid: 09665e079ce90d44e8d137af56bc3d86, type: 3}
-  aSource: {fileID: 9146106750446789253}
   reticuleMoveSpeed: 3
   firingCooldown: 1
   coneAngle: 45
@@ -212,7 +210,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!82 &9146106750446789253
+--- !u!82 &1139685673619887350
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -223,7 +221,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -371,6 +369,7 @@ MonoBehaviour:
   hits: 3
   health: 200
   isHolo: 0
+  breakSound: {fileID: 8300000, guid: 623057de44ace3841ab618c54b94f8b1, type: 3}
   objectBreakParticles: {fileID: 6212661251598392329, guid: eb78ab39b81a90648939e23da22dc49d,
     type: 3}
   disabledNodes: []
