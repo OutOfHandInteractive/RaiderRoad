@@ -11,7 +11,7 @@ public class Skid : MonoBehaviour
     private float count = 0;
     private float skidDuration;
     private float skidIntensity = 1f;
-    private float intensity = 1f;
+    private float intensity = .5f;
     private bool skid = false;
 
     void Update()
