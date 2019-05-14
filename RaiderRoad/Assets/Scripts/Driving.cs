@@ -34,7 +34,7 @@ public class Driving : Interactable
     public ParticleSystem leftSpark;
 
     // Rotation
-    public float rotationMod = 15f;
+    public float rotationMod = 2.5f;
 
     //--------------------
     // Private Variables
