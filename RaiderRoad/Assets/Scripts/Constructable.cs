@@ -54,7 +54,6 @@ public abstract class Constructable : MonoBehaviour
     {
         if (isHolo) MakeHolo();
         OnStart();
-		EnvironmentAudio.Instance.PlaySound_ConstructableBuild(placeSound);
 	}
 
     // Update is called once per frame
@@ -144,6 +143,10 @@ public abstract class Constructable : MonoBehaviour
         gameObject.GetComponent<BoxCollider>().enabled = false;
         
     }
+
+	public void PlaySound_Place() {
+		EnvironmentAudio.Instance.PlaySound_ConstructableBuild(placeSound);
+	}
 }
 
 /// <summary>
