@@ -87,7 +87,7 @@
 
 			o.Metallic = tex2D(_Metallic, IN.uv_MainTex).r;
 			o.Smoothness = _Smoothness * tex2D(_Metallic, IN.uv_MainTex).a;
-			o.Normal = tex2D(_NormalMap, IN.uv_MainTex).rgba;
+			o.Normal = UnpackNormal(tex2D(_NormalMap, IN.uv_MainTex));
 		}
 		ENDCG
 	}
