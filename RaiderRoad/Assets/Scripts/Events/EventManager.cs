@@ -62,8 +62,8 @@ public class EventManager : MonoBehaviour {
     private float waitToStart = 20f;        //for the below coroutines, this has it so calculations don't being until events start spawning
     //spawn delay bounds
     private float delayLower = 2f;  //will not be lower
-    [SerializeField] private float curDelay = 15f;     //upperBound of 15 - will not exceed this
-    private float betweenDelayAdjust = 20f;  //delay will be adjusted every 20 seconds
+    [SerializeField] private float curDelay = 12f;     //upperBound of 15 - will not exceed this
+    private float betweenDelayAdjust = 18f;  //delay will be adjusted every 20 seconds
     private float sFactor = 0.85f;        //to start, decrementing to 85% every 20 seconds will hit the lower bound at approximately 4 minutes in
     //weapon frequency variables
     private float wDelay = 15f; //time between weapon frequency adjustments
@@ -172,7 +172,7 @@ public class EventManager : MonoBehaviour {
             {
 				//determine vehicle type
                 if(difficultyRating >= Constants.HEAVY_VEHICLE_BASE_THREAT){
-                    randNum = UnityEngine.Random.Range((int)VehicleFactoryManager.vehicleTypes.light, (int)VehicleFactoryManager.vehicleTypes.heavy + 1);
+                    randNum = UnityEngine.Random.Range((int)VehicleFactoryManager.vehicleTypes.medium, (int)VehicleFactoryManager.vehicleTypes.heavy + 1);
                 }
                 else if (difficultyRating >= Constants.MEDIUM_VEHICLE_BASE_THREAT) {
 					randNum = UnityEngine.Random.Range((int)VehicleFactoryManager.vehicleTypes.light, (int)VehicleFactoryManager.vehicleTypes.medium + 1);
@@ -240,7 +240,7 @@ public class EventManager : MonoBehaviour {
 
         System.Random rand = new System.Random();
         double randomModifier = (rand.NextDouble() * (randomModifierMax - randomModifierMin)) + randomModifierMin;	// this is kinda broke
-
+        
         // Equation to calculate difficulty rating. Has base linear slope modified by a sin function to give peaks and valleys
         // to difficulty
         // diff = diffSlope*x + sin(frequencyModifier*x) + baseDifficulty
