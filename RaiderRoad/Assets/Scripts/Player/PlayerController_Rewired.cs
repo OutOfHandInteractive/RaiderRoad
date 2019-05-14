@@ -47,8 +47,13 @@ public class PlayerController_Rewired : MonoBehaviour
     public float prevMoveVal; //used to polish movement transitions (in animations)
     private GameManager g;
     private bool myPauseInput = false;
+    //Anim IKs
+    public Transform leftHandIKTran;
+    public Transform rightHandIKTran;
+    public float handIKPosWeight;
+    public float handIKRotWeight;
 
-	// health
+    // health
     public float currentHealth;
 	[SerializeField] private float hp5;	// health regen per 5 seconds
 	[SerializeField] private float healthRegenDelay;
@@ -534,7 +539,35 @@ public class PlayerController_Rewired : MonoBehaviour
 		myAni.SetFloat("speed", 0f);
 	}
 
-	public void backToOrigAnim() {
+    //Full hand IK follow weapons
+    public void pilotWeaponAnim(bool pilotBool, Transform LeftHandTran, Transform RightHandTran)
+    {
+        //myAni.SetBool("aimWeapon", pilotBool);
+        myAni.SetFloat("speed", 0f);
+
+        leftHandIKTran = LeftHandTran;
+        rightHandIKTran = RightHandTran;
+        if (pilotBool) {
+            handIKPosWeight = 1f;
+            handIKRotWeight = 1f;
+        } else {
+            handIKPosWeight = 0f;
+            handIKRotWeight = 0f;
+        }
+        OnAnimatorIK(1);
+        OnAnimatorIK(0);
+    }
+
+    //Function for hand IKs
+    void OnAnimatorIK(int layerIndex)
+    {
+        myAni.SetIKPositionWeight(AvatarIKGoal.LeftHand, handIKPosWeight);
+        myAni.SetIKRotationWeight(AvatarIKGoal.LeftHand, handIKRotWeight);
+        myAni.SetIKPosition(AvatarIKGoal.LeftHand, leftHandIKTran.position);
+        myAni.SetIKRotation(AvatarIKGoal.LeftHand, leftHandIKTran.rotation);
+    }
+
+    public void backToOrigAnim() {
         myAni.SetBool("downed", false);
     }
     #endregion

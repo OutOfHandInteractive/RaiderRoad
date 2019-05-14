@@ -67,6 +67,8 @@ MonoBehaviour:
   tickDamage: 10
   tickDamageEnemy: 10
   tickTime: 0.5
+  leftHandTran: {fileID: 4282440923690063014}
+  rightHandTran: {fileID: 2899215824734536082}
 --- !u!65 &65648946905826044
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -512,6 +514,66 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 5.00
+--- !u!1 &2518090046398835110
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4282440923690063014}
+  m_Layer: 0
+  m_Name: IKHandle_Left
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4282440923690063014
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2518090046398835110}
+  m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: -0.12284996, y: -0.044996858, z: -0.7391414}
+  m_LocalScale: {x: 1.5000004, y: 0.7000002, z: 0.70000046}
+  m_Children: []
+  m_Father: {fileID: 4665343717394390632}
+  m_RootOrder: 15
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+--- !u!1 &3933155436071829899
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2899215824734536082}
+  m_Layer: 0
+  m_Name: IKHandle_Right
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2899215824734536082
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3933155436071829899}
+  m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 0.12284996, y: -0.044996858, z: -0.7391414}
+  m_LocalScale: {x: 1.5000004, y: 0.7000002, z: 0.70000046}
+  m_Children: []
+  m_Father: {fileID: 4665343717394390632}
+  m_RootOrder: 16
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!1 &6026568539018305293
 GameObject:
   m_ObjectHideFlags: 0
@@ -569,6 +631,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9500bc9696ac0746ab516b0856c67b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerTargets: []
 --- !u!1001 &5697990384106317703
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -636,6 +699,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: FlameThrowerWrapper
       objectReference: {fileID: 0}
+    - target: {fileID: 6631037219080494066, guid: 0d9b7ed469d802749b55e689d4a6ca4f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1129828961117485535, guid: 0d9b7ed469d802749b55e689d4a6ca4f,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -650,6 +718,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: model
+      objectReference: {fileID: 0}
+    - target: {fileID: 1129828961117578751, guid: 0d9b7ed469d802749b55e689d4a6ca4f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1129828961117485551, guid: 0d9b7ed469d802749b55e689d4a6ca4f,
         type: 3}

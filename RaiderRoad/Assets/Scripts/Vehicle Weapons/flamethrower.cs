@@ -44,8 +44,11 @@ public class flamethrower : Interactable {
 	private flamethrowerDamage damage;
 	private flamethrowerDamageEnemy damageEnemy;
     private AudioSource audio;
-    
-	[System.NonSerialized]
+
+    [SerializeField] private Transform leftHandTran;
+    [SerializeField] private Transform rightHandTran;
+
+    [System.NonSerialized]
         private bool initialized;
 
 	void Awake() {
@@ -229,8 +232,10 @@ public class flamethrower : Interactable {
 		userPlayerId = user.playerId;
 		playerUsing = user.gameObject;
 		user.setInteractingFlag();
-		user.interactAnim(true); //start animation
-		user.setObjectInUse(this);
+		//user.interactAnim(true); //start animation
+        user.pilotWeaponAnim(true, leftHandTran, rightHandTran); //start pilot IK anim
+        //set up another function on player controller to toggle IKs (have 3 inputs, IK left, IK right), put it here and turn it off on Leave
+        user.setObjectInUse(this);
 
 		playerUsing.GetComponent<Rigidbody>().isKinematic = true;
 
@@ -250,7 +255,8 @@ public class flamethrower : Interactable {
             user.unsetInteractingFlag();
             inUse = false;
             reticule.SetActive(false);
-            user.interactAnim(false); //stop animation
+            //user.interactAnim(false); //stop animation
+            user.pilotWeaponAnim(false, leftHandTran, rightHandTran); //stop pilot IK anim
             user.setObjectInUse(null);
 
             playerUsing.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
