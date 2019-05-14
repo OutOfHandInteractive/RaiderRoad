@@ -44,14 +44,10 @@ public class PlayerController_Rewired : MonoBehaviour
     private Rigidbody rb;
     //Animator
     public Animator myAni;
+    private IKplayerHandler myIKHandler; //IK script for controlling hand IKs
     public float prevMoveVal; //used to polish movement transitions (in animations)
     private GameManager g;
     private bool myPauseInput = false;
-    //Anim IKs
-    public Transform leftHandIKTran;
-    public Transform rightHandIKTran;
-    public float handIKPosWeight;
-    public float handIKRotWeight;
 
     // health
     public float currentHealth;
@@ -114,8 +110,9 @@ public class PlayerController_Rewired : MonoBehaviour
         //find current color of player
         if (myMat != null) myOrigColor = myMat.color;
 
-        //find animator
+        //find animator and IK handler
         myAni = gameObject.GetComponentInChildren<Animator>();
+        myIKHandler = myAni.gameObject.GetComponent<IKplayerHandler>();
 
         //Get game manager for reference
         g = GameManager.GameManagerInstance;
@@ -545,26 +542,11 @@ public class PlayerController_Rewired : MonoBehaviour
         //myAni.SetBool("aimWeapon", pilotBool);
         myAni.SetFloat("speed", 0f);
 
-        leftHandIKTran = LeftHandTran;
-        rightHandIKTran = RightHandTran;
         if (pilotBool) {
-            handIKPosWeight = 1f;
-            handIKRotWeight = 1f;
+            myIKHandler.SetHandIKs(LeftHandTran, RightHandTran, 1f, 1f);
         } else {
-            handIKPosWeight = 0f;
-            handIKRotWeight = 0f;
+            myIKHandler.SetHandIKs(LeftHandTran, RightHandTran, 0f, 0f);
         }
-        OnAnimatorIK(1);
-        OnAnimatorIK(0);
-    }
-
-    //Function for hand IKs
-    void OnAnimatorIK(int layerIndex)
-    {
-        myAni.SetIKPositionWeight(AvatarIKGoal.LeftHand, handIKPosWeight);
-        myAni.SetIKRotationWeight(AvatarIKGoal.LeftHand, handIKRotWeight);
-        myAni.SetIKPosition(AvatarIKGoal.LeftHand, leftHandIKTran.position);
-        myAni.SetIKRotation(AvatarIKGoal.LeftHand, leftHandIKTran.rotation);
     }
 
     public void backToOrigAnim() {
