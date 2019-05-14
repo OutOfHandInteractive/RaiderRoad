@@ -106,6 +106,7 @@ public class flamethrower : Interactable {
         firing = false;
         damageCollider.SetActive(false);
         damageColliderEnemy.SetActive(false);
+        damageColliderEnemy.GetComponent<flamethrowerDamageEnemy>().playerTargets.Clear();
     }
 
 	public void StartFiringEnemy()

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 /// <summary>
 /// State machine for governing Raider AI. Passes updates down to the current state.
@@ -52,6 +53,12 @@ public class StatefulEnemyAI : EnemyAI {
 	[SerializeField] private float wallDestroyTime;
 	[SerializeField] private float batteryDestroyTime;
 
+    //UI Elements
+    public GameObject fightIcon;
+    public GameObject destroyIcon;
+    private bool isBigger = false;
+    private bool isSmaller = false;
+
     //Animation
     public Animator myAni;
 
@@ -97,7 +104,7 @@ public class StatefulEnemyAI : EnemyAI {
 
 	// Update is called once per frame
 	void Update() {
-		if (currentHealth <= 0) {
+        if (currentHealth <= 0) {
 			EnterDeath();
 		}
 
@@ -257,8 +264,11 @@ public class StatefulEnemyAI : EnemyAI {
     /// </summary>
     public void EnterSteal() {
         currentState = State.Steal;
-		myAni.SetBool("Sneaking", true);
-        steal.StartSteal(enemy);
+        if (GetComponent<lightEnemy>())
+        {
+            myAni.SetBool("Sneaking", true);
+        }
+        steal.StartSteal(enemy, destroyIcon);
         enemy.GetComponent<Renderer>().material.color = Color.magenta;
     }
 
@@ -267,8 +277,12 @@ public class StatefulEnemyAI : EnemyAI {
     /// </summary>
     public void EnterDestroy() {
         currentState = State.Destroy;
-		myAni.SetBool("Sneaking", true);
-		destroy.StartDestroy(enemy, agent);
+        if(GetComponent<lightEnemy>())
+        {
+            myAni.SetBool("Sneaking", true);
+        }
+
+		destroy.StartDestroy(enemy, agent, destroyIcon);
         enemy.GetComponent<Renderer>().material.color = Color.yellow;
     }
 
@@ -277,7 +291,7 @@ public class StatefulEnemyAI : EnemyAI {
     /// </summary>
     public void EnterFight() {
         currentState = State.Fight;
-        fight.StartFight(enemy, vehicle, agent);
+        fight.StartFight(enemy, vehicle, agent, fightIcon);
         enemy.GetComponent<Renderer>().material.color = Color.red;
     }
 
@@ -325,15 +339,17 @@ public class StatefulEnemyAI : EnemyAI {
 		}
 	}
 
+    
+
 	// ----------------------------- Destroy ----------------------------------
 	IEnumerator DestroyWall(Collider other) {
 		isDestroying = true;
 		agent.speed = 0;
-		myAni.SetTrigger("StartBreak"); //visual of enemy breaking object
-		yield return new WaitForSeconds(myAni.GetCurrentAnimatorStateInfo(0).length);
+        myAni.SetTrigger("StartBreak"); //visual of enemy breaking object
 
-		yield return new WaitForSeconds(wallDestroyTime);
-
+        yield return new WaitForSeconds(myAni.GetCurrentAnimatorStateInfo(0).length);
+        increaseIconSize();
+        yield return new WaitForSeconds(wallDestroyTime);
 		agent.speed = speed;
 
 		if (other) {	// make sure target is still there
@@ -344,21 +360,21 @@ public class StatefulEnemyAI : EnemyAI {
 		if (gameObject.GetComponent<lightEnemy>()) {
 			EnterSteal();
 		}
+        decreaseIconSize();
 
-		isDestroying = false;
+        isDestroying = false;
 
 		yield return null;
 	}
 
 	IEnumerator DestroyBattery(Collider other) {
 		isDestroying = true;
-		myAni.SetTrigger("StartBreak"); //visual of enemy breaking object
-		agent.speed = 0;
-		yield return new WaitForSeconds(myAni.GetCurrentAnimatorStateInfo(0).length);
-
-		yield return new WaitForSeconds(batteryDestroyTime);
-
-		agent.speed = speed;
+        myAni.SetTrigger("StartBreak"); //visual of enemy breaking object
+        agent.speed = 0;
+        yield return new WaitForSeconds(myAni.GetCurrentAnimatorStateInfo(0).length);
+        increaseIconSize();
+        yield return new WaitForSeconds(batteryDestroyTime);
+        agent.speed = speed;
 		if (other) {
 			other.gameObject.GetComponent<Engine>().Damage(100f);
 
@@ -366,12 +382,43 @@ public class StatefulEnemyAI : EnemyAI {
 				destroy.engineKill = true;
 			}
 		}
+        decreaseIconSize();
 
-		isDestroying = false;
+        isDestroying = false;
 		myAni.SetTrigger("InterruptAction");    // this needs to change. need a better way to stop the destroying anim
 	}
 
-	public void ExitDestroyState() {
+    private void increaseIconSize()
+    {
+        RectTransform icon = destroyIcon.GetComponent<RectTransform>();
+        float maxHeight = 20;
+        float maxWidth = 15;
+        float increaseValue = 1f;
+        if (icon.rect.height < maxHeight && icon.rect.width < maxWidth && !isBigger)
+        {
+            destroyIcon.GetComponent<Image>().color = Color.red;
+            icon.sizeDelta = new Vector2(icon.rect.height + increaseValue, icon.rect.width + increaseValue);
+            destroyIcon.GetComponent<RectTransform>().sizeDelta = icon.sizeDelta;
+        }
+        else
+        {
+            isBigger = true;
+        }
+    }
+    private void decreaseIconSize()
+    {
+        RectTransform icon = destroyIcon.GetComponent<RectTransform>();
+        if (icon.rect.height > 0 && icon.rect.width > 0 && !isSmaller)
+        {
+            destroyIcon.SetActive(false);
+        }
+        else
+        {
+            isSmaller = true;
+        }
+    }
+
+    public void ExitDestroyState() {
 		if (isDestroying) {
             agent.speed = speed;
             StopCoroutine("DestroyWall");
@@ -479,7 +526,7 @@ public class StatefulEnemyAI : EnemyAI {
 
         if (other.gameObject.tag == "Engine" && currentState == State.Destroy) {
             agent.speed = 0;
-			StartCoroutine("DestroyBattery", other);
+            StartCoroutine("DestroyBattery", other);
         }
     }
 

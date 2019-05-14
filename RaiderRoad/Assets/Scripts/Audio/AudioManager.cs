@@ -23,10 +23,8 @@ public class AudioManager : MonoBehaviour
     /// </summary>
     /// <param name="clip">The clip to play (may be null)</param>
     /// <param name="volumeScale">The volume to play it at</param>
-    protected void OneShot(AudioClip clip, float volumeScale = 1.0f)
-    {
-        if(clip != null)
-        {
+    protected void OneShot(AudioClip clip, float volumeScale = 1.0f) {
+        if(clip != null) {
             audioSource.PlayOneShot(clip, volumeScale);
         }
     }

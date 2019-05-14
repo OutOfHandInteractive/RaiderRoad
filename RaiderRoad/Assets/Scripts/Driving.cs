@@ -22,8 +22,16 @@ public class Driving : Interactable
     //Skid
     public Skid leftSkidNode;
     public Skid rightSkidNode;
+    public Skid leftSkidNodeFront;
+    public Skid rightSkidNodeFront;
     public float skidDuration = 1f;
     public float skidIntensity = 1f;
+
+    // Side Damage
+    public float sideDamageTick = .5f;
+    public float sideDamagePerTick = 1f;
+    public ParticleSystem rightSpark;
+    public ParticleSystem leftSpark;
 
     //--------------------
     // Private Variables
@@ -32,6 +40,8 @@ public class Driving : Interactable
     private Player player;
     [SerializeField]
     private Vector2 moveVector;
+    private bool takeSideDamage = false;
+    private float count = 0f;
 
     [System.NonSerialized]
     private bool initialized;
@@ -69,6 +79,20 @@ public class Driving : Interactable
             rightClamp = 20;
         }
 
+        // Side damage
+        if (takeSideDamage)
+        {
+            if (count <= 0f)
+            {
+                rv.GetComponent<rvHealth>().damagePOI(sideDamagePerTick);
+                count = sideDamageTick;
+            }
+            else
+            {
+                count -= Time.deltaTime;
+            }
+        }
+
         GetInput();
         ProcessInput();
     }
@@ -89,6 +113,8 @@ public class Driving : Interactable
             {
                 leftSkidNode.TireSkid(skidDuration, skidIntensity);
                 rightSkidNode.TireSkid(skidDuration, skidIntensity);
+                leftSkidNodeFront.TireSkid(skidDuration, skidIntensity);
+                rightSkidNodeFront.TireSkid(skidDuration, skidIntensity);
                 moveVector.x = player.GetAxis("Move Horizontal") * Time.deltaTime * moveSpeed * accel;
             }
             else if(moveVector.x >= 0)
@@ -156,6 +182,25 @@ public class Driving : Interactable
     {
         rv.Translate(moveVector.x, 0, moveVector.y, Space.World);
         Vector3 clampedPosition = rv.transform.position;
+
+        // Side wall dmg
+        if (clampedPosition.x <= leftClamp)
+        {
+            takeSideDamage = true;
+            leftSpark.Play();
+        }
+        else if (clampedPosition.x >= rightClamp)
+        {
+            takeSideDamage = true;
+            rightSpark.Play();
+        }
+        else
+        {
+            takeSideDamage = false;
+            rightSpark.Stop();
+            leftSpark.Stop();
+        }
+
         clampedPosition.x = Mathf.Clamp(rv.transform.position.x, leftClamp, rightClamp);
         clampedPosition.z = Mathf.Clamp(rv.transform.position.z, -10f, 10f);
         rv.transform.position = clampedPosition;
@@ -190,6 +235,7 @@ public class Driving : Interactable
 		user.setObjectInUse(this);
 
 		playerUsing.GetComponent<Rigidbody>().isKinematic = true;
+		playerUsing.GetComponent<PlayerController_Rewired>().StopWalkingAudio();
 
 		inUse = true;
     }

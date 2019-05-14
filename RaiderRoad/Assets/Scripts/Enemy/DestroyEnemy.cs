@@ -22,12 +22,15 @@ public class DestroyEnemy : EnemyAI {
     private GameObject wall;
     private GameObject engine;
     private NavMeshAgent agent;
+    private GameObject destroyIcon;
+    private bool maxDisplay = false;
+    private bool minDisplay = false;
 
     /// <summary>
     /// Initializes this state
     /// </summary>
     /// <param name="enemy">This enemy (Deprecated)</param>
-    public void StartDestroy(GameObject enemy, NavMeshAgent _agent)
+    public void StartDestroy(GameObject enemy, NavMeshAgent _agent, GameObject _destroyIcon)
     {
         cObject = enemy;
         agent = _agent;
@@ -37,6 +40,7 @@ public class DestroyEnemy : EnemyAI {
         //Debug.Log(engines[0]);
         wall = Closest(cObject.transform.position, walls);
         engine = Closest(cObject.transform.position, engines);
+        destroyIcon = _destroyIcon;
         //Debug.Log(engine);
     }
 
@@ -49,21 +53,25 @@ public class DestroyEnemy : EnemyAI {
         float movement = speed * Time.deltaTime;
 
         if(cObject.GetComponent<StatefulEnemyAI>().getDamaged()) {
+            decreaseIconSize();
 			cObject.GetComponent<StatefulEnemyAI>().ExitDestroyState();
 			cObject.GetComponent<StatefulEnemyAI>().EnterFight();
         }
 
         //If there are no more walls, go to Fight state, else keep going for walls
         if (engineKill && cObject.GetComponent<lightEnemy>()) {
-			cObject.GetComponent<StatefulEnemyAI>().ExitDestroyState();
+            decreaseIconSize();
+            cObject.GetComponent<StatefulEnemyAI>().ExitDestroyState();
 			cObject.GetComponent<StatefulEnemyAI>().EnterSteal();
         }
         else if (engineKill && cObject.transform.parent != null) {
-			cObject.GetComponent<StatefulEnemyAI>().ExitDestroyState();
+            decreaseIconSize();
+            cObject.GetComponent<StatefulEnemyAI>().ExitDestroyState();
 			cObject.GetComponent<StatefulEnemyAI>().EnterFight();
         }
 		else {
             //Find destroyable and go to it
+            displayIcon();
             ChanceDestroy(walls, engines, movement);
         }
     }
@@ -79,7 +87,9 @@ public class DestroyEnemy : EnemyAI {
             if(walls.Length <= 0) {
                 Debug.Log(engine);
                 if(engines.Length <= 0 || engine == null) {
-					cObject.GetComponent<StatefulEnemyAI>().ExitDestroyState();
+                    decreaseIconSize();
+
+                    cObject.GetComponent<StatefulEnemyAI>().ExitDestroyState();
 					cObject.GetComponent<StatefulEnemyAI>().EnterFight();
                 }
                 else {
@@ -109,8 +119,37 @@ public class DestroyEnemy : EnemyAI {
         cObject.GetComponent<StatefulEnemyAI>().getAnimator().SetBool("Running", true);
     }
 
-	#region Getters and Setters
-	public void SetIsDestroying(bool _isDestroying) {
+    private void displayIcon()
+    {
+        RectTransform icon = destroyIcon.GetComponent<RectTransform>();
+        float maxHeight = 15;
+        float maxWidth = 12;
+        float increaseValue = 1f;
+        if (icon.rect.height < maxHeight && icon.rect.width < maxWidth && !maxDisplay)
+        {
+            destroyIcon.SetActive(true);
+            icon.sizeDelta = new Vector2(icon.rect.height + increaseValue, icon.rect.width + increaseValue);
+            destroyIcon.GetComponent<RectTransform>().sizeDelta = icon.sizeDelta;
+        }
+        else
+        {
+            maxDisplay = true;
+        }
+    }
+    private void decreaseIconSize()
+    {
+        RectTransform icon = destroyIcon.GetComponent<RectTransform>();
+        if (icon.rect.height > 0 && icon.rect.width > 0 && !minDisplay)
+        {
+            destroyIcon.SetActive(false);
+        }
+        else
+        {
+            minDisplay = true;
+        }
+    }
+    #region Getters and Setters
+    public void SetIsDestroying(bool _isDestroying) {
 		isDestroying = _isDestroying;
 	}
 	#endregion
