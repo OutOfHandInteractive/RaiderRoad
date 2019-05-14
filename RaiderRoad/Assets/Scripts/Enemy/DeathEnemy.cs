@@ -12,10 +12,11 @@ public class DeathEnemy : MonoBehaviour {
     /// </summary>
     /// <param name="enemy"></param>
     /// <param name="drop"></param>
-    public void Death(GameObject enemy, GameObject drop)
+    public void Death(GameObject enemy, GameObject drop, ParticleSystem fx)
     {
         spawnDrop(drop, enemy);
         stealDrop(enemy);
+		Instantiate(fx.gameObject, transform.position, Quaternion.identity);
         Destroy(enemy);
     }
 

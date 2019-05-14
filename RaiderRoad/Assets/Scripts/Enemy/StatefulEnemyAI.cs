@@ -62,6 +62,9 @@ public class StatefulEnemyAI : EnemyAI {
     //Animation
     public Animator myAni;
 
+	// FX
+	[SerializeField] private ParticleSystem deathFx;
+
 	#region System Functions
 	// Use this for initialization
 	void Start () {
@@ -155,7 +158,7 @@ public class StatefulEnemyAI : EnemyAI {
 					escape.Escape();
 					break;
 				case State.Death:
-					death.Death(enemy, dropOnDeath);
+					death.Death(enemy, dropOnDeath, deathFx);
 					break;
 				case State.Lure:
 					lure.Lure();

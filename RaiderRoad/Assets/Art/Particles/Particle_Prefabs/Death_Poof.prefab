@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7173468874899325977}
   - component: {fileID: 4465239363720423492}
   - component: {fileID: 1629782310419393126}
+  - component: {fileID: 2467474901388445283}
   m_Layer: 0
   m_Name: Death_Poof
   m_TagString: Untagged
@@ -4757,6 +4758,19 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &2467474901388445283
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2312677554826289177}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1438f612fc14f874b8f45dfb53c137ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fx: {fileID: 4465239363720423492}
 --- !u!1 &6415594526045221335
 GameObject:
   m_ObjectHideFlags: 0
