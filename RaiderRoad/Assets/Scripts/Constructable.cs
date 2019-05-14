@@ -44,6 +44,7 @@ public abstract class Constructable : MonoBehaviour
 	//public bool isOccupied = false;
 
 	[SerializeField] private AudioClip breakSound;
+	[SerializeField] private AudioClip placeSound;
 
 	// -------------- nonpublic variables ----------------
 	[SerializeField] protected ParticleSystem objectBreakParticles;
@@ -53,7 +54,8 @@ public abstract class Constructable : MonoBehaviour
     {
         if (isHolo) MakeHolo();
         OnStart();
-    }
+		EnvironmentAudio.Instance.PlaySound_ConstructableBuild(placeSound);
+	}
 
     // Update is called once per frame
     void Update()

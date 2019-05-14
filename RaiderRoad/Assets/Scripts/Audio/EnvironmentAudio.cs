@@ -7,7 +7,8 @@ public class EnvironmentAudio : AudioManager
 	#region Declarations
 	public static EnvironmentAudio Instance = null;
 
-	[SerializeField] private float wallBreakSoundVolume;
+	[SerializeField] private float ConstructableBreakSoundVolume;
+	[SerializeField] private float ConstructablePlaceSoundVolume;
 	#endregion
 	// Start is called before the first frame update
 	void Start() {
@@ -20,6 +21,10 @@ public class EnvironmentAudio : AudioManager
 	}
 
     public void PlaySound_ConstructableDestroy(AudioClip sound) {
-		OneShot(sound, wallBreakSoundVolume);
+		OneShot(sound, ConstructableBreakSoundVolume);
+	}
+
+	public void PlaySound_ConstructableBuild(AudioClip sound) {
+		OneShot(sound, ConstructablePlaceSoundVolume);
 	}
 }
