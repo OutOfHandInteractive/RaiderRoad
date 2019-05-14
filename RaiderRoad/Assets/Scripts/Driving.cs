@@ -158,6 +158,11 @@ public class Driving : Interactable
                     audio.Honk();
                 }
             }
+
+			if (player.GetButtonDown("Attack")) {
+				EnvironmentAudio.Instance.PlaySound_RVHonk();
+			}
+
             if ((player.GetAxis("Move Horizontal") == 0  && player.GetAxis("Move Vertical") == 0) && (accel >= 0))
             {
                 accel -= Time.deltaTime * (change * 5);

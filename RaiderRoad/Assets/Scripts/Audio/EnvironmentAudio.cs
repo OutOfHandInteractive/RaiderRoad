@@ -9,6 +9,9 @@ public class EnvironmentAudio : AudioManager
 
 	[SerializeField] private float ConstructableBreakSoundVolume;
 	[SerializeField] private float ConstructablePlaceSoundVolume;
+	[SerializeField] private List<AudioClip> HonkSounds;
+	[SerializeField] private float honkSoundVolume;
+
 	#endregion
 	// Start is called before the first frame update
 	void Start() {
@@ -26,5 +29,9 @@ public class EnvironmentAudio : AudioManager
 
 	public void PlaySound_ConstructableBuild(AudioClip sound) {
 		OneShot(sound, ConstructablePlaceSoundVolume);
+	}
+
+	public void PlaySound_RVHonk() {
+		OneShot(HonkSounds[Random.Range(0, HonkSounds.Count)], honkSoundVolume);
 	}
 }
