@@ -33,6 +33,9 @@ public class Driving : Interactable
     public ParticleSystem rightSpark;
     public ParticleSystem leftSpark;
 
+    // Rotation
+    public float rotationMod = 15f;
+
     //--------------------
     // Private Variables
     //--------------------
@@ -93,6 +96,19 @@ public class Driving : Interactable
             }
         }
 
+        // Rotation
+        if (moveVector.x != 0)
+        {
+            if (newDir == direction.left)
+            {
+                rv.transform.localEulerAngles = new Vector3(rv.transform.localEulerAngles.x, accel * -rotationMod, rv.transform.localEulerAngles.z);
+            }
+            else
+            {
+                rv.transform.localEulerAngles = new Vector3(rv.transform.localEulerAngles.x, accel * rotationMod, rv.transform.localEulerAngles.z);
+            }
+        }
+            
         GetInput();
         ProcessInput();
     }
