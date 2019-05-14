@@ -430,6 +430,8 @@ MonoBehaviour:
   hits: 3
   health: 200
   isHolo: 0
+  breakSound: {fileID: 8300000, guid: 4035daf499e223e4f88bb8a8ac3a5b72, type: 3}
+  placeSound: {fileID: 8300000, guid: a4d2ab2af4fba274e96c5ee68fb4523c, type: 3}
   objectBreakParticles: {fileID: 6212661251598392329, guid: eb78ab39b81a90648939e23da22dc49d,
     type: 3}
   disabledNodes: []
@@ -569,6 +571,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9500bc9696ac0746ab516b0856c67b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerTargets: []
 --- !u!1001 &5697990384106317703
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -576,6 +579,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4441295590853880}
     m_Modifications:
+    - target: {fileID: 6631037219080494066, guid: 0d9b7ed469d802749b55e689d4a6ca4f,
+        type: 3}
+      propertyPath: m_Name
+      value: FlameThrowerWrapper
+      objectReference: {fileID: 0}
     - target: {fileID: 6460048298713719536, guid: 0d9b7ed469d802749b55e689d4a6ca4f,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -631,11 +639,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6631037219080494066, guid: 0d9b7ed469d802749b55e689d4a6ca4f,
-        type: 3}
-      propertyPath: m_Name
-      value: FlameThrowerWrapper
-      objectReference: {fileID: 0}
     - target: {fileID: 1129828961117485535, guid: 0d9b7ed469d802749b55e689d4a6ca4f,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -670,36 +673,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5699029790436524379, guid: 0d9b7ed469d802749b55e689d4a6ca4f,
-        type: 3}
-      propertyPath: m_TagString
-      value: WeaponBarrel
-      objectReference: {fileID: 0}
-    - target: {fileID: 5699029790436524379, guid: 0d9b7ed469d802749b55e689d4a6ca4f,
-        type: 3}
-      propertyPath: m_TagString
-      value: WeaponBarrel
-      objectReference: {fileID: 0}
-    - target: {fileID: 5698907371457382119, guid: 0d9b7ed469d802749b55e689d4a6ca4f,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5698907371457382119, guid: 0d9b7ed469d802749b55e689d4a6ca4f,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1129828961117578639, guid: 0d9b7ed469d802749b55e689d4a6ca4f,
-        type: 3}
-      propertyPath: m_TagString
-      value: WeaponMount
-      objectReference: {fileID: 0}
-    - target: {fileID: 1129828961117578639, guid: 0d9b7ed469d802749b55e689d4a6ca4f,
-        type: 3}
-      propertyPath: m_TagString
-      value: WeaponMount
       objectReference: {fileID: 0}
     - target: {fileID: 5700464303683841405, guid: 0d9b7ed469d802749b55e689d4a6ca4f,
         type: 3}
@@ -756,6 +729,41 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 0.847
       objectReference: {fileID: 0}
+    - target: {fileID: 1129828961117578639, guid: 0d9b7ed469d802749b55e689d4a6ca4f,
+        type: 3}
+      propertyPath: m_TagString
+      value: WeaponMount
+      objectReference: {fileID: 0}
+    - target: {fileID: 1129828961117578639, guid: 0d9b7ed469d802749b55e689d4a6ca4f,
+        type: 3}
+      propertyPath: m_TagString
+      value: WeaponMount
+      objectReference: {fileID: 0}
+    - target: {fileID: 5698907371457382119, guid: 0d9b7ed469d802749b55e689d4a6ca4f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5698907371457382119, guid: 0d9b7ed469d802749b55e689d4a6ca4f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5699029790436524379, guid: 0d9b7ed469d802749b55e689d4a6ca4f,
+        type: 3}
+      propertyPath: m_TagString
+      value: WeaponBarrel
+      objectReference: {fileID: 0}
+    - target: {fileID: 5699029790436524379, guid: 0d9b7ed469d802749b55e689d4a6ca4f,
+        type: 3}
+      propertyPath: m_TagString
+      value: WeaponBarrel
+      objectReference: {fileID: 0}
+    - target: {fileID: 5657665254142232371, guid: 0d9b7ed469d802749b55e689d4a6ca4f,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5763335080411700463, guid: 0d9b7ed469d802749b55e689d4a6ca4f,
         type: 3}
       propertyPath: m_Size.z
@@ -785,11 +793,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Center.y
       value: 0.009152771
-      objectReference: {fileID: 0}
-    - target: {fileID: 5657665254142232371, guid: 0d9b7ed469d802749b55e689d4a6ca4f,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4311744539964931117, guid: 0d9b7ed469d802749b55e689d4a6ca4f,
         type: 3}

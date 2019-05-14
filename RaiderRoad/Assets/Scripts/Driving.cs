@@ -22,8 +22,19 @@ public class Driving : Interactable
     //Skid
     public Skid leftSkidNode;
     public Skid rightSkidNode;
+    public Skid leftSkidNodeFront;
+    public Skid rightSkidNodeFront;
     public float skidDuration = 1f;
     public float skidIntensity = 1f;
+
+    // Side Damage
+    public float sideDamageTick = .5f;
+    public float sideDamagePerTick = 1f;
+    public ParticleSystem rightSpark;
+    public ParticleSystem leftSpark;
+
+    // Rotation
+    public float rotationMod = 2.5f;
 
     //--------------------
     // Private Variables
@@ -32,6 +43,8 @@ public class Driving : Interactable
     private Player player;
     [SerializeField]
     private Vector2 moveVector;
+    private bool takeSideDamage = false;
+    private float count = 0f;
 
     [System.NonSerialized]
     private bool initialized;
@@ -69,6 +82,33 @@ public class Driving : Interactable
             rightClamp = 20;
         }
 
+        // Side damage
+        if (takeSideDamage)
+        {
+            if (count <= 0f)
+            {
+                rv.GetComponent<rvHealth>().damagePOI(sideDamagePerTick);
+                count = sideDamageTick;
+            }
+            else
+            {
+                count -= Time.deltaTime;
+            }
+        }
+
+        // Rotation
+        if (moveVector.x != 0)
+        {
+            if (newDir == direction.left)
+            {
+                rv.transform.localEulerAngles = new Vector3(rv.transform.localEulerAngles.x, accel * -rotationMod, rv.transform.localEulerAngles.z);
+            }
+            else
+            {
+                rv.transform.localEulerAngles = new Vector3(rv.transform.localEulerAngles.x, accel * rotationMod, rv.transform.localEulerAngles.z);
+            }
+        }
+            
         GetInput();
         ProcessInput();
     }
@@ -89,6 +129,8 @@ public class Driving : Interactable
             {
                 leftSkidNode.TireSkid(skidDuration, skidIntensity);
                 rightSkidNode.TireSkid(skidDuration, skidIntensity);
+                leftSkidNodeFront.TireSkid(skidDuration, skidIntensity);
+                rightSkidNodeFront.TireSkid(skidDuration, skidIntensity);
                 moveVector.x = player.GetAxis("Move Horizontal") * Time.deltaTime * moveSpeed * accel;
             }
             else if(moveVector.x >= 0)
@@ -116,6 +158,11 @@ public class Driving : Interactable
                     audio.Honk();
                 }
             }
+
+			if (player.GetButtonDown("Attack")) {
+				EnvironmentAudio.Instance.PlaySound_RVHonk();
+			}
+
             if ((player.GetAxis("Move Horizontal") == 0  && player.GetAxis("Move Vertical") == 0) && (accel >= 0))
             {
                 accel -= Time.deltaTime * (change * 5);
@@ -156,6 +203,25 @@ public class Driving : Interactable
     {
         rv.Translate(moveVector.x, 0, moveVector.y, Space.World);
         Vector3 clampedPosition = rv.transform.position;
+
+        // Side wall dmg
+        if (clampedPosition.x <= leftClamp)
+        {
+            takeSideDamage = true;
+            leftSpark.Play();
+        }
+        else if (clampedPosition.x >= rightClamp)
+        {
+            takeSideDamage = true;
+            rightSpark.Play();
+        }
+        else
+        {
+            takeSideDamage = false;
+            rightSpark.Stop();
+            leftSpark.Stop();
+        }
+
         clampedPosition.x = Mathf.Clamp(rv.transform.position.x, leftClamp, rightClamp);
         clampedPosition.z = Mathf.Clamp(rv.transform.position.z, -10f, 10f);
         rv.transform.position = clampedPosition;

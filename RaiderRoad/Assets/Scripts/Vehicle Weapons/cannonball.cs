@@ -62,10 +62,15 @@ public class cannonball : AbstractCannonball {
         else if (directTarget.CompareTag("road"))
         {
             Explode();
-        }else if (directTarget.CompareTag("Wall"))
+        }
+		else if (directTarget.CompareTag("Wall"))
         {
             directTarget.GetComponent<Wall>().Damage(100);
         }
+		else if (directTarget.CompareTag("Env")) {
+			Explode();
+			return;
+		}
 
 
 
