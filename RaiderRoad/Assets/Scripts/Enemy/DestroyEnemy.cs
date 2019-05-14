@@ -125,7 +125,6 @@ public class DestroyEnemy : EnemyAI {
         float maxHeight = 15;
         float maxWidth = 12;
         float increaseValue = 1f;
-        Debug.LogWarning("REACDHFSDHFJ");
         if (icon.rect.height < maxHeight && icon.rect.width < maxWidth && !maxDisplay)
         {
             destroyIcon.SetActive(true);

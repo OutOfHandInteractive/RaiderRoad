@@ -95,8 +95,11 @@ public class FightEnemy : EnemyAI {
     /// </summary>
     public void WindupAttack()
     {
-        fightRange.GetComponent<Renderer>().material.color = new Color(255f, 150f, 0f, .5f);
+        cObject.GetComponent<StatefulEnemyAI>().getAnimator().SetTrigger("WindUp");
+        //fightRange.GetComponent<Renderer>().material.color = new Color(255f, 150f, 0f, .5f);
+        //^^^ Temporary attack visual ^^^
         agent.speed = 0;
+        cObject.GetComponent<StatefulEnemyAI>().getAnimator().SetBool("Running", false); //If speed is 0, he shouldn't be running
         //chasing = false;
         //agent.isStopped = true;
         //cObject.transform.position = Vector3.zero;
