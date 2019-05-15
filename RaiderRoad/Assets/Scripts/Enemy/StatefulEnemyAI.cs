@@ -311,7 +311,6 @@ public class StatefulEnemyAI : EnemyAI {
     /// Enter the death state
     /// </summary>
     public void EnterDeath() {
-		Debug.Log("entering death");
         currentState = State.Death;
 		myAni.SetBool("Death", true);
     }
@@ -320,6 +319,7 @@ public class StatefulEnemyAI : EnemyAI {
 	/// Call to destroy character and play out death functionality
 	/// </summary>
 	public void PlayDeath() {
+		Debug.Log("function called");
 		death.Death(enemy, dropOnDeath, deathFx);
 	}
 
