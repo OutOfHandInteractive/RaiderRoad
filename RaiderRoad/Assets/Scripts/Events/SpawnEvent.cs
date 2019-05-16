@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //public abstract class Event : MonoBehaviour {
-public class Event : MonoBehaviour {
+public class SpawnEvent : MonoBehaviour {
 
 	//public enum EventTypes { vehicle, obstacle, fork };
     //public enum vehicleTypes { light, medium, heavy };

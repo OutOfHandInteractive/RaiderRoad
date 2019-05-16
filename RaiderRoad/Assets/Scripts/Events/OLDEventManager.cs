@@ -9,7 +9,7 @@ public class OLDEventManager : MonoBehaviour {
 
 	private int difficultyRating;
 	private int queueDifficultySum; 
-	private Queue<Event> eventQueue;
+	private Queue<SpawnEvent> eventQueue;
 
 	public float TimeBetweenEvents;
 	public float TimeBetweenDifficultyAdjustment;

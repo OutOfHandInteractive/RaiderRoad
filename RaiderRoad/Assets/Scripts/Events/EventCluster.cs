@@ -6,7 +6,7 @@ public class EventCluster : MonoBehaviour {
 
 	// ----------------------- public variables ----------------------
 	// references
-    public List<Event> events = new List<Event>();
+    public List<SpawnEvent> events = new List<SpawnEvent>();
 
 	// gameplay values
 	public int initSize;
@@ -35,7 +35,7 @@ public class EventCluster : MonoBehaviour {
     private float wChance;   //gets set by event manager
 
 
-    public void startUp(List<Event> sequence, VehicleFactoryManager factory, float _sDelay, float _wChance)
+    public void startUp(List<SpawnEvent> sequence, VehicleFactoryManager factory, float _sDelay, float _wChance)
     {
         manager = GameObject.Find("EventManager");
         managerRef = manager.GetComponent<EventManager>();
@@ -46,7 +46,7 @@ public class EventCluster : MonoBehaviour {
         initSize = events.Count;        //get number of events in cluster
         weight = 1.0f / initSize;             //determine weight of a single event for completeness
         threshold = weight * (initSize-1);      //this should probably be replaced with something better but for now it works
-        foreach (Event element in events)
+        foreach (SpawnEvent element in events)
         {           //sum of event difficulties
             difficulty += element.difficultyRating;
         }
@@ -62,7 +62,7 @@ public class EventCluster : MonoBehaviour {
 
     //spawning coroutine
     IEnumerator dispense(){
-        foreach (Event e in events){
+        foreach (SpawnEvent e in events){
             callEvent(e);
             yield return new WaitForSeconds(sDelay);     //call next event after delay
         }
@@ -97,7 +97,7 @@ public class EventCluster : MonoBehaviour {
     }
         
     //calls next event in cluster
-    void callEvent(Event eve){
+    void callEvent(SpawnEvent eve){
         if (eve._etype == EventManager.eventTypes.obstacle)
         {
             eve.oSpawn(_obstacle);

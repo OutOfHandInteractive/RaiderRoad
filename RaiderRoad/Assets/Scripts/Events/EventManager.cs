@@ -146,8 +146,8 @@ public class EventManager : MonoBehaviour {
     {
         VehicleFactoryManager.vehicleTypes vtype = VehicleFactoryManager.vehicleTypes._null; //need to assign for debugging
         eventTypes etype;
-        Event _nE;
-        List<Event> _new = new List<Event>();
+        SpawnEvent _nE;
+        List<SpawnEvent> _new = new List<SpawnEvent>();
         GameObject newEC = Instantiate(eCluster);
 
 		int difficultySpace = difRate;
@@ -207,7 +207,7 @@ public class EventManager : MonoBehaviour {
             }*/
             //Debug.Log(vtype);
             
-            _nE = newEC.AddComponent<Event>() as Event;
+            _nE = newEC.AddComponent<SpawnEvent>() as SpawnEvent;
             _nE.initialize(difRate, vtype, etype, sPoints);
             if (etype == EventManager.eventTypes.vehicle){      //pass the vMod value to the event only if event is a vehicle
                 _nE.setMod(vMod);
