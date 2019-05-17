@@ -40,7 +40,18 @@ public abstract class DestructiblePart : MonoBehaviour {
 		vAI = GetComponentInParent<VehicleAI>();
 
 		for (int i = 0; i<objWithMat.Count; i++) {
-			myMat.Add(objWithMat[i].GetComponent<Renderer>().material);
+            if(objWithMat[i] == null)
+            {
+                Debug.LogWarning("Null in objWithMat! Look into it! Path: " + Util.FullObjectPath(gameObject));
+                continue;
+            }
+            Renderer renderer = objWithMat[i].GetComponentInChildren<Renderer>();
+            if(renderer == null)
+            {
+                Debug.LogWarning("Object has no Renderer! Path: " + Util.FullObjectPath(objWithMat[i]));
+                continue;
+            }
+			myMat.Add(renderer.material);
 		}
 		if (myMat.Count != 0) {
 			Debug.Log("got here");

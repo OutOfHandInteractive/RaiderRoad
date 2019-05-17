@@ -11,7 +11,7 @@ namespace Tests
     [TestFixture(0, 1)]
     [TestFixture(5, 7)]
     [TestFixture(-1, 1)]
-    public class HelloTest : MonoBehaviour
+    public class HelloTest
     {
         private int _foo, _baz;
         public GameObject obj;

@@ -93,6 +93,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c03af54a16219a24b9dafda8118c6344, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  vehicleClass: 0
   drop: {fileID: 1412282026529114, guid: c4b78f547f7592d42867fc5a56f7cc72, type: 3}
   dropOffset: {x: 0, y: 2, z: -1}
   objWithMat: []
@@ -275,7 +276,6 @@ GameObject:
   - component: {fileID: 2644612995243495654}
   - component: {fileID: 7883192524080274974}
   - component: {fileID: 6140246463436569088}
-  - component: {fileID: 2165258402329958394}
   - component: {fileID: 2041373535600898010}
   m_Layer: 0
   m_Name: Navmesh (1)
@@ -343,20 +343,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!64 &2165258402329958394
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6762908338567912746}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  serializedVersion: 3
-  m_Convex: 0
-  m_CookingOptions: 14
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!114 &2041373535600898010
 MonoBehaviour:
   m_ObjectHideFlags: 0
