@@ -14,6 +14,7 @@ public class BoardEnemy : JumpEnemy {
     private float survey = 0;
     private Transform parent = null;
     private bool jumped = false;
+    private float rotateSpeed = 100f;
     //public override void StartJump(GameObject enemy, Rigidbody rb, string side, int stateChance)
     //{
     //    base.StartJump(enemy, rb, side, stateChance);
@@ -45,13 +46,21 @@ public class BoardEnemy : JumpEnemy {
         //RV destination position
         Vector3 planePos = new Vector3(cObject.transform.position.x, 0, cObject.transform.position.z);
         Vector3 pos = GetTarget(planePos);
+        Vector3 lookAtPos = pos;
+        lookAtPos.y = 0.0f;
         float zSign = cSide == VehicleAI.Side.Left ? 1 : -1;
         //Debug.Log(zSign + " THIS IS THE SIGN");
-        if(!jumped)
+        cObject.transform.rotation = Quaternion.RotateTowards(cObject.transform.rotation, Quaternion.LookRotation(-lookAtPos), Time.deltaTime * rotateSpeed);
+
+        if(Quaternion.Angle(cObject.transform.rotation,Quaternion.LookRotation(-lookAtPos)) < 1)
         {
-            Jump(pos, zSign);
-            jumped = true;
+            if (!jumped)
+            {
+                Jump(pos, zSign);
+                jumped = true;
+            }
         }
+
         
         
 
