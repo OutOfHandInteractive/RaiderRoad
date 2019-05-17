@@ -154,7 +154,7 @@ public class cannon : Interactable {
 			playerUsing.GetComponent<Rigidbody>().isKinematic = false;
 		    interacting = false;
 
-		    if (user.getFirstInteractable() == this) {
+		    if (user.getFirstInteractable() && user.getFirstInteractable() == this) {
 			    user.removeInteractable(gameObject);
 		    }
         }

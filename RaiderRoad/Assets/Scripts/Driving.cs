@@ -33,6 +33,9 @@ public class Driving : Interactable
     public ParticleSystem rightSpark;
     public ParticleSystem leftSpark;
 
+    // Rotation
+    public float rotationMod = 2.5f;
+
     //--------------------
     // Private Variables
     //--------------------
@@ -93,6 +96,19 @@ public class Driving : Interactable
             }
         }
 
+        // Rotation
+        if (moveVector.x != 0)
+        {
+            if (newDir == direction.left)
+            {
+                rv.transform.localEulerAngles = new Vector3(rv.transform.localEulerAngles.x, accel * -rotationMod, rv.transform.localEulerAngles.z);
+            }
+            else
+            {
+                rv.transform.localEulerAngles = new Vector3(rv.transform.localEulerAngles.x, accel * rotationMod, rv.transform.localEulerAngles.z);
+            }
+        }
+            
         GetInput();
         ProcessInput();
     }
@@ -142,6 +158,11 @@ public class Driving : Interactable
                     audio.Honk();
                 }
             }
+
+			if (player.GetButtonDown("Attack")) {
+				EnvironmentAudio.Instance.PlaySound_RVHonk();
+			}
+
             if ((player.GetAxis("Move Horizontal") == 0  && player.GetAxis("Move Vertical") == 0) && (accel >= 0))
             {
                 accel -= Time.deltaTime * (change * 5);
