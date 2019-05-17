@@ -252,7 +252,7 @@ GameObject:
   - component: {fileID: 6530335508658914305}
   - component: {fileID: 7313076511246757646}
   - component: {fileID: 7228470811616970223}
-  - component: {fileID: 4387966404949286271}
+  - component: {fileID: 4298939581526290190}
   m_Layer: 0
   m_Name: Heavy_cab_2_bottom
   m_TagString: Destructable
@@ -319,8 +319,8 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!64 &4387966404949286271
-MeshCollider:
+--- !u!65 &4298939581526290190
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -329,7 +329,6 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Convex: 0
-  m_CookingOptions: 14
-  m_Mesh: {fileID: 4300040, guid: a77b563d28875ce469d61ec951cf94c3, type: 3}
+  serializedVersion: 2
+  m_Size: {x: 4.121849, y: 1.3255309, z: 1.0684078}
+  m_Center: {x: 0, y: 0.55578154, z: 3.2710652}

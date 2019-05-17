@@ -5,6 +5,8 @@ using UnityEngine;
 using UnityEngine.TestTools;
 using UnityEditor;
 using Cinemachine;
+using System;
+using Object = UnityEngine.Object;
 
 namespace Tests
 {
@@ -13,9 +15,9 @@ namespace Tests
     [TestFixture(VehicleFactoryManager.vehicleTypes.light)]
     public class EnemyAITests
     {
-        private GameObject thiefPrefab, hooliganPrefab, bruiserPrefab;
-        private GameObject factoryPrefab, RVprefab;
-        private bool prefabsLoaded = false;
+        protected static GameObject thiefPrefab, hooliganPrefab, bruiserPrefab;
+        protected static GameObject factoryPrefab, RVprefab;
+        private static bool prefabsLoaded = false;
 
         public GameObject player;
         public GameObject RV;
@@ -31,7 +33,7 @@ namespace Tests
             vehicleType = type;
         }
 
-        private void LoadPrefabs()
+        protected static void LoadPrefabs()
         {
             if (prefabsLoaded)
             {
@@ -45,6 +47,33 @@ namespace Tests
             bruiserPrefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/Enemies/EnemyH.prefab");
 
             prefabsLoaded = true;
+        }
+
+        protected static void PurgeMeshColliders(VehicleFactoryManager manager)
+        {
+            PurgeMeshColliders(manager.lVehicleFactory);
+            PurgeMeshColliders(manager.mVehicleFactory);
+            PurgeMeshColliders(manager.hVehicleFactory);
+        }
+
+        private static void PurgeMeshColliders(VehicleFactory_I factory)
+        {
+            PurgeMeshColliders(factory.Attachment);
+            PurgeMeshColliders(factory.Cab);
+            PurgeMeshColliders(factory.Cargo);
+            PurgeMeshColliders(factory.Wheel);
+            PurgeMeshColliders(factory.Payload);
+        }
+
+        private static void PurgeMeshColliders(List<GameObject> objects)
+        {
+            foreach(GameObject obj in objects)
+            {
+                foreach(MeshCollider collider in obj.GetComponentsInChildren<MeshCollider>())
+                {
+                    collider.enabled = false;
+                }
+            }
         }
 
         [UnitySetUp]
@@ -69,6 +98,7 @@ namespace Tests
             yield return new WaitForFixedUpdate();
 
             VehicleFactoryManager factoryMan = factoryManager.GetComponent<VehicleFactoryManager>();
+            PurgeMeshColliders(factoryMan);
             Assert.That(factoryMan, Is.Not.Null);
             vehicle = factoryMan.NewConstructVehicle(vehicleType, 0, Vector3.zero, 0);
             vehicle.transform.parent = root.transform;
