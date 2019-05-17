@@ -43,7 +43,7 @@ public class flamethrower : Interactable {
 	private ParticleSystem fireInstance;
 	private flamethrowerDamage damage;
 	private flamethrowerDamageEnemy damageEnemy;
-    private AudioSource audio;
+    private AudioSource audioSource;
     
 	[System.NonSerialized]
         private bool initialized;
@@ -63,7 +63,7 @@ public class flamethrower : Interactable {
         overheated = false;
         firing = false;
         cooldownTimer = cooldown;
-        audio = GetComponent<AudioSource>();
+        audioSource = GetComponent<AudioSource>();
 
 		damage = damageCollider.GetComponent<flamethrowerDamage>();
 		damage.setTickDamage(tickDamage);
@@ -101,7 +101,7 @@ public class flamethrower : Interactable {
 
     public void StopFiring()
     {
-        audio.Stop();
+        audioSource.Stop();
         fireInstance.Stop();
         firing = false;
         damageCollider.SetActive(false);
@@ -116,7 +116,7 @@ public class flamethrower : Interactable {
 
     private void StartFiring(GameObject collider)
     {
-        audio.Play();
+        audioSource.Play();
         fireInstance.Play();
         firing = true;
         collider.SetActive(true);

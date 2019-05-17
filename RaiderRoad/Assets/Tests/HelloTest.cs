@@ -4,15 +4,17 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
 using System.Linq;
+using Rewired;
 
 namespace Tests
 {
     [TestFixture(0, 1)]
     [TestFixture(5, 7)]
     [TestFixture(-1, 1)]
-    public class HelloTest
+    public class HelloTest : MonoBehaviour
     {
         private int _foo, _baz;
+        public GameObject obj;
 
         public HelloTest(int foo, int baz)
         {

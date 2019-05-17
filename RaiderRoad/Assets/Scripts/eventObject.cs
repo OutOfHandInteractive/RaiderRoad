@@ -25,6 +25,13 @@ public class eventObject : MonoBehaviour {
     void OnDestroy()
     {
         Debug.Log("gone");
-        originCluster.GetComponent<EventCluster>().updatePercent();
+        if(originCluster != null)
+        {
+            originCluster.GetComponent<EventCluster>().updatePercent();
+        }
+        else
+        {
+            Debug.LogWarning("Vehicle had no origin cluster!");
+        }
     }
 }
