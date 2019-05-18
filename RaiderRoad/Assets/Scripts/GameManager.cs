@@ -24,10 +24,11 @@ public class GameManager : MonoBehaviour {
     private float myTimer;
 
     private List<Transform> playersInScene;
-	#endregion
+    private GameObject[] playerList;
+    #endregion
 
-	#region System Functions
-	private void Awake() {
+    #region System Functions
+    private void Awake() {
 		if (GameManagerInstance == null) //if not, set instance to this
 			GameManagerInstance = this; //If instance already exists and it's not this:
 		else if (GameManagerInstance != this)
@@ -39,6 +40,7 @@ public class GameManager : MonoBehaviour {
         gameOver = false;
         myTimer = FinishTime;
 
+        playerList = GameObject.FindGameObjectsWithTag("Player");
         startYpos = MyUICanvas.transform.Find("StartMarker").GetComponent<RectTransform>().anchoredPosition.y;
         finishYPos = MyUICanvas.transform.Find("EndMarker").GetComponent<RectTransform>().anchoredPosition.y;
         RVMarker = MyUICanvas.transform.Find("RVMarker").GetComponent<RectTransform>();
@@ -91,13 +93,13 @@ public class GameManager : MonoBehaviour {
 	//Function for calling players in "downed" state, called every time new player is downed
 	public void PlayerDowned() {
 		int downedPlayers = 0;
-		foreach (Transform i in playersInScene) {
+		foreach (GameObject i in playerList) {
 			if (i.GetComponent<PlayerController_Rewired>().state == PlayerController_Rewired.playerStates.down) {
 				downedPlayers++;
 			}
 		}
 
-		if (downedPlayers >= playersInScene.Count) {
+		if (downedPlayers >= playerList.Length) {
 			LossGame();     //If all players are downed, game is over
 		}
 	}

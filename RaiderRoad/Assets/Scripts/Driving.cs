@@ -121,7 +121,7 @@ public class Driving : Interactable
             {
                 accel += Time.deltaTime * change;
             }
-
+       
             playerUsing.transform.position = transform.position;
             playerUsing.transform.rotation = transform.rotation;
 
@@ -144,7 +144,7 @@ public class Driving : Interactable
             
             moveVector.y = player.GetAxis("Move Vertical") * Time.deltaTime * moveSpeed * accel;
 
-            if (player.GetButtonDown("Exit Interactable") || Input.GetKeyDown("k"))
+            if (player.GetButtonDown("Place Object") || Input.GetKeyDown("k"))
             {
                 Leave();
                 accel = 0;
