@@ -4397,6 +4397,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 185646, guid: 472bc216b0f362147943a3cedc36711f, type: 3}
+      propertyPath: m_Name
+      value: DustParticles
+      objectReference: {fileID: 0}
     - target: {fileID: 19822582, guid: 472bc216b0f362147943a3cedc36711f, type: 3}
       propertyPath: InitialModule.startSizeY.minMaxState
       value: 3
@@ -4492,10 +4496,6 @@ PrefabInstance:
     - target: {fileID: 19822582, guid: 472bc216b0f362147943a3cedc36711f, type: 3}
       propertyPath: InitialModule.startColor.maxColor.b
       value: 0.6544589
-      objectReference: {fileID: 0}
-    - target: {fileID: 185646, guid: 472bc216b0f362147943a3cedc36711f, type: 3}
-      propertyPath: m_Name
-      value: DustParticles
       objectReference: {fileID: 0}
     - target: {fileID: 400868, guid: 472bc216b0f362147943a3cedc36711f, type: 3}
       propertyPath: m_LocalPosition.x
@@ -5947,8 +5947,8 @@ MonoBehaviour:
     m_NumColorKeys: 2
     m_NumAlphaKeys: 2
   intensityFromLight: 1
-  intensityModeAdvanced: 0
-  intensityInside: 0.69
+  intensityModeAdvanced: 1
+  intensityInside: 0
   intensityOutside: 0.69
   blendingMode: 0
   spotAngleFromLight: 1
