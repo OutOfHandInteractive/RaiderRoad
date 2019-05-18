@@ -25,6 +25,7 @@ public class sceneManagerScript : MonoBehaviour {
     private Transform rv; //rv is reference to RV obj in scene
 
     public List<Transform> playersInScene;
+    [SerializeField] private int sharedWallCount = 12;
 
     void Awake() {
 		// Have playlist persist across scenes.
@@ -105,10 +106,12 @@ public class sceneManagerScript : MonoBehaviour {
         //Debug.Log(rv.name);
         playerPos = SpawnPoints;
         //Debug.Log(char1Players.Length);
-        spawnChar1();
-        spawnChar2();
-        spawnChar3();
-        spawnChar4();
+        int dividedWallCount = sharedWallCount / (char1Players.Length + char2Players.Length + char3Players.Length + char4Players.Length); // shared wall count divided equally amoung players
+
+        spawnChar1(dividedWallCount);
+        spawnChar2(dividedWallCount);
+        spawnChar3(dividedWallCount);
+        spawnChar4(dividedWallCount);
 
         //gameObject.SetActive(false);
         g.SetPlayers(playersInScene);
@@ -120,7 +123,7 @@ public class sceneManagerScript : MonoBehaviour {
         playersInScene.Clear();
     }
 
-    void spawnChar1()
+    void spawnChar1(int wallCount)
     {
         if (char1Players.Length > 0)
         {
@@ -131,7 +134,9 @@ public class sceneManagerScript : MonoBehaviour {
                 Debug.Log("HEY" + playId);
                 player[i] = Instantiate(character1, playerPos[playId].position, character1.rotation, rv);    //create character, set them to player spawn position
                 player[i].gameObject.GetComponent<PlayerController_Rewired>().SetId(playId);
-                player[i].Find("View").gameObject.GetComponent<PlayerPlacement_Rewired>().SetId(playId);
+                PlayerPlacement_Rewired myPlayPlacement = player[i].Find("View").gameObject.GetComponent<PlayerPlacement_Rewired>();
+                myPlayPlacement.SetId(playId);
+                myPlayPlacement.wallInventory = wallCount;
 
                 AssignPlayMat(player[i].gameObject, playId, 0);  //passing player gameObject and player id
                 //Debug.Log(player[i]);
@@ -140,7 +145,7 @@ public class sceneManagerScript : MonoBehaviour {
         }
     }
 
-    void spawnChar2()
+    void spawnChar2(int wallCount)
     {
         if (char2Players.Length > 0)
         {
@@ -150,7 +155,9 @@ public class sceneManagerScript : MonoBehaviour {
                 int playId = char2Players[i];
                 player[i] = Instantiate(character2, playerPos[playId].position, character2.rotation, rv);
                 player[i].gameObject.GetComponent<PlayerController_Rewired>().SetId(playId);
-                player[i].Find("View").gameObject.GetComponent<PlayerPlacement_Rewired>().SetId(playId);
+                PlayerPlacement_Rewired myPlayPlacement = player[i].Find("View").gameObject.GetComponent<PlayerPlacement_Rewired>();
+                myPlayPlacement.SetId(playId);
+                myPlayPlacement.wallInventory = wallCount;
 
                 AssignPlayMat(player[i].gameObject, playId, 1);
 
@@ -159,7 +166,7 @@ public class sceneManagerScript : MonoBehaviour {
         }
     }
 
-    void spawnChar3()
+    void spawnChar3(int wallCount)
     {
         if (char3Players.Length > 0)
         {
@@ -169,7 +176,9 @@ public class sceneManagerScript : MonoBehaviour {
                 int playId = char3Players[i];
                 player[i] = Instantiate(character3, playerPos[playId].position, character3.rotation, rv);
                 player[i].gameObject.GetComponent<PlayerController_Rewired>().SetId(playId);
-                player[i].Find("View").gameObject.GetComponent<PlayerPlacement_Rewired>().SetId(playId);
+                PlayerPlacement_Rewired myPlayPlacement = player[i].Find("View").gameObject.GetComponent<PlayerPlacement_Rewired>();
+                myPlayPlacement.SetId(playId);
+                myPlayPlacement.wallInventory = wallCount;
 
                 AssignPlayMat(player[i].gameObject, playId, 2);
 
@@ -178,7 +187,7 @@ public class sceneManagerScript : MonoBehaviour {
         }
     }
 
-    void spawnChar4()
+    void spawnChar4(int wallCount)
     {
         if (char4Players.Length > 0)
         {
@@ -188,7 +197,9 @@ public class sceneManagerScript : MonoBehaviour {
                 int playId = char4Players[i];
                 player[i] = Instantiate(character4, playerPos[playId].position, character4.rotation, rv);
                 player[i].gameObject.GetComponent<PlayerController_Rewired>().SetId(playId);
-                player[i].Find("View").gameObject.GetComponent<PlayerPlacement_Rewired>().SetId(playId);
+                PlayerPlacement_Rewired myPlayPlacement = player[i].Find("View").gameObject.GetComponent<PlayerPlacement_Rewired>();
+                myPlayPlacement.SetId(playId);
+                myPlayPlacement.wallInventory = wallCount;
 
                 AssignPlayMat(player[i].gameObject, playId, 3);
 
