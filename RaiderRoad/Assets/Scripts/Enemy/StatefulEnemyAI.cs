@@ -158,7 +158,7 @@ public class StatefulEnemyAI : EnemyAI {
 					escape.Escape();
 					break;
 				case State.Death:
-					death.Death(enemy, dropOnDeath, deathFx);
+					//death.Death(enemy, dropOnDeath, deathFx);
 					break;
 				case State.Lure:
 					lure.Lure();
@@ -312,7 +312,16 @@ public class StatefulEnemyAI : EnemyAI {
     /// </summary>
     public void EnterDeath() {
         currentState = State.Death;
+		myAni.SetBool("Death", true);
     }
+
+	/// <summary>
+	/// Call to destroy character and play out death functionality
+	/// </summary>
+	public void PlayDeath() {
+		Debug.Log("function called");
+		death.Death(enemy, dropOnDeath, deathFx);
+	}
 
     /// <summary>
     /// Enter the lure state

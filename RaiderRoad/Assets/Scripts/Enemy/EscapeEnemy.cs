@@ -91,7 +91,7 @@ public class EscapeEnemy : JumpEnemy {
         //Debug.Log(cObject.transform.tag + " HEEEEEEEEY");
         if(cObject.transform.root.tag == "eVehicle" && cObject.transform.parent != null)
         {
-            Debug.Log("HEYYYY");
+            //Debug.Log("HEYYYY");
             cObject.GetComponent<StatefulEnemyAI>().getAnimator().SetBool("Grounded", true);
             StartCoroutine(waitToLeave());
         }
