@@ -49,4 +49,28 @@ public class slideController : MonoBehaviour
             clipIndex = 0;
         }
     }
+
+    // Script for hitting projector to skip slides
+    public void SkipToNextClip()
+    {
+        if((clipIndex + 1) % 3 == 0) { //if not already switching
+            //find the next slide in clip (its a clip divisible by 3 or 0)
+            bool nextClipFound = false;
+            while (!nextClipFound)
+            {
+                if ((clipIndex + 1) % 3 == 0){
+                    ToNextClip();
+                    nextClipFound = true;
+                } else {
+                    clipIndex++;
+
+                    if (clipIndex >= myClipsArr.Length)
+                    {
+                        clipIndex = 0;
+                    }
+                }
+            }
+        }
+    }
+
 }
