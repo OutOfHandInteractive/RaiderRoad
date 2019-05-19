@@ -493,9 +493,9 @@ public class StatefulEnemyAI : EnemyAI {
 
     private void OnCollisionExit(Collision collision) {
         //Change parent when not on vehicles
-        if (collision.gameObject.tag == "eVehicle") {
+        /*if (collision.gameObject.tag == "eVehicle") {
             transform.parent = null;
-        }
+        }*/
     }
 
     private void OnTriggerEnter(Collider other) {
