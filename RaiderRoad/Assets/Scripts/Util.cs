@@ -29,6 +29,16 @@ public class Util
         return gameObject != null && (IsVehicle(gameObject) || IsVehicleRecursive(Parent(gameObject)));
     }
 
+    public static bool IsWall(GameObject gameObject)
+    {
+        return gameObject != null && gameObject.tag == "Wall";
+    }
+
+    public static bool IsWeapon(GameObject gameObject)
+    {
+        return gameObject != null && gameObject.tag == "weapon";
+    }
+
     public static string FullObjectPath(GameObject obj)
     {
         GameObject parent = Parent(obj);

@@ -60,6 +60,7 @@ public class enemyCannonball : AbstractCannonball
         {
             //collision.gameObject.GetComponent<PlayerController_Rewired>().takeDamage(cannonDamage);
             Collider[] splashTargets = Physics.OverlapSphere(transform.position, splashRadius);
+            List<GameObject> hits = new List<GameObject>();
             foreach (Collider target in splashTargets)
             {
 
@@ -68,30 +69,28 @@ public class enemyCannonball : AbstractCannonball
 
                 RaycastHit hit;
                 Vector3 dir = (target.transform.position - transform.position).normalized;
-                if (Physics.Raycast(transform.position, dir, out hit, Mathf.Infinity, layerMask))
+                if (Physics.Raycast(transform.position, dir, out hit, splashRadius, layerMask))
                 {
-                    //I added this (michael), Will check this please
-                    if (target.tag == "Wall")
-                    {
-                        target.GetComponent<Wall>().Damage(100);
-                    }
-
-
                     Debug.Log(hit.collider + " and " + target);
-                    if (hit.collider == target)
+                    if (hit.collider.gameObject == target.gameObject)
                     {
-                        if (Util.isPlayer(target.gameObject))
-                        {
-                            target.gameObject.GetComponent<PlayerController_Rewired>().takeDamage(cannonDamage);
-                        }
-                        else if (target.tag == "Wall")
-                        {
-                            target.GetComponent<Wall>().Damage(100);
-                        }
-                        else if (target.tag == "weapon")
-                        {
-                            target.GetComponent<Weapon>().Damage(cannonDamage);
-                        }
+                        hits.Add(target.gameObject);
+                    }
+                }
+            }
+            foreach(GameObject target in hits)
+            {
+                float damage = cannonDamage * (1 - (Vector3.Distance(transform.position, target.transform.position) / splashRadius));
+                if (Util.isPlayer(target))
+                {
+                    target.GetComponent<PlayerController_Rewired>().takeDamage(damage);
+                }
+                else
+                {
+                    Constructable constr = target.GetComponent<Constructable>();
+                    if(constr != null)
+                    {
+                        constr.Damage(damage);
                     }
                 }
             }
