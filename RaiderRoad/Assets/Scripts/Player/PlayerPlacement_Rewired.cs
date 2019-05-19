@@ -426,6 +426,9 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
                     Instantiate(charaHitPart, item.transform.position, Quaternion.identity);
                     hit = true;
                 }
+                else if (item.CompareTag("MiscHittable")) {
+                    item.GetComponent<MiscHittable>().RegisterHit();
+                }
             }
         }
 
@@ -554,6 +557,11 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
             }
 			
 		}
+        //adding Miscellaneous Hittables
+        if (other.gameObject.CompareTag("MiscHittable")) {
+            attackRange.Add(other.gameObject);
+
+        }
 
 		if (other.gameObject.CompareTag("Player")) {
 			if (other.GetComponent<PlayerController_Rewired>().getState() == PlayerController_Rewired.playerStates.down) {

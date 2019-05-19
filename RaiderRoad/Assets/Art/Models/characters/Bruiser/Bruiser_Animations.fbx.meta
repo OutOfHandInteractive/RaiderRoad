@@ -298,7 +298,15 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 1
+        functionName: PlayDeath()
+        data: 
+        objectReferenceParameter: {fileID: 1145464498855594, guid: c8c305c0a6126394291ea94f4e81bf52,
+          type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}

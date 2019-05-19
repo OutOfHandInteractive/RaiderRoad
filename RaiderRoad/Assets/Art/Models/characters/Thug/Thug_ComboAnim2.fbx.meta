@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 2709519f60a058a47889d402847b5325
+guid: 76900636d3a1c604e836628693811792
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
@@ -163,11 +163,13 @@ ModelImporter:
     4300014: eyes
     4300016: eyebrows
     4300018: nose
-    7400000: Thug_Idle
-    7400002: Thug_Run
-    7400004: Thug_Attack
-    7400006: Thug_AttackLoop
-    7400008: Thug_Death
+    7400000: Thug_Attack2
+    7400002: Thug_Idle2
+    7400004: Thug_AttackLoop2
+    7400006: Thug_Death2
+    7400008: Thug_Run2
+    7400010: Thug_Jump
+    7400012: Thug_Carry
     9500000: //RootNode
     13700000: Bandana1
     13700002: Body
@@ -214,7 +216,7 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Thug_Idle
+      name: Thug_Idle2
       takeName: Take 001
       firstFrame: 1
       lastFrame: 45
@@ -242,35 +244,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Thug_Run
-      takeName: Take 001
-      firstFrame: 50
-      lastFrame: 70
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 1
-      loopBlend: 1
-      loopBlendOrientation: 1
-      loopBlendPositionY: 1
-      loopBlendPositionXZ: 1
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events: []
-      transformMask: []
-      maskType: 3
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
-    - serializedVersion: 16
-      name: Thug_Attack
+      name: Thug_Attack2
       takeName: Take 001
       firstFrame: 71
       lastFrame: 102
@@ -298,7 +272,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Thug_AttackLoop
+      name: Thug_AttackLoop2
       takeName: Take 001
       firstFrame: 84
       lastFrame: 95
@@ -312,7 +286,7 @@ ModelImporter:
       loopBlend: 1
       loopBlendOrientation: 1
       loopBlendPositionY: 1
-      loopBlendPositionXZ: 0
+      loopBlendPositionXZ: 1
       keepOriginalOrientation: 0
       keepOriginalPositionY: 1
       keepOriginalPositionXZ: 0
@@ -326,18 +300,18 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Thug_Death
+      name: Thug_Run2
       takeName: Take 001
-      firstFrame: 100
-      lastFrame: 155
+      firstFrame: 50
+      lastFrame: 70
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 0
-      loopBlend: 0
+      loopTime: 1
+      loopBlend: 1
       loopBlendOrientation: 1
       loopBlendPositionY: 1
       loopBlendPositionXZ: 1
@@ -348,15 +322,63 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events:
-      - time: 1
-        functionName: PlayDeath()
-        data: 
-        objectReferenceParameter: {fileID: 1625519994035844, guid: 17f270db936b1e34e8ed806e4058e0ad,
-          type: 3}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Thug_Death2
+      takeName: Take 001
+      firstFrame: 100
+      lastFrame: 155
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 1
+      loopBlendOrientation: 1
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 1
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Thug_Jump
+      takeName: Take 001
+      firstFrame: 155
+      lastFrame: 193
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 1
+      loopBlendOrientation: 1
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 1
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
@@ -544,7 +566,7 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
-    - boneName: nose_j
+    - boneName: leye_j
       humanName: LeftEye
       limit:
         min: {x: 0, y: 0, z: 0}
@@ -560,15 +582,7 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
-    - boneName: reyebrow_j
-      humanName: Jaw
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
-    - boneName: Thug_LeftHandThumb1
+    - boneName: Thug_LeftHandIndex1
       humanName: Left Index Proximal
       limit:
         min: {x: 0, y: 0, z: 0}
@@ -576,7 +590,7 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
-    - boneName: Thug_LeftHandThumb2
+    - boneName: Thug_LeftHandIndex2
       humanName: Left Index Intermediate
       limit:
         min: {x: 0, y: 0, z: 0}
@@ -584,7 +598,7 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
-    - boneName: Thug_LeftHandThumb3
+    - boneName: Thug_LeftHandIndex3
       humanName: Left Index Distal
       limit:
         min: {x: 0, y: 0, z: 0}
@@ -592,7 +606,7 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
-    - boneName: Thug_LeftHandIndex1
+    - boneName: Thug_LeftHandMiddle1
       humanName: Left Middle Proximal
       limit:
         min: {x: 0, y: 0, z: 0}
@@ -600,24 +614,8 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
-    - boneName: Thug_LeftHandIndex2
-      humanName: Left Middle Intermediate
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
-    - boneName: Thug_LeftHandMiddle1
-      humanName: Left Ring Proximal
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
     - boneName: Thug_LeftHandMiddle2
-      humanName: Left Ring Intermediate
+      humanName: Left Middle Intermediate
       limit:
         min: {x: 0, y: 0, z: 0}
         max: {x: 0, y: 0, z: 0}
@@ -640,31 +638,7 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
-    - boneName: Thug_RightHandThumb1
-      humanName: Right Index Proximal
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
-    - boneName: Thug_RightHandThumb2
-      humanName: Right Index Intermediate
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
-    - boneName: Thug_RightHandThumb3
-      humanName: Right Index Distal
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
-    - boneName: Thug_RightHandIndex1
+    - boneName: Thug_RightHandMiddle1
       humanName: Right Middle Proximal
       limit:
         min: {x: 0, y: 0, z: 0}
@@ -672,24 +646,8 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
-    - boneName: Thug_RightHandIndex2
-      humanName: Right Middle Intermediate
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
-    - boneName: Thug_RightHandMiddle1
-      humanName: Right Ring Proximal
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
     - boneName: Thug_RightHandMiddle2
-      humanName: Right Ring Intermediate
+      humanName: Right Middle Intermediate
       limit:
         min: {x: 0, y: 0, z: 0}
         max: {x: 0, y: 0, z: 0}
@@ -720,14 +678,118 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
+    - boneName: Thug_RightHandThumb1
+      humanName: Right Thumb Proximal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Thug_RightHandThumb2
+      humanName: Right Thumb Intermediate
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Thug_RightHandThumb3
+      humanName: Right Thumb Distal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Thug_RightHandIndex1
+      humanName: Right Index Proximal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Thug_RightHandIndex2
+      humanName: Right Index Intermediate
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Thug_RightHandIndex3
+      humanName: Right Index Distal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Thug_RightHandMiddle3
+      humanName: Right Middle Distal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Thug_RightHandPinky3
+      humanName: Right Little Distal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Thug_LeftHandPinky3
+      humanName: Left Little Distal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Thug_LeftHandMiddle3
+      humanName: Left Middle Distal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Thug_LeftHandThumb1
+      humanName: Left Thumb Proximal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Thug_LeftHandThumb2
+      humanName: Left Thumb Intermediate
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Thug_LeftHandThumb3
+      humanName: Left Thumb Distal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
     skeleton:
-    - name: Thug_ComboAnim(Clone)
+    - name: Thug_ComboAnim2(Clone)
       parentName: 
       position: {x: 0, y: 0, z: 0}
       rotation: {x: 0, y: 0, z: 0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: group3
-      parentName: Thug_ComboAnim(Clone)
+      parentName: Thug_ComboAnim2(Clone)
       position: {x: -0, y: 0, z: 0}
       rotation: {x: -0, y: -0.7071068, z: 0, w: 0.7071068}
       scale: {x: 0.0328084, y: 0.0328084, z: 0.0328084}
@@ -738,13 +800,13 @@ ModelImporter:
       scale: {x: 1, y: 1, z: 1}
     - name: nurbsCircle1
       parentName: Root_c
-      position: {x: -0.42235082, y: -2.82657, z: -0.5457364}
-      rotation: {x: -0.012426967, y: 0.06469398, z: 0.05657824, w: 0.9962225}
+      position: {x: -1.082867e-15, y: -0.44188654, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: Thug_HipsTranslation
       parentName: group3
-      position: {x: -4.501345, y: 14.665947, z: -0.5457364}
-      rotation: {x: -0.012426967, y: 0.06469398, z: 0.05657824, w: 0.9962225}
+      position: {x: -4.0789943, y: 17.05063, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: Thug_Hips
       parentName: Thug_HipsTranslation
@@ -754,17 +816,17 @@ ModelImporter:
     - name: Thug_LeftUpLeg
       parentName: Thug_Hips
       position: {x: -0, y: -1.7651774, z: 4.270435}
-      rotation: {x: -0.049894657, y: -0.0170283, z: 0.28042108, w: 0.9584282}
+      rotation: {x: -8.758018e-18, y: -1.2205909e-16, z: 4.7407206e-18, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: Thug_LeftLeg
       parentName: Thug_LeftUpLeg
       position: {x: 0.3519014, y: -6.1919737, z: 0.16377711}
-      rotation: {x: -0.0452683, y: 0.0059274277, z: -0.4350605, w: 0.89924306}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: Thug_LeftFoot
       parentName: Thug_LeftLeg
       position: {x: -1.2203077, y: -5.9108644, z: 0.3062917}
-      rotation: {x: 0.11012966, y: -0.08703646, z: 0.095833056, w: 0.9854502}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: Thug_LeftFoot1
       parentName: Thug_LeftFoot
@@ -779,17 +841,17 @@ ModelImporter:
     - name: Thug_RightUpLeg
       parentName: Thug_Hips
       position: {x: 0.0000030434442, y: -1.7651484, z: -4.270437}
-      rotation: {x: -0.09381269, y: -0.05542574, z: 0.9843512, w: -0.13849144}
+      rotation: {x: -1.2205877e-16, y: 8.7614036e-18, z: 1, w: -6.123234e-17}
       scale: {x: 1, y: 1, z: 1}
     - name: Thug_RightLeg
       parentName: Thug_RightUpLeg
       position: {x: -0.35189825, y: 6.187342, z: -0.16377877}
-      rotation: {x: 0.008171606, y: 0.0486486, z: 0.88249326, w: 0.4677309}
+      rotation: {x: -4.9926335e-18, y: 1.5044888e-17, z: 1, w: 6.123234e-17}
       scale: {x: 1, y: 1, z: 1}
     - name: Thug_RightFoot
       parentName: Thug_RightLeg
       position: {x: -1.2203094, y: -5.910855, z: -0.306292}
-      rotation: {x: 0.075652175, y: 0.13578936, z: 0.9479168, w: -0.27801406}
+      rotation: {x: 0, y: 0, z: 1, w: -6.123234e-17}
       scale: {x: 1, y: 1, z: 1}
     - name: Thug_RightFoot1
       parentName: Thug_RightFoot
@@ -808,17 +870,17 @@ ModelImporter:
       scale: {x: 1, y: 1, z: 1}
     - name: Thug_Spine1
       parentName: Thug_Spine
-      position: {x: 2.9318147, y: 3.3630698, z: -2.7071676e-16}
-      rotation: {x: 0, y: -0, z: -0.08018519, w: 0.99678}
+      position: {x: 2.9318147, y: 3.3630698, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: Thug_Spine2
       parentName: Thug_Spine1
-      position: {x: 0.056357224, y: 4.283162, z: 0}
-      rotation: {x: 0, y: -0, z: -0.08175345, w: 0.9966526}
+      position: {x: 0.05635739, y: 4.283162, z: -3.394825e-16}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: Thug_Spine3
       parentName: Thug_Spine2
-      position: {x: -2.3427658, y: 3.8089623, z: -6.767919e-16}
+      position: {x: -2.3427658, y: 3.8089623, z: -5.6278987e-16}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: Thug_Spine4
@@ -833,28 +895,28 @@ ModelImporter:
       scale: {x: 1, y: 1, z: 1}
     - name: Thug_RightArm
       parentName: Thug_Spine4
-      position: {x: 7.6451883, y: -0.16847019, z: 1.3809171}
-      rotation: {x: -0.23877859, y: -0.45237055, z: 0.84980285, w: 0.12720361}
+      position: {x: 7.6451883, y: -0.16847074, z: 1.3809167}
+      rotation: {x: 6.123234e-17, y: 1, z: -6.123234e-17, w: -6.123234e-17}
       scale: {x: 1, y: 1, z: 1}
     - name: Thug_RightForearm
       parentName: Thug_RightArm
-      position: {x: -6.3102226, y: -0.21389295, z: 0.22094916}
-      rotation: {x: 0.0830383, y: -0.7689553, z: 0.19277954, w: 0.6038613}
+      position: {x: -6.3102217, y: -0.21389295, z: 0.22094871}
+      rotation: {x: -1.110223e-16, y: 1.43878e-40, z: -1.110223e-16, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: Thug_RightHand
       parentName: Thug_RightForearm
-      position: {x: -5.5909715, y: 0.14572231, z: 0.76221406}
-      rotation: {x: 0.009758615, y: -0.08082613, z: 0.062194526, w: 0.99473804}
+      position: {x: -5.5909715, y: 0.1457223, z: 0.76221406}
+      rotation: {x: 0.008056277, y: 2.2204463e-16, z: -3.8413717e-14, w: 0.9999676}
       scale: {x: 1, y: 1, z: 1}
     - name: Thug_RightHandPinky1
       parentName: Thug_RightHand
       position: {x: -2.4667008, y: 3.0320276e-14, z: 1.8612748}
-      rotation: {x: 0.19808216, y: 0.15394443, z: 0.812356, w: 0.5264431}
+      rotation: {x: -1.6595837e-15, y: 0.2806695, z: -4.4885856e-15, w: 0.9598045}
       scale: {x: 1, y: 1, z: 1}
     - name: Thug_RightHandPinky2
       parentName: Thug_RightHandPinky1
       position: {x: -2.2149854, y: 8.662936e-15, z: 1.1911537e-14}
-      rotation: {x: -0.068204924, y: 0.019926738, z: 0.83337075, w: 0.54812795}
+      rotation: {x: -4.8387065e-17, y: 0.036330175, z: -1.019558e-15, w: 0.9993399}
       scale: {x: 1, y: 1, z: 1}
     - name: Thug_RightHandPinky3
       parentName: Thug_RightHandPinky2
@@ -864,12 +926,12 @@ ModelImporter:
     - name: Thug_RightHandMiddle1
       parentName: Thug_RightHand
       position: {x: -3.399707, y: 1.7325873e-14, z: 0.40752074}
-      rotation: {x: 0.11935104, y: 0.14542374, z: 0.82759535, w: 0.5288604}
+      rotation: {x: -3.405994e-17, y: 0.15004404, z: 1.4553594e-16, w: 0.98867935}
       scale: {x: 1, y: 1, z: 1}
     - name: Thug_RightHandMiddle2
       parentName: Thug_RightHandMiddle1
       position: {x: -2.3402488, y: 8.662936e-15, z: 1.082867e-15}
-      rotation: {x: -0.036117837, y: 0.08389194, z: 0.8353767, w: 0.54203635}
+      rotation: {x: 6.1991456e-17, y: 0.0058377916, z: 2.0409445e-15, w: 0.99998295}
       scale: {x: 1, y: 1, z: 1}
     - name: Thug_RightHandMiddle3
       parentName: Thug_RightHandMiddle2
@@ -879,12 +941,12 @@ ModelImporter:
     - name: Thug_RightHandIndex1
       parentName: Thug_RightHand
       position: {x: -3.6817787, y: 3.0320276e-14, z: -1.3933985}
-      rotation: {x: -0.041838527, y: -0.0104417475, z: 0.8351097, w: 0.5483907}
+      rotation: {x: 5.444431e-17, y: -0.019037262, z: 5.655787e-17, w: 0.9998188}
       scale: {x: 1, y: 1, z: 1}
     - name: Thug_RightHandIndex2
       parentName: Thug_RightHandIndex1
       position: {x: -2.279924, y: 2.1657342e-14, z: 3.7900345e-15}
-      rotation: {x: 0.00023140527, y: -0.017162694, z: 0.8361571, w: 0.54822147}
+      rotation: {x: 1.0421932e-16, y: -0.031290803, z: -2.3254347e-15, w: 0.99951035}
       scale: {x: 1, y: 1, z: 1}
     - name: Thug_RightHandIndex3
       parentName: Thug_RightHandIndex2
@@ -894,12 +956,12 @@ ModelImporter:
     - name: Thug_RightHandThumb1
       parentName: Thug_RightHand
       position: {x: -0.12333566, y: 8.662936e-15, z: -2.4131963}
-      rotation: {x: 4.236707e-15, y: -0.43255034, z: -2.8313717e-15, w: 0.90160984}
+      rotation: {x: 4.6502734e-17, y: -0.43255034, z: -1.9318143e-16, w: 0.90160984}
       scale: {x: 1, y: 1, z: 1}
     - name: Thug_RightHandThumb2
       parentName: Thug_RightHandThumb1
       position: {x: -2.3923757, y: -4.331468e-15, z: -6.4972022e-15}
-      rotation: {x: 3.1496253e-14, y: 0.022914914, z: -4.4940343e-14, w: 0.99973744}
+      rotation: {x: -2.902032e-17, y: 0.022914914, z: 1.0634794e-15, w: 0.99973744}
       scale: {x: 1, y: 1, z: 1}
     - name: Thug_RightHandThumb3
       parentName: Thug_RightHandThumb2
@@ -908,28 +970,28 @@ ModelImporter:
       scale: {x: 1, y: 1, z: 1}
     - name: Thug_LeftArm
       parentName: Thug_Spine4
-      position: {x: -7.645186, y: -0.16844878, z: 1.3809144}
-      rotation: {x: 0.3287042, y: -0.13357575, z: 0.8275211, w: -0.43510908}
+      position: {x: -7.6451855, y: -0.16844833, z: 1.3809139}
+      rotation: {x: 1.4988011e-15, y: 3.0814882e-32, z: 1, w: -6.123234e-17}
       scale: {x: 1, y: 1, z: 1}
     - name: Thug_LeftForearm
       parentName: Thug_LeftArm
-      position: {x: 6.310243, y: 0.2139556, z: -0.22094254}
-      rotation: {x: -0.12698817, y: -0.4310824, z: 0.041233722, w: 0.8923799}
+      position: {x: 6.310243, y: 0.21395569, z: -0.22094198}
+      rotation: {x: 2.7755576e-17, y: -1.110223e-16, z: 1.110223e-16, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: Thug_LeftHand
       parentName: Thug_LeftForearm
       position: {x: 5.590997, y: -0.14571843, z: -0.76221335}
-      rotation: {x: 0.008056277, y: 1.3739832e-23, z: -3.4278136e-14, w: 0.9999676}
+      rotation: {x: 0.008056277, y: 2.2204459e-16, z: -6.8556276e-15, w: 0.9999676}
       scale: {x: 1, y: 1, z: 1}
     - name: Thug_LeftHandPinky1
       parentName: Thug_LeftHand
       position: {x: 2.4666684, y: 3.0320276e-14, z: -1.8612751}
-      rotation: {x: 0.11622554, y: 0.24456823, z: 0.47665328, w: 0.83634907}
+      rotation: {x: -1.0546557e-15, y: 0.2806695, z: -4.694399e-15, w: 0.9598045}
       scale: {x: 1, y: 1, z: 1}
     - name: Thug_LeftHandPinky2
       parentName: Thug_LeftHandPinky1
       position: {x: 2.2149417, y: 0, z: -0.000034582692}
-      rotation: {x: -0.040019527, y: 0.031657178, z: 0.48898378, w: 0.8707991}
+      rotation: {x: 2.1182884e-16, y: 0.036330175, z: -1.8496788e-15, w: 0.9993399}
       scale: {x: 1, y: 1, z: 1}
     - name: Thug_LeftHandPinky3
       parentName: Thug_LeftHandPinky2
@@ -939,12 +1001,12 @@ ModelImporter:
     - name: Thug_LeftHandMiddle1
       parentName: Thug_LeftHand
       position: {x: 3.3996937, y: 2.1657342e-14, z: -0.40752843}
-      rotation: {x: 0.12658249, y: 0.13074452, z: 0.47400802, w: 0.86150986}
+      rotation: {x: 2.471959e-16, y: 0.15004404, z: 8.889069e-16, w: 0.98867935}
       scale: {x: 1, y: 1, z: 1}
     - name: Thug_LeftHandMiddle2
       parentName: Thug_LeftHandMiddle1
       position: {x: 2.340248, y: 0, z: 0.0000007752228}
-      rotation: {x: 0.051179778, y: 0.0050869025, z: 0.48794195, w: 0.8713595}
+      rotation: {x: 1.7349797e-16, y: 0.0058377916, z: 1.1736484e-15, w: 0.99998295}
       scale: {x: 1, y: 1, z: 1}
     - name: Thug_LeftHandMiddle3
       parentName: Thug_LeftHandMiddle2
@@ -954,12 +1016,12 @@ ModelImporter:
     - name: Thug_LeftHandIndex1
       parentName: Thug_LeftHand
       position: {x: 3.681747, y: 8.662936e-15, z: 1.3933969}
-      rotation: {x: -0.014881385, y: -0.018175825, z: 0.29703704, w: 0.95457697}
+      rotation: {x: -8.589359e-17, y: -0.019037262, z: 1.3716756e-16, w: 0.9998188}
       scale: {x: 1, y: 1, z: 1}
     - name: Thug_LeftHandIndex2
       parentName: Thug_LeftHandIndex1
       position: {x: 2.2799137, y: 8.662936e-15, z: -0.0000008841495}
-      rotation: {x: 0.00008231506, y: -0.029874898, z: 0.29740956, w: 0.95428246}
+      rotation: {x: 0.0000000074469324, y: -0.031290803, z: 2.3313124e-10, w: 0.99951035}
       scale: {x: 1, y: 1, z: 1}
     - name: Thug_LeftHandIndex3
       parentName: Thug_LeftHandIndex2
@@ -969,12 +1031,12 @@ ModelImporter:
     - name: Thug_LeftHandThumb1
       parentName: Thug_LeftHand
       position: {x: 0.12328233, y: 1.7325873e-14, z: 2.4131935}
-      rotation: {x: 0.08475367, y: -0.16861065, z: 0.23932412, w: 0.9524239}
+      rotation: {x: -1.886986e-16, y: -0.43255034, z: -1.5209772e-16, w: 0.90160984}
       scale: {x: 1, y: 1, z: 1}
     - name: Thug_LeftHandThumb2
       parentName: Thug_LeftHandThumb1
       position: {x: 2.3923643, y: -8.662936e-15, z: 0.000013237101}
-      rotation: {x: 5.104446e-17, y: 0.022914914, z: -1.4954364e-16, w: 0.99973744}
+      rotation: {x: -4.2894466e-17, y: 0.022914914, z: -8.576145e-18, w: 0.99973744}
       scale: {x: 1, y: 1, z: 1}
     - name: Thug_LeftHandThumb3
       parentName: Thug_LeftHandThumb2
@@ -983,7 +1045,7 @@ ModelImporter:
       scale: {x: 1, y: 1, z: 1}
     - name: Thug_Neck
       parentName: Thug_Spine4
-      position: {x: -2.3010925e-15, y: 1.5100435, z: -0.016545089}
+      position: {x: -2.0002374e-15, y: 1.5100435, z: -0.016545089}
       rotation: {x: -0, y: -0.7071068, z: 0, w: 0.7071068}
       scale: {x: 1, y: 1, z: 1}
     - name: nose_j
@@ -1017,7 +1079,7 @@ ModelImporter:
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: Thug
-      parentName: Thug_ComboAnim(Clone)
+      parentName: Thug_ComboAnim2(Clone)
       position: {x: -0, y: 0, z: 0}
       rotation: {x: -0, y: -0.7071068, z: 0, w: 0.7071068}
       scale: {x: 0.0328084, y: 0.0328084, z: 0.0328084}
