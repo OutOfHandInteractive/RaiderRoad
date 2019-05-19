@@ -507,7 +507,12 @@ public class PlayerController_Rewired : MonoBehaviour
     }
 
 	public Interactable getFirstInteractable() {
-		return interactables[0].GetComponent<Interactable>();
+		if (interactables.Count > 0) {
+			return interactables[0].GetComponent<Interactable>();
+		}
+		else {
+			return null;
+		}
 	}
 
 	public void setObjectInUse(Interactable obj) {
