@@ -8,7 +8,7 @@ using UnityEngine;
 public class enemyCannonball : AbstractCannonball
 {    
     public float cannonDamage = 2f;
-    public float splashRadius = 3f;
+    public float splashRadius = 1.5f;
     public Renderer warning;
     public float upTime;
     public float downTime;
