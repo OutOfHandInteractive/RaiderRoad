@@ -36,6 +36,7 @@ public class VehicleAI : MonoBehaviour {
 
     public bool testDeath = false;
     private float stayTime = 0;
+    private float delayTime = 0;
 
     //Statistics
     public float maxHealth;
@@ -103,9 +104,13 @@ public class VehicleAI : MonoBehaviour {
         if(transform.GetComponentInChildren<PlayerController_Rewired>())
         {
             stayTime += Time.deltaTime;
+            delayTime += Time.deltaTime;
             if(stayTime < 15)
             {
-                EnterWander();
+                if(delayTime > 2)
+                {
+                    EnterWander();
+                }
             }
             else
             {
