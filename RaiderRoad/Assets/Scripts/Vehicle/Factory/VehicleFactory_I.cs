@@ -34,7 +34,7 @@ public abstract class VehicleFactory_I : MonoBehaviour {
 
 
 		// Assemble vehicle from selected parts
-		GameObject vehicle, chassis, cab, cargo;
+		GameObject vehicle, chassis, cab, cargo, attachment;
 		vehicle = Instantiate<GameObject>(VehicleBase, position, Quaternion.identity);
         if(vehicle.transform.position != position)
         {
@@ -45,7 +45,7 @@ public abstract class VehicleFactory_I : MonoBehaviour {
 		chassis = AttachChassis(vehicle, vAI);
 		cab = AttachCab(chassis, vAI, ref armorStacks, ref ramDamageStacks, ref speedStacks);
 		cargo = AttachCargo(cab, vAI, ref armorStacks, ref ramDamageStacks, ref speedStacks);
-		AttachAttachment(cab, vAI, ref armorStacks, ref ramDamageStacks, ref speedStacks);
+		attachment = AttachAttachment(cab, vAI, ref armorStacks, ref ramDamageStacks, ref speedStacks);
 		AttachPayload(cargo,wChance,batteries);
 		AttachWheels(chassis, vAI);
 
@@ -58,7 +58,10 @@ public abstract class VehicleFactory_I : MonoBehaviour {
 		vAI.SetSpeed(chassisScript.baseSpeed * (1 + speedStacks * Constants.SPEED_MOVEMENT_MODIFIER_PER_STACK));
 		vAI.SetMovementChance(speedStacks * Constants.SPEED_LOCATIONCHANGE_MODIFIER_PER_STACK);
 
-		vehicle.GetComponent<eventObject>().setDifficulty(chassis.GetComponent<Chassis>().baseThreat);
+		vehicle.GetComponent<eventObject>().setDifficulty(chassis.GetComponent<Chassis>().baseThreat 
+			+ (int)cab.GetComponent<DestructiblePart>().threatModifier
+			+ (int)cargo.GetComponent<DestructiblePart>().threatModifier
+			+ (int)attachment.GetComponent<DestructiblePart>().threatModifier);
 
 
         return vehicle;
@@ -104,14 +107,20 @@ public abstract class VehicleFactory_I : MonoBehaviour {
 	}
 
 	// attach attachment to cab
-	public void AttachAttachment(GameObject cab, VehicleAI v, ref float armorStacks, ref float ramDamageStacks, ref float speedStacks) {
+	public GameObject AttachAttachment(GameObject cab, VehicleAI v, ref float armorStacks, ref float ramDamageStacks, ref float speedStacks) {
 		GameObject front_attachment = Instantiate(SelectAttachment(), cab.GetComponent<Cab>().front_attachmentNode.transform);
         front_attachment.transform.localPosition = Vector3.zero;
         Attachment attachmentScript = front_attachment.GetComponent<Attachment>();
         
 		armorStacks += attachmentScript.armorStacks;
+<<<<<<< HEAD
         speedStacks += attachmentScript.speedStacks;
         ramDamageStacks += attachmentScript.ramDamageStacks;
+=======
+		ramDamageStacks += attachmentScript.ramDamageStacks;
+
+		return front_attachment;
+>>>>>>> Dev
 	}
 	#endregion
 
