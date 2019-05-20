@@ -35,7 +35,7 @@ public class Constants : MonoBehaviour
     public static int HEAVY_VEHICLE_BASE_THREAT = 6;
 
 	// misc
-	public static float PLAYER_ROAD_DAMAGE = 50f;
+	public static float PLAYER_ROAD_DAMAGE = 25f;
 
 	// player facing angles
 	public static float FACING_VERTICAL_MINIMUM = 45f;

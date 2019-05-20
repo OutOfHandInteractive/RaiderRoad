@@ -9805,7 +9805,7 @@ MonoBehaviour:
   reviveTime: 5
   reviveCountdown: 0
   invulTime: 0.5
-  reviveHelpIcon: {fileID: 3143928788869551091}
+  reviveHelpIcon: {fileID: 5346023687750869957}
   paused: 0
   reviving: 0
   beingRevived: 0
@@ -10297,11 +10297,6 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 127.041
       objectReference: {fileID: 0}
-    - target: {fileID: 3131369969377335235, guid: 02f90962f0a7c0d4e9e718fbd45da1f3,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 91080133754209478, guid: 02f90962f0a7c0d4e9e718fbd45da1f3,
         type: 3}
       propertyPath: t
@@ -10312,11 +10307,21 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 114904637472767522}
+    - target: {fileID: 3131369969377335235, guid: 02f90962f0a7c0d4e9e718fbd45da1f3,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5396793184418834421, guid: 02f90962f0a7c0d4e9e718fbd45da1f3,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 02f90962f0a7c0d4e9e718fbd45da1f3, type: 3}
---- !u!1 &3143928788869551091 stripped
+--- !u!1 &5346023687750869957 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 3131369969377335235, guid: 02f90962f0a7c0d4e9e718fbd45da1f3,
+  m_CorrespondingSourceObject: {fileID: 5396793184418834421, guid: 02f90962f0a7c0d4e9e718fbd45da1f3,
     type: 3}
   m_PrefabInstance: {fileID: 60137749805417520}
   m_PrefabAsset: {fileID: 0}
