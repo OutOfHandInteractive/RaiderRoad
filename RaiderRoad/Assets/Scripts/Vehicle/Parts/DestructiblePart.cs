@@ -16,7 +16,7 @@ public abstract class DestructiblePart : MonoBehaviour {
 	public float ramDamageStacks;
 	public int armorStacks;
 	public int speedStacks;
-	public float threatModifier;
+	public int threatModifier;
 	public bool isIntact = true;
 
 	// ---------------------- private variables ----------------------

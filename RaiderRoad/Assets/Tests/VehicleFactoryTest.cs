@@ -77,11 +77,13 @@ namespace Tests
                 float armorStacks = 0f;
                 float ramDamageStacks = 0f;
                 float speedStacks = 0f;
+                int threatMod = 0;
                 foreach(DestructiblePart part in vehicle.GetComponentsInChildren<DestructiblePart>())
                 {
                     armorStacks += part.armorStacks;
                     ramDamageStacks += part.ramDamageStacks;
                     speedStacks += part.speedStacks;
+                    threatMod += part.threatModifier;
                 }
 
                 var vAI = vehicle.GetComponent<VehicleAI>();
@@ -94,7 +96,7 @@ namespace Tests
 
                 var eve = vehicle.GetComponent<eventObject>();
                 Assert.That(eve, Is.Not.Null);
-                Assert.That(eve.getDifficulty(), Is.EqualTo(chassis.baseThreat));
+                Assert.That(eve.getDifficulty(), Is.EqualTo(chassis.baseThreat + threatMod));
                 // TODO: More tests
 
                 // Cleanup

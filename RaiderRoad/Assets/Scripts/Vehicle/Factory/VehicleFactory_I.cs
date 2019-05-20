@@ -59,9 +59,9 @@ public abstract class VehicleFactory_I : MonoBehaviour {
 		vAI.SetMovementChance(speedStacks * Constants.SPEED_LOCATIONCHANGE_MODIFIER_PER_STACK);
 
 		vehicle.GetComponent<eventObject>().setDifficulty(chassis.GetComponent<Chassis>().baseThreat 
-			+ (int)cab.GetComponent<DestructiblePart>().threatModifier
-			+ (int)cargo.GetComponent<DestructiblePart>().threatModifier
-			+ (int)attachment.GetComponent<DestructiblePart>().threatModifier);
+			+ cab.GetComponent<DestructiblePart>().threatModifier
+			+ cargo.GetComponent<DestructiblePart>().threatModifier
+			+ attachment.GetComponent<DestructiblePart>().threatModifier);
 
 
         return vehicle;
@@ -113,14 +113,10 @@ public abstract class VehicleFactory_I : MonoBehaviour {
         Attachment attachmentScript = front_attachment.GetComponent<Attachment>();
         
 		armorStacks += attachmentScript.armorStacks;
-<<<<<<< HEAD
         speedStacks += attachmentScript.speedStacks;
         ramDamageStacks += attachmentScript.ramDamageStacks;
-=======
-		ramDamageStacks += attachmentScript.ramDamageStacks;
 
 		return front_attachment;
->>>>>>> Dev
 	}
 	#endregion
 
