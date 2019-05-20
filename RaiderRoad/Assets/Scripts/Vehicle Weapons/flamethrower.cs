@@ -80,8 +80,8 @@ public class flamethrower : Interactable {
 	// Update is called once per frame
 	void Update () {
         if (inUse) {
-            weapon.transform.LookAt(reticule.transform);
-            fireInstance.transform.LookAt(reticule.transform);
+            weapon.transform.LookAt(new Vector3(reticule.transform.position.x, reticule.transform.position.y + 0.6f, reticule.transform.position.z));
+            fireInstance.transform.LookAt(new Vector3(reticule.transform.position.x, reticule.transform.position.y + 0.6f, reticule.transform.position.z));
         }
         if (isOnCooldown())
         {
