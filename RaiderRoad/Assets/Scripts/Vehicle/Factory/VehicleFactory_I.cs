@@ -85,8 +85,9 @@ public abstract class VehicleFactory_I : MonoBehaviour {
 
 		armorStacks += cabScript.armorStacks;
 		speedStacks += cabScript.speedStacks;
+        ramDamageStacks += cabScript.ramDamageStacks;
 
-		return cab;
+        return cab;
 	}
 
 	// attach cargo to cab
@@ -97,8 +98,9 @@ public abstract class VehicleFactory_I : MonoBehaviour {
 
 		armorStacks += cargoScript.armorStacks;
 		speedStacks += cargoScript.speedStacks;
+        ramDamageStacks += cargoScript.ramDamageStacks;
 
-		return cargo;
+        return cargo;
 	}
 
 	// attach attachment to cab
@@ -106,10 +108,10 @@ public abstract class VehicleFactory_I : MonoBehaviour {
 		GameObject front_attachment = Instantiate(SelectAttachment(), cab.GetComponent<Cab>().front_attachmentNode.transform);
         front_attachment.transform.localPosition = Vector3.zero;
         Attachment attachmentScript = front_attachment.GetComponent<Attachment>();
-
-		ramDamageStacks += attachmentScript.ramDamageStacks;
+        
 		armorStacks += attachmentScript.armorStacks;
-		ramDamageStacks += attachmentScript.ramDamageStacks;
+        speedStacks += attachmentScript.speedStacks;
+        ramDamageStacks += attachmentScript.ramDamageStacks;
 	}
 	#endregion
 

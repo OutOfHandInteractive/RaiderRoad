@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
+using System.Linq;
 
 namespace Tests
 {
@@ -14,22 +15,52 @@ namespace Tests
         public UtilTest(VehicleFactoryManager.vehicleTypes type) : base(type)
         {
         }
-
-        // A Test behaves as an ordinary method
+        
         [Test]
-        public void UtilTestSimplePasses()
+        public void UtilTest_IsVehicle()
         {
-            // Use the Assert class to test conditions
+            Assert.That(Util.IsVehicle(vehicle), Is.True);
+            Assert.That(Util.IsVehicleRecursive(vehicle), Is.True);
+
+            var thief = Spawn(thiefPrefab, spawnNodes[0].transform);
+            Assert.That(Util.IsVehicle(thief), Is.False);
+            Assert.That(Util.IsVehicleRecursive(thief), Is.True);
+
+            Assert.That(Util.IsVehicle(thiefPrefab), Is.False);
+            Assert.That(Util.IsVehicle(hooliganPrefab), Is.False);
+            Assert.That(Util.IsVehicle(bruiserPrefab), Is.False);
+            Assert.That(Util.IsVehicle(RV), Is.False);
+            Assert.That(Util.IsVehicle(dadPrefab), Is.False);
+            Assert.That(Util.IsVehicle(momPrefab), Is.False);
+            Assert.That(Util.IsVehicle(sonPrefab), Is.False);
+            Assert.That(Util.IsVehicle(daughterPrefab), Is.False);
         }
 
-        // A UnityTest behaves like a coroutine in Play Mode. In Edit Mode you can use
-        // `yield return null;` to skip a frame.
-        [UnityTest]
-        public IEnumerator UtilTestWithEnumeratorPasses()
+        [Test]
+        public void UtilTest_IsPlayer()
         {
-            // Use the Assert class to test conditions.
-            // Use yield to skip a frame.
-            yield return null;
+            CheckPlayer(dadPrefab);
+            CheckPlayer(Spawn(dadPrefab));
+
+            CheckPlayer(momPrefab);
+            CheckPlayer(Spawn(momPrefab));
+
+            CheckPlayer(sonPrefab);
+            CheckPlayer(Spawn(sonPrefab));
+
+            CheckPlayer(daughterPrefab);
+            CheckPlayer(Spawn(daughterPrefab));
+
+            Assert.That(Util.isPlayer(vehicle), Is.False);
+            Assert.That(Util.isPlayer(thiefPrefab), Is.False);
+            Assert.That(Util.isPlayer(hooliganPrefab), Is.False);
+            Assert.That(Util.isPlayer(bruiserPrefab), Is.False);
+            Assert.That(Util.isPlayer(RV), Is.False);
+        }
+
+        private static void CheckPlayer(GameObject player)
+        {
+            Assert.That(Util.isPlayer(player), Is.True);
         }
     }
 }

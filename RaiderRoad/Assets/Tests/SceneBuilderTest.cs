@@ -12,23 +12,11 @@ namespace Tests
 {
     public abstract class SceneBuilderTest
     {
+        #region Static Prefab stuff
         protected static GameObject thiefPrefab, hooliganPrefab, bruiserPrefab;
         protected static GameObject factoryPrefab, RVprefab;
+        protected static GameObject dadPrefab, momPrefab, sonPrefab, daughterPrefab;
         private static bool prefabsLoaded = false;
-
-        public GameObject player;
-        public GameObject RV;
-
-        private GameObject root;
-
-        protected readonly VehicleFactoryManager.vehicleTypes vehicleType;
-        protected GameObject vehicle;
-        protected List<GameObject> spawnNodes;
-
-        public SceneBuilderTest(VehicleFactoryManager.vehicleTypes type)
-        {
-            vehicleType = type;
-        }
 
         protected static void LoadPrefabs()
         {
@@ -38,15 +26,21 @@ namespace Tests
             }
 
             factoryPrefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/Vehicles/VehicleFactory.prefab");
+            PurgeMeshColliders(factoryPrefab.GetComponent<VehicleFactoryManager>());
             RVprefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/Vehicles/RV2.0 1.prefab");
             thiefPrefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/Enemies/EnemyL.prefab");
             hooliganPrefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/Enemies/EnemyM.prefab");
             bruiserPrefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/Enemies/EnemyH.prefab");
 
+            dadPrefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/Players/PlayerDad.prefab");
+            momPrefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/Players/PlayerMom.prefab");
+            sonPrefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/Players/PlayerSon.prefab");
+            daughterPrefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/Players/PlayerDaughter.prefab");
+
             prefabsLoaded = true;
         }
 
-        protected static void PurgeMeshColliders(VehicleFactoryManager manager)
+        private static void PurgeMeshColliders(VehicleFactoryManager manager)
         {
             PurgeMeshColliders(manager.lVehicleFactory, "Light/");
             PurgeMeshColliders(manager.mVehicleFactory, "Medium/");
@@ -73,6 +67,22 @@ namespace Tests
                 }
             }
         }
+        #endregion
+        
+        public GameObject RV;
+
+        private GameObject root;
+
+        protected bool buildSetupVehicle = true;
+        protected readonly VehicleFactoryManager.vehicleTypes vehicleType;
+        protected GameObject factoryManager;
+        protected GameObject vehicle;
+        protected List<GameObject> spawnNodes;
+
+        public SceneBuilderTest(VehicleFactoryManager.vehicleTypes type)
+        {
+            vehicleType = type;
+        }
 
         [UnitySetUp]
         public IEnumerator BuildScene()
@@ -90,13 +100,20 @@ namespace Tests
 
             RV = Object.Instantiate(RVprefab, new Vector3(100, 0, 0), Quaternion.identity, root.transform);
             Assert.That(RV.GetComponent<rvHealth>(), Is.Not.Null);
-            var factoryManager = Object.Instantiate(factoryPrefab, root.transform);
+            factoryManager = Object.Instantiate(factoryPrefab, root.transform);
             factoryManager.GetComponent<VehicleFactoryManager>().RV = RV;
 
             yield return new WaitForFixedUpdate();
 
+            if (buildSetupVehicle)
+            {
+                BuildVehicle();
+            }
+        }
+
+        protected GameObject BuildVehicle()
+        {
             VehicleFactoryManager factoryMan = factoryManager.GetComponent<VehicleFactoryManager>();
-            PurgeMeshColliders(factoryMan);
             Assert.That(factoryMan, Is.Not.Null);
             vehicle = factoryMan.NewConstructVehicle(vehicleType, 0, Vector3.zero, 0);
             vehicle.transform.parent = root.transform;
@@ -107,6 +124,17 @@ namespace Tests
                 Object.Destroy(ai.gameObject);
             }
             Assert.That(spawnNodes, Is.Not.Empty);
+            return vehicle;
+        }
+
+        protected GameObject Spawn(GameObject obj)
+        {
+            return Spawn(obj, root.transform);
+        }
+
+        protected GameObject Spawn(GameObject obj, Transform parent)
+        {
+            return Object.Instantiate(obj, parent);
         }
 
         [UnityTearDown]
