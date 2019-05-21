@@ -39,6 +39,9 @@ public class CameraController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Uses the average position of player characters as a point for the camera to follow.
+    /// </summary>
     void MoveCamera()
     {
         Vector3 average = GetAverage();
@@ -57,6 +60,9 @@ public class CameraController : MonoBehaviour
         transform.position = Vector3.SmoothDamp(transform.position, newPosition, ref velocity, smoothTime);
     }
 
+    /// <summary>
+    /// Uses the size of the bounding box containing the player positions to determine the zoom of the camera.
+    /// </summary>
     void ZoomCamera()
     {
         float newZoom = Mathf.Lerp(minZoom, maxZoom, GetSize() / zoomLimiter);
@@ -64,6 +70,12 @@ public class CameraController : MonoBehaviour
         cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, newZoom, Time.deltaTime);
     }
 
+    /// <summary>
+    /// Gets the size of the bounding box containing the player positions.
+    /// </summary>
+    /// <returns>
+    /// A float that represents the size of the bounding box.
+    /// </returns>
     float GetSize()
     {
         var bounds = new Bounds(targets[0].transform.position, Vector3.zero);
@@ -83,6 +95,12 @@ public class CameraController : MonoBehaviour
         return bounds.size.x;
     }
 
+    /// <summary>
+    /// Gets the average position of the player characters.
+    /// </summary>
+    /// <returns>
+    /// A Vector3 which is the location of the average position of players.
+    /// </returns>
     Vector3 GetAverage()
     {
         var bounds = new Bounds(targets[0].transform.position, Vector3.zero);
