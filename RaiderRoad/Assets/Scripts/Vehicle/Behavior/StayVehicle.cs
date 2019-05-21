@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+/// <summary>
+/// class for vehicles in the Stay state
+/// </summary>
 public class StayVehicle : MonoBehaviour {
 
     private List<Transform> attackList;
@@ -15,6 +18,14 @@ public class StayVehicle : MonoBehaviour {
     private VehicleAI.Side cSide;
     private bool calledRadio = false;
     private bool leave = false;
+
+    /// <summary>
+    /// Initialize the state
+    /// </summary>
+    /// <param name="agent">The agent</param>
+    /// <param name="enemy">The enemy</param>
+    /// <param name="side">The side of the RV we're assigned to</param>
+    /// <param name="stickPoint">The index of the point to move to</param>
     public void StartStay(NavMeshAgent agent, GameObject enemy, VehicleAI.Side side, int stickPoint)
     {
         cEnemy = agent;
@@ -43,11 +54,10 @@ public class StayVehicle : MonoBehaviour {
         loadPoints = stickPoint;
     }
 
-    public GameObject GetObject()
-    {
-        return cObject;
-    }
-
+    /// <summary>
+    /// The side we're on
+    /// </summary>
+    /// <returns>The side we're on</returns>
     public VehicleAI.Side Side()
     {
         return cSide;
@@ -55,23 +65,12 @@ public class StayVehicle : MonoBehaviour {
 
     private int CountEnemiesOnBoard()
     {
-        int res = 0;
-        for(int i=0; i<cObject.transform.childCount; i++)
-        {
-            GameObject obj = cObject.transform.GetChild(i).gameObject;
-            if(obj.tag == "Enemy")
-            {
-                res++;
-            }
-        }
-        return res;
+        return GetComponentsInChildren<StatefulEnemyAI>().Length;
     }
 
-    public override string ToString()
-    {
-        return "StayVehicle";
-    }
-
+    /// <summary>
+    /// Do the stay actions
+    /// </summary>
     public void Stay()
     {
         cEnemy.radius = .1f;
@@ -152,7 +151,7 @@ public class StayVehicle : MonoBehaviour {
 
     }
 
-    IEnumerator waitToLeave()
+    private IEnumerator waitToLeave()
     {
         yield return new WaitForSeconds(5);
         cObject.GetComponent<VehicleAI>().EnterWander();
@@ -161,7 +160,7 @@ public class StayVehicle : MonoBehaviour {
 
     }
 
-    IEnumerator waitFailSafe()
+    private IEnumerator waitFailSafe()
     {
         yield return new WaitForSeconds(20);
         leave = true;

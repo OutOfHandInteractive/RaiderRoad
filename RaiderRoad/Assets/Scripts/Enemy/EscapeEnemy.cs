@@ -41,7 +41,7 @@ public class EscapeEnemy : JumpEnemy {
         {
             cSide = vehicle.Side();
             //Debug.Log("Roger!");
-            eVehicle = vehicle.GetObject();
+            eVehicle = vehicle.gameObject;
             Debug.Log(eVehicle);
         }
     }

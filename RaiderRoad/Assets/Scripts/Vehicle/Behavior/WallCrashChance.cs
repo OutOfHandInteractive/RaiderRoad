@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+/// <summary>
+/// DEPRECATED class for avoiding obstacles
+/// </summary>
 public class WallCrashChance : MonoBehaviour {
 
     private int hitChance;
