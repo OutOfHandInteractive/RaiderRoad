@@ -32,6 +32,12 @@ public class CameraShake : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Starts the camera shake depending on parameters.
+    /// </summary>
+    /// <param name="duration">Duration of the shaking.</param>
+    /// <param name="amplitude">Amplitude of the shakes.</param>
+    /// <param name="frequency">Frequency of shakes.</param>
     public void Shake(float duration, float amplitude, float frequency)
     {
         shakeAmplitude = amplitude;

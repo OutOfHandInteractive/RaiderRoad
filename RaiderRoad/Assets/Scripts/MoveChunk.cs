@@ -36,15 +36,27 @@ public class MoveChunk : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Sets the speed of the chunk.
+    /// </summary>
+    /// <param name="speed">Chunk speed.</param>
     public void SetSpeed(float speed) {
         this.speed = speed;
     }
 
+    /// <summary>
+    /// Sets the despawn distance of the chunk.
+    /// </summary>
+    /// <param name="distance">Z despawn distance.</param>
     public void SetSpawnDespawnZDistance(float distance)
     {
         spawnDespawnZDistance = distance;
     }
 
+    /// <summary>
+    /// Gets the spawn node of the chunk.
+    /// </summary>
+    /// <returns>the Transform of the spawn node.</returns>
     public Transform GetSpawnNode()
     {
         return spawnNode.transform;
