@@ -41,7 +41,7 @@ public class Constants
     public const int HEAVY_VEHICLE_BASE_THREAT = 6;
 
 	// misc
-	public const float PLAYER_ROAD_DAMAGE = 50f;
+	public const float PLAYER_ROAD_DAMAGE = 25f;
 
 	// player facing angles
 	public const float FACING_VERTICAL_MINIMUM = 45f;

@@ -134,6 +134,10 @@ public class PlayerController_Rewired : MonoBehaviour
     void Update() {
         if (currentHealth <= 0) {
             state = playerStates.down;
+            if (interacting)
+            {
+                objectInUse.GetComponent<Interactable>().Leave();
+            }
         }
 
         if (!ReInput.isReady) return; // Exit if Rewired isn't ready. This would only happen during a script recompile in the editor.

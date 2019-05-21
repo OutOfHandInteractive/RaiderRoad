@@ -157,9 +157,9 @@ public class StatefulEnemyAI : EnemyAI {
 				case State.Escape:
 					escape.Escape();
 					break;
-				case State.Death:
+				//case State.Death:
 					//death.Death(enemy, dropOnDeath, deathFx);
-					break;
+					//break;
 				case State.Lure:
 					lure.Lure();
 					break;
@@ -185,17 +185,7 @@ public class StatefulEnemyAI : EnemyAI {
     }
 
 	#region State Entry Functions
-	//Methods to enter states, change color based on states
-	/// <summary>
-	/// Enter the given state if not already in it
-	/// </summary>
-	/// <param name="state">The state to move to</param>
-	public void EnterStateIfNotAlready(State state) {
-        if(currentState != state) {
-            EnterState(state);
-        }
-    }
-
+	//Methods to enter states
     /// <summary>
     /// Enter the given state
     /// </summary>
@@ -310,8 +300,12 @@ public class StatefulEnemyAI : EnemyAI {
     /// <summary>
     /// Enter the death state
     /// </summary>
-    public void EnterDeath() {
+    public void EnterDeath() {	// being called every frame, shouldn't be
         currentState = State.Death;
+		if (GetComponentInChildren<Canvas>()) {
+			GetComponentInChildren<Canvas>().gameObject.SetActive(false);
+		}
+		GetComponent<NavMeshAgent>().enabled = false;
 		myAni.SetBool("Death", true);
     }
 
@@ -319,7 +313,6 @@ public class StatefulEnemyAI : EnemyAI {
 	/// Call to destroy character and play out death functionality
 	/// </summary>
 	public void PlayDeath() {
-		Debug.Log("function called");
 		death.Death(enemy, dropOnDeath, deathFx);
 	}
 
@@ -443,7 +436,6 @@ public class StatefulEnemyAI : EnemyAI {
 
 	// ------------------------------ Fight -----------------------------------
 	IEnumerator WindUp(Collider other) {
-		Debug.Log(Time.time);
 		fight.WindupAttack();
 		yield return new WaitForSeconds(.5f);
 		myAni.SetTrigger("Attack");

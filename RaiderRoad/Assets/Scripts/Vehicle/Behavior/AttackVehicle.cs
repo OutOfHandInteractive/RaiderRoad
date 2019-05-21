@@ -45,7 +45,7 @@ public class AttackVehicle : MonoBehaviour{
         //Stop if there is nothing to attack
         if (attackList.Count == 0)
             return;
-        Debug.Log(attackList.Count);
+        //Debug.Log(attackList.Count);
         attackPoints = 1;// Random.Range(0, attackList.Count);
     }
 
