@@ -172,6 +172,10 @@ public class PlayerController_Rewired : MonoBehaviour
     #endregion
 
     #region Input and Input Processing
+    /// <summary>
+    /// Process Input throught the ReWired plugin.
+    /// Movemnt, attacking, interacting, building, jumping.
+    /// </summary>
     private void GetInput() {
         // main input
         if (!paused && !interacting && !reviving) {
@@ -298,6 +302,10 @@ public class PlayerController_Rewired : MonoBehaviour
         return (value - from1) / (to1 - from1) * (to2 - from2) + from2;
     }
 
+    /// <summary>
+    /// An indicator under each player that gets drawn on the floor so players know where they
+    /// are in relation the z x axis
+    /// </summary>
     private void ScaleJumpIndicator() {
         // Scale
         float dist = Vector3.Distance(transform.position, jumpIndicator.transform.position);
@@ -317,10 +325,14 @@ public class PlayerController_Rewired : MonoBehaviour
             //jumpIndicator.transform.position = new Vector3(jumpIndicator.transform.position.x, pos, jumpIndicator.transform.position.z);
         }
     }
-	#endregion
+    #endregion
 
-	#region Detection Functions
-	private void OnCollisionEnter(Collision collision) {
+    #region Detection Functions
+    /// <summary>
+    /// Determine whether the player has hit the ground so that they can jump agaain.
+    /// Also parents the player to its current vehicle
+    /// </summary>
+    private void OnCollisionEnter(Collision collision) {
         if (IsGrounded() && animJumped == true) {
             animJumped = false;
             myAni.SetBool("land", true);
@@ -357,14 +369,21 @@ public class PlayerController_Rewired : MonoBehaviour
         */
     }
 
+    /// <summary>
+    /// Raycasts to check if player is grounded
+    /// </summary>
     private bool IsGrounded() {
         return Physics.Raycast(transform.position + Vector3.up, -Vector3.up, distToGround + 0.1f);
     }
-	#endregion
+    #endregion
 
-	#region Health Related Functions
-	// ----------------------- reviving ----------------------------
-	public void startRevive(PlayerController_Rewired p) {
+    #region Health Related Functions
+    // ----------------------- reviving ----------------------------
+
+    /// <summary>
+    /// Begin the revive action on the downed player.
+    /// </summary>
+    public void startRevive(PlayerController_Rewired p) {
         reviving = true;
         reviveCountdown = reviveTime;
         p.GetComponentInChildren<HealthBar_Player>().startRevive(reviveTime);
@@ -382,12 +401,19 @@ public class PlayerController_Rewired : MonoBehaviour
 		}
     }
 
+    /// <summary>
+    /// Event for player getting 
+    /// </summary>
     public void revive(PlayerController_Rewired p) {
 		p.getUp();
         reviving = false;
     }
 
-	// ----------------------- damage -----------------------
+    // ----------------------- damage -----------------------
+    /// <summary>
+    /// players damage function to their health
+    /// </summary>
+    /// /// <param name="_damage">How much damage a player takes</param>
     public void takeDamage(float _damage) {
         float currTime = Time.time;
         //Invulnerability Frames (if we want to remove, set invulTime to 0 or get rid of if statement below)
@@ -407,12 +433,18 @@ public class PlayerController_Rewired : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Damages players and returns them to the RV upon falling on th road
+    /// </summary>
     public void RoadRash()
     {
         takeDamage(Constants.PLAYER_ROAD_DAMAGE);
         transform.position = GameObject.Find("player1Spawn").transform.position;
     }
 
+    /// <summary>
+    /// Animation trigger for being downed
+    /// </summary>
 	private void goDown() {
 		pPlacement.SheathWeapon();
 		pPlacement.dropItem();
@@ -427,6 +459,9 @@ public class PlayerController_Rewired : MonoBehaviour
 		g.PlayerDowned();
 	}
 
+    /// <summary>
+    /// Animation trigger for being revived
+    /// </summary>
 	public void getUp() {
 		currentHealth = basehealth;
 		backToOrigAnim();
@@ -437,6 +472,9 @@ public class PlayerController_Rewired : MonoBehaviour
 	}
 
     // ------------------- misc health ---------------------
+    /// <summary>
+    /// Slowly regenerate health after x seconds of not taking damage
+    /// </summary>
     private void HealthRegen() {
         if (state != playerStates.down) { 
             if (currentHealth < basehealth) {
@@ -548,7 +586,10 @@ public class PlayerController_Rewired : MonoBehaviour
     }
     #endregion
 
-    #region Other Methods
+    #region Other Methods'
+    /// <summary>
+    ///:bungees" the player back to the RV
+    /// </summary>
     public void Eject(float zSign) {
         takeDamage(Constants.PLAYER_ROAD_DAMAGE);
 

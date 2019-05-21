@@ -61,6 +61,11 @@ public abstract class DestructiblePart : MonoBehaviour {
 	}
 
 	// ---------- Modifiers ----------
+	/// <summary>
+	/// Deal damage to the vehicle
+	/// </summary>
+	/// <param name="damageDone">Amount of damage the vehicle is to take</param>
+	/// <returns>Health of the vehicle after damage is done</returns>
 	public float TakeDamage(float damageDone) {
 		currentHealth -= damageDone;
 		Debug.Log("TAKING DAMAGE");
