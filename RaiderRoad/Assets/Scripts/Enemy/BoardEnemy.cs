@@ -63,7 +63,7 @@ public class BoardEnemy : JumpEnemy {
             }
         }
 
-        if(transform.parent.tag == "eVehicle")
+        if(transform.parent && transform.parent.tag == "eVehicle")
         {
             ai.getAnimator().SetBool("Grounded", true);
             jumped = false;

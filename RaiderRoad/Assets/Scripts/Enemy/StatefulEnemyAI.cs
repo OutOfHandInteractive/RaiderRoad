@@ -36,6 +36,7 @@ public class StatefulEnemyAI : EnemyAI {
 	private bool isDestroying = false;
 
     //Vehicle variables
+	[Header("Vehicle Variables")]
     private VehicleAI vehicle;
     private VehicleAI.Side side;
     public GameObject munnitions;
@@ -43,8 +44,9 @@ public class StatefulEnemyAI : EnemyAI {
     private GameObject interactable;
     public GameObject dropOnDeath;
 
-    // statistics
-    public float maxHealth;
+	// statistics
+	[Header("Statistics")]
+	public float maxHealth;
     public float damagePower;
     public float currentHealth;
     public float damageMeter;
@@ -53,17 +55,20 @@ public class StatefulEnemyAI : EnemyAI {
 	[SerializeField] private float wallDestroyTime;
 	[SerializeField] private float batteryDestroyTime;
 
-    //UI Elements
-    public GameObject fightIcon;
+	//UI Elements
+	[Header("UI")]
+	public GameObject fightIcon;
     public GameObject destroyIcon;
     private bool isBigger = false;
     private bool isSmaller = false;
 
-    //Animation
-    public Animator myAni;
+	//Animation
+	[Header("Animation and FX")]
+	public Animator myAni;
 
 	// FX
 	[SerializeField] private ParticleSystem deathFx;
+	[SerializeField] private Transform deathFXSpawnLocation;
 
 	#region System Functions
 	// Use this for initialization
@@ -313,7 +318,7 @@ public class StatefulEnemyAI : EnemyAI {
 	/// Call to destroy character and play out death functionality
 	/// </summary>
 	public void PlayDeath() {
-		death.Death(enemy, dropOnDeath, deathFx);
+		death.Death(enemy, dropOnDeath, deathFx, deathFXSpawnLocation);
 	}
 
     /// <summary>
