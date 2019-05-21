@@ -20,6 +20,14 @@ public class VehicleFactoryManager : MonoBehaviour {
         rvRef = RV.GetComponent<rvHealth>();
     }
 
+	/// <summary>
+	/// Call to create a vehicle to be spawned into the game
+	/// </summary>
+	/// <param name="type">The weight class of vehicle to spawn - light, medium, or heavy</param>
+	/// <param name="mod">The desired difficulty modifier of the vehicle to spawn</param>
+	/// <param name="position">The location at which the vehicle is to be spawned</param>
+	/// <param name="wChance">The chance of spawning a weapon on the vehicle</param>
+	/// <returns></returns>
 	public GameObject NewConstructVehicle(vehicleTypes type, int mod, Vector3 position, float wChance)
     {
         int batteries = getBatteries();
@@ -31,6 +39,10 @@ public class VehicleFactoryManager : MonoBehaviour {
             return hVehicleFactory.AssembleVehicle(mod, position, wChance, batteries);
     }
 
+	/// <summary>
+	/// Gets the number of batteries currently placed on the RV
+	/// </summary>
+	/// <returns>The number of batteries currently active on the RV</returns>
     private int getBatteries(){
         return rvRef.getRemainingBatteries();
     }

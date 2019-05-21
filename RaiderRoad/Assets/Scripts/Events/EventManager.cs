@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-
+/// <summary>
+/// Control spawning of events / enemies in-game
+/// </summary>
 public class EventManager : MonoBehaviour {
 	// --------------------- public variables -------------------------
 	// enumerations
@@ -21,10 +23,12 @@ public class EventManager : MonoBehaviour {
 	GameManager g;
 
 	// Difficulty
+	[Header("Basic Difficulty Information")]
 	[SerializeField] private int difficultyRating;
 	[SerializeField] private List<float> difficultyMultiplier;
 
 	// Equation coefficients                    -------all set to 1 for now
+	[Header("Difficulty Equation Coefficients")]
 	[SerializeField] private float expectedGameLengthModifier;
 	[SerializeField] private float sinFrequencyModifier;
 	[SerializeField] private float sinAmplitudeModifier;
@@ -32,19 +36,20 @@ public class EventManager : MonoBehaviour {
 	[SerializeField] private float baseDifficultyRating;
 
 	// Variation coefficients
+	[Header("Other Coefficients")]
 	[SerializeField] private float randomModifierMin;
 	[SerializeField] private float randomModifierMax;
-
-	// event generation constants
 	[SerializeField] private int minEventDifficulty;
 	[SerializeField] private int maxEventDifficulty;
     
     //cluster objects - prefab, currently active, and next ready
+	[Header("Cluster Information")]
     [SerializeField] private GameObject eCluster;
     [SerializeField] private GameObject onDeck;
     [SerializeField] private GameObject active;
     
     //spawn points for events
+	[Header("Spawn Points")]
     [SerializeField]
     private List<Transform> vspawnPoints;
 
@@ -140,12 +145,20 @@ public class EventManager : MonoBehaviour {
         lastDone();                                     //switches on-deck to active, deploys it, and creates new on-deck cluster
     }
 
+<<<<<<< HEAD
     /// <summary>
     /// Sets the on-deck cluster to active, activates it, and generates a new on-deck cluster
     /// </summary>
     //called from last cluster generated once it reaches certain threshold - deploys next cluster and generates a new one on deck
     public void lastDone()
     {
+=======
+	/// <summary>
+	/// Called from last cluster generated after threshold reached
+	/// Deploys next event cluster and creates a new one to hold onto
+	/// </summary>
+    public void lastDone() {
+>>>>>>> 896b375549ceadb54bfc45e1b09a380abbaf5558
         active = onDeck;
         deployActive();               //deploys 'active' cluster
         onDeck = generate(difficultyRating);
@@ -240,6 +253,7 @@ public class EventManager : MonoBehaviour {
     }
 
     /// <summary>
+<<<<<<< HEAD
     /// Recalculates difficulty at given interval
     /// </summary>
     //saved from previous manager
@@ -249,18 +263,33 @@ public class EventManager : MonoBehaviour {
     {
         while (true)
         {
+=======
+	/// Continuously update difficulty rating over time
+	/// </summary>
+	/// <returns>Current difficulty rating</returns>
+    IEnumerator difficultyManager() {
+        while (true) {
+>>>>>>> 896b375549ceadb54bfc45e1b09a380abbaf5558
             difficultyRating = (int)Mathf.Ceil(calculateDifficultyRating() * difficultyMultiplier[g.GetPlayerCount()-1]);
-            //Debug.Log("difficulty: " + difficultyRating);
 
             yield return new WaitForSecondsRealtime(TimeBetweenDifficultyAdjustment);
         }
     }
+<<<<<<< HEAD
     /// <summary>
     /// Calculates the difficulty
     /// </summary>
     // Use difficulty equation to calculate event difficulty rating based on current time
     private int calculateDifficultyRating()
     {
+=======
+
+	/// <summary>
+	/// Use difficulty equation to calculate event difficulty rating based on current time
+	/// </summary>
+	/// <returns></returns>
+	private int calculateDifficultyRating() {
+>>>>>>> 896b375549ceadb54bfc45e1b09a380abbaf5558
         float timeMinutes = GameManager.GameManagerInstance.GetGameTime() / 60;
         double calculatedDifficulty;
 
