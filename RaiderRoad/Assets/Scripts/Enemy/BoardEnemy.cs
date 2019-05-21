@@ -42,6 +42,7 @@ public class BoardEnemy : JumpEnemy {
     /// </summary>
     public void Board()
     {
+        StatefulEnemyAI ai = cObject.GetComponent<StatefulEnemyAI>();
         //agent.enabled = true;
         //RV destination position
         Vector3 planePos = new Vector3(cObject.transform.position.x, 0, cObject.transform.position.z);
@@ -58,15 +59,25 @@ public class BoardEnemy : JumpEnemy {
             {
                 Jump(pos, zSign);
                 jumped = true;
+                transform.parent = null;
             }
         }
 
-        
+        if(transform.parent.tag == "eVehicle")
+        {
+            ai.getAnimator().SetBool("Grounded", true);
+            jumped = false;
+            if(!jumped)
+            {
+                Jump(pos, zSign);
+                jumped = true;
+                transform.parent = null;
+            }
+        }
         
 
         //40% chance to go into Destroy State or Fight State, 20% to go into steal
         string actionStr = (action < 50) ? "EnterDestroy" : "EnterFight";
-        StatefulEnemyAI ai = cObject.GetComponent<StatefulEnemyAI>();
         if(transform.parent != null)
         {
             if(transform.parent.tag == "RV")
@@ -79,7 +90,7 @@ public class BoardEnemy : JumpEnemy {
                 //agent.speed = 0;
                 survey += Time.deltaTime;
                 Debug.Log(survey);
-                if (survey > 1f)
+                if (survey > .5f)
                 {
                     if (action < 40)
                     {
