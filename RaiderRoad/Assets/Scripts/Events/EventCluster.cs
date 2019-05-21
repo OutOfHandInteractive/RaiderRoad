@@ -38,16 +38,7 @@ public class EventCluster : MonoBehaviour {
     //weapon frequency
     [SerializeField]
     private float wChance;   //gets set by event manager
-
-<<<<<<< HEAD
-    /// <summary>
-    /// Initializes values for the cluster
-    /// </summary>
-    /// /// /// <param name="sequence">The sequence of events for the cluster</param>
-    /// /// /// <param name="factory">The factory that will make vehicles</param>
-    /// /// /// <param name="_sDelay">The time between event spawns</param>
-    /// /// /// <param name="_wChance">The chance of getting a weapon on a vehicle</param>
-=======
+    
 	/// <summary>
 	/// Initialize event cluster
 	/// </summary>
@@ -55,7 +46,6 @@ public class EventCluster : MonoBehaviour {
 	/// <param name="factory">Vehicle Factory Manager to create vehicles for new events</param>
 	/// <param name="_sDelay">Spawn delay</param>
 	/// <param name="_wChance">Chance of spawning a weapon on a vehicle in the cluster</param>
->>>>>>> 896b375549ceadb54bfc45e1b09a380abbaf5558
     public void startUp(List<Event> sequence, VehicleFactoryManager factory, float _sDelay, float _wChance)
     {
         manager = GameObject.Find("EventManager");
@@ -72,19 +62,12 @@ public class EventCluster : MonoBehaviour {
             difficulty += element.difficultyRating;
         }
     }
-
-<<<<<<< HEAD
+    
     /// <summary>
     /// Starts both the spawning and the delay reduction coroutines
     /// </summary>
     public void startDispense()
     {
-=======
-	/// <summary>
-	/// Begin sending events out from the cluster
-	/// </summary>
-    public void startDispense() {
->>>>>>> 896b375549ceadb54bfc45e1b09a380abbaf5558
         //start spawning
         StartCoroutine(dispense());
         StartCoroutine(reduceDelay());      //start reducing time between spawns
@@ -118,19 +101,12 @@ public class EventCluster : MonoBehaviour {
             yield return new WaitForSeconds(sDelay);        //wait allocated time
         }        
     }
-
-<<<<<<< HEAD
+    
     /// <summary>
     /// Updates the completion percentage of the cluster, destroying the cluster if it reaches the completeness threshold
     /// </summary>
     //increase completeness of cluster - called from vehicle on destroy
     public void updatePercent(){
-=======
-	/// <summary>
-	/// Increase completion percentage of cluster - called from vehicle on destroy
-	/// </summary>
-	public void updatePercent(){
->>>>>>> 896b375549ceadb54bfc45e1b09a380abbaf5558
         complete += weight;
         if (complete >= threshold && spawnFlag){   //if cluster completion at certain level & no new cluster has been called
             spawnFlag = false;                  //disable so only one new cluster gets generated
