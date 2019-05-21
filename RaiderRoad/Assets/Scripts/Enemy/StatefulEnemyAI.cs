@@ -415,6 +415,7 @@ public class StatefulEnemyAI : EnemyAI {
             isBigger = true;
         }
     }
+
     private void decreaseIconSize()
     {
         RectTransform icon = destroyIcon.GetComponent<RectTransform>();
@@ -440,12 +441,20 @@ public class StatefulEnemyAI : EnemyAI {
 	}
 
 	// ------------------------------ Fight -----------------------------------
+	/// <summary>
+	/// Starts raider wind-up to attack sequence before damage is dealt
+	/// </summary>
+	/// <param name="other">Collider assigned to the target of the raider's attack</param>
+	/// <returns></returns>
 	IEnumerator WindUp(Collider other) {
 		fight.WindupAttack(other);
 		yield return new WaitForSeconds(.5f);
 		myAni.SetTrigger("Attack");
 	}
 
+	/// <summary>
+	/// Call to deal damage to a player. Requires prior call of IEnumerator Windup() and subsequent attack animation with event trigger.
+	/// </summary>
 	public void attack() {
 		if (inRange) {
 			fight.HitPlayer(damagePower);
