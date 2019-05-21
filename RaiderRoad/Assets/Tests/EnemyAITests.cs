@@ -19,15 +19,24 @@ namespace Tests
         {
         }
 
+        private GameObject[] Prefabs()
+        {
+            return new GameObject[] { thiefPrefab, hooliganPrefab, bruiserPrefab };
+        }
+
         [UnityTest]
         public IEnumerator EnemyAITests_StartInWaitState()
         {
-            // Use the Assert class to test conditions
-            GameObject enemy = Object.Instantiate(thiefPrefab, spawnNodes[0].transform);
-            StatefulEnemyAI ai = enemy.GetComponent<StatefulEnemyAI>();
-            Assert.That(ai, Is.Not.Null);
-            Assert.That(ai.GetState(), Is.EqualTo(StatefulEnemyAI.State.Wait));
-            yield return null;
+            foreach(GameObject prefab in Prefabs())
+            {
+                // Use the Assert class to test conditions
+                GameObject enemy = Object.Instantiate(prefab, spawnNodes[0].transform);
+                StatefulEnemyAI ai = enemy.GetComponent<StatefulEnemyAI>();
+                Assert.That(ai, Is.Not.Null);
+                Assert.That(ai.GetState(), Is.EqualTo(StatefulEnemyAI.State.Wait));
+                Object.Destroy(enemy);
+                yield return new WaitForFixedUpdate();
+            }
         }
         
         [UnityTest]

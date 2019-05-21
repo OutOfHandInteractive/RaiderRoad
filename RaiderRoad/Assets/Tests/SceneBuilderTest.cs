@@ -10,6 +10,9 @@ using Object = UnityEngine.Object;
 
 namespace Tests
 {
+    /// <summary>
+    /// This is an abstract utility class for test classes that require building a scene with RVs and vehicles and everything.
+    /// </summary>
     public abstract class SceneBuilderTest
     {
         #region Static Prefab stuff
@@ -84,6 +87,10 @@ namespace Tests
             vehicleType = type;
         }
 
+        /// <summary>
+        /// Setup enumerator for building the scene.
+        /// </summary>
+        /// <returns></returns>
         [UnitySetUp]
         public IEnumerator BuildScene()
         {
@@ -103,6 +110,15 @@ namespace Tests
             factoryManager = Object.Instantiate(factoryPrefab, root.transform);
             factoryManager.GetComponent<VehicleFactoryManager>().RV = RV;
 
+            { // Create patrols
+                var patrol = new GameObject();
+                new GameObject("Patrol Child").transform.parent = patrol.transform;
+                Spawn(patrol).name = "Patrol Left";
+                Spawn(patrol).name = "Patrol Right";
+            }
+
+            Spawn(new GameObject("EnemyExit"));
+
             yield return new WaitForFixedUpdate();
 
             if (buildSetupVehicle)
@@ -111,7 +127,7 @@ namespace Tests
             }
         }
 
-        protected GameObject BuildVehicle()
+        protected GameObject BuildVehicle(VehicleAI.Side side = VehicleAI.Side.Left)
         {
             VehicleFactoryManager factoryMan = factoryManager.GetComponent<VehicleFactoryManager>();
             Assert.That(factoryMan, Is.Not.Null);
@@ -124,6 +140,7 @@ namespace Tests
                 Object.Destroy(ai.gameObject);
             }
             Assert.That(spawnNodes, Is.Not.Empty);
+            vehicle.GetComponent<VehicleAI>().setSide(side);
             return vehicle;
         }
 
@@ -137,6 +154,10 @@ namespace Tests
             return Object.Instantiate(obj, parent);
         }
 
+        /// <summary>
+        /// Destroys the scene from the root node
+        /// </summary>
+        /// <returns></returns>
         [UnityTearDown]
         public IEnumerator DestroyScene()
         {

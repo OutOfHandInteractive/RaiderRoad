@@ -3,9 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+/// <summary>
+/// Main class for managing the state of the Vehicle AI
+/// </summary>
 public class VehicleAI : MonoBehaviour {
-    //States
+
+    /// <summary>
+    /// Enum represnting the various states
+    /// </summary>
     public enum State { Wait, Wander, Chase, Stay, Attack, Leave };
+
+    /// <summary>
+    /// Enum representing the two sides of the RV
+    /// </summary>
     public enum Side { Left, Right };
 
     //State Classes
@@ -148,6 +158,10 @@ public class VehicleAI : MonoBehaviour {
     }
 
 	// ---------------- Combat Functions ------------------
+    /// <summary>
+    /// The vehicle suffers the given amount of damage
+    /// </summary>
+    /// <param name="damage">The damage to take</param>
 	public void takeDamage(float damage) {
 		currentHealth -= damage;
 
@@ -341,6 +355,15 @@ public class VehicleAI : MonoBehaviour {
 		movementChance = _chance;
 	}
 
+    public void setSide(Side _side)
+    {
+        side = _side;
+    }
+
+    /// <summary>
+    /// Converts the given string to a Side and assigns this vehicle to that side
+    /// </summary>
+    /// <param name="_side">The side to assign to</param>
     public void setSide(string _side)
     {
         if(_side == "left")

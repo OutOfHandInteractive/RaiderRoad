@@ -97,7 +97,6 @@ namespace Tests
                 var eve = vehicle.GetComponent<eventObject>();
                 Assert.That(eve, Is.Not.Null);
                 Assert.That(eve.getDifficulty(), Is.EqualTo(chassis.baseThreat + threatMod));
-                // TODO: More tests
 
                 // Cleanup
                 Object.Destroy(vehicle);
