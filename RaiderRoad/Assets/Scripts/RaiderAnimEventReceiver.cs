@@ -7,12 +7,15 @@ public class RaiderAnimEventReceiver : MonoBehaviour
 	private StatefulEnemyAI ai;
 
     // Start is called before the first frame update
-    void Start()
-    {
+    void Start() {
 		ai = GetComponentInParent<StatefulEnemyAI>();
     }
 
     public void PlayDeath() {
 		ai.PlayDeath();
+	}
+
+	public void DealDamageOnAttack() {
+		ai.attack();
 	}
 }

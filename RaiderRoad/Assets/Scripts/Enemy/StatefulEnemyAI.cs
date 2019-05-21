@@ -441,18 +441,18 @@ public class StatefulEnemyAI : EnemyAI {
 
 	// ------------------------------ Fight -----------------------------------
 	IEnumerator WindUp(Collider other) {
-		fight.WindupAttack();
+		fight.WindupAttack(other);
 		yield return new WaitForSeconds(.5f);
 		myAni.SetTrigger("Attack");
+	}
 
+	public void attack() {
 		if (inRange) {
-			fight.HitPlayer(other, damagePower);
+			fight.HitPlayer(damagePower);
 		}
 		else {
 			fight.Missed();
 		}
-
-		Debug.Log(Time.time);
 	}
 
 	// ------------------------------ Stunned ---------------------------------

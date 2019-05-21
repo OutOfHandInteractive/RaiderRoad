@@ -89,23 +89,19 @@ public class BoardEnemy : JumpEnemy {
                 //agent.velocity = Vector3.zero;
                 //agent.speed = 0;
                 survey += Time.deltaTime;
-                Debug.Log(survey);
-                if (survey > .5f)
-                {
-                    if (action < 40)
-                    {
+
+                if (survey > .5f) {
+                    if (action < 40) {
                         //agent.speed = speed;
                         cObject.GetComponent<Rigidbody>().isKinematic = false;
                         ai.EnterDestroy();
                     }
-                    else if (action > 40 && action < 80)
-                    {
+                    else if (action > 40 && action < 80) {
                         //agent.speed = speed;
                         cObject.GetComponent<Rigidbody>().isKinematic = false;
                         ai.EnterFight();
                     }
-                    else
-                    {
+                    else {
                         //agent.speed = speed;
                         cObject.GetComponent<Rigidbody>().isKinematic = false;
                         ai.EnterSteal();
