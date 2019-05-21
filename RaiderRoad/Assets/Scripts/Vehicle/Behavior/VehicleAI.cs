@@ -3,9 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+/// <summary>
+/// Main state machine class for the vehicle AI
+/// </summary>
 public class VehicleAI : MonoBehaviour {
-    //States
+    /// <summary>
+    /// The vehicle states
+    /// </summary>
     public enum State { Wait, Wander, Chase, Stay, Attack, Leave };
+
+    /// <summary>
+    /// The sides of the RV
+    /// </summary>
     public enum Side { Left, Right };
 
     //State Classes
@@ -56,7 +65,9 @@ public class VehicleAI : MonoBehaviour {
     private float currentHealth;
 	[SerializeField] private float highDamageThreshold;
 
-	// Use this for initialization
+    /// <summary>
+    /// Initialiaze the state machine
+    /// </summary>
 	void Start () {
 		currentHealth = maxHealth;
         hasWeapon = false;
@@ -81,7 +92,9 @@ public class VehicleAI : MonoBehaviour {
         vCamShake = GameObject.FindGameObjectWithTag("MainVCam").GetComponent<CameraShake>();
     }
 
-    // Update is called once per frame
+    /// <summary>
+    /// Update and call down to the current state
+    /// </summary>
     void Update () {
         transform.position = new Vector3(transform.position.x, .7f, transform.position.z);
         if(transform.position.z >16f)
@@ -148,6 +161,10 @@ public class VehicleAI : MonoBehaviour {
     }
 
 	// ---------------- Combat Functions ------------------
+    /// <summary>
+    /// Suffer the given amount of damage
+    /// </summary>
+    /// <param name="damage">The damage to take</param>
 	public void takeDamage(float damage) {
 		currentHealth -= damage;
 
@@ -162,37 +179,64 @@ public class VehicleAI : MonoBehaviour {
         }
 	}
 
+    /// <summary>
+    /// Take proportionate damage to the destruction of a part
+    /// </summary>
 	public void DestroyPart() {
 		takeDamage(maxHealth * 0.4f);
 	}
 
 	#region state change functions
 	//Used to change state from different classes
+
+    /// <summary>
+    /// Enter the Wait state
+    /// </summary>
     public void EnterWait()
     {
         wait.StartWait(enemy);
         currentState = State.Wait;
     }
+
+    /// <summary>
+    /// Enter the Wander state
+    /// </summary>
 	public void EnterWander()
     {
         wander.StartWander(agent, enemy, side, hasWeapon);
         currentState = State.Wander;
     }
+
+    /// <summary>
+    /// Enter the Chase state
+    /// </summary>
     public void EnterChase()
     {
         chase.StartChase(agent, enemy, side);
         currentState = State.Chase;
     }
+
+    /// <summary>
+    /// Enter the Stay state
+    /// </summary>
     public void EnterStay(int stickPoint)
     {
         stay.StartStay(agent, enemy, side, stickPoint);
         currentState = State.Stay;
     }
+
+    /// <summary>
+    /// Enter the Attack state
+    /// </summary>
     public void EnterAttack()
     {
         attack.StartAttack(agent, enemy, rb, side);
         currentState = State.Attack;
     }
+
+    /// <summary>
+    /// Enter the Leave state
+    /// </summary>
     public void EnterLeave()
     {
         leave.StartLeave(agent, enemy);
@@ -341,6 +385,10 @@ public class VehicleAI : MonoBehaviour {
 		movementChance = _chance;
 	}
 
+    /// <summary>
+    /// Convert the string to a side and assign the vehicle to that side
+    /// </summary>
+    /// <param name="_side">The string to interpret</param>
     public void setSide(string _side)
     {
         if(_side == "left")

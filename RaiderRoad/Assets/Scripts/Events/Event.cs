@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-//public abstract class Event : MonoBehaviour {
+/// <summary>
+/// A wrapper to create a raider vehicle and used to control spawn rate
+/// </summary>
 public class Event : MonoBehaviour {
 
 	//public enum EventTypes { vehicle, obstacle, fork };
@@ -27,20 +29,13 @@ public class Event : MonoBehaviour {
     private int numPoints;
     private int _mod;
 
-    /*public Event(int dif, VehicleFactoryManager.vehicleTypes type)       //add game object to constructor for spawning
-    {
-        Debug.Log("Event Created");
-        difficultyRating = dif;
-        _type = type;
-    }*/
-
-    /// <summary>
-    /// Sets values for the object to be spawned, including vehicle type, difficulty, and potential spawn points (event type not used)
-    /// </summary>
-    /// /// <param name="dif">The difficulty of the event</param>
-    /// /// <param name="vtype">The type of vehicle</param>
-    /// /// <param name="etype">The type of event (not used)</param>
-    /// /// <param name="spawns">The list of spawn point coordinates</param>
+	/// <summary>
+	/// Initialize creation of event
+	/// </summary>
+	/// <param name="dif">Desired difficulty of vehicle</param>
+	/// <param name="vtype">Type of vehicle to spawn</param>
+	/// <param name="etype">Type of event that is to be spawned (vehicle or obstacle)</param>
+	/// <param name="spawns">Possible spawn locations for event</param>
     public void initialize(int dif, VehicleFactoryManager.vehicleTypes vtype,  EventManager.eventTypes etype, List<Transform> spawns){    //constructor work-around
         difficultyRating = dif;
         _vtype = vtype;
@@ -48,26 +43,19 @@ public class Event : MonoBehaviour {
         spawnPoints = spawns;
     }
 
-    /// <summary>
-    /// Sets the modifier variable in the given object (currently unused/has no effect)
-    /// </summary>
-    /// /// <param name="mod">The value of the modifier</param>
-    public void setMod(int mod)
-    {
+	/// <summary>
+	/// Set difficulty modifier of event - Curently unused
+	/// </summary>
+	/// <param name="mod">Desired difficulty modifier</param>
+    public void setMod(int mod) {
         _mod = mod;
     }
 
-    void Start()
-    {
-        //Debug.Log("Event Created");
-    }
-
-    /// <summary>
-    /// OUTDATED - spawns an obstacle at a given point
-    /// </summary>
-    /// /// <param name="obstacle">The obstacle object to be created</param>
-    public void oSpawn(GameObject obstacle)
-    {
+	/// <summary>
+	/// Deprecated - Spawn obstacle into the game
+	/// </summary>
+	/// <param name="obstacle">The obstacle prefab to spawn</param>
+    public void oSpawn(GameObject obstacle) {
         int i = Random.Range(0, 5);
         Vector3 spawnPoint = spawnPoints[i].transform.position;
         if(obstacle != null)
@@ -82,29 +70,22 @@ public class Event : MonoBehaviour {
         }
     }
 
-    /// <summary>
-    /// Picks a random spawn point, assembles a vehicle, and initializes it
-    /// </summary>
-    /// /// <param name="factory">The factory object that will create the vehicle objcet</param>
-    /// /// <param name="wepFreq">The likelihood of a vehicle having a weapon attached</param>
-    public void spawn(VehicleFactoryManager factory, float wepFreq)
-    {
+	/// <summary>
+	/// Spawn vehicle into the game
+	/// </summary>
+	/// <param name="factory">Reference to factory to build the vehicle</param>
+	/// <param name="wepFreq">Likelihood of spawning weapon on the vehicle</param>
+    public void spawn(VehicleFactoryManager factory, float wepFreq) {
         numPoints = Random.Range(1, spawnPoints.Count);
-        //Debug.Log("spawn = " + numPoints);
-        //Debug.Log("spawn called");
+
         //based on type, call proper function - for now just creates light vehicle
         Vector3 pos = spawnPoints[numPoints].transform.position;
         e = factory.NewConstructVehicle(_vtype,_mod, pos, wepFreq);
         Radio.GetRadio().AddVehicle(e);
-        //if (e.transform.position != pos)
-        //{
-        //    Debug.LogError("WTF");
-        //}
+
         e.GetComponent<VehicleAI>().setSide(spawnPoints[numPoints].name);
         //e.transform.position = spawnPoints[numPoints].transform.position;
         e.GetComponentInChildren<eventObject>().setCluster(this.gameObject);
 		difficultyRating = e.GetComponentInChildren<eventObject>().getDifficulty();
-        //GameObject.CreatePrimitive(PrimitiveType.Cube);
     }
-
 }
