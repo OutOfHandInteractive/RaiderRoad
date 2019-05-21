@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Helper class to spawn vehicles on command for debugging
+/// </summary>
 public class StaticSpawn : MonoBehaviour {
 
     public VehicleFactoryManager factory;
@@ -11,9 +14,11 @@ public class StaticSpawn : MonoBehaviour {
     void Start () {
 		
 	}
-	
-	// Update is called once per frame
-	void Update () {
+
+    /// <summary>
+    /// Spawn a vehicle if the space bar was pressed
+    /// </summary>
+    void Update () {
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
