@@ -38,11 +38,7 @@ public class EventCluster : MonoBehaviour {
     //weapon frequency
     [SerializeField]
     private float wChance;   //gets set by event manager
-<<<<<<< HEAD
-    
-=======
 
->>>>>>> c4e7ac87ec7f93590454cf07e34a85c8aab7a6f1
 	/// <summary>
 	/// Initialize event cluster
 	/// </summary>
@@ -66,20 +62,12 @@ public class EventCluster : MonoBehaviour {
             difficulty += element.difficultyRating;
         }
     }
-<<<<<<< HEAD
     
     /// <summary>
     /// Starts both the spawning and the delay reduction coroutines
     /// </summary>
     public void startDispense()
     {
-=======
-
-	/// <summary>
-	/// Begin sending events out from the cluster
-	/// </summary>
-    public void startDispense() {
->>>>>>> c4e7ac87ec7f93590454cf07e34a85c8aab7a6f1
         //start spawning
         StartCoroutine(dispense());
         StartCoroutine(reduceDelay());      //start reducing time between spawns
@@ -131,7 +119,7 @@ public class EventCluster : MonoBehaviour {
     /// <summary>
     /// Calls the proper function from the given event to create the proper enemy for the player
     /// </summary>
-    /// /// /// <param name="eve">The event being called</param>
+    /// <param name="eve">The event being called</param>
     //calls next event in cluster
     void callEvent(Event eve) {
         if (eve._etype == EventManager.eventTypes.obstacle) {

@@ -144,7 +144,6 @@ public class EventManager : MonoBehaviour {
         yield return new WaitForSecondsRealtime(10);       //delay for some short time - let's say 10 seconds
         lastDone();                                     //switches on-deck to active, deploys it, and creates new on-deck cluster
     }
-<<<<<<< HEAD
     
     /// <summary>
     /// Sets the on-deck cluster to active, activates it, and generates a new on-deck cluster
@@ -152,14 +151,6 @@ public class EventManager : MonoBehaviour {
     //called from last cluster generated once it reaches certain threshold - deploys next cluster and generates a new one on deck
     public void lastDone()
     {
-=======
-
-	/// <summary>
-	/// Called from last cluster generated after threshold reached
-	/// Deploys next event cluster and creates a new one to hold onto
-	/// </summary>
-    public void lastDone() {
->>>>>>> c4e7ac87ec7f93590454cf07e34a85c8aab7a6f1
         active = onDeck;
         deployActive();               //deploys 'active' cluster
         onDeck = generate(difficultyRating);
