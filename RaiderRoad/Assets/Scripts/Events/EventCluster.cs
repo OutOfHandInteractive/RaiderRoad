@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class EventCluster : MonoBehaviour {
 
-	// ----------------------- public variables ----------------------
+	[Header("public variables")]
+    // ----------------------- public variables ----------------------
 	// references
     public List<Event> events = new List<Event>();
 
@@ -12,6 +13,7 @@ public class EventCluster : MonoBehaviour {
 	public int initSize;
 	public float complete;
 
+    [Header("private variables")]
 	// ---------------------- nonpublic variables ----------------------
 	// references
 	[SerializeField] private GameObject manager;
@@ -34,7 +36,13 @@ public class EventCluster : MonoBehaviour {
     [SerializeField]
     private float wChance;   //gets set by event manager
 
-
+    /// <summary>
+    /// Initializes values for the cluster
+    /// </summary>
+    /// /// /// <param name="sequence">The sequence of events for the cluster</param>
+    /// /// /// <param name="factory">The factory that will make vehicles</param>
+    /// /// /// <param name="_sDelay">The time between event spawns</param>
+    /// /// /// <param name="_wChance">The chance of getting a weapon on a vehicle</param>
     public void startUp(List<Event> sequence, VehicleFactoryManager factory, float _sDelay, float _wChance)
     {
         manager = GameObject.Find("EventManager");
@@ -52,7 +60,9 @@ public class EventCluster : MonoBehaviour {
         }
     }
 
-
+    /// <summary>
+    /// Starts both the spawning and the delay reduction coroutines
+    /// </summary>
     public void startDispense()
     {
         //start spawning
@@ -60,6 +70,9 @@ public class EventCluster : MonoBehaviour {
         StartCoroutine(reduceDelay());      //start reducing time between spawns
     }
 
+    /// <summary>
+    /// Coroutine for spawning events with a given delay between them
+    /// </summary>
     //spawning coroutine
     IEnumerator dispense(){
         foreach (Event e in events){
@@ -67,7 +80,10 @@ public class EventCluster : MonoBehaviour {
             yield return new WaitForSeconds(sDelay);     //call next event after delay
         }
     }
-    
+
+    /// <summary>
+    /// Coroutine for reducing the spawn delay by a set amount every time something spawns
+    /// </summary>
     //delay reduction coroutine
     IEnumerator reduceDelay()
     {
@@ -83,7 +99,9 @@ public class EventCluster : MonoBehaviour {
         }        
     }
 
-
+    /// <summary>
+    /// Updates the completion percentage of the cluster, destroying the cluster if it reaches the completeness threshold
+    /// </summary>
     //increase completeness of cluster - called from vehicle on destroy
     public void updatePercent(){
         complete += weight;
@@ -95,7 +113,11 @@ public class EventCluster : MonoBehaviour {
             Destroy(this.gameObject);
         }
     }
-        
+
+    /// <summary>
+    /// Calls the proper function from the given event to create the proper enemy for the player
+    /// </summary>
+    /// /// /// <param name="eve">The event being called</param>
     //calls next event in cluster
     void callEvent(Event eve){
         if (eve._etype == EventManager.eventTypes.obstacle)
