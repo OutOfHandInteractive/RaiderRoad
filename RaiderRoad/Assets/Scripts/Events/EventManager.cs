@@ -6,8 +6,6 @@ using UnityEngine.AI;
 
 
 public class EventManager : MonoBehaviour {
-
-    [Header("public variables")]
 	// --------------------- public variables -------------------------
 	// enumerations
 	public enum eventTypes { vehicle, obstacle };
@@ -18,7 +16,6 @@ public class EventManager : MonoBehaviour {
 	// gameplay values
 	public float TimeBetweenDifficultyAdjustment;
 
-    [Header("private variables")]
 	// -------------------- nonpublic variables ------------------------
 	// Static references
 	GameManager g;
