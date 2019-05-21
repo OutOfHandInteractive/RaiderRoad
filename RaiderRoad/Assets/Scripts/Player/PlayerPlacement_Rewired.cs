@@ -76,7 +76,9 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
 	private void Start() {
         pController = GetComponentInParent<PlayerController_Rewired>();
 	}
-
+    /// <summary>
+    /// Sets up dynamic references to the controller, the RV and the GameManager
+    /// </summary>
 	void Initialize() {
         //TEMP
         //inventoryText = GameObject.Find("WallText").GetComponent<Text>(); //make this work for all players
@@ -156,10 +158,14 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
             }
         }
     }
-	#endregion
+    #endregion
 
-	#region Building Functions
-	private void BuildDurableConstruct(DurabilityBuildNode node) {
+    #region Building Functions
+    /// <summary>
+    /// To build a costructable, (weapons, batteries)
+    /// </summary>
+    /// <param name="node">The node GameObject where the constructable goes</param>
+    private void BuildDurableConstruct(DurabilityBuildNode node) {
         if (!node.occupied) {
             //myAni.SetTrigger("build");
             GameObject obj = node.Build(heldItem, floatingItem.GetComponent<DurableConstruct>().GetDurability());
@@ -200,6 +206,9 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// To build a trap
+    /// </summary>
     private void BuildTrap() {
         GameObject trapBuild = trapNodes[0];
         //Debug.Log(trapBuild);
@@ -216,12 +225,18 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
 		}
 	}
 
+    /// <summary>
+    /// builds an engine on the first(closest) available node
+    /// </summary>
 	private void BuildEngine() {
         GameObject EngineBuild = engineNodes[0];
         BuildDurableConstruct(EngineBuild.GetComponent<PoiNode>());
 
     }
 
+    /// <summary>
+    /// builds a weapon on the first(closest) available node
+    /// </summary>
     private void BuildWeapon(GameObject toBuild) {
         if (!toBuild.GetComponent<BuildNode>().occupied) {
             myAni.SetTrigger("build");
@@ -238,7 +253,10 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         }
     }
 
-	private void BuildWall() {
+    /// <summary>
+    /// builds a wall on the first(closest) available node
+    /// </summary>
+    private void BuildWall() {
 		GameObject toBuild = nodes[0];
 		if (!toBuild.GetComponent<BuildNode>().occupied) {
 			myAni.SetTrigger("build");
@@ -251,10 +269,13 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
 			Debug.Log("Occupied >:(");
 		}
 	}
-	#endregion
+    #endregion
 
-	#region Item Holding Functions
-	private void HoldingItem() {
+    #region Item Holding Functions
+    /// <summary>
+    /// Displays the held item by the players
+    /// </summary>
+    private void HoldingItem() {
 		floatItem();
 		SheathWeapon();
 		if (player.GetButtonDown("Place Object")) {
@@ -307,7 +328,10 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
 		}
 	}
 
-	private void NotHoldingItem() {
+    /// <summary>
+    /// Manual check for picking up items and droppping them on death.
+    /// </summary>
+    private void NotHoldingItem() {
         if (player.GetButton("Build Mode") && pController.state == PlayerController_Rewired.playerStates.up && wallInventory>0)  {
             buildMode = true;
 
@@ -331,6 +355,9 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Returns the player to the default state, non-building
+    /// </summary>
     private void LeaveBuildMode() {
         if (!buildMode) {
             return;
@@ -347,7 +374,9 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         hasItem = false;
         Destroy(floatingItem);
     }
-
+    /// <summary>
+    /// Makes the currentl held constructable visible on players hands/heads
+    /// </summary>
 	public void floatItem() { //makes held item float and spin above player
         if (!hasItem)
         {
@@ -367,10 +396,13 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
             floatingItem.GetComponentInChildren<BoxCollider>().enabled = false;
         }
 	}
-	#endregion
+    #endregion
 
-	#region Combat Functions
-	private bool AttackVehicleParts() {
+    #region Combat Functions
+    /// <summary>
+    /// A specific subset of attack that handles hitting multiple vehicle parts
+    /// </summary>
+    private bool AttackVehicleParts() {
         foreach(GameObject part in destructableParts) {
             if(part!=null) {
                 Instantiate(objHitParticle, transform.position, Quaternion.identity); //temporary solution, also placed slightly to left for some reason
@@ -383,6 +415,11 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         return false;
     }
 
+    /// <summary>
+    /// General Attack, goes through a list of objects in range and performs events to 
+    /// each one accordingly.
+    /// It checks GameObjects tags.
+    /// </summary>
     private void Attack()
     {
         myAni.SetTrigger("attack");
@@ -438,14 +475,20 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         //currentAttColor.a = 0.5f; //setting attack model's mat to 1/2 visible
     }
 
-	public void SheathWeapon() {
+    /// <summary>
+    /// Hides the weapon after a set time
+    /// </summary>
+    public void SheathWeapon() {
 		myWeapon.SetActive(false);
 		sheathTimer = 0f;
 	}
-	#endregion
+    #endregion
 
-	#region Build Node Functions
-	private void CheckBuildNodes() {
+    #region Build Node Functions
+    /// <summary>
+    /// Manual check for nodes that can be built on
+    /// </summary>
+    private void CheckBuildNodes() {
 
         bool isWall;
         GameObject item;
@@ -472,7 +515,10 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         }
     }
 
-	public void removeWrongDirectionWallNodes() {
+    /// <summary>
+    /// Removes walls from perpendicular angles to the player so they only build walls facing them
+    /// </summary>
+    public void removeWrongDirectionWallNodes() {
 		if (heldItem != null && heldItem.CompareTag("Weapon")){
 			/*foreach (GameObject node in nodes) {
 			    if (node.gameObject.tag == "WallNodeHorizontal") {
@@ -494,10 +540,14 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
 			|| (!pController.isFacingVertical && node.gameObject.tag == "WallNodeVertical"));
 		}
 	}
-	#endregion
+    #endregion
 
-	#region Detection Functions
-	void OnTriggerEnter(Collider other)
+    #region Detection Functions
+    /// <summary>
+    /// Handles building and attacking structure through a list system that is updated when objects pop in and out of the players' vision
+    /// </summary>
+    /// <param name="other">The GameObject that entered the players vision</param>
+    void OnTriggerEnter(Collider other)
     {
         //Debug.Log(other.name);
         if ((other.tag == "WallNodeVertical" && pController.isFacingVertical) || 
@@ -610,6 +660,10 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
         //}
     }
 
+    /// <summary>
+    /// Handles building and attacking structure it through a list system that is updated when objects pop in and out of the players' vision
+    /// </summary>
+    /// <param name="other">The GameObject that left the players vision</param>
     private void OnTriggerExit(Collider other)
     {
         //Debug.Log("Removed");
