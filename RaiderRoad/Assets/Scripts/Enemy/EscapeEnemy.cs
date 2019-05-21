@@ -21,7 +21,7 @@ public class EscapeEnemy : JumpEnemy {
     public override void StartJump(GameObject enemy, Rigidbody rb, VehicleAI.Side side,NavMeshAgent agent, int stateChance, VehicleAI _vehicle)
     {
         base.StartJump(enemy, rb, side, agent, stateChance, _vehicle);
-        eVehicle = _vehicle.gameObject;
+        //eVehicle = _vehicle.gameObject;
         Radio.GetRadio().CallForEvac(this);
         Debug.Log("I need evac!!");
     }

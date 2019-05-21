@@ -37,7 +37,7 @@ public class FightEnemy : EnemyAI {
         _target = target;
         fightRange = cObject.transform.Find("EnemyAttack").gameObject;
         player = GetTarget();
-        eVehicle = vehicle.gameObject;
+        //eVehicle = vehicle.gameObject;
         fightIcon = _fightIcon;
     }
 
@@ -47,7 +47,7 @@ public class FightEnemy : EnemyAI {
         {
             //Debug.Log(players);
             //Debug.Log(players[0]);
-            _target = Closest(cObject.transform.position, players);
+            _target = ClosestLivingPlayer();
             //PlayerController_Rewired.playerStates deadPlayer = _target.GetComponent<PlayerController_Rewired>().state;
             //if(deadPlayer != PlayerController_Rewired.playerStates.down)
         }
@@ -59,20 +59,15 @@ public class FightEnemy : EnemyAI {
     /// </summary>
     public void Fight()
     {
+        StartCoroutine(displayImage());
         //Get player object
         //Get enemy speed
-        StartCoroutine(displayImage());
         GameObject[] vehicles = GameObject.FindGameObjectsWithTag("eVehicle");
         float movement = speed * Time.deltaTime;
         //If doesnt exist or if player has been hit go into escape state
-        if(cObject.transform.parent != null && cObject.transform.parent.tag == "eVehicle")
-        {
-            Vector3 targetPosition = new Vector3(player.transform.position.x, cObject.transform.position.y, player.transform.position.z);
-            cObject.transform.LookAt(targetPosition);
-            cObject.transform.position = Vector3.MoveTowards(cObject.transform.position, player.transform.position, movement);
-        }
-        else if ((!player /*| playerDamage >= 4f*/ || cObject.GetComponent<StatefulEnemyAI>().currentHealth <= 25f) 
-			&& eVehicle != null && cObject.transform.parent.tag != "eVehicle")
+        bool onVehicle = OnVehicle();
+        if ((!player /*| playerDamage >= 4f*/ || cObject.GetComponent<StatefulEnemyAI>().currentHealth <= 25f) 
+			&& !onVehicle)
         {
             Debug.Log("reached");
             cObject.GetComponent<StatefulEnemyAI>().EnterEscape();
@@ -82,8 +77,15 @@ public class FightEnemy : EnemyAI {
             //Look at player and move towards them
             agent.speed = speed;
             Vector3 targetPosition = new Vector3(player.transform.position.x, cObject.transform.position.y, player.transform.position.z);
-            cObject.transform.LookAt(targetPosition);
-            agent.SetDestination(targetPosition);
+            if (onVehicle)
+            {
+                MoveToward(targetPosition);
+            }
+            else
+            {
+                cObject.transform.LookAt(targetPosition);
+                agent.SetDestination(targetPosition);
+            }
             cObject.GetComponent<StatefulEnemyAI>().getAnimator().SetBool("Running", true);
             //cObject.transform.position = Vector3.MoveTowards(cObject.transform.position, player.transform.position, movement);
 
@@ -132,6 +134,10 @@ public class FightEnemy : EnemyAI {
 
     IEnumerator displayImage()
     {
+        if(fightIcon == null)
+        {
+            fightIcon = GetComponent<StatefulEnemyAI>().fightIcon;
+        }
         RectTransform icon = fightIcon.GetComponent<RectTransform>();
         float maxHeight = 15;
         float maxWidth = 12;

@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
+using Object = UnityEngine.Object;
 
 /// <summary>
 /// Static utility class
@@ -24,7 +26,7 @@ public class Util
     /// <returns>True IFF the object is a player</returns>
     public static bool isPlayer(GameObject gameObject)
     {
-        return gameObject != null && gameObject.tag == "Player";
+        return gameObject != null && gameObject.tag == Constants.PLAYER_TAG;
     }
 
     /// <summary>
@@ -122,6 +124,11 @@ public class Util
     public static Vector3 Copy(Vector3 vector)
     {
         return new Vector3(vector.x, vector.y, vector.z);
+    }
+
+    public static bool IsAlive(GameObject obj)
+    {
+        return isPlayer(obj) && obj.GetComponent<PlayerController_Rewired>().getState() == PlayerController_Rewired.playerStates.up;
     }
 
     /// <summary>

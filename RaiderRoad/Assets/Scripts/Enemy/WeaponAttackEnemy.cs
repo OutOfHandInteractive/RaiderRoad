@@ -82,7 +82,7 @@ public class WeaponAttackEnemy : EnemyAI {
     public void Weapon()
     {
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
-        GameObject player = Closest(cObject.transform.position, players);
+        GameObject player = ClosestLivingPlayer();
 
         //flamethrower.transform.LookAt(player.transform.position);
 
@@ -113,7 +113,7 @@ public class WeaponAttackEnemy : EnemyAI {
     void CannonShoot()
     {
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
-        GameObject player = Closest(cObject.transform.position, players);
+        GameObject player = ClosestLivingPlayer();
         Vector3 dir = (player.transform.position - barrel.transform.position);
         dir.y = 0.0f;
         Vector3 cannonBallSpeed = dir.normalized * 10f;
@@ -179,7 +179,7 @@ public class WeaponAttackEnemy : EnemyAI {
     public void LookAtPlayer(GameObject weapons)
     {
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
-        GameObject player = Closest(cObject.transform.position, players);
+        GameObject player = ClosestLivingPlayer();
         if(player != null)
         {
             Vector3 targetPosition = new Vector3(player.transform.position.x, weapons.transform.position.y, player.transform.position.z);

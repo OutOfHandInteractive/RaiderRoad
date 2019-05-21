@@ -38,6 +38,8 @@ public abstract class Constructable : MonoBehaviour
     /// </summary>
 	public bool isHolo = false;
 
+    public GameObject attacker = null;
+
 	/// <summary>
 	/// Boolean flag that indicates whether this object is currently being attacked by a raider
 	/// </summary>

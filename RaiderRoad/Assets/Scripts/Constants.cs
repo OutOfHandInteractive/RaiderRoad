@@ -46,4 +46,7 @@ public class Constants
 	// player facing angles
 	public const float FACING_VERTICAL_MINIMUM = 45f;
 	public const float FACING_VERTICAL_MAXIMUM = 135f;
+
+    // Object tags
+    public const string PLAYER_TAG = "Player";
 }

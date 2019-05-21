@@ -74,6 +74,10 @@ public class StayVehicle : MonoBehaviour {
 
     public void Stay()
     {
+        if(cEnemy == null)
+        {
+            cEnemy = GetComponent<NavMeshAgent>();
+        }
         cEnemy.radius = .1f;
         Debug.Log("STAY STATE");
         //Stop completely when next to spot

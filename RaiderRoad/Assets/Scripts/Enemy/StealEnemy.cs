@@ -19,7 +19,7 @@ public class StealEnemy : EnemyAI {
     public void StartSteal(GameObject enemy, GameObject _stealIcon) {
         cObject = enemy;
         drops = GameObject.FindGameObjectsWithTag("Drops");		// oh god this is horrendous
-        drop = Closest(cObject.transform.position, drops);
+        drop = Closest(drops);
         stealIcon = _stealIcon;
     }
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using System.Linq;
 
 /// <summary>
 /// This enemy just wants to destroy things and pick fights
@@ -35,11 +36,10 @@ public class DestroyEnemy : EnemyAI {
         cObject = enemy;
         agent = _agent;
         action = Random.Range(0, 100);
-        walls = GameObject.FindGameObjectsWithTag("Wall");
-        engines = GameObject.FindGameObjectsWithTag("Engine");
         //Debug.Log(engines[0]);
-        wall = Closest(cObject.transform.position, walls);
-        engine = Closest(cObject.transform.position, engines);
+        PickWall();
+        engines = GameObject.FindGameObjectsWithTag("Engine");
+        engine = Closest(from engine in engines where engine.GetComponent<Engine>().attacker == null select engine);
         destroyIcon = _destroyIcon;
         //Debug.Log(engine);
     }
@@ -94,29 +94,39 @@ public class DestroyEnemy : EnemyAI {
                 }
                 else {
                     Debug.Log(engine);
-                    agent.SetDestination(engine.transform.position);
+                    SetDestination(engine);
                 }
             }
             else {
-				if (wall) {
-					agent.SetDestination(wall.transform.position);
-				}
-				else {
-					walls = GameObject.FindGameObjectsWithTag("Wall");
-					wall = Closest(cObject.transform.position, walls);
-				}
-			}
+				if (wall == null) {
+                    PickWall();
+                }
+                SetDestination(wall);
+            }
         }
         else {
             if (engines.Length <= 0 || engine == null) {
 				cObject.GetComponent<StatefulEnemyAI>().ExitDestroyState();
 				cObject.GetComponent<StatefulEnemyAI>().EnterFight();
             }
-            else {
-                agent.SetDestination(engine.transform.position);
+            else
+            {
+                SetDestination(engine);
             }
         }
         cObject.GetComponent<StatefulEnemyAI>().getAnimator().SetBool("Running", true);
+    }
+
+    private void SetDestination(GameObject target)
+    {
+        agent.SetDestination(target.transform.position);
+        target.GetComponent<Constructable>().attacker = gameObject;
+    }
+
+    private void PickWall()
+    {
+        walls = GameObject.FindGameObjectsWithTag("Wall");
+        wall = Closest(from wall in walls where wall.GetComponent<Wall>().attacker == null select wall);
     }
 
     private void displayIcon()
