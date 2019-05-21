@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Obstacle : MonoBehaviour
 {
+    [Header("Speed variable")]
     [SerializeField]
     private float speed;    //set to -35 to match road speed
 
@@ -12,7 +13,10 @@ public class Obstacle : MonoBehaviour
     {
         
     }
-
+    
+    /// <summary>
+    /// Moves the obstacle down the road, destroying it once it reaches a certain threshold
+    /// </summary>
     // Update is called once per frame
     void Update()
     {

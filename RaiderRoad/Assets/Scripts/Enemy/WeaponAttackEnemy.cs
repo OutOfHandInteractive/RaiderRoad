@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-/// <summary>
-/// This class is for enemies in the WeaponAttack state
-/// </summary>
 public class WeaponAttackEnemy : EnemyAI {
 
     private GameObject fireFX;
@@ -21,15 +18,6 @@ public class WeaponAttackEnemy : EnemyAI {
     private bool firing = false;
     private ParticleSystem fireInstance;
     private bool created = false;
-
-    /// <summary>
-    /// Initialize the state
-    /// </summary>
-    /// <param name="enemy">The enemy</param>
-    /// <param name="vehicle">Their vehicle</param>
-    /// <param name="munnitions">The munnitions</param>
-    /// <param name="fire">The fire</param>
-    /// <param name="side">The side of the RV we're assigned to</param>
     public void StartWeapon(GameObject enemy, VehicleAI vehicle, GameObject munnitions, GameObject fire, VehicleAI.Side side)
     {
         cObject = enemy;
@@ -91,9 +79,6 @@ public class WeaponAttackEnemy : EnemyAI {
         }
     }
 
-    /// <summary>
-    /// Do the weapon action
-    /// </summary>
     public void Weapon()
     {
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
@@ -125,7 +110,7 @@ public class WeaponAttackEnemy : EnemyAI {
 
     }
 
-    private void CannonShoot()
+    void CannonShoot()
     {
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
         GameObject player = Closest(cObject.transform.position, players);
@@ -137,14 +122,14 @@ public class WeaponAttackEnemy : EnemyAI {
         proj.GetComponent<Rigidbody>().velocity = cannonBallSpeed;
     }
 
-    private IEnumerator WaitToShoot()
+    IEnumerator WaitToShoot()
     {
         CannonShoot();
         yield return new WaitForSeconds(3f);
         fired = false;
     }
 
-    private Vector3 CannonVelocity(GameObject player, float angle)
+    Vector3 CannonVelocity(GameObject player, float angle)
     {
 
         var dir = player.transform.position - barrel.transform.position;  // get target direction
@@ -159,7 +144,7 @@ public class WeaponAttackEnemy : EnemyAI {
         return vel * dir.normalized;
     }
 
-    private void Flames()
+    void Flames()
     {
         //fireInstance.gameObject.transform.rotation = barrel.transform.rotation;
         Debug.Log(barrel);
@@ -178,10 +163,6 @@ public class WeaponAttackEnemy : EnemyAI {
 		}
     }
 
-    /// <summary>
-    /// Get the weapon we're on
-    /// </summary>
-    /// <returns>The weapon we're manning</returns>
     public GameObject getWeapon()
     {
         if (cannon != null)
@@ -195,10 +176,6 @@ public class WeaponAttackEnemy : EnemyAI {
         return null;
     }
 
-    /// <summary>
-    /// Look at the closest player
-    /// </summary>
-    /// <param name="weapons">The weapons to aim</param>
     public void LookAtPlayer(GameObject weapons)
     {
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
