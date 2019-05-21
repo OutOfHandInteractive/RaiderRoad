@@ -40,6 +40,7 @@ public class CameraController : MonoBehaviour
     }
 
     /// <summary>
+    /// DEPRECATED - Use flie CameraPoint.cs
     /// Uses the average position of player characters as a point for the camera to follow.
     /// </summary>
     void MoveCamera()
@@ -61,6 +62,7 @@ public class CameraController : MonoBehaviour
     }
 
     /// <summary>
+    /// DEPRECATED - Use flie CameraPoint.cs
     /// Uses the size of the bounding box containing the player positions to determine the zoom of the camera.
     /// </summary>
     void ZoomCamera()
@@ -71,6 +73,7 @@ public class CameraController : MonoBehaviour
     }
 
     /// <summary>
+    /// DEPRECATED - Use flie CameraPoint.cs
     /// Gets the size of the bounding box containing the player positions.
     /// </summary>
     /// <returns>
@@ -96,6 +99,7 @@ public class CameraController : MonoBehaviour
     }
 
     /// <summary>
+    /// DEPRECATED - Use flie CameraPoint.cs
     /// Gets the average position of the player characters.
     /// </summary>
     /// <returns>
