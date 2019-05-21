@@ -6,6 +6,9 @@ public class DropExplosion : MonoBehaviour
 {
     private Rigidbody rb;
 
+    /// <summary>
+    /// Sends a Dropable object from a car through an arc on to the RV.
+    /// </summary>
     public void Eject(float zSign)
     {
         rb = GetComponent<Rigidbody>();

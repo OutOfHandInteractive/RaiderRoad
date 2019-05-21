@@ -53,6 +53,10 @@ public class SpawnChunk : MonoBehaviour {
 	}
 
     // Spawning
+    /// <summary>
+    /// Spawns chunk at a location.
+    /// </summary>
+    /// <param name="spawnLocation">Chunk spawn location.</param>
     public void Spawn(Vector3 spawnLocation) {
         // Spawn Chunks in Random Order
         int rand = Random.Range(0, roadChunks.Count);
@@ -77,17 +81,26 @@ public class SpawnChunk : MonoBehaviour {
 		Instantiate(SelectScenery(), road.transform);
 	}
 
-	#region Component Selection
-	private GameObject SelectRoad() {
+    #region Component Selection
+    /// <summary>
+    /// Selects the Road type from a road prefab list.
+    /// </summary>
+    private GameObject SelectRoad() {
 		int rand = Random.Range(0, roadPrefabs.Count);
 		return roadPrefabs[rand];
 	}
 
+    /// <summary>
+    /// Selects the Rail type from a rail prefab list.
+    /// </summary>
 	private GameObject SelectRail() {
 		int rand = Random.Range(0, railPrefabs.Count);
 		return railPrefabs[rand];
 	}
 
+    /// <summary>
+    /// Selects the Scenery from a scenery prefab list.
+    /// </summary>
 	private GameObject SelectScenery() {
 		int rand = Random.Range(1, 101);
 		if (rand <= sceneryChance) {
