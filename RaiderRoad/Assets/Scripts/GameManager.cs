@@ -28,6 +28,9 @@ public class GameManager : MonoBehaviour {
     #endregion
 
     #region System Functions
+    /// <summary>
+    /// Singleton initialization
+    /// </summary>
     private void Awake() {
 		if (GameManagerInstance == null) //if not, set instance to this
 			GameManagerInstance = this; //If instance already exists and it's not this:
@@ -35,6 +38,9 @@ public class GameManager : MonoBehaviour {
 			Destroy(gameObject); //Then destroy this. This enforces our singleton pattern, meaning there can only ever be one instance of a GameManager.
 	}
 
+    /// <summary>
+    /// Set initial references
+    /// </summary>
 	void Start () {
         //timeElapsed = 0f;
         gameOver = false;
@@ -46,9 +52,13 @@ public class GameManager : MonoBehaviour {
         RVMarker = MyUICanvas.transform.Find("RVMarker").GetComponent<RectTransform>();
         dottedLine = MyUICanvas.transform.Find("DottedLine").GetComponent<Image>();
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    /// <summary>
+    /// Check whether the fail or win condtion has been met and 
+    /// act accordingly
+    /// </summary>
+    void Update () {
         if (!gameOver) {
             EngineLoss();
 
@@ -61,16 +71,22 @@ public class GameManager : MonoBehaviour {
             }
         }
 	}
-	#endregion
+    #endregion
 
-	#region Game End Functions
-	public void EngineLoss() {
+    #region Game End Functions
+    /// <summary>
+    /// Check for fail state when an  engine gets destroyed
+    /// </summary>
+    public void EngineLoss() {
         GameObject[] engines = GameObject.FindGameObjectsWithTag("Engine");
         if(engines.Length <= 0) {
             LossGame();
         }
     }
 
+    /// <summary>
+    /// Trigger for losing game
+    /// </summary>
     public void LossGame() {
         gameOver = true;
         PauseParent.GetComponent<pauseController>().endState("Vacation Canceled");
@@ -78,20 +94,29 @@ public class GameManager : MonoBehaviour {
         PauseParent.GetComponent<pauseController>().myVictoryImage.SetActive(false);
     }
 
+    /// <summary>
+    /// Trigger for winning game
+    /// </summary>
     public void WinGame() {
         gameOver = true;
         PauseParent.GetComponent<pauseController>().endState("Arrived at Your Vacation");
     }
 
+    /// <summary>
+    /// restarts the current game
+    /// </summary>
     public void restartMenu() {
         gameOver = false;
         myTimer = FinishTime;
     }
-	#endregion
+    #endregion
 
-	#region Game State Helpers
-	//Function for calling players in "downed" state, called every time new player is downed
-	public void PlayerDowned() {
+    #region Game State Helpers
+    //Function for calling players in "downed" state, called every time new player is downed
+    /// <summary>
+    /// Check if all players are downed, then trigger game loss
+    /// </summary>
+    public void PlayerDowned() {
 		int downedPlayers = 0;
 		foreach (GameObject i in playerList) {
 			if (i.GetComponent<PlayerController_Rewired>().state == PlayerController_Rewired.playerStates.down) {
@@ -104,6 +129,9 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 
+    /// <summary>
+    /// For controlling the progress meter and its related UI
+    /// </summary>
 	private void UpdateRVMarker() {
 		Vector2 TempMarkPos = RVMarker.anchoredPosition;
 		TempMarkPos.y = Mathf.Lerp(finishYPos - markerBarOffset, startYpos + markerBarOffset, myTimer / FinishTime); //offSet added to not cover cards
