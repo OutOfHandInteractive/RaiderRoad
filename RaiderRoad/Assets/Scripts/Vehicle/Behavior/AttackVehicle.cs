@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-/// <summary>
-/// Class for vehicles in the attack state
-/// </summary>
 public class AttackVehicle : MonoBehaviour{
     //Attack points and agent info
     private int attackPoints = 0;
@@ -21,13 +18,7 @@ public class AttackVehicle : MonoBehaviour{
     private float mass;
     private bool hasHit = false;
 
-    /// <summary>
-    /// Initialize agent and attack points
-    /// </summary>
-    /// <param name="agent">The agent</param>
-    /// <param name="enemy">The enemy</param>
-    /// <param name="rb">Our rigidbody</param>
-    /// <param name="side">The side of the RV we're assigned to</param>
+    //Initialize agent and attack points
     public void StartAttack(NavMeshAgent agent, GameObject enemy, Rigidbody rb, VehicleAI.Side side)
     {
         cObject = enemy;
@@ -58,9 +49,6 @@ public class AttackVehicle : MonoBehaviour{
         attackPoints = 1;// Random.Range(0, attackList.Count);
     }
 
-    /// <summary>
-    /// Do the attack action
-    /// </summary>
      public void Attack()
      {
          //Go to attack point
@@ -87,8 +75,7 @@ public class AttackVehicle : MonoBehaviour{
 
 
     }
-
-    private IEnumerator waitToLeave()
+    IEnumerator waitToLeave()
     {
         cEnemy.transform.parent = null;
         //cEnemy.transform.GetComponent<NavMeshAgent>().enabled = true;
@@ -108,7 +95,7 @@ public class AttackVehicle : MonoBehaviour{
         transform.position = target;
     }*/
 
-    private IEnumerator Knockback()
+    IEnumerator Knockback()
     {
         AddImpact(attackPosition.transform.position - cObject.transform.position, 5000f);
         Debug.Log(impact);
@@ -124,7 +111,7 @@ public class AttackVehicle : MonoBehaviour{
         //cObject.GetComponent<VehicleAI>().EnterWander();
     }
 
-    private void AddImpact(Vector3 dir, float force)
+    public void AddImpact(Vector3 dir, float force)
     {
         dir.Normalize();
         if (dir.y < 0) dir.y = -dir.y; // reflect down force on the ground

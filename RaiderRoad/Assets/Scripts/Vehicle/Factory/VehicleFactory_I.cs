@@ -17,25 +17,8 @@ public abstract class VehicleFactory_I : MonoBehaviour {
 	#endregion
 
 	#region abstract methods
-	/// <summary>
-	/// Randomly choose a chassis from the available pool
-	/// </summary>
-	/// <returns>A reference to the chosen chassis</returns>
 	protected abstract GameObject SelectChassis();
-
-	/// <summary>
-	/// Select and attach a payload to the vehicle being created
-	/// </summary>
-	/// <param name="cargo">The cargo bed of the vehicle being built</param>
-	/// <param name="wChance">The chance of spawning a weapon on the vehicle</param>
-	/// <param name="batteries">The number of batteries to spawn on the vehicle</param>
 	public abstract void AttachPayload(GameObject cargo, float wChance, int batteries);
-
-	/// <summary>
-	/// Select and attach wheels to the vehicle being assembled
-	/// </summary>
-	/// <param name="chassis">The chassis of the vehicle being built</param>
-	/// <param name="v">The VehicleAI script of the vehicle being built</param>
 	public abstract void AttachWheels(GameObject chassis, VehicleAI v);
 	#endregion
 
@@ -43,14 +26,6 @@ public abstract class VehicleFactory_I : MonoBehaviour {
 		rand = new System.Random();
 	}
 
-	/// <summary>
-	/// Call to assemble a vehicle object from component parts
-	/// </summary>
-	/// <param name="modifier">Desired threat rating of vehicle to be created</param>
-	/// <param name="position">Location in 3D space at which the vehicle is to be spawned</param>
-	/// <param name="wChance">Chance the vehicle will spawn carrying a mounted weapon</param>
-	/// <param name="batteries">Number of batteries to place on spawned vehicle</param>
-	/// <returns></returns>
 	public GameObject AssembleVehicle(int modifier, Vector3 position, float wChance, int batteries) {
 		float armorStacks = 0f;
 		float ramDamageStacks = 0f;
@@ -93,12 +68,7 @@ public abstract class VehicleFactory_I : MonoBehaviour {
 	}
 
 	#region Component Attaching
-	/// <summary>
-	/// Select and attach a chassis as the base of a vehicle
-	/// </summary>
-	/// <param name="vehicle">The vehicle the chassis is to be used for. It is used as a position at which to place the chassis</param>
-	/// <param name="v">The VehicleAI of the vehicle the chassis will be used for</param>
-	/// <returns>A reference to the chassis created</returns>
+	// set up chassis
 	public GameObject AttachChassis(GameObject vehicle, VehicleAI v) {
 		GameObject chassis = Instantiate(SelectChassis(), vehicle.transform);
         chassis.transform.localPosition = Vector3.zero;
@@ -110,15 +80,7 @@ public abstract class VehicleFactory_I : MonoBehaviour {
 		return chassis;
 	}
 
-	/// <summary>
-	/// Select and attach a cab for a vehicle
-	/// </summary>
-	/// <param name="chassis">The chassis of the vehicle being assembled</param>
-	/// <param name="v">The VehicleAI script of the vehicle the cab will be used for</param>
-	/// <param name="armorStacks">Reference variable to a general count of armor stacks used by the calling function</param>
-	/// <param name="ramDamageStacks">Reference variable to a general count of ram damage stacks used by the calling function</param>
-	/// <param name="speedStacks">Reference variable to a general count of speed stacks used by the calling function</param>
-	/// <returns>A reference to the cab created</returns>
+	// attach cab to chassis
 	public GameObject AttachCab(GameObject chassis, VehicleAI v, ref float armorStacks, ref float ramDamageStacks, ref float speedStacks) {
 		GameObject cab = Instantiate(SelectCab(), chassis.GetComponent<Chassis>().cabNode.transform);
         cab.transform.localPosition = Vector3.zero;
@@ -131,15 +93,7 @@ public abstract class VehicleFactory_I : MonoBehaviour {
         return cab;
 	}
 
-	/// <summary>
-	/// Select and attach a cargo bed for a vehicle
-	/// </summary>
-	/// <param name="cab">The cab of the vehicle being assembled</param>
-	/// <param name="v">The VehicleAI script of the vehicle the cab will be used for</param>
-	/// <param name="armorStacks">Reference variable to a general count of armor stacks used by the calling function</param>
-	/// <param name="ramDamageStacks">Reference variable to a general count of ram damage stacks used by the calling function</param>
-	/// <param name="speedStacks">Reference variable to a general count of speed stacks used by the calling function</param>
-	/// <returns>A reference to the cargo bed created</returns>
+	// attach cargo to cab
 	public GameObject AttachCargo(GameObject cab, VehicleAI v, ref float armorStacks, ref float ramDamageStacks, ref float speedStacks) {
 		GameObject cargo = Instantiate(SelectCargo(), cab.GetComponent<Cab>().cargoNode.transform);
         cargo.transform.localPosition = Vector3.zero;
@@ -152,15 +106,7 @@ public abstract class VehicleFactory_I : MonoBehaviour {
         return cargo;
 	}
 
-	/// <summary>
-	/// Select and attach a hood/hood attachment for a vehicle
-	/// </summary>
-	/// <param name="cab">The cab of the vehicle being assembled</param>
-	/// <param name="v">The VehicleAI script of the vehicle the cab will be used for</param>
-	/// <param name="armorStacks">Reference variable to a general count of armor stacks used by the calling function</param>
-	/// <param name="ramDamageStacks">Reference variable to a general count of ram damage stacks used by the calling function</param>
-	/// <param name="speedStacks">Reference variable to a general count of speed stacks used by the calling function</param>
-	/// <returns>A reference to the hood/hood attachment created</returns>
+	// attach attachment to cab
 	public GameObject AttachAttachment(GameObject cab, VehicleAI v, ref float armorStacks, ref float ramDamageStacks, ref float speedStacks) {
 		GameObject front_attachment = Instantiate(SelectAttachment(), cab.GetComponent<Cab>().front_attachmentNode.transform);
         front_attachment.transform.localPosition = Vector3.zero;
@@ -175,46 +121,26 @@ public abstract class VehicleFactory_I : MonoBehaviour {
 	#endregion
 
 	#region Component Selectors
-	/// <summary>
-	/// Randomly chooses a cab from the available pool
-	/// </summary>
-	/// <returns>A reference to the chosen cab</returns>
 	protected GameObject SelectCab() {
 		int selectedIndex = rand.Next(0, Cab.Count);
 		return Cab[selectedIndex];
 	}
 
-	/// <summary>
-	/// Randomly chooses a cargo bed from the available pool
-	/// </summary>
-	/// <returns>A reference to the chosen cargo bed</returns>
 	protected GameObject SelectCargo() {
 		int selectedIndex = rand.Next(0, Cargo.Count);
 		return Cargo[selectedIndex];
 	}
 
-	/// <summary>
-	/// Randomly chooses a wheel from the available pool
-	/// </summary>
-	/// <returns>A reference to the wheel chosen</returns>
 	protected GameObject SelectWheel() {
 		int selectedIndex = rand.Next(0, Wheel.Count);
 		return Wheel[selectedIndex];
 	}
 
-	/// <summary>
-	/// Randomly chooses a hood/hood attachment from the available pool
-	/// </summary>
-	/// <returns>A reference to the chosen hood/hood attachment</returns>
 	protected GameObject SelectAttachment() {
 		int selectedIndex = rand.Next(0, Attachment.Count);
 		return Attachment[selectedIndex];
 	}
 
-	/// <summary>
-	/// Randomly chooses a payload from the available pool
-	/// </summary>
-	/// <returns>A reference to the chosen payload</returns>
 	protected GameObject SelectPayload() {
 		int selectedIndex = rand.Next(0, Payload.Count);
 		return Payload[selectedIndex];

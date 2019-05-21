@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-/// <summary>
-/// A wrapper to create a raider vehicle and used to control spawn rate
-/// </summary>
+//public abstract class Event : MonoBehaviour {
 public class Event : MonoBehaviour {
 
 	//public enum EventTypes { vehicle, obstacle, fork };
@@ -29,7 +27,6 @@ public class Event : MonoBehaviour {
     private int numPoints;
     private int _mod;
 
-<<<<<<< HEAD
     /*public Event(int dif, VehicleFactoryManager.vehicleTypes type)       //add game object to constructor for spawning
     {
         Debug.Log("Event Created");
@@ -44,15 +41,6 @@ public class Event : MonoBehaviour {
     /// /// <param name="vtype">The type of vehicle</param>
     /// /// <param name="etype">The type of event (not used)</param>
     /// /// <param name="spawns">The list of spawn point coordinates</param>
-=======
-	/// <summary>
-	/// Initialize creation of event
-	/// </summary>
-	/// <param name="dif">Desired difficulty of vehicle</param>
-	/// <param name="vtype">Type of vehicle to spawn</param>
-	/// <param name="etype">Type of event that is to be spawned (vehicle or obstacle)</param>
-	/// <param name="spawns">Possible spawn locations for event</param>
->>>>>>> 896b375549ceadb54bfc45e1b09a380abbaf5558
     public void initialize(int dif, VehicleFactoryManager.vehicleTypes vtype,  EventManager.eventTypes etype, List<Transform> spawns){    //constructor work-around
         difficultyRating = dif;
         _vtype = vtype;
@@ -60,7 +48,6 @@ public class Event : MonoBehaviour {
         spawnPoints = spawns;
     }
 
-<<<<<<< HEAD
     /// <summary>
     /// Sets the modifier variable in the given object (currently unused/has no effect)
     /// </summary>
@@ -81,21 +68,6 @@ public class Event : MonoBehaviour {
     /// /// <param name="obstacle">The obstacle object to be created</param>
     public void oSpawn(GameObject obstacle)
     {
-=======
-	/// <summary>
-	/// Set difficulty modifier of event
-	/// </summary>
-	/// <param name="mod">Desired difficulty modifier</param>
-    public void setMod(int mod) {
-        _mod = mod;
-    }
-
-	/// <summary>
-	/// Spawn obstacle into the game
-	/// </summary>
-	/// <param name="obstacle">The obstacle prefab to spawn</param>
-    public void oSpawn(GameObject obstacle) {
->>>>>>> 896b375549ceadb54bfc45e1b09a380abbaf5558
         int i = Random.Range(0, 5);
         Vector3 spawnPoint = spawnPoints[i].transform.position;
         if(obstacle != null)
@@ -110,7 +82,6 @@ public class Event : MonoBehaviour {
         }
     }
 
-<<<<<<< HEAD
     /// <summary>
     /// Picks a random spawn point, assembles a vehicle, and initializes it
     /// </summary>
@@ -121,25 +92,19 @@ public class Event : MonoBehaviour {
         numPoints = Random.Range(1, spawnPoints.Count);
         //Debug.Log("spawn = " + numPoints);
         //Debug.Log("spawn called");
-=======
-	/// <summary>
-	/// Spawn vehicle into the game
-	/// </summary>
-	/// <param name="factory">Reference to factory to build the vehicle</param>
-	/// <param name="wepFreq">Likelihood of spawning weapon on the vehicle</param>
-    public void spawn(VehicleFactoryManager factory, float wepFreq) {
-        numPoints = Random.Range(1, spawnPoints.Count);
-        Debug.Log("spawn = " + numPoints);
-
->>>>>>> 896b375549ceadb54bfc45e1b09a380abbaf5558
         //based on type, call proper function - for now just creates light vehicle
         Vector3 pos = spawnPoints[numPoints].transform.position;
         e = factory.NewConstructVehicle(_vtype,_mod, pos, wepFreq);
         Radio.GetRadio().AddVehicle(e);
-
+        //if (e.transform.position != pos)
+        //{
+        //    Debug.LogError("WTF");
+        //}
         e.GetComponent<VehicleAI>().setSide(spawnPoints[numPoints].name);
         //e.transform.position = spawnPoints[numPoints].transform.position;
         e.GetComponentInChildren<eventObject>().setCluster(this.gameObject);
 		difficultyRating = e.GetComponentInChildren<eventObject>().getDifficulty();
+        //GameObject.CreatePrimitive(PrimitiveType.Cube);
     }
+
 }
