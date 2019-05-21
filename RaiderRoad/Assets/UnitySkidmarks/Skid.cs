@@ -48,6 +48,11 @@ public class Skid : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Sets values to create a tire skid mark.
+    /// </summary>
+    /// <param name="duration">Intensity of skid mark.</param>
+    /// <param name="newIntensity">Intensity of skid mark.</param>
     public void TireSkid(float duration, float newIntensity)
     {
         skid = true;
