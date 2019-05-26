@@ -45,6 +45,7 @@ public class Driving : Interactable
     private Vector2 moveVector;
     private bool takeSideDamage = false;
     private float count = 0f;
+    private RVAudio RVAudio;
 
     [System.NonSerialized]
     private bool initialized;
@@ -55,6 +56,7 @@ public class Driving : Interactable
         user = null;
         userPlayerId = -1;
         cooldownTimer = cooldown;
+        RVAudio = rv.GetComponentInChildren<RVAudio>();
     }
 
     void Update()
@@ -127,6 +129,10 @@ public class Driving : Interactable
 
             if(player.GetAxis("Move Horizontal") != 0)
             {
+                if(RVAudio != null)
+                {
+                    RVAudio.Skid();
+                }
                 leftSkidNode.TireSkid(skidDuration, skidIntensity);
                 rightSkidNode.TireSkid(skidDuration, skidIntensity);
                 leftSkidNodeFront.TireSkid(skidDuration, skidIntensity);
@@ -152,10 +158,9 @@ public class Driving : Interactable
             }
             if (player.GetButtonDown("Jump"))
             {
-                CarAudio audio = rv.GetComponentInChildren<CarAudio>();
-                if (audio != null)
+                if (RVAudio != null)
                 {
-                    audio.Honk();
+                    RVAudio.Honk();
                 }
             }
 

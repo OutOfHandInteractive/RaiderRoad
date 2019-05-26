@@ -22,10 +22,12 @@ public class CharacterAudio : AudioManager
 	/// The sound of swinging their weapon
 	/// </summary>
 	[SerializeField] private AudioClip attackSwing;
+
     /// <summary>
     /// The sound their weapon makes when it hits
     /// </summary>
     [SerializeField] private AudioClip attackHit;
+
 	[SerializeField] private List<AudioClip> takeHitSounds;
 
 	// movement
@@ -48,13 +50,13 @@ public class CharacterAudio : AudioManager
     }
 
 	public void PlaySound_DamageByRaider() {
-		OneShot(takeHitSounds[Random.Range(0, takeHitSounds.Count)]);
+        RandomOneShot(takeHitSounds);
 	}
 	#endregion
 
 	#region Movement
 	private void PlaySound_Walk() {
-		OneShot(walkSounds[Random.Range(0, walkSounds.Count)], walkVolume);
+        RandomOneShot(walkSounds, walkVolume);
 	}
 
 	public void StartWalking() {
