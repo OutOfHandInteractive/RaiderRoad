@@ -48,4 +48,9 @@ public class AudioManager : MonoBehaviour
     {
         audioSource = source;
     }
+
+    public void SetRandomClip(List<AudioClip> clips)
+    {
+        audioSource.clip = clips[Random.Range(0, clips.Count)];
+    }
 }

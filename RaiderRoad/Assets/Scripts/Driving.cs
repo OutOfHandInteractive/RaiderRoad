@@ -114,7 +114,7 @@ public class Driving : Interactable
         GetInput();
         ProcessInput();
     }
-
+    
     private void GetInput()
     {
         if (!paused && inUse)
@@ -129,21 +129,26 @@ public class Driving : Interactable
 
             if(player.GetAxis("Move Horizontal") != 0)
             {
-                if(RVAudio != null)
+                float h_axis = player.GetAxis("Move Horizontal");
+                bool changedDir = Mathf.Sign(h_axis) != Mathf.Sign(moveVector.x);
+                if (changedDir)
                 {
-                    RVAudio.Skid();
+                    if (RVAudio != null)
+                    {
+                        RVAudio.Skid();
+                    }
+                    leftSkidNode.TireSkid(skidDuration, skidIntensity);
+                    rightSkidNode.TireSkid(skidDuration, skidIntensity);
+                    leftSkidNodeFront.TireSkid(skidDuration, skidIntensity);
+                    rightSkidNodeFront.TireSkid(skidDuration, skidIntensity);
                 }
-                leftSkidNode.TireSkid(skidDuration, skidIntensity);
-                rightSkidNode.TireSkid(skidDuration, skidIntensity);
-                leftSkidNodeFront.TireSkid(skidDuration, skidIntensity);
-                rightSkidNodeFront.TireSkid(skidDuration, skidIntensity);
-                moveVector.x = player.GetAxis("Move Horizontal") * Time.deltaTime * moveSpeed * accel;
+                moveVector.x = h_axis * Time.deltaTime * moveSpeed * accel;
             }
-            else if(moveVector.x >= 0)
+            else if (moveVector.x >= 0)
             {
                 moveVector.x -= 0.001f; //MAGIC NUMBERS
             }
-            else if(moveVector.x <= 0)
+            else if (moveVector.x <= 0)
             {
                 moveVector.x += 0.001f; //Fuck all these hacks and whoever wrote them (me)
             }
