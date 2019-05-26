@@ -153,6 +153,11 @@ public class EventManager : MonoBehaviour {
     {
         active = onDeck;
         deployActive();               //deploys 'active' cluster
+        //onDeck = generate(difficultyRating);
+    }
+
+    public void genOnDeck()
+    {
         onDeck = generate(difficultyRating);
     }
 
@@ -168,7 +173,7 @@ public class EventManager : MonoBehaviour {
     /// Creates a new event cluster and all the events within it
     /// </summary>
     /// /// /// <param name="difRate">The difficulty rating for the new cluster</param>
-    GameObject generate(int difRate)      //I don't think we need a coroutine for thise - at least not yet
+    GameObject generate(int difRate)
     {
         VehicleFactoryManager.vehicleTypes vtype = VehicleFactoryManager.vehicleTypes._null; //need to assign for debugging
         eventTypes etype;
@@ -199,12 +204,15 @@ public class EventManager : MonoBehaviour {
 				//determine vehicle type
                 if(difficultyRating >= Constants.HEAVY_VEHICLE_BASE_THREAT){
                     randNum = UnityEngine.Random.Range((int)VehicleFactoryManager.vehicleTypes.medium, (int)VehicleFactoryManager.vehicleTypes.heavy + 1);
+                    //Debug.Log("heavy:" + randNum);
                 }
                 else if (difficultyRating >= Constants.MEDIUM_VEHICLE_BASE_THREAT) {
-					randNum = UnityEngine.Random.Range((int)VehicleFactoryManager.vehicleTypes.light, (int)VehicleFactoryManager.vehicleTypes.medium + 1);
+					randNum = UnityEngine.Random.Range((int)VehicleFactoryManager.vehicleTypes.light, (int)VehicleFactoryManager.vehicleTypes.medium);
+                    //Debug.Log("med:" + randNum);
 				}
 				else {
 					randNum = UnityEngine.Random.Range((int)VehicleFactoryManager.vehicleTypes.light, (int)VehicleFactoryManager.vehicleTypes.light + 1);
+                    //Debug.Log("light:" + randNum);
 				}
 				vtype = (VehicleFactoryManager.vehicleTypes)randNum;
                 //--------------------------------------------------------------------------------------------------------

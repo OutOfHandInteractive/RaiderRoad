@@ -29,6 +29,7 @@ public class EventCluster : MonoBehaviour {
     [SerializeField] private float weight;
     [SerializeField] private float threshold;
     private bool spawnFlag = true;
+    private bool genFlag = true;
 
     //spawn reduction variables
     [SerializeField] private float sDelay = 15;   //to start 15, seconds
@@ -107,6 +108,11 @@ public class EventCluster : MonoBehaviour {
     /// </summary>
     public void updatePercent() {
         complete += weight;
+        if (complete >= threshold/1.5 && genFlag)   //generates the next cluster closer to completion of the active one
+        {
+            genFlag = false;
+            managerRef.genOnDeck();
+        }
         if (complete >= threshold && spawnFlag){   //if cluster completion at certain level & no new cluster has been called
             spawnFlag = false;                  //disable so only one new cluster gets generated
             managerRef.lastDone();        //call the generate function in manager

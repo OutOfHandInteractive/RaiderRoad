@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour {
     private float startYpos;
     private float finishYPos;
     private float myTimer;
-
+    
     private List<Transform> playersInScene;
     private GameObject[] playerList;
     #endregion
