@@ -46,6 +46,7 @@ public class Driving : Interactable
     private bool takeSideDamage = false;
     private float count = 0f;
     private RVAudio RVAudio;
+    private bool justLeft = false;
 
     [System.NonSerialized]
     private bool initialized;
@@ -155,12 +156,17 @@ public class Driving : Interactable
             
             moveVector.y = player.GetAxis("Move Vertical") * Time.deltaTime * moveSpeed * accel;
 
-            if (player.GetButtonDown("Place Object") || Input.GetKeyDown("k"))
+            if (justLeft)
+            {
+                justLeft = false;
+            }
+            else if (player.GetButtonDown("Exit Interactable") || Input.GetKeyDown("k"))
             {
                 Leave();
                 accel = 0;
                 playerUsing.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
             }
+
             if (player.GetButtonDown("Jump"))
             {
                 if (RVAudio != null)
@@ -267,7 +273,7 @@ public class Driving : Interactable
 
 		playerUsing.GetComponent<Rigidbody>().isKinematic = true;
 		playerUsing.GetComponent<PlayerController_Rewired>().StopWalkingAudio();
-
+        
 		inUse = true;
     }
 
@@ -286,5 +292,6 @@ public class Driving : Interactable
 		user.setObjectInUse(null);
 
 		playerUsing.GetComponent<Rigidbody>().isKinematic = false;
+        justLeft = true;
 	}
 }
