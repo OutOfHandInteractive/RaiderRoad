@@ -119,7 +119,11 @@ public class sceneManagerScript : MonoBehaviour {
     
     private void Load(string scene, LoadSceneMode mode = LoadSceneMode.Single)
     {
-        if (NeedLoadScreen.Contains(scene))
+        if (isLoading)
+        {
+            Debug.LogError("Cannot load two scenes at once");
+        }
+        else if (NeedLoadScreen.Contains(scene))
         {
             StartCoroutine(LoadScreen(scene, mode));
         }
@@ -129,8 +133,10 @@ public class sceneManagerScript : MonoBehaviour {
         }
     }
 
+    private bool isLoading = false;
     private IEnumerator LoadScreen(string scene, LoadSceneMode mode)
     {
+        isLoading = true;
         AsyncOperation loadLS = SceneManager.LoadSceneAsync(LOAD_SCENE, LoadSceneMode.Single);
         loadLS.allowSceneActivation = true;
         while (!loadLS.isDone)
@@ -144,7 +150,7 @@ public class sceneManagerScript : MonoBehaviour {
         {
             yield return null;
         }
-        
+        isLoading = false;
     }
 
     //Load Main Game Scene Functions
