@@ -12,7 +12,7 @@ public class sceneManagerScript : MonoBehaviour {
     public const string LOAD_SCENE = "LoadingScreen";
 
     public List<string> NeedPlaySelScene; // a list of scenes that require the Player Select Scene before playing
-    public List<string> NeedLoadScreen = new List<string> { GAME_SCENE, LOBBY_SCENE };
+    public List<string> NeedLoadScreen = new List<string> { GAME_SCENE, LOBBY_SCENE, MAIN_MENU_SCENE };
 
     
     private static string nextScene;
@@ -122,8 +122,6 @@ public class sceneManagerScript : MonoBehaviour {
         if (NeedLoadScreen.Contains(scene))
         {
             StartCoroutine(LoadScreen(scene, mode));
-            //SceneManager.LoadScene("LoadingScreen", LoadSceneMode.Single);
-            //SceneManager.LoadSceneAsync(scene, mode).allowSceneActivation = true;
         }
         else
         {
