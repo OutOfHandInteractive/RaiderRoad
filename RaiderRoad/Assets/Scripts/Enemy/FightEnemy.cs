@@ -99,8 +99,7 @@ public class FightEnemy : EnemyAI {
         cObject.GetComponent<StatefulEnemyAI>().getAnimator().SetTrigger("WindUp");
         //fightRange.GetComponent<Renderer>().material.color = new Color(255f, 150f, 0f, .5f);
         //^^^ Temporary attack visual ^^^
-        agent.speed = 0;
-        cObject.GetComponent<StatefulEnemyAI>().getAnimator().SetBool("Running", false); //If speed is 0, he shouldn't be running
+        //If speed is 0, he shouldn't be running
         //chasing = false;
         //agent.isStopped = true;
         //cObject.transform.position = Vector3.zero;
@@ -118,6 +117,8 @@ public class FightEnemy : EnemyAI {
         dir = Vector3.Normalize(new Vector3(dir.x, 0.0f, dir.z));
 		targetCol.GetComponent<Rigidbody>().AddForce(dir * knockback_force);
         fightRange.GetComponent<Renderer>().material.color = new Color(255f, 150f, 0f, 0f);
+        agent.speed = 0;
+        cObject.GetComponent<StatefulEnemyAI>().getAnimator().SetBool("Running", false);
         chasing = true;
     }
 
