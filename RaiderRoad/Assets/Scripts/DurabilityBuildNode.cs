@@ -24,7 +24,7 @@ public abstract class DurabilityBuildNode : AbstractBuildNode
             Quaternion.identity);
         item.transform.parent = this.gameObject.transform;
         item.transform.forward = this.gameObject.transform.forward;
-        item.transform.localScale = new Vector3(0.8f, 0.8f, 0.8f);
+        item.transform.localScale = new Vector3(1f, 1f, 1f); //previously 0.8 for all
         SetOutlineActive(item, 0.0f);
 
         occupied = true;
