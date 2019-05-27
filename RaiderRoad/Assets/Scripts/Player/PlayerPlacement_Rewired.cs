@@ -464,7 +464,10 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
                     hit = true;
                 }
                 else if (item.CompareTag("MiscHittable")) {
-                    item.GetComponent<MiscHittable>().RegisterHit();
+                    if (item.GetComponent<MiscHittable>())
+                    {
+                        item.GetComponent<MiscHittable>().RegisterHit();
+                    }
                 }
             }
         }
