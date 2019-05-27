@@ -26,6 +26,7 @@ public class StatefulEnemyAI : EnemyAI {
     private StunnedEnemy stun;
 
     //Enemy variables
+    private Collider player;
     protected NavMeshAgent agent;
     private GameObject enemy;
     [SerializeField] private State currentState;
@@ -34,6 +35,7 @@ public class StatefulEnemyAI : EnemyAI {
     private Vector3 scale;
     private bool damaged;
 	private bool isDestroying = false;
+    private bool isFighting = false;
 
     //Vehicle variables
 	[Header("Vehicle Variables")]
@@ -133,6 +135,12 @@ public class StatefulEnemyAI : EnemyAI {
 			weapon.LookAtPlayer(weapons);
 			transform.position = interactable.transform.position;
 		}
+
+        if(isFighting)
+        {
+            isFighting = false;
+            StartCoroutine(WindUp(player));
+        }
 
 		if (gameObject.tag == "usingWeapon" && vehicle.getState() == VehicleAI.State.Chase) {
 			EnterWeapon();
@@ -415,6 +423,7 @@ public class StatefulEnemyAI : EnemyAI {
             isBigger = true;
         }
     }
+
     private void decreaseIconSize()
     {
         RectTransform icon = destroyIcon.GetComponent<RectTransform>();
@@ -440,19 +449,32 @@ public class StatefulEnemyAI : EnemyAI {
 	}
 
 	// ------------------------------ Fight -----------------------------------
+	/// <summary>
+	/// Starts raider wind-up to attack sequence before damage is dealt
+	/// </summary>
+	/// <param name="other">Collider assigned to the target of the raider's attack</param>
+	/// <returns></returns>
 	IEnumerator WindUp(Collider other) {
-		fight.WindupAttack();
+		fight.WindupAttack(other);
 		yield return new WaitForSeconds(.5f);
 		myAni.SetTrigger("Attack");
+        yield return new WaitForSeconds(1f);
+        if(inRange)
+        { 
+            isFighting = true;
+        }
+	}
 
+	/// <summary>
+	/// Call to deal damage to a player. Requires prior call of IEnumerator Windup() and subsequent attack animation with event trigger.
+	/// </summary>
+	public void attack() {
 		if (inRange) {
-			fight.HitPlayer(other, damagePower);
+			fight.HitPlayer(damagePower);
 		}
 		else {
 			fight.Missed();
 		}
-
-		Debug.Log(Time.time);
 	}
 
 	// ------------------------------ Stunned ---------------------------------
@@ -502,8 +524,9 @@ public class StatefulEnemyAI : EnemyAI {
             agent.enabled = true;
         }
 
-        if (other.gameObject.tag == "Player" && currentState == State.Fight) {   
-            StartCoroutine(WindUp(other));
+        if (other.gameObject.tag == "Player" && currentState == State.Fight) {
+            player = other;
+            isFighting = true;
         }
 
         if (other.gameObject.tag == "EnemyInteract" && currentState == State.Wait) {

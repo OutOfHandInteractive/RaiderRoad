@@ -12,6 +12,7 @@ public class PoiNode : DurabilityBuildNode {
     [SerializeField] private Material myIndicMat;
     [SerializeField] private Color warnCol;
     [SerializeField] private Color missCol;
+    private int dmgFlashCount = 3;
     private float quickFadeSpeed = 3f;
     private float fadeSpeed = 1.5f;
     private IEnumerator currCorou;
@@ -112,7 +113,7 @@ public class PoiNode : DurabilityBuildNode {
 
     IEnumerator IndicFade()
     {
-        for (int flashCount = 0; flashCount < 3; flashCount++) {
+        for (int flashCount = 0; flashCount < dmgFlashCount; flashCount++) {
             for (float myA = 1f; myA >= 0; myA -= quickFadeSpeed * Time.deltaTime)
             {
                 Color c = myIndicMat.color;

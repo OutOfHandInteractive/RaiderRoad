@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+/// <summary>
+/// Class for vehicles in the wander state
+/// </summary>
 public class WanderVehicle : MonoBehaviour {
     //Patrols points and object agent
     private List<Transform> patrols;
@@ -14,6 +17,14 @@ public class WanderVehicle : MonoBehaviour {
     private bool hasWeapon;
     private bool firstPos = false;
     private bool hasAttacked = false;
+
+    /// <summary>
+    /// Initialize
+    /// </summary>
+    /// <param name="agent">The agent</param>
+    /// <param name="enemy">The enemy</param>
+    /// <param name="side">The side of the RV we're assigned to</param>
+    /// <param name="weapon">Flag to indicate a weaponon board</param>
     public void StartWander(NavMeshAgent agent, GameObject enemy, VehicleAI.Side side, bool weapon)
     {
         //Set it to the VehicleAI
@@ -46,6 +57,9 @@ public class WanderVehicle : MonoBehaviour {
 
     }
 
+    /// <summary>
+    /// Do the wander action
+    /// </summary>
     public void Wander()
     {
         //Return null if no patrol points
@@ -92,20 +106,20 @@ public class WanderVehicle : MonoBehaviour {
 
     }
 
-    IEnumerator changeAttack()
+    private IEnumerator changeAttack()
     {
         yield return new WaitForSeconds(10);
         hasAttacked = true;
         cObject.GetComponent<VehicleAI>().EnterAttack();
     }
 
-    IEnumerator changeChase()
+    private IEnumerator changeChase()
     {
         yield return new WaitForSeconds(10);
         cObject.GetComponent<VehicleAI>().EnterChase();
 
     }
-    IEnumerator waitToLeave()
+    private IEnumerator waitToLeave()
     {
         yield return new WaitForSeconds(5);
         cObject.GetComponent<VehicleAI>().EnterWander();
@@ -113,7 +127,7 @@ public class WanderVehicle : MonoBehaviour {
         cObject.GetComponent<VehicleAI>().EnterLeave();
 
     }
-    IEnumerator waitToLeaveWithPlayer()
+    private IEnumerator waitToLeaveWithPlayer()
     {
         yield return new WaitForSeconds(3);
         cObject.GetComponent<VehicleAI>().EnterLeave();

@@ -4,9 +4,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-
+/// <summary>
+/// Control spawning of events / enemies in-game
+/// </summary>
 public class EventManager : MonoBehaviour {
-
 	// --------------------- public variables -------------------------
 	// enumerations
 	public enum eventTypes { vehicle, obstacle };
@@ -22,10 +23,12 @@ public class EventManager : MonoBehaviour {
 	GameManager g;
 
 	// Difficulty
+	[Header("Basic Difficulty Information")]
 	[SerializeField] private int difficultyRating;
 	[SerializeField] private List<float> difficultyMultiplier;
 
 	// Equation coefficients                    -------all set to 1 for now
+	[Header("Difficulty Equation Coefficients")]
 	[SerializeField] private float expectedGameLengthModifier;
 	[SerializeField] private float sinFrequencyModifier;
 	[SerializeField] private float sinAmplitudeModifier;
@@ -33,19 +36,20 @@ public class EventManager : MonoBehaviour {
 	[SerializeField] private float baseDifficultyRating;
 
 	// Variation coefficients
+	[Header("Other Coefficients")]
 	[SerializeField] private float randomModifierMin;
 	[SerializeField] private float randomModifierMax;
-
-	// event generation constants
 	[SerializeField] private int minEventDifficulty;
 	[SerializeField] private int maxEventDifficulty;
     
     //cluster objects - prefab, currently active, and next ready
+	[Header("Cluster Information")]
     [SerializeField] private GameObject eCluster;
     [SerializeField] private GameObject onDeck;
     [SerializeField] private GameObject active;
     
     //spawn points for events
+	[Header("Spawn Points")]
     [SerializeField]
     private List<Transform> vspawnPoints;
 
@@ -72,7 +76,10 @@ public class EventManager : MonoBehaviour {
     private float wFactor = 0.05f;         //rate of increase in weapon frequency every update
 
 	#region System Functions
-	void Start(){
+    /// <summary>
+    /// Starts all the coroutines, finds all the spawn points for vehicles, and gets a reference to the game manager
+    /// </summary>
+    void Start(){
 		g = GameManager.GameManagerInstance;
 
         //StartCoroutine(difficultyManager());
@@ -90,6 +97,9 @@ public class EventManager : MonoBehaviour {
     }
 	#endregion
 
+    /// <summary>
+    /// Decreases the time between events being spawned in the clusters at a certain interval
+    /// </summary>
 	IEnumerator reduceSpawnTime()       //over time, reduce interval between spawns (passed to event clusters when created)
     {
         yield return new WaitForSeconds(waitToStart);        //wait allocated time
@@ -104,6 +114,9 @@ public class EventManager : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Increases the chance of a vehicle having a weapon at a certain interval
+    /// </summary>
     //weapon frequency coroutine
     IEnumerator weaponFrequency()
     {
@@ -122,13 +135,19 @@ public class EventManager : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Generates an initial cluster, then waits to activate it
+    /// </summary>
     IEnumerator initialize()
     {
         onDeck = generate(difficultyRating);                //create event cluster at starting difficulty and set as on-deck
         yield return new WaitForSecondsRealtime(10);       //delay for some short time - let's say 10 seconds
         lastDone();                                     //switches on-deck to active, deploys it, and creates new on-deck cluster
     }
-
+    
+    /// <summary>
+    /// Sets the on-deck cluster to active, activates it, and generates a new on-deck cluster
+    /// </summary>
     //called from last cluster generated once it reaches certain threshold - deploys next cluster and generates a new one on deck
     public void lastDone()
     {
@@ -137,11 +156,18 @@ public class EventManager : MonoBehaviour {
         onDeck = generate(difficultyRating);
     }
 
+    /// <summary>
+    /// "Turns on" the active cluster so it starts spawning its events
+    /// </summary>
     void deployActive()
     {
         active.GetComponent<EventCluster>().startDispense();
     }
 
+    /// <summary>
+    /// Creates a new event cluster and all the events within it
+    /// </summary>
+    /// /// /// <param name="difRate">The difficulty rating for the new cluster</param>
     GameObject generate(int difRate)      //I don't think we need a coroutine for thise - at least not yet
     {
         VehicleFactoryManager.vehicleTypes vtype = VehicleFactoryManager.vehicleTypes._null; //need to assign for debugging
@@ -218,23 +244,22 @@ public class EventManager : MonoBehaviour {
         return newEC;
     }
 
-    //saved from previous manager
-    //------------------------------------------------------------------
-    // control game difficulty rating
-    IEnumerator difficultyManager()
-    {
-        while (true)
-        {
+	/// Continuously update difficulty rating over time
+	/// </summary>
+	/// <returns>Current difficulty rating</returns>
+    IEnumerator difficultyManager() {
+        while (true) {
             difficultyRating = (int)Mathf.Ceil(calculateDifficultyRating() * difficultyMultiplier[g.GetPlayerCount()-1]);
-            //Debug.Log("difficulty: " + difficultyRating);
 
             yield return new WaitForSecondsRealtime(TimeBetweenDifficultyAdjustment);
         }
     }
 
-    // Use difficulty equation to calculate event difficulty rating based on current time
-    private int calculateDifficultyRating()
-    {
+	/// <summary>
+	/// Use difficulty equation to calculate event difficulty rating based on current time
+	/// </summary>
+	/// <returns>Calculated difficulty rating</returns>
+	private int calculateDifficultyRating() {
         float timeMinutes = GameManager.GameManagerInstance.GetGameTime() / 60;
         double calculatedDifficulty;
 

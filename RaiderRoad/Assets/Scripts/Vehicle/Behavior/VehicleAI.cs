@@ -3,9 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+/// <summary>
+/// Main state machine class for the vehicle AI
+/// </summary>
 public class VehicleAI : MonoBehaviour {
-    //States
-    public enum State { Wait, Wander, Chase, Stay, Attack, Leave };
+    /// <summary>
+    /// The vehicle states
+    /// </summary>
+    public enum State { Wait, Wander, Chase, Stay, Attack, Leave, Rammed };
+
+    /// <summary>
+    /// The sides of the RV
+    /// </summary>
     public enum Side { Left, Right };
 
     //State Classes
@@ -15,6 +24,7 @@ public class VehicleAI : MonoBehaviour {
     private StayVehicle stay;
     private AttackVehicle attack;
     private LeaveVehicle leave;
+    private RammedVehicle rammed;
 
     //Current object and navmesh
     protected NavMeshAgent agent;
@@ -35,6 +45,7 @@ public class VehicleAI : MonoBehaviour {
     public GameObject batteryDrop;
 
     public bool testDeath = false;
+    public bool isRammed = false;
     private float stayTime = 0;
     private float delayTime = 0;
 
@@ -56,7 +67,9 @@ public class VehicleAI : MonoBehaviour {
     private float currentHealth;
 	[SerializeField] private float highDamageThreshold;
 
-	// Use this for initialization
+    /// <summary>
+    /// Initialiaze the state machine
+    /// </summary>
 	void Start () {
 		currentHealth = maxHealth;
         hasWeapon = false;
@@ -69,6 +82,7 @@ public class VehicleAI : MonoBehaviour {
         stay = enemy.AddComponent<StayVehicle>();
         attack = enemy.AddComponent<AttackVehicle>();
         leave = enemy.AddComponent<LeaveVehicle>();
+        rammed = enemy.AddComponent<RammedVehicle>();
         rb = GetComponent<Rigidbody>();
 
 		front_attachment = GetComponentInChildren<Attachment>();
@@ -81,9 +95,15 @@ public class VehicleAI : MonoBehaviour {
         vCamShake = GameObject.FindGameObjectWithTag("MainVCam").GetComponent<CameraShake>();
     }
 
-    // Update is called once per frame
+    /// <summary>
+    /// Update and call down to the current state
+    /// </summary>
     void Update () {
         transform.position = new Vector3(transform.position.x, .7f, transform.position.z);
+        if(isRammed)
+        {
+            EnterRammed();
+        }
         if(transform.position.z >16f)
         {
             rb.isKinematic = true;
@@ -137,6 +157,9 @@ public class VehicleAI : MonoBehaviour {
             case State.Leave:
                 leave.Leave();
                 break;
+            case State.Rammed:
+                rammed.StartRammed();
+                break;
         }
 
         // Test Death
@@ -148,6 +171,10 @@ public class VehicleAI : MonoBehaviour {
     }
 
 	// ---------------- Combat Functions ------------------
+    /// <summary>
+    /// Suffer the given amount of damage
+    /// </summary>
+    /// <param name="damage">The damage to take</param>
 	public void takeDamage(float damage) {
 		currentHealth -= damage;
 
@@ -162,45 +189,106 @@ public class VehicleAI : MonoBehaviour {
         }
 	}
 
+    /// <summary>
+    /// Take proportionate damage to the destruction of a part
+    /// </summary>
 	public void DestroyPart() {
 		takeDamage(maxHealth * 0.4f);
 	}
 
 	#region state change functions
 	//Used to change state from different classes
+
+    /// <summary>
+    /// Enter the Wait state
+    /// </summary>
     public void EnterWait()
     {
         wait.StartWait(enemy);
         currentState = State.Wait;
     }
+
+    /// <summary>
+    /// Enter the Wander state
+    /// </summary>
 	public void EnterWander()
     {
         wander.StartWander(agent, enemy, side, hasWeapon);
         currentState = State.Wander;
     }
+
+    /// <summary>
+    /// Enter the Chase state
+    /// </summary>
     public void EnterChase()
     {
         chase.StartChase(agent, enemy, side);
         currentState = State.Chase;
     }
+
+    /// <summary>
+    /// Enter the Stay state
+    /// </summary>
     public void EnterStay(int stickPoint)
     {
         stay.StartStay(agent, enemy, side, stickPoint);
         currentState = State.Stay;
     }
+
+    /// <summary>
+    /// Enter the Attack state
+    /// </summary>
     public void EnterAttack()
     {
         attack.StartAttack(agent, enemy, rb, side);
         currentState = State.Attack;
     }
+
+    /// <summary>
+    /// Enter the Leave state
+    /// </summary>
     public void EnterLeave()
     {
         leave.StartLeave(agent, enemy);
         currentState = State.Leave;
     }
-	#endregion
 
-	private void OnTriggerEnter(Collider other)
+    /// <summary>
+    /// Enter the Rammed state
+    /// </summary>
+    public void EnterRammed()
+    {
+        rammed.StartRammed();
+        currentState = State.Rammed;
+    }
+    #endregion
+    private void OnCollisionEnter(Collision collision)
+    {
+        Debug.LogWarning("COLLIDE " + collision.gameObject.tag);
+        if (collision.gameObject.tag == "RV")
+        {
+            isRammed = true;
+        }
+    }
+
+    private void OnCollisionStay(Collision collision)
+    {
+        if(collision.gameObject.tag == "RV" && isRammed)
+        {
+            float time = Mathf.SmoothStep(0, 1, 5 * Time.deltaTime);
+            transform.Translate(Vector3.forward * time);
+        }
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.tag == "RV")
+        {
+            isRammed = false;
+            EnterWander();
+        }
+    }
+    private void OnTriggerEnter(Collider other)
     {
         //Destroy this when it goes off screen
         if (other.tag == "Exit")
@@ -341,6 +429,10 @@ public class VehicleAI : MonoBehaviour {
 		movementChance = _chance;
 	}
 
+    /// <summary>
+    /// Convert the string to a side and assign the vehicle to that side
+    /// </summary>
+    /// <param name="_side">The string to interpret</param>
     public void setSide(string _side)
     {
         if(_side == "left")

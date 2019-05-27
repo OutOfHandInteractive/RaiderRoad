@@ -23,6 +23,7 @@ public class FightEnemy : EnemyAI {
     private NavMeshAgent agent;
     private GameObject fightIcon;
     private bool maxDisplay = false;
+	private Collider targetCol;
     /// <summary>
     /// Initialize this state
     /// </summary>
@@ -93,13 +94,12 @@ public class FightEnemy : EnemyAI {
     /// <summary>
     /// Show the wind-up
     /// </summary>
-    public void WindupAttack()
-    {
+    public void WindupAttack(Collider other) {
+		targetCol = other;
         cObject.GetComponent<StatefulEnemyAI>().getAnimator().SetTrigger("WindUp");
         //fightRange.GetComponent<Renderer>().material.color = new Color(255f, 150f, 0f, .5f);
         //^^^ Temporary attack visual ^^^
-        agent.speed = 0;
-        cObject.GetComponent<StatefulEnemyAI>().getAnimator().SetBool("Running", false); //If speed is 0, he shouldn't be running
+        //If speed is 0, he shouldn't be running
         //chasing = false;
         //agent.isStopped = true;
         //cObject.transform.position = Vector3.zero;
@@ -109,53 +109,50 @@ public class FightEnemy : EnemyAI {
     /// Punch the given player collider
     /// </summary>
     /// <param name="other">The player to hit</param>
-    public void HitPlayer(Collider other, float damage)
-    {
+    public void HitPlayer(float damage) {
         playerDamage += damage;
         fightRange.GetComponent<Renderer>().material.color = new Color(255f, 0f, 0f, .5f);
-        other.gameObject.GetComponent<PlayerController_Rewired>().takeDamage(damage);
-        Vector3 dir = other.transform.position - cObject.transform.position;
+        targetCol.gameObject.GetComponent<PlayerController_Rewired>().takeDamage(damage);
+        Vector3 dir = targetCol.transform.position - cObject.transform.position;
         dir = Vector3.Normalize(new Vector3(dir.x, 0.0f, dir.z));
-        other.GetComponent<Rigidbody>().AddForce(dir * knockback_force);
+		targetCol.GetComponent<Rigidbody>().AddForce(dir * knockback_force);
         fightRange.GetComponent<Renderer>().material.color = new Color(255f, 150f, 0f, 0f);
+        agent.speed = 0;
+        cObject.GetComponent<StatefulEnemyAI>().getAnimator().SetBool("Running", false);
         chasing = true;
     }
 
     /// <summary>
     /// Show the miss
     /// </summary>
-    public void Missed()
-    {
+    public void Missed() {
         fightRange.GetComponent<Renderer>().material.color = new Color(255f, 150f, 0f, 0f);
         chasing = true;
     }
 
-    IEnumerator displayImage()
-    {
+    IEnumerator displayImage() {
         RectTransform icon = fightIcon.GetComponent<RectTransform>();
         float maxHeight = 15;
         float maxWidth = 12;
         float increaseValue = 1f;
         float decreaseValue = 1f;
         float upTime = 3f;
-        if (icon.rect.height < maxHeight && icon.rect.width < maxWidth && !maxDisplay)
-        {
+        if (icon.rect.height < maxHeight && icon.rect.width < maxWidth && !maxDisplay) {
             fightIcon.SetActive(true);
             icon.sizeDelta = new Vector2(icon.rect.height + increaseValue, icon.rect.width + increaseValue);
             fightIcon.GetComponent<RectTransform>().sizeDelta = icon.sizeDelta;
         }
-        else
-        {
+        else {
             maxDisplay = true;
         }
-        yield return new WaitForSeconds(upTime);
-        if (icon.rect.height > 0 && icon.rect.width > 0 && maxDisplay)
-        {
+
+		yield return new WaitForSeconds(upTime);
+
+		if (icon.rect.height > 0 && icon.rect.width > 0 && maxDisplay) {
             icon.sizeDelta = new Vector2(icon.rect.height - decreaseValue, icon.rect.width - decreaseValue);
             fightIcon.GetComponent<RectTransform>().sizeDelta = icon.sizeDelta;
         }
-        else if(icon.rect.height == 0 && icon.rect.width == 0)
-        {
+        else if(icon.rect.height == 0 && icon.rect.width == 0) {
             fightIcon.SetActive(false);
         }
 

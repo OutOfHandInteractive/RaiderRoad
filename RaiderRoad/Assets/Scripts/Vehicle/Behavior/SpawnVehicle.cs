@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+/// <summary>
+/// Helper class to spawn vehicles on command for debugging
+/// </summary>
 public class SpawnVehicle : MonoBehaviour {
 
     private List<Transform> spawnPoints;
@@ -10,7 +13,6 @@ public class SpawnVehicle : MonoBehaviour {
     public VehicleFactoryManager factory;
     private VehicleFactoryManager.vehicleTypes types;
     
-    // Use this for initialization
     void Start()
     {
         spawnPoints = new List<Transform>();
@@ -21,7 +23,9 @@ public class SpawnVehicle : MonoBehaviour {
         }
     }
 
-    // Update is called once per frame
+    /// <summary>
+    /// Spawn a vehicle if the space bar was pressed
+    /// </summary>
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))

@@ -15,23 +15,12 @@ public class BoardEnemy : JumpEnemy {
     private Transform parent = null;
     private bool jumped = false;
     private float rotateSpeed = 100f;
-    //public override void StartJump(GameObject enemy, Rigidbody rb, string side, int stateChance)
-    //{
-    //    base.StartJump(enemy, rb, side, stateChance);
-    //    //action = stateChance;
-    //    //Set rv, enemy, rigidbody, current side, and angle to jump
 
-
-    //}
-
-    private Vector3 GetTarget(Vector3 planePos)
-    {
-        if (cSide == VehicleAI.Side.Left)
-        {
+    private Vector3 GetTarget(Vector3 planePos) {
+        if (cSide == VehicleAI.Side.Left) {
             return Closest(planePos, GameObject.FindGameObjectsWithTag("JumpL")).transform.position;
         }
-        else if (cSide == VehicleAI.Side.Right)
-        {
+        else if (cSide == VehicleAI.Side.Right) {
             return Closest(planePos, GameObject.FindGameObjectsWithTag("JumpR")).transform.position;
         }
         return new Vector3(0, 0, 0);
@@ -53,22 +42,18 @@ public class BoardEnemy : JumpEnemy {
         //Debug.Log(zSign + " THIS IS THE SIGN");
         cObject.transform.rotation = Quaternion.RotateTowards(cObject.transform.rotation, Quaternion.LookRotation(-lookAtPos), Time.deltaTime * rotateSpeed);
 
-        if(Quaternion.Angle(cObject.transform.rotation,Quaternion.LookRotation(-lookAtPos)) < 1)
-        {
-            if (!jumped)
-            {
+        if (Quaternion.Angle(cObject.transform.rotation,Quaternion.LookRotation(-lookAtPos)) < 1) {
+            if (!jumped) {
                 Jump(pos, zSign);
                 jumped = true;
                 transform.parent = null;
             }
         }
 
-        if(transform.parent && transform.parent.tag == "eVehicle")
-        {
+        if (transform.parent && transform.parent.tag == "eVehicle") {
             ai.getAnimator().SetBool("Grounded", true);
             jumped = false;
-            if(!jumped)
-            {
+            if (!jumped) {
                 Jump(pos, zSign);
                 jumped = true;
                 transform.parent = null;
@@ -78,10 +63,8 @@ public class BoardEnemy : JumpEnemy {
 
         //40% chance to go into Destroy State or Fight State, 20% to go into steal
         string actionStr = (action < 50) ? "EnterDestroy" : "EnterFight";
-        if(transform.parent != null)
-        {
-            if(transform.parent.tag == "RV")
-            {
+        if (transform.parent != null) {
+            if(transform.parent.tag == "RV") {
                 hasJumped = false;
                 ai.getAnimator().SetBool("Grounded", true);
                 //agent.Warp(transform.position);	// hax?????
@@ -89,23 +72,19 @@ public class BoardEnemy : JumpEnemy {
                 //agent.velocity = Vector3.zero;
                 //agent.speed = 0;
                 survey += Time.deltaTime;
-                Debug.Log(survey);
-                if (survey > .5f)
-                {
-                    if (action < 40)
-                    {
+
+                if (survey > .5f) {
+                    if (action < 40) {
                         //agent.speed = speed;
                         cObject.GetComponent<Rigidbody>().isKinematic = false;
                         ai.EnterDestroy();
                     }
-                    else if (action > 40 && action < 80)
-                    {
+                    else if (action > 40 && action < 80) {
                         //agent.speed = speed;
                         cObject.GetComponent<Rigidbody>().isKinematic = false;
                         ai.EnterFight();
                     }
-                    else
-                    {
+                    else {
                         //agent.speed = speed;
                         cObject.GetComponent<Rigidbody>().isKinematic = false;
                         ai.EnterSteal();
@@ -113,11 +92,8 @@ public class BoardEnemy : JumpEnemy {
                 }
             }
         }
-        else if (transform.parent == null)
-        {
+        else if (transform.parent == null) {
             cObject.transform.position = Vector3.MoveTowards(cObject.transform.position, pos, Time.deltaTime * .5f);
-        }
-
-        
+        }    
     }
 }

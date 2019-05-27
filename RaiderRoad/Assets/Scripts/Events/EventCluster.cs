@@ -2,9 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Creates and dispenses a group of individual Events
+/// </summary>
 public class EventCluster : MonoBehaviour {
 
-	// ----------------------- public variables ----------------------
+	[Header("public variables")]
+    // ----------------------- public variables ----------------------
 	// references
     public List<Event> events = new List<Event>();
 
@@ -12,6 +16,7 @@ public class EventCluster : MonoBehaviour {
 	public int initSize;
 	public float complete;
 
+    [Header("private variables")]
 	// ---------------------- nonpublic variables ----------------------
 	// references
 	[SerializeField] private GameObject manager;
@@ -34,7 +39,13 @@ public class EventCluster : MonoBehaviour {
     [SerializeField]
     private float wChance;   //gets set by event manager
 
-
+	/// <summary>
+	/// Initialize event cluster
+	/// </summary>
+	/// <param name="sequence">List of events to be deployed</param>
+	/// <param name="factory">Vehicle Factory Manager to create vehicles for new events</param>
+	/// <param name="_sDelay">Spawn delay</param>
+	/// <param name="_wChance">Chance of spawning a weapon on a vehicle in the cluster</param>
     public void startUp(List<Event> sequence, VehicleFactoryManager factory, float _sDelay, float _wChance)
     {
         manager = GameObject.Find("EventManager");
@@ -51,8 +62,10 @@ public class EventCluster : MonoBehaviour {
             difficulty += element.difficultyRating;
         }
     }
-
-
+    
+    /// <summary>
+    /// Starts both the spawning and the delay reduction coroutines
+    /// </summary>
     public void startDispense()
     {
         //start spawning
@@ -60,6 +73,9 @@ public class EventCluster : MonoBehaviour {
         StartCoroutine(reduceDelay());      //start reducing time between spawns
     }
 
+    /// <summary>
+    /// Coroutine for spawning events with a given delay between them
+    /// </summary>
     //spawning coroutine
     IEnumerator dispense(){
         foreach (Event e in events){
@@ -67,43 +83,49 @@ public class EventCluster : MonoBehaviour {
             yield return new WaitForSeconds(sDelay);     //call next event after delay
         }
     }
-    
+
+    /// <summary>
+    /// Coroutine for reducing the spawn delay by a set amount every time something spawns
+    /// </summary>
     //delay reduction coroutine
     IEnumerator reduceDelay()
     {
         yield return new WaitForSeconds(sDelay);        //wait allocated time
-        while(true){
-            if (sDelay*sFactor > sDelayLower){      //if next iteration is greater than lower bound...
+        while(true) {
+            if (sDelay*sFactor > sDelayLower) {      //if next iteration is greater than lower bound...
                 sDelay = sDelay * sFactor;       //...decrement
             }
-            else{
+            else {
                 sDelay = sDelayLower;              //else, reduce to lower bound
             }
             yield return new WaitForSeconds(sDelay);        //wait allocated time
         }        
     }
-
-
-    //increase completeness of cluster - called from vehicle on destroy
-    public void updatePercent(){
+    
+    /// <summary>
+    /// Updates the completion percentage of the cluster, destroying the cluster if it reaches the completeness threshold
+    /// </summary>
+    public void updatePercent() {
         complete += weight;
-        if(complete >= threshold && spawnFlag){   //if cluster completion at certain level & no new cluster has been called
+        if (complete >= threshold && spawnFlag){   //if cluster completion at certain level & no new cluster has been called
             spawnFlag = false;                  //disable so only one new cluster gets generated
             managerRef.lastDone();        //call the generate function in manager
-        }else if (complete >= 1){
-            //Debug.Log("cluster complete");
+        }
+		else if (complete >= 1){
             Destroy(this.gameObject);
         }
     }
-        
+
+    /// <summary>
+    /// Calls the proper function from the given event to create the proper enemy for the player
+    /// </summary>
+    /// <param name="eve">The event being called</param>
     //calls next event in cluster
-    void callEvent(Event eve){
-        if (eve._etype == EventManager.eventTypes.obstacle)
-        {
+    void callEvent(Event eve) {
+        if (eve._etype == EventManager.eventTypes.obstacle) {
             eve.oSpawn(_obstacle);
         }
-        else if (eve._etype == EventManager.eventTypes.vehicle)
-        {
+        else if (eve._etype == EventManager.eventTypes.vehicle) {
             eve.spawn(vFactory, wChance);
         }
     }

@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+/// <summary>
+/// Class for vehicles in the chase state
+/// </summary>
 public class ChaseVehicle : MonoBehaviour {
     //Loading point location, agent info
     private List<Transform> attackList;
@@ -13,7 +16,13 @@ public class ChaseVehicle : MonoBehaviour {
     //private NavMeshAgent cEnemy;
     private GameObject cObject;
     private float timer = 0f;
-    //Initialize agent
+
+    /// <summary>
+    /// Initialize the state
+    /// </summary>
+    /// <param name="agent">The agent</param>
+    /// <param name="enemy">The enemy</param>
+    /// <param name="side">The side of the RV we're assigned to</param>
     public virtual void StartChase(NavMeshAgent agent, GameObject enemy, VehicleAI.Side side)
     {
         //cEnemy = agent;
@@ -57,6 +66,10 @@ public class ChaseVehicle : MonoBehaviour {
 
     }
 
+    /// <summary>
+    /// Do the chase action
+    /// </summary>
+    /// <param name="side">The side of the RV we're assigned to</param>
     public void Chase(VehicleAI.Side side)
     {
         //Stop completely when next to spot
@@ -89,12 +102,12 @@ public class ChaseVehicle : MonoBehaviour {
         Invoke("WaitForNextState", 10f);
     }
 
-    void WaitForNextState()
+    private void WaitForNextState()
     {
         StartCoroutine(waitToLeave());
     }
 
-    IEnumerator waitToLeave()
+    private IEnumerator waitToLeave()
     {
         cObject.GetComponent<VehicleAI>().EnterWander();
         yield return new WaitForSeconds(5);

@@ -5,6 +5,7 @@ using UnityEngine;
 public class obstacleSpawner : MonoBehaviour
 {
 
+    [Header("variables")]
     public float startDelay = 30f;
     [SerializeField]
     private float obstDelay;
@@ -21,11 +22,17 @@ public class obstacleSpawner : MonoBehaviour
     private float spawnRange = 15f;
 
     // Start is called before the first frame update
+    /// <summary>
+    /// begins the startup coroutine
+    /// </summary>
     void Start()
     {
         StartCoroutine(startup());
     }
 
+    /// <summary>
+    /// Waits a set amount of time before starting a loop of spawning obstacles and waiting a short delay
+    /// </summary>
     IEnumerator startup()
     {
         yield return new WaitForSeconds(startDelay);
@@ -38,11 +45,17 @@ public class obstacleSpawner : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Update the delay time between obstacles
+    /// </summary>
     private void setObstDelay()
     {
         obstDelay = Random.Range(obstLow,obstHigh);
     }
 
+    /// <summary>
+    /// Spawns an obstacle based on the position of the RV
+    /// </summary>
     public void oSpawn()
     {
         //Debug.Log("oSpawn called");
