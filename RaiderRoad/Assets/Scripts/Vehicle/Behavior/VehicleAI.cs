@@ -295,22 +295,22 @@ public class VehicleAI : MonoBehaviour {
                     battery.GetComponent<DropExplosion>().Eject(-1f);
                 }
             }
+        }
 
-            // Player Eject
-            foreach (PlayerController_Rewired pc in gameObject.GetComponentsInChildren<PlayerController_Rewired>())
+        // Player Eject
+        foreach (PlayerController_Rewired pc in gameObject.GetComponentsInChildren<PlayerController_Rewired>())
+        {
+            pc.transform.parent = null;
+            if (side == Side.Left)
             {
-                pc.transform.parent = null;
-                if (side == Side.Left)
-                {
-                    pc.Eject(1f);
-                }
-                else
-                {
-                    pc.Eject(-1f);
-                }
+                pc.Eject(1f);
+            }
+            else
+            {
+                pc.Eject(-1f);
             }
         }
-        
+
         Instantiate(explosionSound, transform.position, Quaternion.identity);
         Instantiate(deathBigExplosion, transform.position, Quaternion.identity);
         //Radio.GetRadio().RemoveVehicle(gameObject);
