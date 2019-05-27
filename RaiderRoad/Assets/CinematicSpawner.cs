@@ -19,7 +19,7 @@ public class CinematicSpawner : MonoBehaviour
 
         if(timer <= 0)
         {
-            int chosenVehicleNumber = Random.Range(0, vehicles.Count-1);
+            int chosenVehicleNumber = Random.Range(0, vehicles.Count);
             Instantiate(vehicles[chosenVehicleNumber], gameObject.transform.position, gameObject.transform.rotation);
             RollSpawn();
         }
