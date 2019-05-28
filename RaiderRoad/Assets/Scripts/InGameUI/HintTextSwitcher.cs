@@ -15,8 +15,7 @@ public class HintTextSwitcher : MonoBehaviour
     private Text textComp;
 
     // Use this for initialization
-    void Start()
-    {
+    void Start() {
         textComp = GetComponent<Text>();
 
         var rand = new System.Random();
