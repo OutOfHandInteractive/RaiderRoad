@@ -37,6 +37,8 @@ public class MiscBreakable : MiscHittable
 
 			Destroy(model);
 			GetComponent<BoxCollider>().enabled = false;
+
+            Destroy(this);
 		}
     }
 }

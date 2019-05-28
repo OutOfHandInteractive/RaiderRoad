@@ -17,6 +17,7 @@ public class flamethrower : Interactable {
 	public GameObject fireFX;
 	public GameObject damageCollider, damageColliderEnemy;
     public bool isOccupied = false;
+    public Image heatBar;
     
 	// gameplay values
 	public float reticuleMoveSpeed;
@@ -44,6 +45,7 @@ public class flamethrower : Interactable {
 	private flamethrowerDamage damage;
 	private flamethrowerDamageEnemy damageEnemy;
     private AudioSource audioSource;
+    private Color originalColor;
     
 	[System.NonSerialized]
         private bool initialized;
@@ -55,7 +57,8 @@ public class flamethrower : Interactable {
 
 	// Use this for initialization
 	void Start () {
-		inUse = false;
+        originalColor = heatBar.color;
+        inUse = false;
 		user = null;
 		userPlayerId = -1;
         overheatCount = overheatTime;
@@ -188,7 +191,6 @@ public class flamethrower : Interactable {
             overheatCount = overheatTime;
         }
         
-        
         if (overheatCount <= 0.0f)
         {
             overheated = true;
@@ -199,8 +201,10 @@ public class flamethrower : Interactable {
         }
         
         if (overheated)
-        {
+        {  
             cooldownCount -= Time.deltaTime;
+            heatBar.color = Color.gray;
+            heatBar.fillAmount = cooldownCount / overheatCooldown;
         }
         
         if (cooldownCount <= 0.0f)
@@ -213,6 +217,8 @@ public class flamethrower : Interactable {
         
         if (!overheated)
         {
+            heatBar.color = originalColor;
+            heatBar.fillAmount = overheatCount / overheatTime;
             overheat.text = overheatCount.ToString("F2");
         }
         else
