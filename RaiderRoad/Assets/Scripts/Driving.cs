@@ -45,6 +45,8 @@ public class Driving : Interactable
     private Vector2 moveVector;
     private bool takeSideDamage = false;
     private float count = 0f;
+    private RVAudio RVAudio;
+    private bool justLeft = false;
 
     [System.NonSerialized]
     private bool initialized;
@@ -55,6 +57,7 @@ public class Driving : Interactable
         user = null;
         userPlayerId = -1;
         cooldownTimer = cooldown;
+        RVAudio = rv.GetComponentInChildren<RVAudio>();
     }
 
     void Update()
@@ -112,7 +115,7 @@ public class Driving : Interactable
         GetInput();
         ProcessInput();
     }
-
+    
     private void GetInput()
     {
         if (!paused && inUse)
@@ -127,35 +130,48 @@ public class Driving : Interactable
 
             if(player.GetAxis("Move Horizontal") != 0)
             {
-                leftSkidNode.TireSkid(skidDuration, skidIntensity);
-                rightSkidNode.TireSkid(skidDuration, skidIntensity);
-                leftSkidNodeFront.TireSkid(skidDuration, skidIntensity);
-                rightSkidNodeFront.TireSkid(skidDuration, skidIntensity);
-                moveVector.x = player.GetAxis("Move Horizontal") * Time.deltaTime * moveSpeed * accel;
+                float h_axis = player.GetAxis("Move Horizontal");
+                bool changedDir = Mathf.Sign(h_axis) != Mathf.Sign(moveVector.x);
+                if (changedDir)
+                {
+                    if (RVAudio != null)
+                    {
+                        RVAudio.Skid();
+                    }
+                    leftSkidNode.TireSkid(skidDuration, skidIntensity);
+                    rightSkidNode.TireSkid(skidDuration, skidIntensity);
+                    leftSkidNodeFront.TireSkid(skidDuration, skidIntensity);
+                    rightSkidNodeFront.TireSkid(skidDuration, skidIntensity);
+                }
+                moveVector.x = h_axis * Time.deltaTime * moveSpeed * accel;
             }
-            else if(moveVector.x >= 0)
+            else if (moveVector.x >= 0)
             {
                 moveVector.x -= 0.001f; //MAGIC NUMBERS
             }
-            else if(moveVector.x <= 0)
+            else if (moveVector.x <= 0)
             {
                 moveVector.x += 0.001f; //Fuck all these hacks and whoever wrote them (me)
             }
             
             moveVector.y = player.GetAxis("Move Vertical") * Time.deltaTime * moveSpeed * accel;
 
-            if (player.GetButtonDown("Place Object") || Input.GetKeyDown("k"))
+            if (justLeft)
+            {
+                justLeft = false;
+            }
+            else if (player.GetButtonDown("Exit Interactable") || Input.GetKeyDown("k"))
             {
                 Leave();
                 accel = 0;
                 playerUsing.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
             }
+
             if (player.GetButtonDown("Jump"))
             {
-                CarAudio audio = rv.GetComponentInChildren<CarAudio>();
-                if (audio != null)
+                if (RVAudio != null)
                 {
-                    audio.Honk();
+                    RVAudio.Honk();
                 }
             }
 
@@ -257,7 +273,7 @@ public class Driving : Interactable
 
 		playerUsing.GetComponent<Rigidbody>().isKinematic = true;
 		playerUsing.GetComponent<PlayerController_Rewired>().StopWalkingAudio();
-
+        
 		inUse = true;
     }
 
@@ -276,5 +292,6 @@ public class Driving : Interactable
 		user.setObjectInUse(null);
 
 		playerUsing.GetComponent<Rigidbody>().isKinematic = false;
+        justLeft = true;
 	}
 }

@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
 /// <summary>
 /// This is a helper class for objects with a number of different sounds to play on an AudioSource.
@@ -16,6 +16,12 @@ public class AudioManager : MonoBehaviour
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
+        OnStart();
+    }
+
+    protected virtual void OnStart()
+    {
+        //Nothing
     }
 
     /// <summary>
@@ -29,6 +35,11 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    protected void RandomOneShot(List<AudioClip> clips, float volumeScale = 1.0f)
+    {
+        OneShot(clips[Random.Range(0, clips.Count)], volumeScale);
+    }
+
     /// <summary>
     /// Set the AudioSource this manager will use.
     /// </summary>
@@ -36,5 +47,10 @@ public class AudioManager : MonoBehaviour
     public void SetSource(AudioSource source)
     {
         audioSource = source;
+    }
+
+    public void SetRandomClip(List<AudioClip> clips)
+    {
+        audioSource.clip = clips[Random.Range(0, clips.Count)];
     }
 }
