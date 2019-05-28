@@ -17,6 +17,7 @@ public class flamethrower : Interactable {
 	public GameObject fireFX;
 	public GameObject damageCollider, damageColliderEnemy;
     public bool isOccupied = false;
+    public Image heatBar;
     
 	// gameplay values
 	public float reticuleMoveSpeed;
@@ -188,7 +189,6 @@ public class flamethrower : Interactable {
             overheatCount = overheatTime;
         }
         
-        
         if (overheatCount <= 0.0f)
         {
             overheated = true;
@@ -200,6 +200,7 @@ public class flamethrower : Interactable {
         
         if (overheated)
         {
+            heatBar.fillAmount = 0;
             cooldownCount -= Time.deltaTime;
         }
         
@@ -213,6 +214,7 @@ public class flamethrower : Interactable {
         
         if (!overheated)
         {
+            heatBar.fillAmount = overheatCount / overheatTime;
             overheat.text = overheatCount.ToString("F2");
         }
         else
