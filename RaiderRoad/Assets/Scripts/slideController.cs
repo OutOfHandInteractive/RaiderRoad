@@ -5,7 +5,11 @@ using UnityEngine.Video;
 
 public class slideController : MonoBehaviour
 {
-    private VideoPlayer vp;
+    [SerializeField] private RenderTexture myRenderText;
+    [SerializeField] private VideoPlayer vp1;
+    [SerializeField] private VideoPlayer vp2;
+    private bool CurrIs1 = true;
+    //two video players, one prepares their clip while the other plays their clip (no waiting for load)
     private float videoTimer;
     [SerializeField] private float timeForClipOnscreen;
 
@@ -16,8 +20,13 @@ public class slideController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        vp = GetComponentInChildren<VideoPlayer>();
+        //vp = GetComponentInChildren<VideoPlayer>();
         clipIndex = 0;
+
+        //set both clips to something at start
+        vp1.clip = myClipsArr[clipIndex];
+        vp2.clip = myClipsArr[clipIndex];
+
         ToNextClip();
     }
 
@@ -34,20 +43,36 @@ public class slideController : MonoBehaviour
     //progressive enhancement: hit projector to skip to next slide. Requires a check to it doesn't just skip the transition
     private void ToNextClip()
     {
-        vp.clip = myClipsArr[clipIndex];
-        vp.Play();
-        if (loopOrNotArr[clipIndex]) {
-            vp.isLooping = true;
-            videoTimer = timeForClipOnscreen - (timeForClipOnscreen % (vp.frameCount / vp.frameRate));
+        VideoPlayer vpCurr;
+        VideoPlayer vpNext;
+        //assign which player is current vs next based on CurrIs1
+        if (CurrIs1) {
+            vpCurr = vp1;
+            vpNext = vp2;
         } else {
-            vp.isLooping = false;
-            videoTimer = vp.frameCount / vp.frameRate;
+            vpCurr = vp2;
+            vpNext = vp1;
+        }
+        CurrIs1 = !CurrIs1; //flip bool
+
+        vpCurr.targetTexture = myRenderText;
+        vpCurr.Play();
+        if (loopOrNotArr[clipIndex]) {
+            vpCurr.isLooping = true;
+            videoTimer = timeForClipOnscreen - (timeForClipOnscreen % (vpCurr.frameCount / vpCurr.frameRate));
+        } else {
+            vpCurr.isLooping = false;
+            videoTimer = vpCurr.frameCount / vpCurr.frameRate;
         }
         clipIndex++;
         if(clipIndex >= myClipsArr.Length)
         {
             clipIndex = 0;
         }
+
+        //queue next clip
+        vpNext.clip = myClipsArr[clipIndex];
+        vpNext.Prepare();
     }
 
     // Script for hitting projector to skip slides
