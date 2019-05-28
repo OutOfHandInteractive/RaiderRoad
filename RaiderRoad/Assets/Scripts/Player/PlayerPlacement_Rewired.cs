@@ -449,7 +449,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
                 }
                 else if ((construct = item.GetComponent<Constructable>()) != null) {
                     construct.Damage(damage);
-                    Instantiate(objHitParticle, item.transform.position, Quaternion.identity);
+                    Instantiate(objHitParticle, item.transform.position, Quaternion.identity, item.GetComponent<Constructable>().myNode.transform);
                     hit = true;
                 }
                 else if (item.CompareTag("Enemy")) {
@@ -464,7 +464,10 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
                     hit = true;
                 }
                 else if (item.CompareTag("MiscHittable")) {
-                    item.GetComponent<MiscHittable>().RegisterHit();
+                    if (item.GetComponent<MiscHittable>())
+                    {
+                        item.GetComponent<MiscHittable>().RegisterHit();
+                    }
                 }
             }
         }
