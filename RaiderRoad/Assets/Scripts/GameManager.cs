@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
 	#region Declarations
@@ -41,7 +42,7 @@ public class GameManager : MonoBehaviour {
     /// <summary>
     /// Set initial references
     /// </summary>
-	void Start () {
+    void Start () {
         //timeElapsed = 0f;
         gameOver = false;
         myTimer = FinishTime;

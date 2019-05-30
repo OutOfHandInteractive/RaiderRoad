@@ -4570,7 +4570,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 506410720}
-  m_LocalRotation: {x: 0.4985767, y: 0.000000013567355, z: -0.000000006235152, w: 0.86684567}
+  m_LocalRotation: {x: 0.4985767, y: -0.0000000162632, z: 0.000000010922251, w: 0.86684567}
   m_LocalPosition: {x: 0, y: 23, z: -13.38}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -5206,7 +5206,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 25f0979ed0310354092509dcc938c6e2, type: 3}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -6872,6 +6872,7 @@ GameObject:
   - component: {fileID: 1643154690}
   - component: {fileID: 1643154689}
   - component: {fileID: 1643154688}
+  - component: {fileID: 1643154694}
   - component: {fileID: 1643154687}
   - component: {fileID: 1643154693}
   m_Layer: 0
@@ -6928,7 +6929,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 38374aff761e3784a924ce1c39cc0b5b, type: 3}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -7079,7 +7080,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1643154686}
-  m_LocalRotation: {x: 0.4985767, y: 0.000000013567355, z: -0.000000006235152, w: 0.86684567}
+  m_LocalRotation: {x: 0.4985767, y: -0.0000000162632, z: 0.000000010922251, w: 0.86684567}
   m_LocalPosition: {x: 0, y: 23, z: -13.38}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -7147,6 +7148,20 @@ MonoBehaviour:
   m_BeforeTransparentBundles: []
   m_BeforeStackBundles: []
   m_AfterStackBundles: []
+--- !u!114 &1643154694
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1643154686}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62e101c95af2d744b8d68592e0659841, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  intro: {fileID: 8300000, guid: 25f0979ed0310354092509dcc938c6e2, type: 3}
+  loop: {fileID: 8300000, guid: efaa73e19bbfc7e449a240c615b69e94, type: 3}
 --- !u!1 &1656176016
 GameObject:
   m_ObjectHideFlags: 0
