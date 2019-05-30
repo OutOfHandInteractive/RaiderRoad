@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using System.Collections;
 
 public class HintTextSwitcher : MonoBehaviour
 {
@@ -15,8 +16,7 @@ public class HintTextSwitcher : MonoBehaviour
     private Text textComp;
 
     // Use this for initialization
-    void Start()
-    {
+    void Start() {
         textComp = GetComponent<Text>();
 
         var rand = new System.Random();
@@ -31,18 +31,22 @@ public class HintTextSwitcher : MonoBehaviour
             randomized.Add(hint);
         }
         textComp.text = randomized[index];
+
+		StartCoroutine(SwitchText());
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        changeTime += Time.deltaTime;
-        //Debug.Log("changeTime: " + changeTime);
-        if(changeTime >= readTime)
-        {
-            index = (index + 1) % randomized.Count;
-            changeTime = 0;
-            textComp.text = randomized[index];
-        }
+    IEnumerator SwitchText() {
+		while (true) {
+			changeTime += Time.deltaTime;
+
+			if (changeTime >= readTime) {
+				index = (index + 1) % randomized.Count;
+				changeTime = 0;
+				textComp.text = randomized[index];
+			}
+
+			yield return null;
+		}
     }
 }
