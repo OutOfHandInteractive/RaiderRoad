@@ -578,6 +578,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114997243933615760, guid: 8e85f36207be25441bae323ffd7cba64,
+        type: 3}
+      propertyPath: lVehicleFactory
+      value: 
+      objectReference: {fileID: 104189706}
+    - target: {fileID: 114997243933615760, guid: 8e85f36207be25441bae323ffd7cba64,
+        type: 3}
+      propertyPath: mVehicleFactory
+      value: 
+      objectReference: {fileID: 104189705}
+    - target: {fileID: 114997243933615760, guid: 8e85f36207be25441bae323ffd7cba64,
+        type: 3}
+      propertyPath: hVehicleFactory
+      value: 
+      objectReference: {fileID: 104189704}
+    - target: {fileID: 114997243933615760, guid: 8e85f36207be25441bae323ffd7cba64,
+        type: 3}
+      propertyPath: RV
+      value: 
+      objectReference: {fileID: 805757918}
     - target: {fileID: 4134613758057094, guid: 8e85f36207be25441bae323ffd7cba64, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -610,26 +630,6 @@ PrefabInstance:
       propertyPath: m_RootOrder
       value: 10
       objectReference: {fileID: 0}
-    - target: {fileID: 114997243933615760, guid: 8e85f36207be25441bae323ffd7cba64,
-        type: 3}
-      propertyPath: lVehicleFactory
-      value: 
-      objectReference: {fileID: 104189706}
-    - target: {fileID: 114997243933615760, guid: 8e85f36207be25441bae323ffd7cba64,
-        type: 3}
-      propertyPath: mVehicleFactory
-      value: 
-      objectReference: {fileID: 104189705}
-    - target: {fileID: 114997243933615760, guid: 8e85f36207be25441bae323ffd7cba64,
-        type: 3}
-      propertyPath: hVehicleFactory
-      value: 
-      objectReference: {fileID: 104189704}
-    - target: {fileID: 114997243933615760, guid: 8e85f36207be25441bae323ffd7cba64,
-        type: 3}
-      propertyPath: RV
-      value: 
-      objectReference: {fileID: 805757918}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8e85f36207be25441bae323ffd7cba64, type: 3}
 --- !u!114 &104189704 stripped
@@ -5206,7 +5206,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 38374aff761e3784a924ce1c39cc0b5b, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 25f0979ed0310354092509dcc938c6e2, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
