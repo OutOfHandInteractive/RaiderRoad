@@ -49,6 +49,7 @@ public class VehicleGrind : MonoBehaviour
         {
             if (side == Side.left)
             {
+                
                 Transform sparks = other.transform.Find("SparksL");
                 sparks.GetComponent<ParticleSystem>().Stop();
                 //Instantiate(sparks, place, Quaternion.Euler(new Vector3(-90, 0, 0)), other.gameObject.transform);

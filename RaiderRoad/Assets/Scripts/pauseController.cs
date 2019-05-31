@@ -90,24 +90,24 @@ public class pauseController : MonoBehaviour
     public void restartGame()
     {
         Time.timeScale = 1;
-        string myScene = SceneManager.GetActiveScene().name;
         GameManager g = GameManager.GameManagerInstance;
         g.restartMenu();
-        SceneManager.LoadScene(myScene, LoadSceneMode.Single);
+        sceneManagerScript sceneManage = sceneManagerScript.Instance;
+        sceneManage.LoadGame();
     }
 
     public void quitToLobby()
     {
         Time.timeScale = 1;
-        SceneManager.LoadScene("playerLobby", LoadSceneMode.Single);
+        sceneManagerScript sceneManage = sceneManagerScript.Instance;
+        sceneManage.LoadLobby();
     }
 
     public void quitToMenu()
     {
         Time.timeScale = 1;
         sceneManagerScript sceneManage = sceneManagerScript.Instance;
-        sceneManage.ResetPlayerList();
-        SceneManager.LoadScene("MainMenu");
+        sceneManage.LoadMainMenu();
     }
 
     IEnumerator highlightBtn()

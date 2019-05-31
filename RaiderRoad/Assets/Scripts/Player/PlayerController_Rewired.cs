@@ -440,6 +440,9 @@ public class PlayerController_Rewired : MonoBehaviour
     {
         takeDamage(Constants.PLAYER_ROAD_DAMAGE);
         transform.position = GameObject.Find("player1Spawn").transform.position;
+        // Reset our momentum
+        rb.velocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
     }
 
     /// <summary>

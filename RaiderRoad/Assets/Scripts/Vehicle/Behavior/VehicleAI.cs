@@ -10,7 +10,7 @@ public class VehicleAI : MonoBehaviour {
     /// <summary>
     /// The vehicle states
     /// </summary>
-    public enum State { Wait, Wander, Chase, Stay, Attack, Leave };
+    public enum State { Wait, Wander, Chase, Stay, Attack, Leave, Rammed };
 
     /// <summary>
     /// The sides of the RV
@@ -24,6 +24,7 @@ public class VehicleAI : MonoBehaviour {
     private StayVehicle stay;
     private AttackVehicle attack;
     private LeaveVehicle leave;
+    private RammedVehicle rammed;
 
     //Current object and navmesh
     protected NavMeshAgent agent;
@@ -44,6 +45,7 @@ public class VehicleAI : MonoBehaviour {
     public GameObject batteryDrop;
 
     public bool testDeath = false;
+    public bool isRammed = false;
     private float stayTime = 0;
     private float delayTime = 0;
 
@@ -80,6 +82,7 @@ public class VehicleAI : MonoBehaviour {
         stay = enemy.AddComponent<StayVehicle>();
         attack = enemy.AddComponent<AttackVehicle>();
         leave = enemy.AddComponent<LeaveVehicle>();
+        rammed = enemy.AddComponent<RammedVehicle>();
         rb = GetComponent<Rigidbody>();
 
 		front_attachment = GetComponentInChildren<Attachment>();
@@ -97,6 +100,10 @@ public class VehicleAI : MonoBehaviour {
     /// </summary>
     void Update () {
         transform.position = new Vector3(transform.position.x, .7f, transform.position.z);
+        if(isRammed)
+        {
+            EnterRammed();
+        }
         if(transform.position.z >16f)
         {
             rb.isKinematic = true;
@@ -149,6 +156,9 @@ public class VehicleAI : MonoBehaviour {
                 break;
             case State.Leave:
                 leave.Leave();
+                break;
+            case State.Rammed:
+                rammed.StartRammed();
                 break;
         }
 
@@ -242,9 +252,43 @@ public class VehicleAI : MonoBehaviour {
         leave.StartLeave(agent, enemy);
         currentState = State.Leave;
     }
-	#endregion
 
-	private void OnTriggerEnter(Collider other)
+    /// <summary>
+    /// Enter the Rammed state
+    /// </summary>
+    public void EnterRammed()
+    {
+        rammed.StartRammed();
+        currentState = State.Rammed;
+    }
+    #endregion
+    private void OnCollisionEnter(Collision collision)
+    {
+        Debug.LogWarning("COLLIDE " + collision.gameObject.tag);
+        if (collision.gameObject.tag == "RV")
+        {
+            isRammed = true;
+        }
+    }
+
+    private void OnCollisionStay(Collision collision)
+    {
+        if(collision.gameObject.tag == "RV" && isRammed)
+        {
+            float time = Mathf.SmoothStep(0, 1, 5 * Time.deltaTime);
+            transform.Translate(Vector3.forward * time);
+        }
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.tag == "RV")
+        {
+            isRammed = false;
+            EnterWander();
+        }
+    }
+    private void OnTriggerEnter(Collider other)
     {
         //Destroy this when it goes off screen
         if (other.tag == "Exit")
@@ -295,22 +339,22 @@ public class VehicleAI : MonoBehaviour {
                     battery.GetComponent<DropExplosion>().Eject(-1f);
                 }
             }
+        }
 
-            // Player Eject
-            foreach (PlayerController_Rewired pc in gameObject.GetComponentsInChildren<PlayerController_Rewired>())
+        // Player Eject
+        foreach (PlayerController_Rewired pc in gameObject.GetComponentsInChildren<PlayerController_Rewired>())
+        {
+            pc.transform.parent = null;
+            if (side == Side.Left)
             {
-                pc.transform.parent = null;
-                if (side == Side.Left)
-                {
-                    pc.Eject(1f);
-                }
-                else
-                {
-                    pc.Eject(-1f);
-                }
+                pc.Eject(1f);
+            }
+            else
+            {
+                pc.Eject(-1f);
             }
         }
-        
+
         Instantiate(explosionSound, transform.position, Quaternion.identity);
         Instantiate(deathBigExplosion, transform.position, Quaternion.identity);
         //Radio.GetRadio().RemoveVehicle(gameObject);

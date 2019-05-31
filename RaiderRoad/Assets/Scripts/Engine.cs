@@ -63,7 +63,7 @@ public class Engine : DurableConstructGen<PoiNode> {
 
     private void UpdateHealthBar()
     {
-        myHealthTrans.localScale = new Vector3 ((currDur / durability) * myHealthScale.x, myHealthScale.y, myHealthScale.z); //reflect on health bar (multiplied by original health scale)
+        myHealthTrans.localScale = new Vector3 (myHealthScale.x, myHealthScale.y, (currDur / durability) * myHealthScale.z); //reflect on health bar (multiplied by original health scale)
     }
 
     public override void OnBreak()

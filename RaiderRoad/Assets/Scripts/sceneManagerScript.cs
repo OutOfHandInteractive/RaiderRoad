@@ -6,9 +6,15 @@ using UnityEngine.SceneManagement;
 public class sceneManagerScript : MonoBehaviour {
 
     public static sceneManagerScript Instance;
-    public List<string> NeedPlaySelScene; // a list of scenes that require the Player Select Scene before playing
+    public const string GAME_SCENE = "EnemyAI";
+    public const string LOBBY_SCENE = "playerLobby";
+    public const string MAIN_MENU_SCENE = "MainMenu";
+    public const string LOAD_SCENE = "LoadingScreen";
 
-    private string playSelScene = "PlayerSelect";
+    public List<string> NeedPlaySelScene; // a list of scenes that require the Player Select Scene before playing
+    public List<string> NeedLoadScreen = new List<string> { GAME_SCENE, LOBBY_SCENE, MAIN_MENU_SCENE };
+
+    
     private static string nextScene;
     private static int[] char1Players;
     private static int[] char2Players;
@@ -41,7 +47,7 @@ public class sceneManagerScript : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-        if (SceneManager.GetActiveScene() != SceneManager.GetSceneByName("PlayerSelect") || SceneManager.GetActiveScene() != SceneManager.GetSceneByName("playerLobby")) //once switched over, only use lobby
+        if (SceneManager.GetActiveScene() != SceneManager.GetSceneByName(LOBBY_SCENE)) 
         {   
             nextScene = null;
         }
@@ -63,21 +69,37 @@ public class sceneManagerScript : MonoBehaviour {
 
             nextScene = NeedPlaySelScene[0];
             char1Players = null;
-            char1Players = null;
-            char1Players = null;
-            char1Players = null;
-            SceneManager.LoadScene("playerLobby", LoadSceneMode.Single); //was PlayerSelect
+            char2Players = null;
+            char3Players = null;
+            char4Players = null;
+            LoadLobby(); //was PlayerSelect
         }
 	}
+
+    public void LoadGame()
+    {
+        Load(GAME_SCENE);
+    }
+
+    public void LoadMainMenu()
+    {
+        ResetPlayerList();
+        Load(MAIN_MENU_SCENE);
+    }
+
+    public void LoadLobby()
+    {
+        Load(LOBBY_SCENE, LoadSceneMode.Single);
+    }
 
     public void LoadScene(string myScene) {
         if (NeedPlaySelScene.Contains(myScene))     //if scene needs player select, go to that and set it to be next scene
         {
             nextScene = myScene;
-            SceneManager.LoadScene(playSelScene, LoadSceneMode.Single);
+            Load(LOBBY_SCENE, LoadSceneMode.Single);
         } else
         {
-            SceneManager.LoadScene(myScene, LoadSceneMode.Single);
+            Load(myScene, LoadSceneMode.Single);
         }
     }
 
@@ -92,7 +114,43 @@ public class sceneManagerScript : MonoBehaviour {
         char3Players = c3Array;
         char4Players = c4Array;
 
-        SceneManager.LoadScene(nextScene, LoadSceneMode.Single);
+        Load(nextScene, LoadSceneMode.Single);
+    }
+    
+    private void Load(string scene, LoadSceneMode mode = LoadSceneMode.Single)
+    {
+        if (isLoading)
+        {
+            Debug.LogError("Cannot load two scenes at once");
+        }
+        else if (NeedLoadScreen.Contains(scene))
+        {
+            StartCoroutine(LoadScreen(scene, mode));
+        }
+        else
+        {
+            SceneManager.LoadScene(scene, mode);
+        }
+    }
+
+    private bool isLoading = false;
+    private IEnumerator LoadScreen(string scene, LoadSceneMode mode)
+    {
+        isLoading = true;
+        AsyncOperation loadLS = SceneManager.LoadSceneAsync(LOAD_SCENE, LoadSceneMode.Single);
+        loadLS.allowSceneActivation = true;
+        while (!loadLS.isDone)
+        {
+            yield return null;
+        }
+        
+        AsyncOperation loadScene = SceneManager.LoadSceneAsync(scene, mode);
+        loadScene.allowSceneActivation = true;
+        while (!loadScene.isDone)
+        {
+            yield return null;
+        }
+        isLoading = false;
     }
 
     //Load Main Game Scene Functions
