@@ -54,7 +54,16 @@ public class Util
     /// <returns>True IFF the object is a vehicle or is parented to one</returns>
     public static bool IsVehicleRecursive(GameObject gameObject)
     {
-        return gameObject != null && (IsVehicle(gameObject) || IsVehicleRecursive(Parent(gameObject)));
+        return GetVehicleRecursive(gameObject) != null;
+    }
+
+    public static GameObject GetVehicleRecursive(GameObject gameObject)
+    {
+        if(gameObject == null || IsVehicle(gameObject))
+        {
+            return gameObject;
+        }
+        return GetVehicleRecursive(Parent(gameObject));
     }
 
     /// <summary>

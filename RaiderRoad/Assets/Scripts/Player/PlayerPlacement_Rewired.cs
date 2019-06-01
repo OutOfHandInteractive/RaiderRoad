@@ -399,14 +399,20 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
     #endregion
 
     #region Combat Functions
+    private void ObjectHitParticles(Vector3 position, Transform parent)
+    {
+        Instantiate(objHitParticle, position, Quaternion.identity, parent);
+    }
+
     /// <summary>
     /// A specific subset of attack that handles hitting multiple vehicle parts
     /// </summary>
     private bool AttackVehicleParts() {
         foreach(GameObject part in destructableParts) {
             if(part!=null) {
-                Instantiate(objHitParticle, transform.position, Quaternion.identity); //temporary solution, also placed slightly to left for some reason
-                if (part.GetComponent<DestructiblePart>().TakeDamage(10) <= 0) {	// MAGIC NUMBER ALERT
+                //temporary solution, also placed slightly to left for some reason
+                ObjectHitParticles(transform.position, part.transform);
+                if (part.GetComponent<DestructiblePart>().TakeDamage(Constants.DESTRUCTABLE_PART_DAMAGE_PER_HIT) <= 0) {
                     destructableParts.Remove(part);
                 }
                 return true;
@@ -444,12 +450,12 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
 
                 if (item.CompareTag("Weapon")) {
                     item.GetComponent<Weapon>().Damage(damage, gameObject.transform.parent.gameObject);
-                    Instantiate(objHitParticle, item.transform.position, Quaternion.identity);
+                    ObjectHitParticles(item.transform.position, item.transform);
                     hit = true;
                 }
                 else if ((construct = item.GetComponent<Constructable>()) != null) {
                     construct.Damage(damage);
-                    Instantiate(objHitParticle, item.transform.position, Quaternion.identity, item.GetComponent<Constructable>().myNode.transform);
+                    ObjectHitParticles(item.transform.position, item.GetComponent<Constructable>().myNode.transform);
                     hit = true;
                 }
                 else if (item.CompareTag("Enemy")) {
