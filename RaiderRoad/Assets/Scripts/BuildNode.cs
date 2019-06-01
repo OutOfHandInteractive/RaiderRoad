@@ -66,7 +66,8 @@ public class BuildNode : AbstractBuildNode {
             item.GetComponent<Wall>().myNode = gameObject;
 
 			item.GetComponent<Constructable>().PlaySound_Place();
-		}
+            item.GetComponent<Constructable>().BuildParticle();
+        }
         else if(objectToPlace.tag == "Weapon" && canPlaceWeapon)
         {
             Vector3 dir = gameObject.transform.forward;
@@ -84,6 +85,7 @@ public class BuildNode : AbstractBuildNode {
             item.GetComponent<Weapon>().myNode = gameObject;
 
 			item.GetComponent<Constructable>().PlaySound_Place();
+            item.GetComponent<Constructable>().BuildParticle();
 		}
     }
 

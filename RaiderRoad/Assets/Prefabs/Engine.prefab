@@ -68,6 +68,8 @@ MonoBehaviour:
   placeSound: {fileID: 8300000, guid: a4d2ab2af4fba274e96c5ee68fb4523c, type: 3}
   objectBreakParticles: {fileID: 6212661251598392329, guid: eb78ab39b81a90648939e23da22dc49d,
     type: 3}
+  BuildParticles: {fileID: 7729407020736155922, guid: 8d653606795c44f4f8fe704509834056,
+    type: 3}
   durability: 100
   currDur: -1
   myHealthTrans: {fileID: 8587845766641221177}
@@ -234,14 +236,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2300000, guid: f023dea3953393e458664b47b85e31b1, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 85f846fed8362a848a2e442ec62f4f2a, type: 2}
     - target: {fileID: 2300002, guid: f023dea3953393e458664b47b85e31b1, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 4515acf6b9a4bc6458bfd7165b48dcf5, type: 2}
+    - target: {fileID: 2300000, guid: f023dea3953393e458664b47b85e31b1, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 85f846fed8362a848a2e442ec62f4f2a, type: 2}
     - target: {fileID: 2300004, guid: f023dea3953393e458664b47b85e31b1, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
