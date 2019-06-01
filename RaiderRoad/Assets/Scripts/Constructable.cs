@@ -48,6 +48,7 @@ public abstract class Constructable : MonoBehaviour
 
 	// -------------- nonpublic variables ----------------
 	[SerializeField] protected ParticleSystem objectBreakParticles;
+    [SerializeField] protected ParticleSystem BuildParticles;
 
     // Use this for initialization
     void Start()
@@ -108,6 +109,11 @@ public abstract class Constructable : MonoBehaviour
     public virtual void OnDrop(GameObject item)
     {
         // Do nothing by default
+    }
+
+    public void BuildParticle()
+    {
+        Instantiate(BuildParticles, transform.position, Quaternion.identity, myNode.transform);
     }
 
     protected virtual void BreakParticles()
