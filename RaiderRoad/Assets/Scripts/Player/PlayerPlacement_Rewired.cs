@@ -588,6 +588,7 @@ public class PlayerPlacement_Rewired : MonoBehaviour {
             {
                 //Debug.Log("Trap node added");
                 engineNodes.Add(other.gameObject);
+                //g.EngineLoss(); - END TIMER RELIC
                 if (buildMode) other.GetComponent<PoiNode>().Show(heldItem); //if player is in build mode, activate show engine in the build node script
             }
         }

@@ -90,6 +90,7 @@ public class GameManager : MonoBehaviour {
     public void EngineLoss() {
         GameObject[] engines = GameObject.FindGameObjectsWithTag("Engine");
         if(engines.Length <= 0) {
+            /*
             if (!timerRunning)
             {
                 endTimer = endCountdownTime;
@@ -100,7 +101,8 @@ public class GameManager : MonoBehaviour {
                 timerRunning = false;
                 StopCoroutine(myCour);
                 myCountdownText.text = "";
-            }
+            }*/
+            LossGame();
         }
     }
 
@@ -131,7 +133,7 @@ public class GameManager : MonoBehaviour {
     }
 
 
-
+    /* END TIMER RELIC
     IEnumerator CountDownToEnd()
     {
         timerRunning = true;
@@ -139,9 +141,9 @@ public class GameManager : MonoBehaviour {
         {
             endTimer -= Time.deltaTime;
 
-            myCountdownText.text = Mathf.Ceil(myTimer).ToString();
+            myCountdownText.text = Mathf.Ceil(endTimer).ToString();
 
-            if (myTimer <= 0f)
+            if (endTimer <= 0f)
             {
                 LossGame();
             }
@@ -150,6 +152,7 @@ public class GameManager : MonoBehaviour {
         }
         timerRunning = false;
     }
+     */
     #endregion
 
     #region Game State Helpers
