@@ -13,6 +13,7 @@ public class Engine : DurableConstructGen<PoiNode> {
     public Transform myHealthTrans;
     private Vector3 myHealthScale;
     public bool isOccupied = false;
+    public ParticleSystem sparks;
     /// <summary>
     /// Start() hook that just initializes the health bar
     /// </summary>
@@ -39,6 +40,7 @@ public class Engine : DurableConstructGen<PoiNode> {
     public void TakeRVDamage(float damage)
     {
         DurabilityDamage(damage);
+        sparks.Play(true);
         //Debug.Log("Engine Health" + currDur);
         UpdateHealthBar();
 
