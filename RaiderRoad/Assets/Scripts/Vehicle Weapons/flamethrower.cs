@@ -252,6 +252,7 @@ public class flamethrower : Interactable {
     public override void Leave() {
         if (user != null)
         {
+            StopFiring();
             cooldownTimer = cooldown;
             user.unsetInteractingFlag();
             inUse = false;

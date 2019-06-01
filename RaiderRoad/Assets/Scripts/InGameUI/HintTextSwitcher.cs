@@ -10,7 +10,6 @@ public class HintTextSwitcher : MonoBehaviour
     public List<string> hints;
 
     private int index = 0;
-    private float changeTime = 0f;
     private List<string> randomized;
 
     private Text textComp;
@@ -37,16 +36,12 @@ public class HintTextSwitcher : MonoBehaviour
 
     // Update is called once per frame
     IEnumerator SwitchText() {
-		while (true) {
-			changeTime += Time.deltaTime;
+		while (true)
+        {
+            textComp.text = randomized[index];
+            index = (index + 1) % randomized.Count;
 
-			if (changeTime >= readTime) {
-				index = (index + 1) % randomized.Count;
-				changeTime = 0;
-				textComp.text = randomized[index];
-			}
-
-			yield return null;
+            yield return new WaitForSeconds(readTime);
 		}
     }
 }

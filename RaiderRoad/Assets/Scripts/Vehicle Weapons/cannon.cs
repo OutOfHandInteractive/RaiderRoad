@@ -173,7 +173,8 @@ public class cannon : Interactable {
 
 		// wait time so shot happens at right point in animation
 		yield return new WaitForSecondsRealtime(7f / 24f);
-        
+
+        GetComponent<AudioSource>().Play();
 		proj = Instantiate(munitions.gameObject, barrel.transform.position, Quaternion.identity);
 		proj.GetComponent<cannonball>().launch(reticule.transform.position, barrel.transform.position, weapon.transform.forward);
 		GameObject tempFx = Instantiate(smokeBurst, barrel.transform.position, Quaternion.identity);

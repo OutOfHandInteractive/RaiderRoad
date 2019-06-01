@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using System;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// Singleton class for communication between Raiders and Vehicles.
@@ -8,6 +9,11 @@ using System;
 public class Radio
 {
     private static Radio instance = new Radio();
+
+    private static void Reset()
+    {
+        instance = new Radio();
+    }
 
     /// <summary>
     /// Gets the static Radio instance
@@ -18,15 +24,25 @@ public class Radio
         return instance;
     }
 
-    private Radio() { }
+    private Radio() {
+        SceneManager.sceneUnloaded += SceneManager_sceneUnloaded;
+    }
+
+    private void SceneManager_sceneUnloaded(Scene scene)
+    {
+        if(scene.name == sceneManagerScript.GAME_SCENE)
+        {
+            Reset();
+        }
+    }
 
     /*
      * Evacuation of Mooks onto escape vehicles
      */
-    private static List<StayVehicle> evacVehicles = new List<StayVehicle>();
-    private static Queue<EscapeEnemy> mooksForEvac = new Queue<EscapeEnemy>();
+    private List<StayVehicle> evacVehicles = new List<StayVehicle>();
+    private Queue<EscapeEnemy> mooksForEvac = new Queue<EscapeEnemy>();
 
-    private static List<PlayerController_Rewired> targets = new List<PlayerController_Rewired>();
+    private List<PlayerController_Rewired> targets = new List<PlayerController_Rewired>();
 
     private List<GameObject> vehicles = new List<GameObject>();
 
