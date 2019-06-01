@@ -33,6 +33,7 @@ public class CharacterAudio : AudioManager
 	// movement
 	[SerializeField] private float walkVolume;
 	[SerializeField] private List<AudioClip> walkSounds;
+	[SerializeField] private ParticleSystem walkParticles;
 
 
 	#region Sound Functions
@@ -82,8 +83,11 @@ public class CharacterAudio : AudioManager
 	private IEnumerator PlaySound_Walk_Continuous() {
 		while (true) {
 			PlaySound_Walk();
+			walkParticles.Play();
 
-			yield return new WaitForSeconds(timeBetweenSteps);
+			yield return new WaitForSeconds(timeBetweenSteps/2);
+			walkParticles.Play();
+			yield return new WaitForSeconds(timeBetweenSteps / 2);
 		}
 	}
 	#endregion
