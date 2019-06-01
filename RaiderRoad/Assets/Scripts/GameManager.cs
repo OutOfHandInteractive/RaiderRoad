@@ -16,6 +16,9 @@ public class GameManager : MonoBehaviour {
 	public bool gameOver = false;
 	public float FinishTime;
 	public float markerBarOffset;
+    public Text myCountdownText;
+    public float endCountdownTime;
+
 
 	// ----------------- Nonpublic Variables --------------------
 	private RectTransform RVMarker;
@@ -23,6 +26,11 @@ public class GameManager : MonoBehaviour {
     private float startYpos;
     private float finishYPos;
     private float myTimer;
+    private float endTimer;
+    private bool timerDone = false;
+    private bool timerRunning = false;
+    private IEnumerator myCour;
+
     
     private List<Transform> playersInScene;
     private GameObject[] playerList;
@@ -46,6 +54,7 @@ public class GameManager : MonoBehaviour {
         //timeElapsed = 0f;
         gameOver = false;
         myTimer = FinishTime;
+        myCour = CountDownToEnd();
 
         playerList = GameObject.FindGameObjectsWithTag("Player");
         startYpos = MyUICanvas.transform.Find("StartMarker").GetComponent<RectTransform>().anchoredPosition.y;
@@ -81,7 +90,17 @@ public class GameManager : MonoBehaviour {
     public void EngineLoss() {
         GameObject[] engines = GameObject.FindGameObjectsWithTag("Engine");
         if(engines.Length <= 0) {
-            LossGame();
+            if (!timerRunning)
+            {
+                endTimer = endCountdownTime;
+                timerRunning = true;
+                StartCoroutine(myCour);
+            }
+            else{
+                timerRunning = false;
+                StopCoroutine(myCour);
+                myCountdownText.text = "";
+            }
         }
     }
 
@@ -109,6 +128,27 @@ public class GameManager : MonoBehaviour {
     public void restartMenu() {
         gameOver = false;
         myTimer = FinishTime;
+    }
+
+
+
+    IEnumerator CountDownToEnd()
+    {
+        timerRunning = true;
+        while (!timerDone)
+        {
+            endTimer -= Time.deltaTime;
+
+            myCountdownText.text = Mathf.Ceil(myTimer).ToString();
+
+            if (myTimer <= 0f)
+            {
+                LossGame();
+            }
+
+            yield return null;
+        }
+        timerRunning = false;
     }
     #endregion
 
