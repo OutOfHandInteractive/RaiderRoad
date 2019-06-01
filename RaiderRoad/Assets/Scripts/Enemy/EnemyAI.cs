@@ -122,9 +122,19 @@ public abstract class EnemyAI : MonoBehaviour
     /// <param name="target">THe transform to move towards</param>
     public void MoveToward(Transform target)
     {
+        MoveToward(target.position);
+    }
+
+    public void MoveToward(Vector3 target)
+    {
         float movement = speed * Time.deltaTime;
         gameObject.transform.LookAt(target);
-        gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, target.position, movement);
+        gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, target, movement);
+    }
+
+    public bool OnVehicle()
+    {
+        return Util.IsVehicleRecursive(gameObject);
     }
 
     /// <summary>

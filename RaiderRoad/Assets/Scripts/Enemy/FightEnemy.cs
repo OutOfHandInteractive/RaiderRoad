@@ -66,13 +66,8 @@ public class FightEnemy : EnemyAI {
         GameObject[] vehicles = GameObject.FindGameObjectsWithTag("eVehicle");
         float movement = speed * Time.deltaTime;
         //If doesnt exist or if player has been hit go into escape state
-        if(cObject.transform.parent != null && cObject.transform.parent.tag == "eVehicle")
-        {
-            Vector3 targetPosition = new Vector3(player.transform.position.x, cObject.transform.position.y, player.transform.position.z);
-            cObject.transform.LookAt(targetPosition);
-            cObject.transform.position = Vector3.MoveTowards(cObject.transform.position, player.transform.position, movement);
-        }
-        else if ((!player /*| playerDamage >= 4f*/ || cObject.GetComponent<StatefulEnemyAI>().currentHealth <= 25f) 
+        
+        if ((!player /*| playerDamage >= 4f*/ || cObject.GetComponent<StatefulEnemyAI>().currentHealth <= 25f) 
 			&& eVehicle != null && cObject.transform.parent.tag != "eVehicle")
         {
             Debug.Log("reached");
@@ -83,8 +78,15 @@ public class FightEnemy : EnemyAI {
             //Look at player and move towards them
             agent.speed = speed;
             Vector3 targetPosition = new Vector3(player.transform.position.x, cObject.transform.position.y, player.transform.position.z);
-            cObject.transform.LookAt(targetPosition);
-            agent.SetDestination(targetPosition);
+            if (OnVehicle())
+            {
+                MoveToward(targetPosition);
+            }
+            else
+            {
+                cObject.transform.LookAt(targetPosition);
+                agent.SetDestination(targetPosition);
+            }
             cObject.GetComponent<StatefulEnemyAI>().getAnimator().SetBool("Running", true);
             //cObject.transform.position = Vector3.MoveTowards(cObject.transform.position, player.transform.position, movement);
 
