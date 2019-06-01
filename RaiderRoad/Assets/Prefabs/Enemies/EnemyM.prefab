@@ -157,7 +157,7 @@ MonoBehaviour:
   destroyIcon: {fileID: 4756542578543570150}
   myAni: {fileID: 8518828680615800620}
   deathFx: {fileID: 4465239363720423492, guid: 50b163a5767273041bd372073a53cbe6, type: 3}
-  deathFXSpawnLocation: {fileID: 0}
+  deathFXSpawnLocation: {fileID: 8518828680608563530}
 --- !u!114 &6508023441542975106
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1020,6 +1020,15 @@ PrefabInstance:
       propertyPath: m_Name
       value: HooliganOneMaterial
       objectReference: {fileID: 0}
+    - target: {fileID: 9500000, guid: e635ccc8c47562b49b98ed95ab0b4b85, type: 3}
+      propertyPath: m_Avatar
+      value: 
+      objectReference: {fileID: 9000000, guid: a4ac68e3bc620ef4aa376fd0e57bbe9c, type: 3}
+    - target: {fileID: 9500000, guid: e635ccc8c47562b49b98ed95ab0b4b85, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 22100000, guid: 59ec63c7de948b145ba1f672b3e8977f,
+        type: 2}
     - target: {fileID: 400012, guid: e635ccc8c47562b49b98ed95ab0b4b85, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1064,15 +1073,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 9500000, guid: e635ccc8c47562b49b98ed95ab0b4b85, type: 3}
-      propertyPath: m_Avatar
-      value: 
-      objectReference: {fileID: 9000000, guid: a4ac68e3bc620ef4aa376fd0e57bbe9c, type: 3}
-    - target: {fileID: 9500000, guid: e635ccc8c47562b49b98ed95ab0b4b85, type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 22100000, guid: 59ec63c7de948b145ba1f672b3e8977f,
-        type: 2}
     - target: {fileID: 13700000, guid: e635ccc8c47562b49b98ed95ab0b4b85, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -1136,6 +1136,12 @@ GameObject:
 --- !u!4 &8518828680608563368 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400100, guid: e635ccc8c47562b49b98ed95ab0b4b85,
+    type: 3}
+  m_PrefabInstance: {fileID: 8518828680608438860}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &8518828680608563530 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 400134, guid: e635ccc8c47562b49b98ed95ab0b4b85,
     type: 3}
   m_PrefabInstance: {fileID: 8518828680608438860}
   m_PrefabAsset: {fileID: 0}
