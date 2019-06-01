@@ -112,7 +112,14 @@ public abstract class Constructable : MonoBehaviour
 
     protected virtual void BreakParticles()
     {
-        Instantiate(objectBreakParticles, transform.position, Quaternion.identity, myNode.transform);
+        if (myNode != null)
+        {
+            Instantiate(objectBreakParticles, transform.position, Quaternion.identity, myNode.transform);
+        }
+        else
+        {
+            Instantiate(objectBreakParticles, transform.position, Quaternion.identity);
+        }
     }
 
     private void spawnDrop()
