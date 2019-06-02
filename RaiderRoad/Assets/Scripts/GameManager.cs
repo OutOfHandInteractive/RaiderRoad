@@ -54,7 +54,7 @@ public class GameManager : MonoBehaviour {
         //timeElapsed = 0f;
         gameOver = false;
         myTimer = FinishTime;
-        myCour = CountDownToEnd();
+        //myCour = CountDownToEnd();
 
         playerList = GameObject.FindGameObjectsWithTag("Player");
         startYpos = MyUICanvas.transform.Find("StartMarker").GetComponent<RectTransform>().anchoredPosition.y;
@@ -193,6 +193,11 @@ public class GameManager : MonoBehaviour {
 	public float GetGameTime() {
 		return FinishTime - myTimer;
 	}
+
+    public List<Transform> GetPlayers()
+    {
+        return playersInScene;
+    }
 
 	public void SetPlayers(List<Transform> playersList) {
 		playersInScene = playersList;

@@ -257,9 +257,16 @@ public class EventManager : MonoBehaviour {
 	/// <returns>Current difficulty rating</returns>
     IEnumerator difficultyManager() {
         while (true) {
-            difficultyRating = (int)Mathf.Ceil(calculateDifficultyRating() * difficultyMultiplier[g.GetPlayerCount()-1]);
+            if(g.GetPlayers() != null)
+            {
+                difficultyRating = (int)Mathf.Ceil(calculateDifficultyRating() * difficultyMultiplier[g.GetPlayerCount() - 1]);
 
-            yield return new WaitForSecondsRealtime(TimeBetweenDifficultyAdjustment);
+                yield return new WaitForSecondsRealtime(TimeBetweenDifficultyAdjustment);
+            }
+            else
+            {
+                yield return null;
+            }
         }
     }
 
