@@ -9,7 +9,7 @@ public class PlayerSpawner : MonoBehaviour {
     private sceneManagerScript sceneManage;
 
     // Use this for initialization
-    void Awake () {
+    void Start () {
         sceneManage = sceneManagerScript.Instance;
 
         //Debug.Log(SceneRV.name);
