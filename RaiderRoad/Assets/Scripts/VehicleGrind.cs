@@ -40,6 +40,7 @@ public class VehicleGrind : MonoBehaviour
                 sparks.GetComponent<ParticleSystem>().Play();
                 //Instantiate(sparks, place, Quaternion.Euler(new Vector3(-90,0,0)), other.gameObject.transform);
             }
+            other.gameObject.GetComponentInParent<VehicleAI>().isGrinding = true;
             vehicles.Add(other.gameObject.GetComponentInParent<VehicleAI>());
         }
     }
@@ -61,6 +62,7 @@ public class VehicleGrind : MonoBehaviour
                 //Instantiate(sparks, place, Quaternion.Euler(new Vector3(-90,0,0)), other.gameObject.transform);
             }
             Debug.Log("removed v from grind Trigger");
+            other.gameObject.GetComponentInParent<VehicleAI>().isGrinding = false;
             vehicles.Remove(other.gameObject.GetComponentInParent<VehicleAI>());
         }
     }

@@ -46,6 +46,7 @@ public class VehicleAI : MonoBehaviour {
 
     public bool testDeath = false;
     public bool isRammed = false;
+    public bool isGrinding = false;
     private float stayTime = 0;
     private float delayTime = 0;
 
@@ -269,6 +270,11 @@ public class VehicleAI : MonoBehaviour {
         {
             isRammed = true;
         }
+        if (collision.gameObject.tag == "eVehicle" && isGrinding)
+        {
+            Die();
+        }
+
     }
 
     private void OnCollisionStay(Collision collision)
