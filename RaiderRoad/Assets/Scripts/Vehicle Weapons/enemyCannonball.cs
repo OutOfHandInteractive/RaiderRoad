@@ -8,6 +8,7 @@ using UnityEngine;
 public class enemyCannonball : AbstractCannonball
 {    
     public float cannonDamage = 2f;
+    public float itemDamage = 2f;
     public float splashRadius = 1.5f;
     public Renderer warning;
     public float upTime;
@@ -69,7 +70,7 @@ public class enemyCannonball : AbstractCannonball
 
                 RaycastHit hit;
                 Vector3 dir = (target.transform.position - transform.position).normalized;
-                if (Physics.Raycast(transform.position, dir, out hit, splashRadius, layerMask))
+                if (Physics.Raycast(transform.position, dir, out hit, splashRadius, layerMask, QueryTriggerInteraction.Ignore))
                 {
                     Debug.Log(hit.collider + " and " + target);
                     if (hit.collider.gameObject == target.gameObject)
@@ -80,21 +81,26 @@ public class enemyCannonball : AbstractCannonball
             }
             foreach(GameObject target in hits)
             {
-                float damage = cannonDamage * (1 - (Vector3.Distance(transform.position, target.transform.position) / splashRadius));
+                Vector3 targetPos = target.transform.position;
                 if (Util.isPlayer(target))
                 {
-                    target.GetComponent<PlayerController_Rewired>().takeDamage(damage);
+                    target.GetComponent<PlayerController_Rewired>().takeDamage(DamageRolloff(targetPos, cannonDamage));
                 }
                 else
                 {
                     Constructable constr = target.GetComponent<Constructable>();
                     if(constr != null)
                     {
-                        constr.Damage(damage);
+                        constr.Damage(DamageRolloff(targetPos, itemDamage));
                     }
                 }
             }
             Explode();
         }
+    }
+
+    private float DamageRolloff(Vector3 targetPos, float maxDamage)
+    {
+        return maxDamage * (1 - (Vector3.Distance(transform.position, targetPos) / splashRadius));
     }
 }
