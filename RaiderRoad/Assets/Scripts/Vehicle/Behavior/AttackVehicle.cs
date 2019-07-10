@@ -80,7 +80,7 @@ public class AttackVehicle : MonoBehaviour{
             //cEnemy.SetDestination(attackPosition.transform.position);
             //StartCoroutine(Knockback());
             Debug.Log("STAY STATE ACTIVE");
-            GameObject.FindGameObjectWithTag("RV").GetComponent<rvHealth>().damagePOI(20f);
+            //GameObject.FindGameObjectWithTag("RV").GetComponent<rvHealth>().damagePOI(20f);
             cObject.GetComponent<VehicleAI>().EnterStay(attackPoints);
             hasHit = true;
         }
