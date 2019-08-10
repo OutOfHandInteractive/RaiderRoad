@@ -33,6 +33,8 @@ public class sceneManagerScript : MonoBehaviour {
     public List<Transform> playersInScene;
     [SerializeField] private int sharedWallCount = 12;
 
+    public bool PlayOpenAnim = false;
+
     void Awake() {
 		// Have playlist persist across scenes.
 		if (Instance == null) {
@@ -291,4 +293,11 @@ public class sceneManagerScript : MonoBehaviour {
         }
         PlayerParent.GetComponent<PlayerController_Rewired>().myMat = InstMat;
     }
+
+
+    public void SetOpenAnim(bool PlayBool)
+    {
+        PlayOpenAnim = PlayBool;
+    }
+
 }

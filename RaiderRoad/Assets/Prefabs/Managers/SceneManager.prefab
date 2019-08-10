@@ -45,6 +45,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NeedPlaySelScene:
   - EnemyAI
+  NeedLoadScreen:
+  - EnemyAI
+  - playerLobby
+  - MainMenu
   character1: {fileID: 4914171367738596, guid: 51b5e7053239d5248984cbc45edb9802, type: 3}
   character2: {fileID: 4914171367738596, guid: 03763bb978d6fb24089f4c5bf6c8c1a4, type: 3}
   character3: {fileID: 4914171367738596, guid: 2721ab5305266f346b565de76f6ea535, type: 3}
@@ -60,3 +64,5 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 171abce4ccedb09409132d41cb171e2e, type: 3}
   - {fileID: 2800000, guid: 568a7c42def54584894f1fc9e016f1a7, type: 3}
   playersInScene: []
+  sharedWallCount: 12
+  PlayOpenAnim: 0

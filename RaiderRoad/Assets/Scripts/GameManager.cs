@@ -19,7 +19,6 @@ public class GameManager : MonoBehaviour {
     public Text myCountdownText;
     public float endCountdownTime;
 
-
 	// ----------------- Nonpublic Variables --------------------
 	private RectTransform RVMarker;
     private Image dottedLine;

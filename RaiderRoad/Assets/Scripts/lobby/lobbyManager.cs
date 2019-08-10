@@ -64,6 +64,7 @@ public class lobbyManager : MonoBehaviour
         if (!sceneChanging)
         {
             sceneManage.OverrideNextScene("EnemyAI"); //Temporary Fix, Scene flow needs overhaul
+            sceneManage.SetOpenAnim(true);
             sceneManage.PlaySelDone(chara1players.ToArray(), chara2players.ToArray(), chara3players.ToArray(), chara4players.ToArray());
             sceneChanging = true;
         }
