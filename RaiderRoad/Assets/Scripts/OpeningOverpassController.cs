@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 public class OpeningOverpassController : MonoBehaviour
 {
@@ -15,6 +16,10 @@ public class OpeningOverpassController : MonoBehaviour
     [SerializeField] private GameObject RvRoofVFX;
     private int oldCullMask;
     [SerializeField] private CameraShake CameraShakeScr;
+
+    private AudioSource MyAudioSource;
+    [SerializeField] private GameObject StartCameraAngle;
+    [SerializeField] private GameObject MainCameraAngle;
 
     // Start is called before the first frame update
     void Start()
@@ -35,7 +40,11 @@ public class OpeningOverpassController : MonoBehaviour
             oldCullMask = Camera.main.cullingMask;
             Camera.main.cullingMask &= ~(1 << LayerMask.NameToLayer("UI"));
 
+            MyAudioSource = GetComponent<AudioSource>();
+
         } else {
+            MainCameraAngle.SetActive(true);
+            StartCameraAngle.SetActive(false);
             Destroy(gameObject);
         }
     }
@@ -64,15 +73,26 @@ public class OpeningOverpassController : MonoBehaviour
             Instantiate(RvRoofVFX, RvRoofTrans.position, RvRoofVFX.transform.rotation);
             CameraShakeScr.Shake(.9f, 12f, 6f);
 
-            //re-enable input
-            g.GetComponent<GameManager>().pauseInput = false;
+            MyAudioSource.Play();
 
-            //Show UI in camera
-            Camera.main.cullingMask = oldCullMask;
-
-            //destroy objects
-            Destroy(RvRoofTrans.gameObject, 8);
-            Destroy(gameObject, 8);
+            StartCoroutine(TransitionToGame());
         }
     }
+
+    IEnumerator TransitionToGame()
+    {
+        yield return new WaitForSeconds(0.9f);
+        MainCameraAngle.SetActive(true);
+        yield return new WaitForSeconds(1.7f);
+        //re-enable input
+        g.GetComponent<GameManager>().pauseInput = false;
+
+        //Show UI in camera
+        Camera.main.cullingMask = oldCullMask;
+
+        //destroy objects
+        Destroy(RvRoofTrans.gameObject, 8);
+        Destroy(gameObject, 8);
+    }
+
 }
