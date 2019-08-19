@@ -92,6 +92,7 @@ public class VehicleAI : MonoBehaviour {
         Debug.Log(side);
         //Start wander state
         transform.position = new Vector3(transform.position.x, .7f, transform.position.z);
+        Debug.Log("starting pos: " + transform.position);
         EnterWait();
 
         vCamShake = GameObject.FindGameObjectWithTag("MainVCam").GetComponent<CameraShake>();
