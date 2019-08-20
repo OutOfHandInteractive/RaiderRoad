@@ -19,7 +19,7 @@ public class PitStopRider : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(GameObject.FindGameObjectsWithTag(Constants.PLAYER_TAG).Length > 0 && ai.GetState() != StatefulEnemyAI.State.Fight)
+        if(ai.GetState() != StatefulEnemyAI.State.Fight && GameObject.FindGameObjectsWithTag(Constants.PLAYER_TAG).Length > 0)
         {
             ai.EnterFight();
         }
