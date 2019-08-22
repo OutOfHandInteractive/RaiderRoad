@@ -10,13 +10,13 @@ public class JumpEnemy : EnemyAI
     protected bool hasJumped = false;
     protected VehicleAI.Side cSide;
     protected int action;
-    protected NavMeshAgent agent;
+    //protected NavMeshAgent agent;
     protected VehicleAI vehicle;
 
-    public virtual void StartJump(GameObject enemy, Rigidbody rb, VehicleAI.Side side, NavMeshAgent _agent, int stateChance, VehicleAI _vehicle)
+    public virtual void StartJump(GameObject enemy, Rigidbody rb, VehicleAI.Side side, int stateChance, VehicleAI _vehicle)
     {
         cObject = enemy;
-        agent = _agent;
+        //agent = _agent;
         cRb = rb;
         cSide = side;
         action = stateChance;

@@ -27,7 +27,7 @@ public class StatefulEnemyAI : EnemyAI {
 
     //Enemy variables
     private Collider player;
-    protected NavMeshAgent agent;
+    //protected NavMeshAgent agent;
     private GameObject enemy;
     [SerializeField] private State currentState;
     private Rigidbody rb;
@@ -81,7 +81,7 @@ public class StatefulEnemyAI : EnemyAI {
         damaged = false;
 
         enemy = gameObject;
-        agent = GetComponent<NavMeshAgent>();
+        //agent = GetComponent<NavMeshAgent>();
         rb = GetComponent<Rigidbody>();
         wait = enemy.AddComponent<WaitEnemy>();
         board = enemy.AddComponent<BoardEnemy>();
@@ -253,7 +253,7 @@ public class StatefulEnemyAI : EnemyAI {
     /// </summary>
     public void EnterBoard() {
         currentState = State.Board;
-        board.StartJump(enemy, rb, side, agent, stateChance, vehicle);
+        board.StartJump(enemy, rb, side, stateChance, vehicle);
         enemy.GetComponent<Renderer>().material.color = Color.green;
     }
 
@@ -288,7 +288,7 @@ public class StatefulEnemyAI : EnemyAI {
             myAni.SetBool("Sneaking", true);
         }
 
-		destroy.StartDestroy(enemy, agent, destroyIcon);
+		destroy.StartDestroy(enemy, destroyIcon);
         enemy.GetComponent<Renderer>().material.color = Color.yellow;
     }
 
@@ -297,7 +297,7 @@ public class StatefulEnemyAI : EnemyAI {
     /// </summary>
     public void EnterFight() {
         currentState = State.Fight;
-        fight.StartFight(enemy, vehicle, agent, fightIcon);
+        fight.StartFight(enemy, vehicle, fightIcon);
         enemy.GetComponent<Renderer>().material.color = Color.red;
     }
 
@@ -306,7 +306,7 @@ public class StatefulEnemyAI : EnemyAI {
     /// </summary>
     public void EnterEscape() {
         currentState = State.Escape;
-		escape.StartJump(enemy, rb, side, agent, stateChance, vehicle);
+		escape.StartJump(enemy, rb, side, stateChance, vehicle);
         enemy.GetComponent<Renderer>().material.color = Color.blue;
     }
 
@@ -318,7 +318,7 @@ public class StatefulEnemyAI : EnemyAI {
 		if (GetComponentInChildren<Canvas>()) {
 			GetComponentInChildren<Canvas>().gameObject.SetActive(false);
 		}
-		GetComponent<NavMeshAgent>().enabled = false;
+		//GetComponent<NavMeshAgent>().enabled = false;
 		myAni.SetBool("Death", true);
     }
 
@@ -362,13 +362,13 @@ public class StatefulEnemyAI : EnemyAI {
 	// ----------------------------- Destroy ----------------------------------
 	IEnumerator DestroyWall(Collider other) {
 		isDestroying = true;
-		agent.speed = 0;
+		//agent.speed = 0;
         myAni.SetTrigger("StartBreak"); //visual of enemy breaking object
 
         yield return new WaitForSeconds(myAni.GetCurrentAnimatorStateInfo(0).length);
         increaseIconSize();
         yield return new WaitForSeconds(wallDestroyTime);
-		agent.speed = speed;
+		//agent.speed = speed;
 
 		if (other) {	// make sure target is still there
 			other.gameObject.GetComponent<Wall>().Damage(100f);
@@ -388,11 +388,11 @@ public class StatefulEnemyAI : EnemyAI {
 	IEnumerator DestroyBattery(Collider other) {
 		isDestroying = true;
         myAni.SetTrigger("StartBreak"); //visual of enemy breaking object
-        agent.speed = 0;
+        //agent.speed = 0;
         yield return new WaitForSeconds(myAni.GetCurrentAnimatorStateInfo(0).length);
         increaseIconSize();
         yield return new WaitForSeconds(batteryDestroyTime);
-        agent.speed = speed;
+        //agent.speed = speed;
 		if (other) {
 			other.gameObject.GetComponent<Engine>().Damage(100f);
 
@@ -439,7 +439,7 @@ public class StatefulEnemyAI : EnemyAI {
 
     public void ExitDestroyState() {
 		if (isDestroying) {
-            agent.speed = speed;
+            //agent.speed = speed;
             StopCoroutine("DestroyWall");
 			StopCoroutine("DestroyBattery");
 			myAni.SetTrigger("InterruptAction");
@@ -522,7 +522,7 @@ public class StatefulEnemyAI : EnemyAI {
         //Check if you hit the player and do action
         if(other.gameObject.tag == "RV") {
             transform.parent = other.gameObject.transform;
-            agent.enabled = true;
+            //agent.enabled = true;
         }
 
         if (other.gameObject.tag == "Player" && currentState == State.Fight) {
@@ -553,12 +553,12 @@ public class StatefulEnemyAI : EnemyAI {
         }
 
         if (other.gameObject.tag == "Wall" && currentState == State.Destroy) {
-            agent.speed = 0;
+            //agent.speed = 0;
             StartCoroutine("DestroyWall", other);
         }
 
         if (other.gameObject.tag == "Engine" && currentState == State.Destroy) {
-            agent.speed = 0;
+            //agent.speed = 0;
             StartCoroutine("DestroyBattery", other);
         }
     }

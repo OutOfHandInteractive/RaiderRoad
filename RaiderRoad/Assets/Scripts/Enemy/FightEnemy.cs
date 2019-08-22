@@ -20,7 +20,7 @@ public class FightEnemy : EnemyAI {
     private GameObject[] players;
     private GameObject player;
     private GameObject eVehicle;
-    private NavMeshAgent agent;
+    //private NavMeshAgent agent;
     private GameObject fightIcon;
     private bool maxDisplay = false;
 	private Collider targetCol;
@@ -29,11 +29,10 @@ public class FightEnemy : EnemyAI {
     /// </summary>
     /// <param name="enemy">This enemy</param>
     /// <param name="target">The target to attack, if any</param>
-    public void StartFight(GameObject enemy, VehicleAI vehicle,NavMeshAgent _agent, GameObject _fightIcon, GameObject target = null)
+    public void StartFight(GameObject enemy, VehicleAI vehicle, GameObject _fightIcon, GameObject target = null)
     {
         //Initialized enemy
         players = GameObject.FindGameObjectsWithTag("Player");
-        agent = _agent;
         cObject = enemy;
         _target = target;
         fightRange = cObject.transform.Find("EnemyAttack").gameObject;
@@ -76,7 +75,7 @@ public class FightEnemy : EnemyAI {
         else if(chasing)
         {
             //Look at player and move towards them
-            agent.speed = speed;
+
             Vector3 targetPosition = new Vector3(player.transform.position.x, cObject.transform.position.y, player.transform.position.z);
             if (OnVehicle())
             {
@@ -85,7 +84,8 @@ public class FightEnemy : EnemyAI {
             else
             {
                 cObject.transform.LookAt(targetPosition);
-                agent.SetDestination(targetPosition);
+                //agent.SetDestination(targetPosition);
+                cObject.transform.position = Vector3.MoveTowards(cObject.transform.position, player.transform.position, movement);
             }
             cObject.GetComponent<StatefulEnemyAI>().getAnimator().SetBool("Running", true);
             //cObject.transform.position = Vector3.MoveTowards(cObject.transform.position, player.transform.position, movement);
@@ -119,7 +119,7 @@ public class FightEnemy : EnemyAI {
         dir = Vector3.Normalize(new Vector3(dir.x, 0.0f, dir.z));
 		targetCol.GetComponent<Rigidbody>().AddForce(dir * knockback_force);
         fightRange.GetComponent<Renderer>().material.color = new Color(255f, 150f, 0f, 0f);
-        agent.speed = 0;
+        //agent.speed = 0;
         cObject.GetComponent<StatefulEnemyAI>().getAnimator().SetBool("Running", false);
         chasing = true;
     }

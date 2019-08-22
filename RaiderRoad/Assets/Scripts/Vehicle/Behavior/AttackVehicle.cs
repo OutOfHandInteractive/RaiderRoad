@@ -30,6 +30,7 @@ public class AttackVehicle : MonoBehaviour{
     /// <param name="side">The side of the RV we're assigned to</param>
     public void StartAttack(NavMeshAgent agent, GameObject enemy, Rigidbody rb, VehicleAI.Side side)
     {
+        cEnemy = agent;
         cObject = enemy;
         attackList = new List<Transform>();
         cRb = rb;
@@ -54,8 +55,8 @@ public class AttackVehicle : MonoBehaviour{
         //Stop if there is nothing to attack
         if (attackList.Count == 0)
             return;
-        //Debug.Log(attackList.Count);
-        attackPoints = 1;// Random.Range(0, attackList.Count);
+        Debug.LogWarning(attackList.Count);
+        attackPoints = Random.Range(0, attackList.Count);
     }
 
     /// <summary>
