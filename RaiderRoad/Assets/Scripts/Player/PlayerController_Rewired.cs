@@ -350,8 +350,9 @@ public class PlayerController_Rewired : MonoBehaviour
         }
 
         if (collision.gameObject.tag == "road") {
-            takeDamage(Constants.PLAYER_ROAD_DAMAGE);
-            transform.position = GameObject.Find("player1Spawn").transform.position;
+            //takeDamage(Constants.PLAYER_ROAD_DAMAGE);
+            //transform.position = GameObject.Find("player1Spawn").transform.position;
+            RoadRash();
         }
     }
 
@@ -439,7 +440,20 @@ public class PlayerController_Rewired : MonoBehaviour
     public void RoadRash()
     {
         takeDamage(Constants.PLAYER_ROAD_DAMAGE);
-        transform.position = GameObject.Find("player1Spawn").transform.position;
+        GameObject mySpawnPoint;
+        if (playerId == 0) {
+            mySpawnPoint = GameObject.Find("player1Spawn");
+        } else if (playerId == 1) {
+            mySpawnPoint = GameObject.Find("player2Spawn");
+        } else if (playerId == 2) {
+            mySpawnPoint = GameObject.Find("player3Spawn");
+        } else {
+            mySpawnPoint = GameObject.Find("player4Spawn");
+        }
+
+        transform.position = mySpawnPoint.transform.position;
+        Instantiate(mySpawnPoint.GetComponent<particleHolder>().myParticle, transform.position, mySpawnPoint.gameObject.transform.rotation);
+
         // Reset our momentum
         rb.velocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
