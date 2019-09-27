@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.45027244, g: 0.50029856, b: 0.57534856, a: 1}
+  m_IndirectSpecularColor: {r: 0.45027244, g: 0.50029856, b: 0.5753486, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -99,7 +99,7 @@ NavMeshSettings:
     agentTypeID: 0
     agentRadius: 0.5
     agentHeight: 2
-    agentSlope: 20.1
+    agentSlope: 0
     agentClimb: 0.4
     ledgeDropHeight: 0
     maxJumpAcrossDistance: 0
@@ -112,6 +112,28 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &42058001 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 100004, guid: 38564192274bd1c4f8faa390de24c1a7,
+    type: 3}
+  m_PrefabInstance: {fileID: 572897591}
+  m_PrefabAsset: {fileID: 0}
+--- !u!208 &42058005
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 42058001}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 78.491005, y: 33.552002, z: 31.878002}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 527.03204, y: 56.087, z: 123.843}
+  m_TimeToStationary: 0.5
 --- !u!4 &65597050 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: a4198ba49383b6840998535ab95eb86d,
@@ -329,37 +351,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 230803042}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6eeb5dc026fdf4b488bc7ae0138ab719, type: 3}
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_AgentTypeID: 0
-  m_StartPoint: {x: -4.874796, y: 0, z: 0.87620735}
-  m_EndPoint: {x: -2.2925472, y: 0.7805157, z: 0.92430305}
-  m_Width: 5
-  m_CostModifier: 1
-  m_Bidirectional: 1
-  m_AutoUpdatePosition: 0
-  m_Area: 2
---- !u!114 &230803049
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 230803042}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6eeb5dc026fdf4b488bc7ae0138ab719, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_AgentTypeID: 0
-  m_StartPoint: {x: -4.747057, y: 0, z: -4.659862}
-  m_EndPoint: {x: -2.2608528, y: 0.799284, z: -4.672902}
-  m_Width: 2.5
-  m_CostModifier: 1
-  m_Bidirectional: 1
-  m_AutoUpdatePosition: 0
-  m_Area: 2
+  m_CollectObjects: 2
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_UseGeometry: 0
+  m_DefaultArea: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.16666667
+  m_BuildHeightMesh: 0
+  m_NavMeshData: {fileID: 23800000, guid: 8ec410f2380945548acf9bd6213f9064, type: 2}
 --- !u!1 &261066800
 GameObject:
   m_ObjectHideFlags: 0
@@ -2014,6 +2025,28 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 4.316, z: 0}
+--- !u!1 &925477595 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 100058, guid: 38564192274bd1c4f8faa390de24c1a7,
+    type: 3}
+  m_PrefabInstance: {fileID: 572897591}
+  m_PrefabAsset: {fileID: 0}
+--- !u!208 &925477599
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 925477595}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 254.23201, y: 25, z: 49.056004}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 23.235, z: 130.33801}
+  m_TimeToStationary: 0.5
 --- !u!1 &939031959
 GameObject:
   m_ObjectHideFlags: 0
@@ -2508,7 +2541,7 @@ NavMeshObstacle:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1051598148}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_Shape: 1
   m_Extents: {x: 0.1, y: 0.5, z: 0.1}
@@ -2536,7 +2569,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AgentTypeID: 0
-  m_CollectObjects: 0
+  m_CollectObjects: 2
   m_Size: {x: 10, y: 10, z: 10}
   m_Center: {x: 0, y: 2, z: 0}
   m_LayerMask:
@@ -2773,7 +2806,7 @@ PrefabInstance:
     - target: {fileID: 6725140917366473194, guid: a4c07d1d97c487d4496b0e45bcf4cc42,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.07
+      value: 1.099
       objectReference: {fileID: 0}
     - target: {fileID: 6725140917366473194, guid: a4c07d1d97c487d4496b0e45bcf4cc42,
         type: 3}
@@ -3799,7 +3832,7 @@ NavMeshObstacle:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1379484650}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_Shape: 1
   m_Extents: {x: 0.1, y: 0.5, z: 0.1}
@@ -5058,7 +5091,7 @@ NavMeshObstacle:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1891256768}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_Shape: 1
   m_Extents: {x: 0.1, y: 0.5, z: 0.1}
