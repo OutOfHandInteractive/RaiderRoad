@@ -14,6 +14,7 @@ public class RotateToCam : MonoBehaviour {
 	
 	// Update is called once per frame
 	void LateUpdate () {
+        CamRot = Camera.main.transform.rotation; //if camera changes, update camRot
         transform.rotation = CamRot;
     }
 }

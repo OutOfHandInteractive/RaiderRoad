@@ -55,6 +55,7 @@ public class PlayerController_Rewired : MonoBehaviour
 	private float healthRegenDelayCountdown;
 	[SerializeField] private float reviveTime;
 	public float reviveCountdown;
+    [SerializeField] private float respawnTime = 4f;
     //Invulnerability
     [SerializeField] private float invulTime;
     private float lastHitTimeStamp = 0f;
@@ -452,11 +453,31 @@ public class PlayerController_Rewired : MonoBehaviour
         }
 
         transform.position = mySpawnPoint.transform.position;
-        Instantiate(mySpawnPoint.GetComponent<particleHolder>().myParticle, transform.position, mySpawnPoint.gameObject.transform.rotation);
+        mySpawnPoint.GetComponent<rvSpawnPoint>().StartRespawnTimer(respawnTime);
 
         // Reset our momentum
         rb.velocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
+
+        StartCoroutine("RespawnTime");
+    }
+
+    IEnumerator RespawnTime()
+    {
+        paused = true;
+        //stop movement but keep rotation
+        moveVector.x = 0f;
+        moveVector.y = 0f;
+        myAni.SetFloat("speed", 0f);
+        rotateVector = Vector3.right * player.GetAxis("Move Horizontal") + Vector3.forward * player.GetAxis("Move Vertical");
+        if (rotateVector.sqrMagnitude > 0.0f) {
+            transform.rotation = Quaternion.LookRotation(rotateVector, Vector3.up);
+        }
+
+        //material change
+
+        yield return new WaitForSeconds(respawnTime);
+        paused = false;
     }
 
     /// <summary>
