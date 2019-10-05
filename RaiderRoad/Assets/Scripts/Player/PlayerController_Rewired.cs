@@ -469,14 +469,29 @@ public class PlayerController_Rewired : MonoBehaviour
         moveVector.x = 0f;
         moveVector.y = 0f;
         myAni.SetFloat("speed", 0f);
-        rotateVector = Vector3.right * player.GetAxis("Move Horizontal") + Vector3.forward * player.GetAxis("Move Vertical");
-        if (rotateVector.sqrMagnitude > 0.0f) {
-            transform.rotation = Quaternion.LookRotation(rotateVector, Vector3.up);
-        }
 
         //material change
+        Color tempColor = myMat.color;
+        tempColor.a = 0.35f;
+        myMat.color = tempColor;
 
-        yield return new WaitForSeconds(respawnTime);
+        float t = respawnTime;
+
+        while (t > 0f)
+        {
+            t -= Time.deltaTime;
+
+            rotateVector = Vector3.right * player.GetAxis("Move Horizontal") + Vector3.forward * player.GetAxis("Move Vertical");
+            Debug.Log(player.GetAxis("Move Horizontal"));
+            if (rotateVector.sqrMagnitude > 0.0f)
+            {
+                transform.rotation = Quaternion.LookRotation(rotateVector, Vector3.up);
+            }
+            yield return null;
+        }
+
+
+        myMat.color = myOrigColor;
         paused = false;
     }
 
