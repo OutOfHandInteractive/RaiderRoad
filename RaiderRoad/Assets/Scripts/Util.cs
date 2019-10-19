@@ -24,7 +24,7 @@ public class Util
     /// <returns>True IFF the object is a player</returns>
     public static bool isPlayer(GameObject gameObject)
     {
-        return gameObject != null && gameObject.tag == "Player";
+        return gameObject != null && gameObject.tag == Constants.PLAYER_TAG;
     }
 
     /// <summary>

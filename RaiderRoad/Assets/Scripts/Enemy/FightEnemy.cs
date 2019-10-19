@@ -38,7 +38,10 @@ public class FightEnemy : EnemyAI {
         _target = target;
         fightRange = cObject.transform.Find("EnemyAttack").gameObject;
         player = GetTarget();
-        eVehicle = vehicle.gameObject;
+        if(vehicle != null)
+        {
+            eVehicle = vehicle.gameObject;
+        }
         fightIcon = _fightIcon;
     }
 
@@ -133,6 +136,11 @@ public class FightEnemy : EnemyAI {
     }
 
     IEnumerator displayImage() {
+        if(fightIcon == null)
+        {
+            Debug.LogWarning("fightIcon is null");
+            yield return null;
+        }
         RectTransform icon = fightIcon.GetComponent<RectTransform>();
         float maxHeight = 15;
         float maxWidth = 12;

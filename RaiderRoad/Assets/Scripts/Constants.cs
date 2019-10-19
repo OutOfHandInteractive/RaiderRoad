@@ -42,4 +42,6 @@ public class Constants : MonoBehaviour
 	// player facing angles
 	public const float FACING_VERTICAL_MINIMUM = 45f;
 	public const float FACING_VERTICAL_MAXIMUM = 135f;
+
+    public const string PLAYER_TAG = "Player";
 }

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4262750795651346}
   - component: {fileID: 65178426159533084}
   - component: {fileID: 114934315006783322}
+  - component: {fileID: 2034634038115651879}
   m_Layer: 0
   m_Name: Engine
   m_TagString: Engine
@@ -75,6 +76,22 @@ MonoBehaviour:
   myHealthTrans: {fileID: 8587845766641221177}
   isOccupied: 0
   sparks: {fileID: 34622338556722884}
+--- !u!208 &2034634038115651879
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1961960362687784}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1001 &3388424239483348995
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -157,12 +174,12 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 1859242513252293967, guid: 9f01b59f9aa20f641aadbbd88679c133,
+    - target: {fileID: 3385030200080852509, guid: 9f01b59f9aa20f641aadbbd88679c133,
         type: 3}
       propertyPath: playOnAwake
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3385030200080852509, guid: 9f01b59f9aa20f641aadbbd88679c133,
+    - target: {fileID: 1859242513252293967, guid: 9f01b59f9aa20f641aadbbd88679c133,
         type: 3}
       propertyPath: playOnAwake
       value: 0
@@ -236,14 +253,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2300002, guid: f023dea3953393e458664b47b85e31b1, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 4515acf6b9a4bc6458bfd7165b48dcf5, type: 2}
     - target: {fileID: 2300000, guid: f023dea3953393e458664b47b85e31b1, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 85f846fed8362a848a2e442ec62f4f2a, type: 2}
+    - target: {fileID: 2300002, guid: f023dea3953393e458664b47b85e31b1, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 4515acf6b9a4bc6458bfd7165b48dcf5, type: 2}
     - target: {fileID: 2300004, guid: f023dea3953393e458664b47b85e31b1, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
