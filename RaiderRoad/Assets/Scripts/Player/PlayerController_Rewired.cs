@@ -58,6 +58,7 @@ public class PlayerController_Rewired : MonoBehaviour
     [SerializeField] private float respawnTime = 4f;
     //Invulnerability
     [SerializeField] private float invulTime;
+    private bool isInvulnerable = false;
     private float lastHitTimeStamp = 0f;
 
 	private float baseJumpInidicatorScale;
@@ -419,7 +420,7 @@ public class PlayerController_Rewired : MonoBehaviour
     public void takeDamage(float _damage) {
         float currTime = Time.time;
         //Invulnerability Frames (if we want to remove, set invulTime to 0 or get rid of if statement below)
-        if (currTime >= lastHitTimeStamp + invulTime) {
+        if (currTime >= lastHitTimeStamp + invulTime && !isInvulnerable) {
             lastHitTimeStamp = Time.time;
             currentHealth -= _damage;
             healthRegenDelayCountdown = healthRegenDelay;
@@ -469,6 +470,9 @@ public class PlayerController_Rewired : MonoBehaviour
         moveVector.x = 0f;
         moveVector.y = 0f;
         myAni.SetFloat("speed", 0f);
+        
+        //make players invulnerable for respawn time
+        isInvulnerable = true;
 
         //material change
         Color tempColor = myMat.color;
@@ -492,6 +496,7 @@ public class PlayerController_Rewired : MonoBehaviour
 
 
         myMat.color = myOrigColor;
+        isInvulnerable = false;
         paused = false;
     }
 

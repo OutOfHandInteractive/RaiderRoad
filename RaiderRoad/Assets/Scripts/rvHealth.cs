@@ -22,7 +22,9 @@ public class rvHealth : MonoBehaviour {
     // ------------------- Unity Functions ---------------------
     private void Start() {
 		currentHealth = maxHealth;
-        vCamShake = GameObject.FindGameObjectWithTag("MainVCam").GetComponent<CameraShake>();
+        //find MainVCam
+        GameManager g = GameManager.GameManagerInstance;
+        vCamShake = g.MainVCamShake;
     }
 
 	void OnTriggerEnter(Collider other) {

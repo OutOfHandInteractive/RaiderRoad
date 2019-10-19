@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour {
 	public float markerBarOffset;
     public Text myCountdownText;
     public float endCountdownTime;
+    public CameraShake MainVCamShake; //public variable for mainVCam so any object can get it even if disabled
 
 	// ----------------- Nonpublic Variables --------------------
 	private RectTransform RVMarker;

@@ -93,7 +93,9 @@ public class VehicleAI : MonoBehaviour {
         //Start wander state
         EnterWait();
 
-        vCamShake = GameObject.FindGameObjectWithTag("MainVCam").GetComponent<CameraShake>();
+        //find MainVCam
+        GameManager g = GameManager.GameManagerInstance;
+        vCamShake = g.MainVCamShake;
     }
 
     /// <summary>
