@@ -22,7 +22,7 @@ public class rvHealth : MonoBehaviour {
     // ------------------- Unity Functions ---------------------
     private void Start() {
 		currentHealth = maxHealth;
-        //find MainVCam
+        //get mainvCamShake
         GameManager g = GameManager.GameManagerInstance;
         vCamShake = g.MainVCamShake;
     }
