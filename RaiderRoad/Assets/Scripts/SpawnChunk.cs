@@ -22,7 +22,14 @@ public class SpawnChunk : MonoBehaviour {
     private BoxCollider col;
 	[SerializeField] private List<GameObject> railPrefabs;
 	[SerializeField] private List<GameObject> roadPrefabs;
-	[SerializeField] private List<GameObject> sceneryPrefabs;
+    //road decals
+    [SerializeField] private List<Texture> roadDecals;
+    [SerializeField] private float decalSpawnChance; // 0.00 - 1.00 (percentage)
+    [SerializeField] private Vector2 xOffsetMinMax;
+    [SerializeField] private Material myMat;
+    private int lastDecal;
+
+    [SerializeField] private List<GameObject> sceneryPrefabs;
 	[SerializeField] private int sceneryChance = 20;
 	[SerializeField] private Vector3 leftRailPos, rightRailPos;
 	[SerializeField] private Vector3 leftRailRot, rightRailRot;
@@ -49,7 +56,6 @@ public class SpawnChunk : MonoBehaviour {
 		rail = Instantiate(SelectRail(), road.transform);
 		rail.transform.localPosition = rightRailPos;
 		rail.transform.rotation = Quaternion.Euler(rightRailRot);
-
 	}
 
     // Spawning
@@ -79,6 +85,25 @@ public class SpawnChunk : MonoBehaviour {
 
 		// scenery
 		Instantiate(SelectScenery(), road.transform);
+
+        //give road decal (or not)
+        if(Random.value <= decalSpawnChance){
+            int myDec = Random.Range(0, roadDecals.Count -1);
+            if(myDec == lastDecal) {
+                myDec++;
+                if(myDec >= roadDecals.Count){
+                    myDec = 0;
+                }
+            }
+
+            myMat = Instantiate(myMat);
+            myMat.SetTexture("_OverTex", roadDecals[myDec]);
+            float offset = Random.Range(xOffsetMinMax.x, xOffsetMinMax.y);
+            myMat.SetTextureOffset("_OverTex", new Vector2(offset, 0.15f));
+            Debug.Log("DAB DAB DAB");//road.transform.GetChild(2));
+            road.transform.GetChild(2).GetComponent<Renderer>().material = myMat;
+            lastDecal = myDec; //make sure it doesn't repeat
+        }
 	}
 
     #region Component Selection
