@@ -110,18 +110,24 @@ public class GameManager : MonoBehaviour {
     /// Trigger for losing game
     /// </summary>
     public void LossGame() {
-        gameOver = true;
-        PauseParent.GetComponent<pauseController>().endState("Vacation Canceled");
-        //Temporary "get rid of victory image code
-        PauseParent.GetComponent<pauseController>().myVictoryImage.SetActive(false);
+        if (!gameOver)
+        {
+            gameOver = true;
+            PauseParent.GetComponent<pauseController>().endState("Vacation Canceled");
+            //Temporary "get rid of victory image code
+            PauseParent.GetComponent<pauseController>().myVictoryImage.SetActive(false);
+        }
     }
 
     /// <summary>
     /// Trigger for winning game
     /// </summary>
     public void WinGame() {
-        gameOver = true;
-        PauseParent.GetComponent<pauseController>().endState("Arrived at Your Vacation");
+        if (!gameOver)
+        {
+            gameOver = true;
+            PauseParent.GetComponent<pauseController>().endState("Arrived at Your Vacation");
+        }
     }
 
     /// <summary>
