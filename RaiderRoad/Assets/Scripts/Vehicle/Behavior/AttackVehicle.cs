@@ -30,6 +30,7 @@ public class AttackVehicle : MonoBehaviour{
     /// <param name="side">The side of the RV we're assigned to</param>
     public void StartAttack(NavMeshAgent agent, GameObject enemy, Rigidbody rb, VehicleAI.Side side)
     {
+        cEnemy = agent;
         cObject = enemy;
         attackList = new List<Transform>();
         cRb = rb;
@@ -54,8 +55,8 @@ public class AttackVehicle : MonoBehaviour{
         //Stop if there is nothing to attack
         if (attackList.Count == 0)
             return;
-        //Debug.Log(attackList.Count);
-        attackPoints = 1;// Random.Range(0, attackList.Count);
+        Debug.LogWarning(attackList.Count);
+        attackPoints = Random.Range(0, attackList.Count);
     }
 
     /// <summary>
@@ -64,20 +65,20 @@ public class AttackVehicle : MonoBehaviour{
      public void Attack()
      {
          //Go to attack point
-        //cEnemy.SetDestination(attackList[attackPoints].position);
+        cEnemy.SetDestination(attackList[attackPoints].position);
         float time = Mathf.SmoothStep(0, 1, 4 * Time.deltaTime);
         //Have agent go to different points
         /*cEnemy.SetDestination(patrols[wanderPoints].position);
         //Choose random patrol point
         */
-        cObject.transform.position = Vector3.Lerp(cObject.transform.position, attackList[attackPoints].position, time);
+        //cObject.transform.position = Vector3.Lerp(cObject.transform.position, attackList[attackPoints].position, time);
 
         //Debug.Log(Vector3.Distance(cEnemy.transform.position, attackList[attackPoints].position));
         //Check if vehicle hit, add "knockback"
         if (Vector3.Distance(cObject.transform.position, attackList[attackPoints].position) < 1.1f && hasHit == false)
         {
             //hitCount++;
-            //cEnemy.SetDestination(attackPosition.transform.position);
+            cEnemy.SetDestination(attackPosition.transform.position);
             //StartCoroutine(Knockback());
             Debug.Log("STAY STATE ACTIVE");
             //GameObject.FindGameObjectWithTag("RV").GetComponent<rvHealth>().damagePOI(20f);
@@ -91,7 +92,7 @@ public class AttackVehicle : MonoBehaviour{
     private IEnumerator waitToLeave()
     {
         cEnemy.transform.parent = null;
-        //cEnemy.transform.GetComponent<NavMeshAgent>().enabled = true;
+        cEnemy.transform.GetComponent<NavMeshAgent>().enabled = true;
         cObject.GetComponent<VehicleAI>().EnterWander();
         yield return new WaitForSeconds(5);
         cObject.GetComponent<VehicleAI>().EnterLeave();
