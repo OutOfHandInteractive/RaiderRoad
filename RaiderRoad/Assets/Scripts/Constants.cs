@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Constants : MonoBehaviour
 {
+	public const string settingsFilePath = "/data/";
+
 	// --------------------- Enumerations -------------------------
 	public enum vehicleClass { light, medium, heavy };
 
@@ -15,7 +17,6 @@ public class Constants : MonoBehaviour
 	};
 
 	// ------------------- Gameplay Values ------------------------
-
 	// stats
 	public const float VEHICLE_HEAVY_BASE_HEALTH = 300f;
 	public const float VEHICLE_MEDIUM_BASE_HEALTH = 200f;
