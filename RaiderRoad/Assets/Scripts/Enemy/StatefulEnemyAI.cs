@@ -53,7 +53,7 @@ public class StatefulEnemyAI : EnemyAI {
     public float currentHealth;
     public float damageMeter;
     public int stateChance;
-    private bool inRange;
+    private HashSet<Collider> inRange;
 	[SerializeField] private float wallDestroyTime;
 	[SerializeField] private float batteryDestroyTime;
 
@@ -76,7 +76,7 @@ public class StatefulEnemyAI : EnemyAI {
 	// Use this for initialization
 	void Start () {
         currentHealth = maxHealth;
-        inRange = false;
+        inRange = new HashSet<Collider>();
         scale = transform.localScale;
         damaged = false;
 
@@ -455,11 +455,11 @@ public class StatefulEnemyAI : EnemyAI {
 	/// <param name="other">Collider assigned to the target of the raider's attack</param>
 	/// <returns></returns>
 	IEnumerator WindUp(Collider other) {
-		fight.WindupAttack(other);
+		fight.WindupAttack();
 		yield return new WaitForSeconds(.5f);
 		myAni.SetTrigger("Attack");
         yield return new WaitForSeconds(1f);
-        if(inRange)
+        if(inRange.Count > 0)
         { 
             isFighting = true;
         }
@@ -469,9 +469,13 @@ public class StatefulEnemyAI : EnemyAI {
 	/// Call to deal damage to a player. Requires prior call of IEnumerator Windup() and subsequent attack animation with event trigger.
 	/// </summary>
 	public void attack() {
-		if (inRange) {
-			fight.HitPlayer(damagePower);
-		}
+        if(inRange.Count > 0)
+        {
+            foreach (Collider player in inRange)
+            {
+                fight.HitPlayer(player, damagePower);
+            }
+        }
 		else {
 			fight.Missed();
 		}
@@ -525,9 +529,14 @@ public class StatefulEnemyAI : EnemyAI {
             agent.enabled = true;
         }
 
-        if (other.gameObject.tag == "Player" && currentState == State.Fight) {
-            player = other;
-            isFighting = true;
+        if (other.gameObject.tag == "Player")
+        {
+            inRange.Add(other);
+            if (currentState == State.Fight)
+            {
+                player = other;
+                isFighting = true;
+            }
         }
 
         if (other.gameObject.tag == "EnemyInteract" && currentState == State.Wait) {
@@ -547,10 +556,6 @@ public class StatefulEnemyAI : EnemyAI {
     }
 
     private void OnTriggerStay(Collider other) {
-        //Check if you hit a wall and destroy it
-        if (other.gameObject.tag == "Player") {
-            inRange = true;
-        }
 
         if (other.gameObject.tag == "Wall" && currentState == State.Destroy) {
             agent.speed = 0;
@@ -567,7 +572,7 @@ public class StatefulEnemyAI : EnemyAI {
     {
         if (other.gameObject.tag == "Player")
         {
-            inRange = false;
+            inRange.Remove(other);
         }
         if (other.gameObject.tag == "RV")
         {
