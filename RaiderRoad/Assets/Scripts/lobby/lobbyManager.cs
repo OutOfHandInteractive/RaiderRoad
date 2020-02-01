@@ -31,17 +31,21 @@ public class lobbyManager : MonoBehaviour
         //add id to correct player character
         if(myChara == 1) {
             chara1players.Add(myId);
+			newPlayer = Instantiate(sceneManage.character1, spawnPoints[myId].position, sceneManage.character1.rotation * Quaternion.Euler(new Vector3(0f, 180f, 0f)));
 		}
 		else if (myChara == 2) {
             chara2players.Add(myId);
+			newPlayer = Instantiate(sceneManage.character2, spawnPoints[myId].position, sceneManage.character1.rotation * Quaternion.Euler(new Vector3(0f, 180f, 0f)));
 		}
 		else if (myChara == 3) {
             chara3players.Add(myId);
+			newPlayer = Instantiate(sceneManage.character3, spawnPoints[myId].position, sceneManage.character1.rotation * Quaternion.Euler(new Vector3(0f, 180f, 0f)));
 		}
 		else if (myChara == 4) {
             chara4players.Add(myId);
+			newPlayer = Instantiate(sceneManage.character4, spawnPoints[myId].position, sceneManage.character1.rotation * Quaternion.Euler(new Vector3(0f, 180f, 0f)));
 		}
-		newPlayer = Instantiate(sceneManage.character1, spawnPoints[myId].position, sceneManage.character1.rotation * Quaternion.Euler(new Vector3(0f, 180f, 0f)));
+		
 		Instantiate(playerSpawnFX[myId], spawnPoints[myId].position, Quaternion.identity);
 		PlayerLights[myId].SetActive(true);
 		Instantiate(playerSpawnFX[myId], PlayerLights[myId].transform.position, Quaternion.identity);
