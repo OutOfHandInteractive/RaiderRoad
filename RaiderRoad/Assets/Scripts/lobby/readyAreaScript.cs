@@ -8,6 +8,7 @@ public class readyAreaScript : MonoBehaviour
     public lobbyManager myLobbyManager;
     public float countdownTime;
     public Text myCountdownText;
+	public GameObject[] playerLights;
 
     private IEnumerator myCour;
     private float myTimer;
@@ -15,68 +16,60 @@ public class readyAreaScript : MonoBehaviour
     private bool timerRunning = false;
     public int inReadyArea = 0;
     // Start is called before the first frame update
-    void Start()
-    {
+    void Start() {
         myTimer = countdownTime;
         myCour = CountDownToPlay();
     }
 
     // Update is called once per frame
-    void Update()
-    {
+    void Update() {
         CheckReadyArea();
     }
 
-    void OnTriggerEnter(Collider other)
-    {
-        if(Util.isPlayer(other.gameObject))
-        {
+    void OnTriggerEnter(Collider other) {
+        if(Util.isPlayer(other.gameObject)) {
+			playerLights[other.gameObject.GetComponent<PlayerController_Rewired>().playerId].SetActive(true);
             inReadyArea++;
             CheckReadyArea();
         }
     }
 
-    void OnTriggerExit(Collider other)
-    {
-        if(Util.isPlayer(other.gameObject))
-        {
-            inReadyArea--;
+    void OnTriggerExit(Collider other) {
+        if(Util.isPlayer(other.gameObject)) {
+			playerLights[other.gameObject.GetComponent<PlayerController_Rewired>().playerId].SetActive(false);
+			inReadyArea--;
             CheckReadyArea();
         }
     }
 
-    void CheckReadyArea()
-    {
-        if (inReadyArea >= myLobbyManager.joinedPlayers && inReadyArea > 0)
-        {
-            if (!timerRunning)
-            {
+    void CheckReadyArea() {
+        if (inReadyArea >= myLobbyManager.joinedPlayers && inReadyArea > 0) {
+            if (!timerRunning) {
                 myTimer = countdownTime;
                 timerRunning = true;
                 StartCoroutine(myCour);
             }
-        } else{
+        }
+		else {
             timerRunning = false;
             StopCoroutine(myCour);
             myCountdownText.text = "";
         }
     }
 
-    IEnumerator CountDownToPlay()
-    {
+    IEnumerator CountDownToPlay() {
         timerRunning = true;
-        while (!timerDone)
-        {
+        while (!timerDone) {
             myTimer -= Time.deltaTime;
             myCountdownText.text = Mathf.Ceil(myTimer).ToString();
 
-            if (myTimer <= 0f)
-            {
+            if (myTimer <= 0f) {
                 myLobbyManager.PlayersReady();
             }
 
             yield return null;
         }
+
         timerRunning = false;
     }
 }
