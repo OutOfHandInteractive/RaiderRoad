@@ -548,7 +548,7 @@ public class StatefulEnemyAI : EnemyAI {
 
     private void OnTriggerStay(Collider other) {
         //Check if you hit a wall and destroy it
-        if (other.gameObject.tag == "Player" && currentState == State.Fight) {
+        if (other.gameObject.tag == "Player") {
             inRange = true;
         }
 
@@ -565,7 +565,7 @@ public class StatefulEnemyAI : EnemyAI {
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.tag == "Player" && currentState == State.Fight)
+        if (other.gameObject.tag == "Player")
         {
             inRange = false;
         }

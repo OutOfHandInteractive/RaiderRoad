@@ -27,7 +27,7 @@ public class SpawnChunk : MonoBehaviour {
     [SerializeField] private float decalSpawnChance; // 0.00 - 1.00 (percentage)
     [SerializeField] private Vector2 xOffsetMinMax;
     [SerializeField] private Material myMat;
-    private int lastDecal;
+    private int lastDecal = 0;
 
     [SerializeField] private List<GameObject> sceneryPrefabs;
 	[SerializeField] private int sceneryChance = 20;
@@ -88,12 +88,14 @@ public class SpawnChunk : MonoBehaviour {
 
         //give road decal (or not)
         if(Random.value <= decalSpawnChance){
-            int myDec = Random.Range(0, roadDecals.Count -1);
-            if(myDec == lastDecal) {
-                myDec++;
-                if(myDec >= roadDecals.Count){
-                    myDec = 0;
-                }
+            int myDec = Random.Range(0, roadDecals.Count-1);
+            if(myDec >= lastDecal) {
+                myDec = (myDec + 1) % roadDecals.Count;
+            }
+            if(myDec >= roadDecals.Count)
+            {
+                Debug.Log("Decal index out of bounds??");
+                myDec = 0;
             }
 
             myMat = Instantiate(myMat);
