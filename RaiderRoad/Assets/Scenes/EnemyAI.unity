@@ -1362,6 +1362,11 @@ PrefabInstance:
       propertyPath: m_Center.z
       value: -0.035349846
       objectReference: {fileID: 0}
+    - target: {fileID: 7584462560209757660, guid: db5ed31c411315942b4614efcfa501d7,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3737799327558701382, guid: db5ed31c411315942b4614efcfa501d7,
         type: 3}
       propertyPath: m_IsActive
@@ -5732,7 +5737,7 @@ NavMeshObstacle:
   m_Enabled: 1
   serializedVersion: 3
   m_Shape: 1
-  m_Extents: {x: 3.5, y: 0.5, z: 8}
+  m_Extents: {x: 3, y: 0.5, z: 8}
   m_MoveThreshold: 0.1
   m_Carve: 1
   m_CarveOnlyStationary: 1
