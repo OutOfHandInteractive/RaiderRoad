@@ -109,14 +109,14 @@ public class VehicleAI : MonoBehaviour {
         {
             EnterRammed();
         }
-        if(transform.position.z >16f)
+        /*if(transform.position.z >16f)
         {
             rb.isKinematic = true;
         }
         else
         {
             rb.isKinematic = false;
-        }
+        }*/
         //Debug.Log(currentState);
         if (currentState == State.Attack)
         {
