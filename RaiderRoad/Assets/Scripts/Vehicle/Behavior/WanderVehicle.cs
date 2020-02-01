@@ -67,15 +67,16 @@ public class WanderVehicle : MonoBehaviour {
             return;
         float time = Mathf.SmoothStep(0, 1, 3*Time.deltaTime);
         //Have agent go to different points
-        /*cEnemy.SetDestination(patrols[wanderPoints].position);
+        cEnemy.SetDestination(patrols[wanderPoints].position);
         //Choose random patrol point
-        */
+        
         if (Vector3.Distance(cObject.transform.position, patrols[wanderPoints].position) < 1f)
         {
             wanderPoints = Random.Range(0, patrols.Count);
             time = 0;
         }
-        cObject.transform.position = Vector3.Lerp(cObject.transform.position, patrols[wanderPoints].position, time);
+
+        //cObject.transform.position = Vector3.Lerp(cObject.transform.position, patrols[wanderPoints].position, time);
         if (!GetComponentInChildren<EnemyAI>() && !hasWeapon)
         {
             if (GetComponentInChildren<PlayerController_Rewired>() == null)
