@@ -17,10 +17,8 @@ public class SettingController : MonoBehaviour
     void Start()
     {
         //RESOLUTION
-        //Resolution[] tempResolutions = Screen.resolutions;
-        //supportedResolutions = RemoveExtraReso(tempResolutions);
-        supportedResolutions = Screen.resolutions.Select(resolution => new Resolution { width = resolution.width, height = resolution.height }).Distinct();
-
+        supportedResolutions = Screen.resolutions;
+        supportedResolutions = RemoveExtraReso(supportedResolutions);
         //List<Resolution> supportedResolutionsList = supportedResolutions.ToList();
         //supportedResolutionsList.RemoveAll(r => r.refreshRate < 60);
 
@@ -45,58 +43,29 @@ public class SettingController : MonoBehaviour
 
     Resolution[] RemoveExtraReso(Resolution[] myResos)
     {
-        List<Resolution> newResos = new List<Resolution>();
-
-        for (int i = myResos.Length - 1; i < 0; i--)
+        //find highest refresh rate
+        int myHz = 0;
+        for (int i = 0; i < myResos.Length; i++)
         {
-            if()
-            newResos.Add(myResos[i]);
-            int skipAmt = 0;
-
-            for (int j = 1; j < i; j++)
+            if(myResos[i].refreshRate > myHz)
             {
-                if (myResos[i -= 1].width == myResos[i].width && myResos[i -= 1].width == myResos[i].width && myResos[i -= 1].refreshRate <= myResos[i].refreshRate)
-                {
-                    skipAmt++;
-                }
-                else
-                {
-                    j = i;
-                }
+                myHz = myResos[i].refreshRate;
             }
-            i -= skipAmt;
+        }
+
+        List<Resolution> newResos = new List<Resolution>();
+        
+        //only add resolutions for highest refresh rate
+        for (int i = 0; i < myResos.Length; i++)
+        {
+            if (myResos[i].refreshRate >= myHz)
+            {
+                newResos.Add(myResos[i]);
+            }
         }
 
         return newResos.ToArray();
     }
-
-    /*
-    Resolution[] RemoveExtraReso(Resolution[] myResos)
-    {
-        List<Resolution> newResos = new List<Resolution>();
-
-        for(int i = myResos.Length - 1; i < 0; i--)
-        {
-
-            newResos.Add(myResos[i]);
-            int skipAmt = 0;
-
-            for (int j = 1; j < i; j++)
-            {
-                if (myResos[i -= 1].width == myResos[i].width && myResos[i -= 1].width == myResos[i].width && myResos[i -= 1].refreshRate <= myResos[i].refreshRate)
-                {
-                    skipAmt++;
-                }
-                else
-                {
-                    j = i;
-                }
-            }
-            i -= skipAmt;
-        }
-
-        return newResos.ToArray();
-    }*/
 
     List<string> DisplayReso()
     {
@@ -104,7 +73,7 @@ public class SettingController : MonoBehaviour
 
         for(int i = 0; i < supportedResolutions.Length; i++)
         {
-            string option = supportedResolutions[i].width + " x " + supportedResolutions[i].height + supportedResolutions[i].refreshRate;
+            string option = supportedResolutions[i].width + " x " + supportedResolutions[i].height;
             resoList.Add(option);
 
             if (supportedResolutions[i].width == Screen.currentResolution.width
