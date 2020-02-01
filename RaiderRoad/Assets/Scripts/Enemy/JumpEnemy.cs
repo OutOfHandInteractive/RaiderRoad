@@ -20,7 +20,7 @@ public class JumpEnemy : EnemyAI
         cRb = rb;
         cSide = side;
         action = stateChance;
-        initialAngle = 75f;
+        initialAngle = 65f;
         vehicle = _vehicle;
     }
 
@@ -32,7 +32,7 @@ public class JumpEnemy : EnemyAI
             return;
         }
         //Get gravity
-        float gravity = Physics.gravity.magnitude;
+        float gravity = Physics.gravity.magnitude *1.125f;
         //Selected angle in radians
         float angle = initialAngle * Mathf.Deg2Rad;
 
