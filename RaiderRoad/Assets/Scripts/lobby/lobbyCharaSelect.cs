@@ -86,7 +86,7 @@ public class lobbyCharaSelect : MonoBehaviour
             count -= Time.deltaTime;
         }
        
-        if (player.GetButtonDown("Jump"))
+        if (player.GetButtonDown("Jump") || player.GetButtonDown("Use") || player.GetButtonDown("Attack"))
         {
             if (!joined) { //pressing A to join game
                 myCharaPolaroid.SetActive(true);

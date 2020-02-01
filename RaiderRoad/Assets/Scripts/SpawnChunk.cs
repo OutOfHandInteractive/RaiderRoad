@@ -102,7 +102,6 @@ public class SpawnChunk : MonoBehaviour {
             myMat.SetTexture("_OverTex", roadDecals[myDec]);
             float offset = Random.Range(xOffsetMinMax.x, xOffsetMinMax.y);
             myMat.SetTextureOffset("_OverTex", new Vector2(offset, 0.15f));
-            Debug.Log("DAB DAB DAB");//road.transform.GetChild(2));
             road.transform.GetChild(2).GetComponent<Renderer>().material = myMat;
             lastDecal = myDec; //make sure it doesn't repeat
         }

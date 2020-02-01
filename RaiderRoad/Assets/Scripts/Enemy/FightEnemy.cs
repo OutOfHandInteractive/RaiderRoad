@@ -23,7 +23,6 @@ public class FightEnemy : EnemyAI {
     private NavMeshAgent agent;
     private GameObject fightIcon;
     private bool maxDisplay = false;
-	private Collider targetCol;
     /// <summary>
     /// Initialize this state
     /// </summary>
@@ -99,8 +98,7 @@ public class FightEnemy : EnemyAI {
     /// <summary>
     /// Show the wind-up
     /// </summary>
-    public void WindupAttack(Collider other) {
-		targetCol = other;
+    public void WindupAttack() {
         cObject.GetComponent<StatefulEnemyAI>().getAnimator().SetTrigger("WindUp");
         //fightRange.GetComponent<Renderer>().material.color = new Color(255f, 150f, 0f, .5f);
         //^^^ Temporary attack visual ^^^
@@ -114,13 +112,13 @@ public class FightEnemy : EnemyAI {
     /// Punch the given player collider
     /// </summary>
     /// <param name="other">The player to hit</param>
-    public void HitPlayer(float damage) {
+    public void HitPlayer(Collider player, float damage) {
         playerDamage += damage;
         fightRange.GetComponent<Renderer>().material.color = new Color(255f, 0f, 0f, .5f);
-        targetCol.gameObject.GetComponent<PlayerController_Rewired>().takeDamage(damage);
-        Vector3 dir = targetCol.transform.position - cObject.transform.position;
+        player.gameObject.GetComponent<PlayerController_Rewired>().takeDamage(damage);
+        Vector3 dir = player.transform.position - cObject.transform.position;
         dir = Vector3.Normalize(new Vector3(dir.x, 0.0f, dir.z));
-		targetCol.GetComponent<Rigidbody>().AddForce(dir * knockback_force);
+        player.GetComponent<Rigidbody>().AddForce(dir * knockback_force);
         fightRange.GetComponent<Renderer>().material.color = new Color(255f, 150f, 0f, 0f);
         agent.speed = 0;
         cObject.GetComponent<StatefulEnemyAI>().getAnimator().SetBool("Running", false);
