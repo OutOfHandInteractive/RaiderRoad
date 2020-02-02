@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 public class SettingController : MonoBehaviour
 {
@@ -15,11 +16,13 @@ public class SettingController : MonoBehaviour
     private int selectedResolution;
     int startResoIndex = 0;
     SettingsManager settingsManager;
+    private sceneManagerScript sceneManage;
 
     // Start is called before the first frame update
     void Start()
     {
         settingsManager = SettingsManager.Instance;
+        sceneManage = sceneManagerScript.Instance;
 
         //RESOLUTION
         supportedResolutions = Screen.resolutions;
@@ -54,7 +57,7 @@ public class SettingController : MonoBehaviour
         
     }
 
-
+    //add resolutions to display list and add formatting
     List<string> DisplayReso()
     {
         List<string> resoList = new List<string>();
@@ -94,6 +97,11 @@ public class SettingController : MonoBehaviour
         Screen.fullScreen = isFullscreen;
         settingsManager.SetFullscreen(isFullscreen);
         settingsManager.SavePlayerPreferences();
+    }
+
+    public void LoadMainMenu()
+    {
+        sceneManage.LoadMainMenu();
     }
 
     /*void OnPointerEnter (PointerEventData eventData)

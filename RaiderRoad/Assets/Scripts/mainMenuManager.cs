@@ -8,9 +8,11 @@ public class mainMenuManager : MonoBehaviour {
     private sceneManagerScript sceneManage;
     public string scene1;
     public string scene2;
+    public string settingScene;
 
     private GameObject startButt;
     private GameObject howToButt;
+    private GameObject settingButt;
     private GameObject quitButt;
     private GameObject classicButt;
     private GameObject infiniteButt;
@@ -25,6 +27,7 @@ public class mainMenuManager : MonoBehaviour {
         sceneManage = sceneManagerScript.Instance;
         startButt = transform.Find("PlayButt").gameObject;
         howToButt = transform.Find("HowToPlayButt").gameObject;
+        settingButt = transform.Find("SettingButt").gameObject;
         quitButt = transform.Find("QuitButt").gameObject;
         classicButt = transform.Find("PlayClassicButt").gameObject;
         infiniteButt = transform.Find("PlayInfiniteButt").gameObject;
@@ -47,6 +50,7 @@ public class mainMenuManager : MonoBehaviour {
 
         startButt.SetActive(!modeSelect);
         howToButt.SetActive(!modeSelect);
+        settingButt.SetActive(!modeSelect);
         quitButt.SetActive(!modeSelect);
     }
 
@@ -74,6 +78,11 @@ public class mainMenuManager : MonoBehaviour {
         modeSelect = false;
         updateVisibility();
         eventSystem.SetSelectedGameObject(startButt);
+    }
+
+    public void LoadSettings()
+    {
+        sceneManage.LoadScene(settingScene);
     }
 
     public void MenuLoadScene1()
