@@ -35,6 +35,8 @@ public class sceneManagerScript : MonoBehaviour {
 
     public bool PlayOpenAnim = false;
 
+    public bool InfiniteMode = false;
+
     void Awake() {
 		// Have playlist persist across scenes.
 		if (Instance == null) {

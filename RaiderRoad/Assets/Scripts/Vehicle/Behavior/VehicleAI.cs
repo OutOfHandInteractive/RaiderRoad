@@ -91,6 +91,8 @@ public class VehicleAI : MonoBehaviour {
         hasWeapon = (GetComponentInChildren<HasWeapon>() != null);
         Debug.Log(side);
         //Start wander state
+        transform.position = new Vector3(transform.position.x, .7f, transform.position.z);
+        Debug.Log("starting pos: " + transform.position);
         EnterWait();
 
         //find MainVCam
@@ -102,27 +104,27 @@ public class VehicleAI : MonoBehaviour {
     /// Update and call down to the current state
     /// </summary>
     void Update () {
-        transform.position = new Vector3(transform.position.x, .7f, transform.position.z);
+        //transform.position = new Vector3(transform.position.x, .7f, transform.position.z);
         if(isRammed)
         {
             EnterRammed();
         }
-        if(transform.position.z >16f)
+        /*if(transform.position.z >16f)
         {
             rb.isKinematic = true;
         }
         else
         {
             rb.isKinematic = false;
-        }
+        }*/
         //Debug.Log(currentState);
         if (currentState == State.Attack)
         {
-            //agent.speed = 30;
+            agent.speed = 30;
         }
         else
         {
-            //agent.speed = 15;
+            agent.speed = 15;
         }
         if(transform.GetComponentInChildren<PlayerController_Rewired>())
         {
@@ -374,7 +376,7 @@ public class VehicleAI : MonoBehaviour {
         ParticleSystem myMiniXplos = Instantiate(deathMiniExplosions, transform.position, Quaternion.identity);
         myMiniXplos.transform.parent = transform;
         float time = Mathf.SmoothStep(0, 1, 20 * Time.deltaTime);
-        //agent.isStopped = true;
+        agent.isStopped = true;
         transform.Translate(Vector3.forward * time * -1);
         StartCoroutine(WaitToDie());
     }

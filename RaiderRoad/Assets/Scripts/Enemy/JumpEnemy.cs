@@ -10,17 +10,17 @@ public class JumpEnemy : EnemyAI
     protected bool hasJumped = false;
     protected VehicleAI.Side cSide;
     protected int action;
-    protected NavMeshAgent agent;
+    //protected NavMeshAgent agent;
     protected VehicleAI vehicle;
 
-    public virtual void StartJump(GameObject enemy, Rigidbody rb, VehicleAI.Side side, NavMeshAgent _agent, int stateChance, VehicleAI _vehicle)
+    public virtual void StartJump(GameObject enemy, Rigidbody rb, VehicleAI.Side side, int stateChance, VehicleAI _vehicle)
     {
         cObject = enemy;
-        agent = _agent;
+        //agent = _agent;
         cRb = rb;
         cSide = side;
         action = stateChance;
-        initialAngle = 75f;
+        initialAngle = 65f;
         vehicle = _vehicle;
     }
 
@@ -32,7 +32,7 @@ public class JumpEnemy : EnemyAI
             return;
         }
         //Get gravity
-        float gravity = Physics.gravity.magnitude;
+        float gravity = Physics.gravity.magnitude *1.125f;
         //Selected angle in radians
         float angle = initialAngle * Mathf.Deg2Rad;
 

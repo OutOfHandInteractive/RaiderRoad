@@ -19,13 +19,18 @@ public class GameManager : MonoBehaviour {
     public Text myCountdownText;
     public float endCountdownTime;
     public CameraShake MainVCamShake; //public variable for mainVCam so any object can get it even if disabled
+    public bool InfiniteMode;
+    public float speedMPH = 60f;
 
 	// ----------------- Nonpublic Variables --------------------
 	private RectTransform RVMarker;
     private Image dottedLine;
+    private Text miles;
+    private Text fractions;
     private float startYpos;
     private float finishYPos;
     private float myTimer;
+    private float timeElapsed;
     private float endTimer;
     private bool timerDone = false;
     private bool timerRunning = false;
@@ -55,12 +60,22 @@ public class GameManager : MonoBehaviour {
         gameOver = false;
         myTimer = FinishTime;
         //myCour = CountDownToEnd();
+        InfiniteMode = sceneManagerScript.Instance.InfiniteMode;
 
         playerList = GameObject.FindGameObjectsWithTag("Player");
-        startYpos = MyUICanvas.transform.Find("StartMarker").GetComponent<RectTransform>().anchoredPosition.y;
-        finishYPos = MyUICanvas.transform.Find("EndMarker").GetComponent<RectTransform>().anchoredPosition.y;
-        RVMarker = MyUICanvas.transform.Find("RVMarker").GetComponent<RectTransform>();
-        dottedLine = MyUICanvas.transform.Find("DottedLine").GetComponent<Image>();
+        var classic = MyUICanvas.transform.Find("Classic");
+        var infinite = MyUICanvas.transform.Find("Infinite");
+
+        classic.gameObject.SetActive(!InfiniteMode);
+        infinite.gameObject.SetActive(InfiniteMode);
+
+        startYpos = classic.Find("StartMarker").GetComponent<RectTransform>().anchoredPosition.y;
+        finishYPos = classic.Find("EndMarker").GetComponent<RectTransform>().anchoredPosition.y;
+        RVMarker = classic.Find("RVMarker").GetComponent<RectTransform>();
+        dottedLine = classic.Find("DottedLine").GetComponent<Image>();
+
+        miles = infinite.Find("Marker/Miles").GetComponent<Text>();
+        fractions = infinite.Find("Marker/Fractions").GetComponent<Text>();
     }
 
     // Update is called once per frame
@@ -72,15 +87,36 @@ public class GameManager : MonoBehaviour {
         if (!gameOver) {
             EngineLoss();
 
-            if (myTimer > 0f){
-                myTimer -= Time.deltaTime;
-                UpdateRVMarker();
+
+            if (InfiniteMode)
+            {
+                timeElapsed += Time.deltaTime;
+                float tmp = toMiles(timeElapsed) * 100;
+                int mileCnt = (int)tmp;
+                int frac = mileCnt % 100;
+                mileCnt /= 100;
+                miles.text = string.Format("{0:D3}", mileCnt);
+                fractions.text = string.Format("{0:D2}", frac);
             }
-			else if (myTimer <= 0f) {
-                WinGame();
+            else
+            {
+                if (myTimer > 0f)
+                {
+                    myTimer -= Time.deltaTime;
+                    UpdateRVMarker();
+                }
+                else if (myTimer <= 0f)
+                {
+                    WinGame();
+                }
             }
         }
 	}
+
+    private float toMiles(float time)
+    {
+        return speedMPH / 60f / 60f * time;
+    }
     #endregion
 
     #region Game End Functions
@@ -110,18 +146,35 @@ public class GameManager : MonoBehaviour {
     /// Trigger for losing game
     /// </summary>
     public void LossGame() {
-        gameOver = true;
-        PauseParent.GetComponent<pauseController>().endState("Vacation Canceled");
-        //Temporary "get rid of victory image code
-        PauseParent.GetComponent<pauseController>().myVictoryImage.SetActive(false);
+        if (!gameOver)
+        {
+            gameOver = true;
+            string message = "Vacation Canceled";
+            if (InfiniteMode)
+            {
+                message = string.Format("You made it {0:F2} miles!", toMiles(timeElapsed));
+                if(timeElapsed > PlayerPrefs.GetFloat("highScore", 0f))
+                {
+                    PlayerPrefs.SetFloat("highScore", timeElapsed);
+                    PlayerPrefs.Save();
+                    message += " A new record!";
+                }
+            }
+            PauseParent.GetComponent<pauseController>().endState(message);
+            //Temporary "get rid of victory image code
+            PauseParent.GetComponent<pauseController>().myVictoryImage.SetActive(false);
+        }
     }
 
     /// <summary>
     /// Trigger for winning game
     /// </summary>
     public void WinGame() {
-        gameOver = true;
-        PauseParent.GetComponent<pauseController>().endState("Arrived at Your Vacation");
+        if (!gameOver)
+        {
+            gameOver = true;
+            PauseParent.GetComponent<pauseController>().endState("Arrived at Your Vacation");
+        }
     }
 
     /// <summary>

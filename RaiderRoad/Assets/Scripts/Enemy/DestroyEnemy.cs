@@ -21,7 +21,7 @@ public class DestroyEnemy : EnemyAI {
     private GameObject[] engines;
     private GameObject wall;
     private GameObject engine;
-    private NavMeshAgent agent;
+    //private NavMeshAgent agent;
     private GameObject destroyIcon;
     private bool maxDisplay = false;
     private bool minDisplay = false;
@@ -30,10 +30,10 @@ public class DestroyEnemy : EnemyAI {
     /// Initializes this state
     /// </summary>
     /// <param name="enemy">This enemy (Deprecated)</param>
-    public void StartDestroy(GameObject enemy, NavMeshAgent _agent, GameObject _destroyIcon)
+    public void StartDestroy(GameObject enemy, GameObject _destroyIcon)
     {
         cObject = enemy;
-        agent = _agent;
+        //agent = _agent;
         action = Random.Range(0, 100);
         walls = GameObject.FindGameObjectsWithTag("Wall");
         engines = GameObject.FindGameObjectsWithTag("Engine");
@@ -94,13 +94,15 @@ public class DestroyEnemy : EnemyAI {
                 }
                 else {
                     Debug.Log(engine);
-                    agent.SetDestination(engine.transform.position);
+                    //agent.SetDestination(engine.transform.position);
+                    MoveToward(engine.transform.position);
                 }
             }
             else {
 				if (wall) {
-					agent.SetDestination(wall.transform.position);
-				}
+					//agent.SetDestination(wall.transform.position);
+                    MoveToward(wall.transform.position);
+                }
 				else {
 					walls = GameObject.FindGameObjectsWithTag("Wall");
 					wall = Closest(cObject.transform.position, walls);
@@ -113,7 +115,8 @@ public class DestroyEnemy : EnemyAI {
 				cObject.GetComponent<StatefulEnemyAI>().EnterFight();
             }
             else {
-                agent.SetDestination(engine.transform.position);
+                //agent.SetDestination(engine.transform.position);
+                MoveToward(engine.transform.position);
             }
         }
         cObject.GetComponent<StatefulEnemyAI>().getAnimator().SetBool("Running", true);

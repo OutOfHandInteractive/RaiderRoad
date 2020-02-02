@@ -81,7 +81,7 @@ public class ChaseVehicle : MonoBehaviour {
         /*cEnemy.SetDestination(patrols[wanderPoints].position);
         //Choose random patrol point
         */
-        cObject.transform.position = Vector3.Lerp(cObject.transform.position, attackList[attackPoints].position, time);
+        //cObject.transform.position = Vector3.Lerp(cObject.transform.position, attackList[attackPoints].position, time);
 
         //Increase time if state destination has not been reached
 
