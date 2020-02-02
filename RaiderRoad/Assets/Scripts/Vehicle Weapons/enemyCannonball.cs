@@ -14,7 +14,7 @@ public class enemyCannonball : AbstractCannonball
     public float upTime;
     public float downTime;
 
-    private float cooldown = .1f;
+    private float cooldown = .09f;
     private bool canCollide = false;
     private bool isUp = true;
     private float warningCooldown = 0f;
@@ -57,7 +57,7 @@ public class enemyCannonball : AbstractCannonball
     void OnCollisionEnter(Collision collision)
     {
         //if(Util.isPlayer(collision.gameObject) || collision.gameObject.tag == "wall" || collision.gameObject.tag == "floor" || Util.IsRV(collision.gameObject) || Util.isEnemy(collision.gameObject))
-        if (canCollide)
+        if (/*canCollide*/ collision.collider.tag != "Weapon")
         {
             //collision.gameObject.GetComponent<PlayerController_Rewired>().takeDamage(cannonDamage);
             Collider[] splashTargets = Physics.OverlapSphere(transform.position, splashRadius);
