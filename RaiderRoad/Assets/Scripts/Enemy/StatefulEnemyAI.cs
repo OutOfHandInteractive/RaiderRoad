@@ -393,7 +393,7 @@ public class StatefulEnemyAI : EnemyAI {
         increaseIconSize();
         yield return new WaitForSeconds(batteryDestroyTime);
         //agent.speed = speed;
-		if (other) {
+		if (other && currentState == State.Destroy) {
 			other.gameObject.GetComponent<Engine>().Damage(100f);
 
 			if (other.gameObject.GetComponent<Engine>().health <= 0) {

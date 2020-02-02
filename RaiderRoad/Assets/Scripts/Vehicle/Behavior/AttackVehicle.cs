@@ -86,13 +86,11 @@ public class AttackVehicle : MonoBehaviour{
             hasHit = true;
             StartCoroutine(waitToLeave());
         }
-
-
     }
 
     private IEnumerator waitToLeave()
     {
-        Debug.Log("Waiting to leave");
+        //Debug.Log("Waiting to leave");
         yield return new WaitForSeconds(15);
         cEnemy.transform.parent = null;
         cEnemy.transform.GetComponent<NavMeshAgent>().enabled = true;
