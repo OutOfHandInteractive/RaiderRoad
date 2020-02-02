@@ -87,10 +87,11 @@ public class GameManager : MonoBehaviour {
         if (!gameOver) {
             EngineLoss();
 
+            myTimer -= Time.deltaTime;
+            timeElapsed += Time.deltaTime;
 
             if (InfiniteMode)
             {
-                timeElapsed += Time.deltaTime;
                 int mileCnt = Mathf.RoundToInt(toMiles(timeElapsed) * 100);
                 int frac = mileCnt % 100;
                 mileCnt /= 100;
@@ -101,7 +102,6 @@ public class GameManager : MonoBehaviour {
             {
                 if (myTimer > 0f)
                 {
-                    myTimer -= Time.deltaTime;
                     UpdateRVMarker();
                 }
                 else if (myTimer <= 0f)

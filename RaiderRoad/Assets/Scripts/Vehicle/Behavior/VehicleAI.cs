@@ -67,6 +67,7 @@ public class VehicleAI : MonoBehaviour {
     // gameplay values
     private float currentHealth;
 	[SerializeField] private float highDamageThreshold;
+    private bool dying = false;
 
     /// <summary>
     /// Initialiaze the state machine
@@ -141,6 +142,10 @@ public class VehicleAI : MonoBehaviour {
             {
                 EnterLeave();
             }
+        }
+        if (dying)
+        {
+            return;
         }
         switch (currentState)
         {
@@ -309,9 +314,9 @@ public class VehicleAI : MonoBehaviour {
             ParticleSystem explosion = Instantiate(collision, other.gameObject.transform.position, Quaternion.identity, gameObject.transform);
             explosion.gameObject.transform.localScale *= 10;
             //Destroy(other.gameObject);
-            transform.parent = other.transform;
-            DelayedDeath();
-            StartCoroutine(WaitToDie());
+            GetComponent<Rigidbody>().isKinematic = false;
+            transform.parent = other.gameObject.transform;
+            DelayedDeath(false);
         }
 
     }
@@ -371,19 +376,24 @@ public class VehicleAI : MonoBehaviour {
         Destroy(gameObject);
     }
 
-    private void DelayedDeath()
+    private void DelayedDeath(bool deathMovement = true)
     {
+        dying = true;
         ParticleSystem myMiniXplos = Instantiate(deathMiniExplosions, transform.position, Quaternion.identity);
         myMiniXplos.transform.parent = transform;
-        float time = Mathf.SmoothStep(0, 1, 20 * Time.deltaTime);
         agent.isStopped = true;
-        transform.Translate(Vector3.forward * time * -1);
-        StartCoroutine(WaitToDie());
+        agent.enabled = false;
+        //float time = Mathf.SmoothStep(0, 1, 20 * Time.deltaTime);
+        //transform.Translate(Vector3.forward * time * -1);
+        StartCoroutine(WaitToDie(deathMovement));
     }
 
-    IEnumerator WaitToDie()
+    IEnumerator WaitToDie(bool deathMovement)
     {
-        StartCoroutine(DeathMovement());
+        if (deathMovement)
+        {
+            StartCoroutine(DeathMovement());
+        }
         yield return new WaitForSeconds(5);
         Die();
     }
