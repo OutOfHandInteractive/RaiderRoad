@@ -19,11 +19,14 @@ public class GameManager : MonoBehaviour {
     public Text myCountdownText;
     public float endCountdownTime;
     public CameraShake MainVCamShake; //public variable for mainVCam so any object can get it even if disabled
-    public bool InfiniteMode = sceneManagerScript.Instance.InfiniteMode;
+    public bool InfiniteMode;
+    public float speedMPH = 60f;
 
 	// ----------------- Nonpublic Variables --------------------
 	private RectTransform RVMarker;
     private Image dottedLine;
+    private Text miles;
+    private Text fractions;
     private float startYpos;
     private float finishYPos;
     private float myTimer;
@@ -57,13 +60,22 @@ public class GameManager : MonoBehaviour {
         gameOver = false;
         myTimer = FinishTime;
         //myCour = CountDownToEnd();
+        InfiniteMode = sceneManagerScript.Instance.InfiniteMode;
 
         playerList = GameObject.FindGameObjectsWithTag("Player");
-        MyUICanvas.SetActive(!InfiniteMode);
-        startYpos = MyUICanvas.transform.Find("StartMarker").GetComponent<RectTransform>().anchoredPosition.y;
-        finishYPos = MyUICanvas.transform.Find("EndMarker").GetComponent<RectTransform>().anchoredPosition.y;
-        RVMarker = MyUICanvas.transform.Find("RVMarker").GetComponent<RectTransform>();
-        dottedLine = MyUICanvas.transform.Find("DottedLine").GetComponent<Image>();
+        var classic = MyUICanvas.transform.Find("Classic");
+        var infinite = MyUICanvas.transform.Find("Infinite");
+
+        classic.gameObject.SetActive(!InfiniteMode);
+        infinite.gameObject.SetActive(InfiniteMode);
+
+        startYpos = classic.Find("StartMarker").GetComponent<RectTransform>().anchoredPosition.y;
+        finishYPos = classic.Find("EndMarker").GetComponent<RectTransform>().anchoredPosition.y;
+        RVMarker = classic.Find("RVMarker").GetComponent<RectTransform>();
+        dottedLine = classic.Find("DottedLine").GetComponent<Image>();
+
+        miles = infinite.Find("Marker/Miles").GetComponent<Text>();
+        fractions = infinite.Find("Marker/Fractions").GetComponent<Text>();
     }
 
     // Update is called once per frame
@@ -75,9 +87,18 @@ public class GameManager : MonoBehaviour {
         if (!gameOver) {
             EngineLoss();
 
-            timeElapsed += Time.deltaTime;
-            
-            if(!InfiniteMode)
+
+            if (InfiniteMode)
+            {
+                timeElapsed += Time.deltaTime;
+                float tmp = toMiles(timeElapsed) * 100;
+                int mileCnt = (int)tmp;
+                int frac = mileCnt % 100;
+                mileCnt /= 100;
+                miles.text = string.Format("{0:D3}", mileCnt);
+                fractions.text = string.Format("{0:D2}", frac);
+            }
+            else
             {
                 if (myTimer > 0f)
                 {
@@ -91,6 +112,11 @@ public class GameManager : MonoBehaviour {
             }
         }
 	}
+
+    private float toMiles(float time)
+    {
+        return speedMPH / 60f / 60f * time;
+    }
     #endregion
 
     #region Game End Functions
@@ -126,10 +152,7 @@ public class GameManager : MonoBehaviour {
             string message = "Vacation Canceled";
             if (InfiniteMode)
             {
-                int seconds = (int)timeElapsed;
-                int minutes = seconds / 60;
-                seconds %= 60;
-                message = string.Format("You lasted {0}' {1}\"!", minutes, seconds);
+                message = string.Format("You made it {0:F2} miles!", toMiles(timeElapsed));
                 if(timeElapsed > PlayerPrefs.GetFloat("highScore", 0f))
                 {
                     PlayerPrefs.SetFloat("highScore", timeElapsed);
