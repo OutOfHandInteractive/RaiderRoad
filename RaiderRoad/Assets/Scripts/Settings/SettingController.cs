@@ -64,7 +64,7 @@ public class SettingController : MonoBehaviour
 
         for(int i = 0; i < supportedResolutions.Length; i++)
         {
-            string option = supportedResolutions[i].width + " x " + supportedResolutions[i].height + " @ " + supportedResolutions[i].refreshRate;
+            string option = supportedResolutions[i].width + " x " + supportedResolutions[i].height; //+ " @ " + supportedResolutions[i].refreshRate;
             resoList.Add(option);
 
             if (supportedResolutions[i].width == Screen.currentResolution.width
@@ -73,12 +73,13 @@ public class SettingController : MonoBehaviour
                 startResoIndex = i;
             }
         }
-
+        Debug.Log("Display resolution options");
         return resoList;
     }
 
     public void SetResolution (int resolutionIndex)
     {
+        Debug.Log("Set Resolution");
         Resolution resolution = supportedResolutions[resolutionIndex];
         settingsManager.SetResolution(resolutionIndex);
         Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
@@ -87,6 +88,7 @@ public class SettingController : MonoBehaviour
 
     public void SetQuality (int qualityIndex)
     {
+        Debug.Log("Set Quality");
         QualitySettings.SetQualityLevel(qualityIndex);
         settingsManager.SetQualityLevel(qualityIndex);
         settingsManager.SavePlayerPreferences();
@@ -94,6 +96,7 @@ public class SettingController : MonoBehaviour
 
     public void SetFullscreen (bool isFullscreen)
     {
+        Debug.Log("Set Fullscreen");
         Screen.fullScreen = isFullscreen;
         settingsManager.SetFullscreen(isFullscreen);
         settingsManager.SavePlayerPreferences();

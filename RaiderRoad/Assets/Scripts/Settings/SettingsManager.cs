@@ -39,6 +39,7 @@ public class SettingsManager : MonoBehaviour
 
     private void LoadPlayerPreferences()
     {
+        Debug.Log("Player Preferences load start");
         string filepath = GetFilePath();
         Debug.Log(filepath);
 
@@ -56,7 +57,7 @@ public class SettingsManager : MonoBehaviour
         catch
         {
             recording = new SettingsRecording();
-            recording.Initialize(Screen.resolutions.Length - 1);
+            recording.Initialize(RemoveExtraReso(Screen.resolutions).Length - 1);
             recording.fullscreen = true;
         }
 
@@ -69,13 +70,16 @@ public class SettingsManager : MonoBehaviour
         recording.resolution = Screen.resolutions.Length - 1;
         qualitySetting = recording.qualitySetting;
         QualitySettings.SetQualityLevel(qualitySetting);
-        Screen.fullScreen = recording.fullscreen;
         fullscreen = recording.fullscreen;
+        Screen.fullScreen = fullscreen;
+        Debug.Log("fullscreen is " + fullscreen);
 
+        Debug.Log("Player Preferences load end");
     }
 
     public void SavePlayerPreferences()
     {
+        Debug.Log("Player Preferences save start");
         recording.resolution = resolution;
         recording.qualitySetting = qualitySetting;
         recording.fullscreen = fullscreen;
@@ -107,6 +111,8 @@ public class SettingsManager : MonoBehaviour
         {
             save.Close();
         }
+
+        Debug.Log("Player Preferences save end");
     }
 
     private string GetFilePath()
@@ -171,6 +177,8 @@ public class SettingsManager : MonoBehaviour
                 resoList.Add(myResos[i].width + " x " + myResos[i].height);
             }
         }
+
+        Debug.Log("cull resolution options");
 
         return newResos.ToArray();
     }
