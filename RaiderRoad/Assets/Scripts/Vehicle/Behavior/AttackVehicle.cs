@@ -84,6 +84,7 @@ public class AttackVehicle : MonoBehaviour{
             //GameObject.FindGameObjectWithTag("RV").GetComponent<rvHealth>().damagePOI(20f);
             cObject.GetComponent<VehicleAI>().EnterStay(attackPoints);
             hasHit = true;
+            StartCoroutine(waitToLeave());
         }
 
 
@@ -91,6 +92,8 @@ public class AttackVehicle : MonoBehaviour{
 
     private IEnumerator waitToLeave()
     {
+        Debug.Log("Waiting to leave");
+        yield return new WaitForSeconds(15);
         cEnemy.transform.parent = null;
         cEnemy.transform.GetComponent<NavMeshAgent>().enabled = true;
         cObject.GetComponent<VehicleAI>().EnterWander();
