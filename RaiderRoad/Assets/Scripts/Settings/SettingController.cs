@@ -64,7 +64,7 @@ public class SettingController : MonoBehaviour
 
         for(int i = 0; i < supportedResolutions.Length; i++)
         {
-            string option = supportedResolutions[i].width + " x " + supportedResolutions[i].height;
+            string option = supportedResolutions[i].width + " x " + supportedResolutions[i].height + " @ " + supportedResolutions[i].refreshRate;
             resoList.Add(option);
 
             if (supportedResolutions[i].width == Screen.currentResolution.width

@@ -158,6 +158,25 @@ public class SettingsManager : MonoBehaviour
     //fuction for removing extra resolutions different refresh rates
     public Resolution[] RemoveExtraReso(Resolution[] myResos)
     {
+        List<Resolution> newResos = new List<Resolution>();
+        List<string> resoList = new List<string>();
+
+        //for list of resolutions
+        for (int i = 0; i < myResos.Length; i++)
+        {
+            //check if width and height combination already exist in resolution list
+            if (!resoList.Contains(myResos[i].width + " x " + myResos[i].height))
+            {
+                newResos.Add(myResos[i]);
+                resoList.Add(myResos[i].width + " x " + myResos[i].height);
+            }
+        }
+
+        return newResos.ToArray();
+    }
+
+    /*public Resolution[] RemoveExtraReso(Resolution[] myResos)
+    {
         //find highest refresh rate
         int myHz = 0;
         for (int i = 0; i < myResos.Length; i++)
@@ -180,5 +199,5 @@ public class SettingsManager : MonoBehaviour
         }
 
         return newResos.ToArray();
-    }
+    }*/
 }
