@@ -91,8 +91,7 @@ public class GameManager : MonoBehaviour {
             if (InfiniteMode)
             {
                 timeElapsed += Time.deltaTime;
-                float tmp = toMiles(timeElapsed) * 100;
-                int mileCnt = (int)tmp;
+                int mileCnt = Mathf.RoundToInt(toMiles(timeElapsed) * 100);
                 int frac = mileCnt % 100;
                 mileCnt /= 100;
                 miles.text = string.Format("{0:D3}", mileCnt);
