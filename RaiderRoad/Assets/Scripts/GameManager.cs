@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour {
     public Text myCountdownText;
     public float endCountdownTime;
     public CameraShake MainVCamShake; //public variable for mainVCam so any object can get it even if disabled
+    public bool InfiniteMode = sceneManagerScript.Instance.InfiniteMode;
 
 	// ----------------- Nonpublic Variables --------------------
 	private RectTransform RVMarker;
@@ -26,6 +27,7 @@ public class GameManager : MonoBehaviour {
     private float startYpos;
     private float finishYPos;
     private float myTimer;
+    private float timeElapsed;
     private float endTimer;
     private bool timerDone = false;
     private bool timerRunning = false;
@@ -57,6 +59,7 @@ public class GameManager : MonoBehaviour {
         //myCour = CountDownToEnd();
 
         playerList = GameObject.FindGameObjectsWithTag("Player");
+        MyUICanvas.SetActive(!InfiniteMode);
         startYpos = MyUICanvas.transform.Find("StartMarker").GetComponent<RectTransform>().anchoredPosition.y;
         finishYPos = MyUICanvas.transform.Find("EndMarker").GetComponent<RectTransform>().anchoredPosition.y;
         RVMarker = MyUICanvas.transform.Find("RVMarker").GetComponent<RectTransform>();
@@ -72,12 +75,19 @@ public class GameManager : MonoBehaviour {
         if (!gameOver) {
             EngineLoss();
 
-            if (myTimer > 0f){
-                myTimer -= Time.deltaTime;
-                UpdateRVMarker();
-            }
-			else if (myTimer <= 0f) {
-                WinGame();
+            timeElapsed += Time.deltaTime;
+            
+            if(!InfiniteMode)
+            {
+                if (myTimer > 0f)
+                {
+                    myTimer -= Time.deltaTime;
+                    UpdateRVMarker();
+                }
+                else if (myTimer <= 0f)
+                {
+                    WinGame();
+                }
             }
         }
 	}
@@ -113,7 +123,21 @@ public class GameManager : MonoBehaviour {
         if (!gameOver)
         {
             gameOver = true;
-            PauseParent.GetComponent<pauseController>().endState("Vacation Canceled");
+            string message = "Vacation Canceled";
+            if (InfiniteMode)
+            {
+                int seconds = (int)timeElapsed;
+                int minutes = seconds / 60;
+                seconds %= 60;
+                message = string.Format("You lasted {0}' {1}\"!", minutes, seconds);
+                if(timeElapsed > PlayerPrefs.GetFloat("highScore", 0f))
+                {
+                    PlayerPrefs.SetFloat("highScore", timeElapsed);
+                    PlayerPrefs.Save();
+                    message += " A new record!";
+                }
+            }
+            PauseParent.GetComponent<pauseController>().endState(message);
             //Temporary "get rid of victory image code
             PauseParent.GetComponent<pauseController>().myVictoryImage.SetActive(false);
         }
