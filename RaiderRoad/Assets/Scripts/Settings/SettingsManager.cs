@@ -39,7 +39,7 @@ public class SettingsManager : MonoBehaviour
 
     private void LoadPlayerPreferences()
     {
-        Debug.Log("Player Preferences load start");
+        //Debug.Log("Player Preferences load start");
         string filepath = GetFilePath();
         Debug.Log(filepath);
 
@@ -58,12 +58,11 @@ public class SettingsManager : MonoBehaviour
         {
             recording = new SettingsRecording();
             recording.Initialize(RemoveExtraReso(Screen.resolutions).Length - 1);
+            recording.qualitySetting = 6;
             recording.fullscreen = true;
         }
 
-        //Debug.Log(recording.qualitySetting);
-        //Debug.Log(recording.resolution);
-        //Debug.Log(Screen.resolutions[recording.resolution].width);
+
         Resolution[] supportedResolutions = RemoveExtraReso(Screen.resolutions);
         Screen.SetResolution(supportedResolutions[recording.resolution].width, supportedResolutions[recording.resolution].height, true);
         resolution = recording.resolution;
@@ -74,17 +73,16 @@ public class SettingsManager : MonoBehaviour
         Screen.fullScreen = fullscreen;
         Debug.Log("fullscreen is " + fullscreen);
 
-        Debug.Log("Player Preferences load end");
+        //Debug.Log("Player Preferences load end");
     }
 
     public void SavePlayerPreferences()
     {
-        Debug.Log("Player Preferences save start");
+        //Debug.Log("Player Preferences save start");
         recording.resolution = resolution;
         recording.qualitySetting = qualitySetting;
         recording.fullscreen = fullscreen;
-        //Debug.Log(qualitySetting);
-        //Debug.Log(resolution);
+
         string filepath = GetFilePath();
         FileStream save;
 
@@ -112,7 +110,7 @@ public class SettingsManager : MonoBehaviour
             save.Close();
         }
 
-        Debug.Log("Player Preferences save end");
+        //Debug.Log("Player Preferences save end");
     }
 
     private string GetFilePath()
@@ -178,34 +176,9 @@ public class SettingsManager : MonoBehaviour
             }
         }
 
-        Debug.Log("cull resolution options");
+        //Debug.Log("cull resolution options");
 
         return newResos.ToArray();
     }
 
-    /*public Resolution[] RemoveExtraReso(Resolution[] myResos)
-    {
-        //find highest refresh rate
-        int myHz = 0;
-        for (int i = 0; i < myResos.Length; i++)
-        {
-            if(myResos[i].refreshRate > myHz)
-            {
-                myHz = myResos[i].refreshRate;
-            }
-        }
-
-        List<Resolution> newResos = new List<Resolution>();
-        
-        //only add resolutions for highest refresh rate
-        for (int i = 0; i < myResos.Length; i++)
-        {
-            if (myResos[i].refreshRate >= myHz)
-            {
-                newResos.Add(myResos[i]);
-            }
-        }
-
-        return newResos.ToArray();
-    }*/
 }

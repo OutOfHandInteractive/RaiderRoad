@@ -73,13 +73,13 @@ public class SettingController : MonoBehaviour
                 startResoIndex = i;
             }
         }
-        Debug.Log("Display resolution options");
+        //Debug.Log("Display resolution options");
         return resoList;
     }
 
     public void SetResolution (int resolutionIndex)
     {
-        Debug.Log("Set Resolution");
+        //Debug.Log("Set Resolution");
         Resolution resolution = supportedResolutions[resolutionIndex];
         settingsManager.SetResolution(resolutionIndex);
         Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
@@ -88,7 +88,7 @@ public class SettingController : MonoBehaviour
 
     public void SetQuality (int qualityIndex)
     {
-        Debug.Log("Set Quality");
+        //Debug.Log("Set Quality");
         QualitySettings.SetQualityLevel(qualityIndex);
         settingsManager.SetQualityLevel(qualityIndex);
         settingsManager.SavePlayerPreferences();
@@ -96,7 +96,7 @@ public class SettingController : MonoBehaviour
 
     public void SetFullscreen (bool isFullscreen)
     {
-        Debug.Log("Set Fullscreen");
+        //Debug.Log("Set Fullscreen");
         Screen.fullScreen = isFullscreen;
         settingsManager.SetFullscreen(isFullscreen);
         settingsManager.SavePlayerPreferences();
