@@ -13,6 +13,7 @@ public class SettingsManager : MonoBehaviour
 
     #region Global Game Options
     private int resolution;
+    private bool fullscreen;
     private int qualitySetting;
 
     // file save
@@ -39,6 +40,7 @@ public class SettingsManager : MonoBehaviour
     private void LoadPlayerPreferences()
     {
         string filepath = GetFilePath();
+        Debug.Log(filepath);
 
         try
         {
@@ -55,18 +57,30 @@ public class SettingsManager : MonoBehaviour
         {
             recording = new SettingsRecording();
             recording.Initialize(Screen.resolutions.Length - 1);
+            recording.fullscreen = true;
         }
 
-        Screen.SetResolution(Screen.resolutions[recording.resolution].width, Screen.resolutions[recording.resolution].height, true);
+        //Debug.Log(recording.qualitySetting);
+        //Debug.Log(recording.resolution);
+        //Debug.Log(Screen.resolutions[recording.resolution].width);
+        Resolution[] supportedResolutions = RemoveExtraReso(Screen.resolutions);
+        Screen.SetResolution(supportedResolutions[recording.resolution].width, supportedResolutions[recording.resolution].height, true);
+        resolution = recording.resolution;
         recording.resolution = Screen.resolutions.Length - 1;
         qualitySetting = recording.qualitySetting;
         QualitySettings.SetQualityLevel(qualitySetting);
+        Screen.fullScreen = recording.fullscreen;
+        fullscreen = recording.fullscreen;
+
     }
 
     public void SavePlayerPreferences()
     {
         recording.resolution = resolution;
         recording.qualitySetting = qualitySetting;
+        recording.fullscreen = fullscreen;
+        //Debug.Log(qualitySetting);
+        //Debug.Log(resolution);
         string filepath = GetFilePath();
         FileStream save;
 
@@ -127,6 +141,44 @@ public class SettingsManager : MonoBehaviour
     public void SetQualityLevel(int _quality)
     {
         qualitySetting = _quality;
+
+    }
+
+    public bool GetFullscreen()
+    {
+        return fullscreen;
+    }
+
+    public void SetFullscreen(bool _fullsc)
+    {
+        fullscreen = _fullsc;
     }
     #endregion
+
+    //fuction for removing extra resolutions different refresh rates
+    public Resolution[] RemoveExtraReso(Resolution[] myResos)
+    {
+        //find highest refresh rate
+        int myHz = 0;
+        for (int i = 0; i < myResos.Length; i++)
+        {
+            if(myResos[i].refreshRate > myHz)
+            {
+                myHz = myResos[i].refreshRate;
+            }
+        }
+
+        List<Resolution> newResos = new List<Resolution>();
+        
+        //only add resolutions for highest refresh rate
+        for (int i = 0; i < myResos.Length; i++)
+        {
+            if (myResos[i].refreshRate >= myHz)
+            {
+                newResos.Add(myResos[i]);
+            }
+        }
+
+        return newResos.ToArray();
+    }
 }

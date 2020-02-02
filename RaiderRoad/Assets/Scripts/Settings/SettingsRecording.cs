@@ -8,8 +8,9 @@ public class SettingsRecording
 {
 	public int resolution;
 	public int qualitySetting;
+    public bool fullscreen;
 
-	public void Initialize(int index) {
+    public void Initialize(int index) {
 		resolution = index;
 		qualitySetting = QualitySettings.GetQualityLevel();
 	}

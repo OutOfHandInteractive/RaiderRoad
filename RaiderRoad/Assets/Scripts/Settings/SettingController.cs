@@ -8,17 +8,22 @@ using UnityEngine.EventSystems;
 public class SettingController : MonoBehaviour
 {
     [SerializeField] private Dropdown resoDropDn;
+    [SerializeField] private Dropdown qualDropDn;
+    [SerializeField] private Toggle fullScToggle;
     //[SerializeField] private Text resoTitle;
     private Resolution[] supportedResolutions;
     private int selectedResolution;
     int startResoIndex = 0;
+    SettingsManager settingsManager;
 
     // Start is called before the first frame update
     void Start()
     {
+        settingsManager = SettingsManager.Instance;
+
         //RESOLUTION
         supportedResolutions = Screen.resolutions;
-        supportedResolutions = RemoveExtraReso(supportedResolutions);
+        supportedResolutions = settingsManager.RemoveExtraReso(supportedResolutions);
         //List<Resolution> supportedResolutionsList = supportedResolutions.ToList();
         //supportedResolutionsList.RemoveAll(r => r.refreshRate < 60);
 
@@ -27,11 +32,20 @@ public class SettingController : MonoBehaviour
         resoDropDn.ClearOptions();
 
         resoDropDn.AddOptions(resoOptions);
-        resoDropDn.value = startResoIndex;
+        //resoDropDn.value = startResoIndex;
+        Debug.Log(settingsManager.GetResolution());
+        resoDropDn.value = settingsManager.GetResolution();
         resoDropDn.RefreshShownValue();
 
         //QUALITY
+        qualDropDn.value = settingsManager.GetQualityLevel();
+        qualDropDn.RefreshShownValue();
 
+        //FULLSCREEN
+        bool fullScreen = settingsManager.GetFullscreen();
+        Screen.fullScreen = fullScreen;
+        fullScToggle.isOn = fullScreen;
+        //fullScToggle.();
     }
 
     // Update is called once per frame
@@ -40,32 +54,6 @@ public class SettingController : MonoBehaviour
         
     }
 
-
-    Resolution[] RemoveExtraReso(Resolution[] myResos)
-    {
-        //find highest refresh rate
-        int myHz = 0;
-        for (int i = 0; i < myResos.Length; i++)
-        {
-            if(myResos[i].refreshRate > myHz)
-            {
-                myHz = myResos[i].refreshRate;
-            }
-        }
-
-        List<Resolution> newResos = new List<Resolution>();
-        
-        //only add resolutions for highest refresh rate
-        for (int i = 0; i < myResos.Length; i++)
-        {
-            if (myResos[i].refreshRate >= myHz)
-            {
-                newResos.Add(myResos[i]);
-            }
-        }
-
-        return newResos.ToArray();
-    }
 
     List<string> DisplayReso()
     {
@@ -89,17 +77,23 @@ public class SettingController : MonoBehaviour
     public void SetResolution (int resolutionIndex)
     {
         Resolution resolution = supportedResolutions[resolutionIndex];
+        settingsManager.SetResolution(resolutionIndex);
         Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
+        settingsManager.SavePlayerPreferences();
     }
 
     public void SetQuality (int qualityIndex)
     {
         QualitySettings.SetQualityLevel(qualityIndex);
+        settingsManager.SetQualityLevel(qualityIndex);
+        settingsManager.SavePlayerPreferences();
     }
 
     public void SetFullscreen (bool isFullscreen)
     {
         Screen.fullScreen = isFullscreen;
+        settingsManager.SetFullscreen(isFullscreen);
+        settingsManager.SavePlayerPreferences();
     }
 
     /*void OnPointerEnter (PointerEventData eventData)
