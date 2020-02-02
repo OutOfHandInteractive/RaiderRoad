@@ -151,6 +151,7 @@ public class EventManager : MonoBehaviour {
     //called from last cluster generated once it reaches certain threshold - deploys next cluster and generates a new one on deck
     public void lastDone()
     {
+	    Debug.Log("Cluster Activated");
         active = onDeck;
         deployActive();               //deploys 'active' cluster
         //onDeck = generate(difficultyRating);
@@ -158,6 +159,7 @@ public class EventManager : MonoBehaviour {
 
     public void genOnDeck()
     {
+	    Debug.Log("Cluster Generated");
         onDeck = generate(difficultyRating);
     }
 
@@ -201,6 +203,7 @@ public class EventManager : MonoBehaviour {
             
             if (etype == EventManager.eventTypes.vehicle)
             {
+	            //Debug.Log("Difficulty: " + difficultyRating);
 				//determine vehicle type
                 if(difficultyRating >= Constants.HEAVY_VEHICLE_BASE_THREAT){
                     randNum = UnityEngine.Random.Range((int)VehicleFactoryManager.vehicleTypes.medium, (int)VehicleFactoryManager.vehicleTypes.heavy + 1);
@@ -240,7 +243,6 @@ public class EventManager : MonoBehaviour {
 				difficultySpace -= Constants.SMALL_OBSTACLE_BASE_THREAT;
             }*/
             //Debug.Log(vtype);
-            
             _nE = newEC.AddComponent<Event>() as Event;
             _nE.initialize(difRate, vtype, etype, sPoints);
             if (etype == EventManager.eventTypes.vehicle){      //pass the vMod value to the event only if event is a vehicle
@@ -248,6 +250,7 @@ public class EventManager : MonoBehaviour {
             }
             _new.Add(_nE);          //uses current dif rate, [for now] default spawn position, [for now] default enemy to create an event
         }
+        
         newEC.GetComponent<EventCluster>().startUp(_new, vFactory, curDelay, weaponRate);
         return newEC;
     }
@@ -260,7 +263,7 @@ public class EventManager : MonoBehaviour {
             if(g.GetPlayers() != null)
             {
                 difficultyRating = (int)Mathf.Ceil(calculateDifficultyRating() * difficultyMultiplier[g.GetPlayerCount() - 1]);
-
+                //Debug.Log("Difficulty: " + difficultyRating);
                 yield return new WaitForSecondsRealtime(TimeBetweenDifficultyAdjustment);
             }
             else
