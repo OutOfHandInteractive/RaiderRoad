@@ -34,8 +34,8 @@ public class Constants : MonoBehaviour
 	// difficulty ratings
 	public const int SMALL_OBSTACLE_BASE_THREAT = 1;
 	public const int LIGHT_VEHICLE_BASE_THREAT = 1;
-	public const int MEDIUM_VEHICLE_BASE_THREAT = 3;
-    public const int HEAVY_VEHICLE_BASE_THREAT = 6;
+	public const int MEDIUM_VEHICLE_BASE_THREAT = 2;
+    public const int HEAVY_VEHICLE_BASE_THREAT = 4;
 
 	// misc
 	public const float PLAYER_ROAD_DAMAGE = 25f;
