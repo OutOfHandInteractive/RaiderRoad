@@ -37,7 +37,7 @@ public class GameManager : MonoBehaviour {
     private IEnumerator myCour;
 
     
-    private List<Transform> playersInScene;
+    [SerializeField] List<Transform> playersInScene;
     private GameObject[] playerList;
     #endregion
 
