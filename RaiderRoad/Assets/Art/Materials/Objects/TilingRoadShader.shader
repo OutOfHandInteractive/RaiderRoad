@@ -9,8 +9,10 @@
 		_NormalMap("Normal Map",2D) = "bump" {}
 
 		[Header(Overlay Elements)]
-		_NotRoadMask("Not Road Mask (B&W)", 2D) = "white" {}
+		_NotRoadMask("Not-Road Mask (B&W)", 2D) = "white" {}
 		_OverTex("Overlay Texture 1 (RGB)", 2D) = "white" {}
+		_OverNormal("Overlay Normal Map",2D) = "bump" {}
+		_OverNormMask("Overlay Normal Mask", 2D) = "black" {}
     }
     SubShader
     {
@@ -35,6 +37,8 @@
 
 		sampler2D _Metallic;
 		sampler2D _NormalMap;
+		sampler2D _OverNormal;
+		sampler2D _OverNormMask;
 		float _Smoothness;
         fixed4 _Color;
 		sampler2D _NotRoadMask;
@@ -55,7 +59,10 @@
 
 			o.Metallic = tex2D(_Metallic, IN.uv_MainTex).r;
 			o.Smoothness = _Smoothness * tex2D(_Metallic, IN.uv_MainTex).a;
-			o.Normal = UnpackNormal(tex2D(_NormalMap, IN.uv_MainTex));
+			fixed3 n = UnpackNormal(tex2D(_NormalMap, IN.uv_MainTex));
+			//lerp between norms
+			n = lerp(n.rgb, UnpackNormal(tex2D(_OverNormal, IN.uv_OverTex)).rgb, tex2D(_OverNormMask, IN.uv_OverTex).r);
+			o.Normal = n;
 		}
         ENDCG
     }

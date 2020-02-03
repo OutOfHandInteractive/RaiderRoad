@@ -24,6 +24,8 @@ public class SpawnChunk : MonoBehaviour {
 	[SerializeField] private List<GameObject> roadPrefabs;
     //road decals
     [SerializeField] private List<Texture> roadDecals;
+    [SerializeField] private List<Texture> decalNorms;
+    [SerializeField] private List<Texture> decalMasks;
     [SerializeField] private float decalSpawnChance; // 0.00 - 1.00 (percentage)
     [SerializeField] private Vector2 xOffsetMinMax;
     [SerializeField] private Material myMat;
@@ -100,6 +102,8 @@ public class SpawnChunk : MonoBehaviour {
 
             myMat = Instantiate(myMat);
             myMat.SetTexture("_OverTex", roadDecals[myDec]);
+            myMat.SetTexture("_OverNormal", decalNorms[myDec]);
+            myMat.SetTexture("_OverNormMask", decalMasks[myDec]);
             float offset = Random.Range(xOffsetMinMax.x, xOffsetMinMax.y);
             myMat.SetTextureOffset("_OverTex", new Vector2(offset, 0.15f));
             road.transform.GetChild(2).GetComponent<Renderer>().material = myMat;

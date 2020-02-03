@@ -17,6 +17,7 @@ public class EventManager : MonoBehaviour {
 
 	// gameplay values
 	public float TimeBetweenDifficultyAdjustment;
+	private float myTime = 0.0f;
 
 	// -------------------- nonpublic variables ------------------------
 	// Static references
@@ -69,6 +70,7 @@ public class EventManager : MonoBehaviour {
     [SerializeField] private float curDelay = 12f;     //upperBound of 15 - will not exceed this
     private float betweenDelayAdjust = 18f;  //delay will be adjusted every 20 seconds
     private float sFactor = 0.85f;        //to start, decrementing to 85% every 20 seconds will hit the lower bound at approximately 4 minutes in
+    [SerializeField] private float forceDelay = 40f; 
     //weapon frequency variables
     private float wDelay = 15f; //time between weapon frequency adjustments
     private float weaponRate = 0.1f; //minimum chance to get a weapon on a vehicle - updates over time from event manager [increased from 0]
@@ -95,7 +97,13 @@ public class EventManager : MonoBehaviour {
         StartCoroutine(reduceSpawnTime());            //start cycle of spawn delay reduction
         StartCoroutine(weaponFrequency());             //start cycle of weapon frequency increase
     }
-	#endregion
+
+    void Update()
+    {
+	    myTime += Time.deltaTime;
+    }
+
+    #endregion
 
     /// <summary>
     /// Decreases the time between events being spawned in the clusters at a certain interval
@@ -112,6 +120,17 @@ public class EventManager : MonoBehaviour {
             }
             yield return new WaitForSeconds(betweenDelayAdjust);        //wait allocated time
         }
+    }
+    
+    IEnumerator forceSpawn(GameObject cluster)
+    {
+	    yield return new WaitForSeconds(forceDelay);        //wait allocated time
+	    if (cluster)
+	    {
+		    lastDone();
+		    difficultyRating++;
+	    }
+	    forceDelay--;
     }
 
     /// <summary>
@@ -169,6 +188,8 @@ public class EventManager : MonoBehaviour {
     void deployActive()
     {
         active.GetComponent<EventCluster>().startDispense();
+        IEnumerator coroutine = forceSpawn(active);
+        StartCoroutine(coroutine);  
     }
 
     /// <summary>
@@ -259,10 +280,11 @@ public class EventManager : MonoBehaviour {
 	/// </summary>
 	/// <returns>Current difficulty rating</returns>
     IEnumerator difficultyManager() {
+		yield return new WaitForSecondsRealtime(10); 
         while (true) {
             if(g.GetPlayers() != null)
             {
-                difficultyRating = (int)Mathf.Ceil(calculateDifficultyRating() * difficultyMultiplier[g.GetPlayerCount() - 1]);
+	            difficultyRating = (int)Mathf.Ceil(calculateDifficultyRating() * difficultyMultiplier[g.GetPlayerCount() - 1]);
                 //Debug.Log("Difficulty: " + difficultyRating);
                 yield return new WaitForSecondsRealtime(TimeBetweenDifficultyAdjustment);
             }
@@ -278,7 +300,7 @@ public class EventManager : MonoBehaviour {
 	/// </summary>
 	/// <returns>Calculated difficulty rating</returns>
 	private int calculateDifficultyRating() {
-        float timeMinutes = GameManager.GameManagerInstance.GetGameTime() / 60;
+        float timeMinutes = myTime / 60;
         double calculatedDifficulty;
 
         System.Random rand = new System.Random();
