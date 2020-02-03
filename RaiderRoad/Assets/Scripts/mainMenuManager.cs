@@ -9,6 +9,7 @@ public class mainMenuManager : MonoBehaviour {
     public string scene1;
     public string scene2;
     public string settingScene;
+    public string creditsScene;
 
     private GameObject startButt;
     private GameObject howToButt;
@@ -83,6 +84,11 @@ public class mainMenuManager : MonoBehaviour {
     public void LoadSettings()
     {
         sceneManage.LoadScene(settingScene);
+    }
+
+    public void LoadCredits()
+    {
+        sceneManage.LoadScene(creditsScene);
     }
 
     public void MenuLoadScene1()
